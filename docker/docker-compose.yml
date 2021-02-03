@@ -16,7 +16,7 @@ services:
       KAFKA_ADVERTISED_HOST_NAME: localhost
       KAFKA_ADVERTISED_PORT: 9092
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_CREATE_TOPICS: "order:1:1,catalog:1:1"
+      KAFKA_CREATE_TOPICS: "order:1:1,catalog:1:1,basket:1:1"
 
   postgres:
     build: postgres
@@ -25,3 +25,10 @@ services:
     environment:
       POSTGRES_PASSWORD: dbpass
       POSTGRES_USER: dbuser
+
+  redis:
+    image: redis:alpine
+    ports:
+      - 6379:6379
+    environment:
+      - REDIS_PASSWORD=pass
