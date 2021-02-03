@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
 
 @RequestMapping("catalog")
 @RestController
@@ -54,15 +55,17 @@ public class CatalogController {
     }
 
     @RequestMapping(method = RequestMethod.PUT, path = "items")
+    @Transactional
     public void updateProduct(@RequestBody CatalogItem productToUpdate) {
         catalogItemRepository.findById(productToUpdate.getId())
                 .ifPresentOrElse(catalogItem -> {
                     var oldPrice = catalogItem.getPrice();
+                    // TODO HD it doesn't work
                     var raiseProductPriceChangedEvent = !oldPrice.equals(productToUpdate.getPrice());
 
-                    entityManager.getTransaction().begin();
+                    // entityManager.getTransaction().begin();
                     catalogItem = productToUpdate;
-                    entityManager.persist(catalogItem);
+                    // entityManager.persist(catalogItem);
 
                     if (raiseProductPriceChangedEvent) {
                         //Create Integration Event to be published through the Event Bus
@@ -73,12 +76,12 @@ public class CatalogController {
                         );
 
                         // Achieving atomicity between original Catalog database operation and the IntegrationEventLog thanks to a local transaction
-                        integrationEventService.SaveEventAndCatalogContextChanges(priceChangedEvent);
+                        integrationEventService.saveEventAndCatalogContextChanges(priceChangedEvent);
 
                         // Publish through the Event Bus and mark the saved event as published
-                        integrationEventService.PublishThroughEventBus(priceChangedEvent);
+                        integrationEventService.publishThroughEventBus(priceChangedEvent);
                     } else {
-                        entityManager.getTransaction().commit();
+                        // entityManager.getTransaction().commit();
                     }
                 }, () -> {
                     throw new NotFoundException(String.format("Item with id %d not found.", productToUpdate.getId()));
