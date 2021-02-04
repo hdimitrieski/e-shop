@@ -14,7 +14,7 @@ import javax.transaction.Transactional;
 public class OrderStatusChangedToPaidIntegrationEventHandler {
     private final CatalogItemRepository catalogItemRepository;
 
-    @KafkaListener(topics = "${spring.kafka.consumer.topic.order}")
+    @KafkaListener(groupId = "orderGroup", topics = "${spring.kafka.consumer.topic.order}")
     @Transactional
     public void handle(OrderStatusChangedToPaidIntegrationEvent event, Acknowledgment acknowledgment) {
         System.out.printf("----- Handling integration event: %s (%s)", event.getId(), event.getClass().getSimpleName());

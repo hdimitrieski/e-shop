@@ -10,12 +10,12 @@ import javax.persistence.EntityManager;
 @Service
 public class CatalogIntegrationEventService implements IntegrationEventService {
     private final EntityManager entityManager;
-    private final KafkaTemplate<String, IntegrationEvent> kafkaTemplate;
+    private final KafkaTemplate<Object, Object> kafkaTemplate;
     private final String catalogTopic;
 
     public CatalogIntegrationEventService(
             EntityManager entityManager,
-            KafkaTemplate<String, IntegrationEvent> kafkaTemplate,
+            KafkaTemplate<Object, Object> kafkaTemplate,
             @Value("${spring.kafka.consumer.topic.catalog}") String catalogTopic
     ) {
         this.entityManager = entityManager;

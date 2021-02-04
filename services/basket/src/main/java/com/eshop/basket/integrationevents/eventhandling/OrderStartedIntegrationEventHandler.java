@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 public class OrderStartedIntegrationEventHandler {
     private final BasketRepository basketRepository;
 
-    @KafkaListener(topics = "${spring.kafka.consumer.topic.order}")
+    @KafkaListener(groupId = "orderGroup", topics = "${spring.kafka.consumer.topic.order}")
     public void handle(OrderStartedIntegrationEvent event) {
         System.out.printf("----- Handling integration event: %s (%s)", event.getId(), event.getClass().getSimpleName());
         basketRepository.deleteBasket(event.getUserId());

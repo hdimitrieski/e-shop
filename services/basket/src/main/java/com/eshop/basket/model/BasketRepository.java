@@ -1,7 +1,5 @@
 package com.eshop.basket.model;
 
-import org.springframework.stereotype.Repository;
-
 import java.util.Set;
 import java.util.Optional;
 

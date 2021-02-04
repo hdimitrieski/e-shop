@@ -1,14 +1,16 @@
 package com.eshop.catalog.integrationevents.events;
 
 import com.eshop.catalog.shared.IntegrationEvent;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
-@RequiredArgsConstructor
 public class OrderStatusChangedToAwaitingValidationIntegrationEvent extends IntegrationEvent  {
-    private final Long orderId;
-    private final List<OrderStockItem> orderStockItems;
+    private Long orderId;
+    private List<OrderStockItem> orderStockItems;
 }

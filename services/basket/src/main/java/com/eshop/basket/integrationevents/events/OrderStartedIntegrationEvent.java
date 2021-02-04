@@ -1,11 +1,13 @@
 package com.eshop.basket.integrationevents.events;
 
 import com.eshop.basket.shared.IntegrationEvent;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
-@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 public class OrderStartedIntegrationEvent extends IntegrationEvent {
-    private final String userId;
+    private String userId;
 }
