@@ -1,17 +1,20 @@
 package com.eshop.ordering.api.application.commands;
 
+import an.awesome.pipelinr.Command;
 import com.eshop.ordering.api.application.dtos.OrderDraftDTO;
 import com.eshop.ordering.api.application.models.BasketItem;
 import com.eshop.ordering.domain.aggregatesmodel.order.Order;
-import com.eshop.ordering.domain.aggregatesmodel.order.OrderRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
 import java.util.stream.Collectors;
 
+@Component
 @RequiredArgsConstructor
-public class CreateOrderDraftCommandHandler {
-  private final OrderRepository orderRepository;
-
+public class CreateOrderDraftCommandHandler implements Command.Handler<CreateOrderDraftCommand, OrderDraftDTO> {
+  @Transactional
+  @Override
   public OrderDraftDTO handle(CreateOrderDraftCommand message) {
     var order = Order.newDraft();
     var orderItems = message.getItems().stream().map(BasketItem::toOrderItemDTO).collect(Collectors.toList());

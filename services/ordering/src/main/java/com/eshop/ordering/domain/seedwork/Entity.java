@@ -1,35 +1,37 @@
 package com.eshop.ordering.domain.seedwork;
 
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.Setter;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 import java.util.Objects;
 
+@MappedSuperclass
 public abstract class Entity {
-    private int requestedHashCode;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  @Getter
+  protected Integer id;
 
-    @Getter
-    @Setter(value = AccessLevel.PROTECTED)
-    protected Integer id;
+  public boolean isTransient() {
+    return id == null;
+  }
 
-    public boolean isTransient() {
-        return id == null;
-    }
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Entity entity = (Entity) o;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Entity entity = (Entity) o;
+    if (this.isTransient() || entity.isTransient()) return false;
+    return id.equals(entity.id);
+  }
 
-        if (this.isTransient() || entity.isTransient()) return false;
-        return id.equals(entity.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
+  @Override
+  public int hashCode() {
+    return Objects.hash(id);
+  }
 
 }

@@ -7,56 +7,79 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.util.StringUtils;
 
+import javax.persistence.Column;
+import javax.persistence.PostLoad;
+import javax.persistence.PrePersist;
+import javax.persistence.Transient;
 import java.time.LocalDateTime;
 
 import static java.util.Objects.isNull;
 
+@javax.persistence.Entity
 public class PaymentMethod extends Entity {
-    private String alias;
-    private String cardNumber;
-    private String securityNumber;
-    private String cardHolderName;
-    private LocalDateTime expiration;
+  @Column(nullable = false, length = 200)
+  private String alias;
+  @Column(nullable = false, length = 25)
+  private String cardNumber;
+  @Column(nullable = false, length = 200)
+  private String securityNumber;
+  @Column(nullable = false, length = 200)
+  private String cardHolderName;
+  private LocalDateTime expiration;
 
-    private int cardTypeId;
-    @Getter
-    @Setter(AccessLevel.PRIVATE)
-    private CardType CardType;
+  private int cardTypeId;
 
+  @Transient
+  @Getter
+  @Setter(AccessLevel.PRIVATE)
+  private CardType cardType;
 
-    protected PaymentMethod() { }
+  protected PaymentMethod() {
+  }
 
-    public PaymentMethod(int cardTypeId, String alias, String cardNumber, String securityNumber, String cardHolderName, LocalDateTime expiration)
-    {
-        if (isNull(cardNumber)) {
-            throw new OrderingDomainException("Card number");
-        }
-
-        if (isNull(securityNumber)) {
-            throw new OrderingDomainException("Security number");
-        }
-
-        if (isNull(cardHolderName)) {
-            throw new OrderingDomainException("Card holder name");
-        }
-
-        if (expiration.isBefore(LocalDateTime.now()))
-        {
-            throw new OrderingDomainException("Expiration");
-        }
-
-        this.cardNumber = cardNumber;
-        this.securityNumber = securityNumber;
-        this.cardHolderName = cardHolderName;
-        this.alias = alias;
-        this.expiration = expiration;
-        this.cardTypeId = cardTypeId;
+  public PaymentMethod(int cardTypeId, String alias, String cardNumber, String securityNumber, String cardHolderName, LocalDateTime expiration) {
+    if (isNull(cardNumber)) {
+      throw new OrderingDomainException("Card number");
     }
 
-    public boolean isEqualTo(int cardTypeId, String cardNumber, LocalDateTime expiration)
-    {
-        return this.cardTypeId == cardTypeId
-                && this.cardNumber.equals(cardNumber)
-                && this.expiration.equals(expiration);
+    if (isNull(securityNumber)) {
+      throw new OrderingDomainException("Security number");
     }
+
+    if (isNull(cardHolderName)) {
+      throw new OrderingDomainException("Card holder name");
+    }
+
+    if (expiration.isBefore(LocalDateTime.now())) {
+      throw new OrderingDomainException("Expiration");
+    }
+
+    this.cardNumber = cardNumber;
+    this.securityNumber = securityNumber;
+    this.cardHolderName = cardHolderName;
+    this.alias = alias;
+    this.expiration = expiration;
+    this.cardTypeId = cardTypeId;
+  }
+
+  public boolean isEqualTo(int cardTypeId, String cardNumber, LocalDateTime expiration) {
+    return this.cardTypeId == cardTypeId
+        && this.cardNumber.equals(cardNumber)
+        && this.expiration.equals(expiration);
+  }
+
+  @PostLoad
+  void populateRangeAttrAfterLoad() {
+    if (cardTypeId > 0) {
+      this.cardType = CardType.from(cardTypeId);
+    }
+  }
+
+  @PrePersist
+  void populateRangeAttrBeforePersist() {
+    if (cardType != null) {
+      this.cardTypeId = cardType.getId();
+    }
+  }
+
 }

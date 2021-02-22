@@ -27,8 +27,8 @@ public class OrderShippedDomainEventHandler implements DomainEventHandler<OrderS
         OrderStatus.Shipped.getId()
     );
 
-    var order = orderRepository.get(orderShippedDomainEvent.order().getId());
-    var buyer = buyerRepository.findById(order.getBuyerId().toString());
+    var order = orderRepository.findById(orderShippedDomainEvent.order().getId()).orElse(null);
+    var buyer = buyerRepository.findById(order.getBuyerId()).orElse(null);
 
     var orderStatusChangedToCancelledIntegrationEvent = new OrderStatusChangedToShippedIntegrationEvent(
         order.getId(), order.getOrderStatus().getName(), buyer.getName());

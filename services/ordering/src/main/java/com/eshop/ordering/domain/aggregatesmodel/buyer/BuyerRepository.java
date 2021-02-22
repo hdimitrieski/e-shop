@@ -7,8 +7,7 @@ import com.eshop.ordering.domain.seedwork.Repository;
  * as requisite for the Buyer Aggregate.
  */
 public interface BuyerRepository extends Repository<Buyer> {
-    Buyer add(Buyer buyer);
-    Buyer update(Buyer buyer);
-    Buyer find(String buyerIdentityGuid);
-    Buyer findById(String id);
+//    Buyer add(Buyer buyer);
+//    Buyer update(Buyer buyer);
+    Buyer findByIdentityGuid(String buyerIdentityGuid);
 }

@@ -6,24 +6,31 @@ import com.eshop.ordering.domain.seedwork.AggregateRoot;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Entity(name = "orders")
 public class Order extends AggregateRoot {
+  @Column(nullable = false)
   private LocalDateTime orderDate;
 
   // Address is a Value Object pattern example
+  @Embedded
   @Getter
   private Address address;
 
+  @Column(nullable = false)
   @Getter
   @Setter
   private Integer buyerId;
 
+  @Transient
   @Getter
   private OrderStatus orderStatus;
+  @Column(nullable = false)
   private Integer orderStatusId;
 
   private String description;
@@ -36,9 +43,11 @@ public class Order extends AggregateRoot {
   // Using a private collection field, better for DDD Aggregate's encapsulation
   // so OrderItems cannot be added from "outside the AggregateRoot" directly to the collection,
   // but only through the method OrderAggrergateRoot.AddOrderItem() which includes behaviour.
+  @OneToMany
   @Getter
   private List<OrderItem> orderItems;
 
+  @Column(nullable = false)
   @Setter
   private Integer paymentMethodId;
 
@@ -173,5 +182,19 @@ public class Order extends AggregateRoot {
     return orderItems.stream().map(o -> o.getUnits() * o.getUnitPrice())
         .reduce(Double::sum)
         .orElse(0D);
+  }
+
+  @PostLoad
+  void populateRangeAttrAfterLoad() {
+    if (orderStatusId > 0) {
+      this.orderStatus = OrderStatus.from(orderStatusId);
+    }
+  }
+
+  @PrePersist
+  void populateRangeAttrBeforePersist() {
+    if (orderStatus != null) {
+      this.orderStatusId = orderStatus.getId();
+    }
   }
 }

@@ -5,6 +5,7 @@ import org.springframework.data.domain.AfterDomainEventPublication;
 import org.springframework.data.domain.DomainEvents;
 import org.springframework.util.Assert;
 
+import javax.persistence.MappedSuperclass;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -16,9 +17,10 @@ import java.util.List;
  * by {@link DomainEvents} and {@link AfterDomainEventPublication}. If in doubt or need to customize anything here,
  * rather build your own base class and use the annotations directly.
  */
+@MappedSuperclass
 public class AggregateRoot extends Entity {
-  private transient final @Transient
-  List<Object> domainEvents = new ArrayList<>();
+  @Transient
+  private transient final List<Object> domainEvents = new ArrayList<>();
 
   /**
    * Registers the given event object for publication on a call to a Spring Data repository's save methods.

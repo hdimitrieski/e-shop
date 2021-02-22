@@ -4,17 +4,23 @@ import com.eshop.ordering.domain.events.BuyerAndPaymentMethodVerifiedDomainEvent
 import com.eshop.ordering.domain.seedwork.AggregateRoot;
 import lombok.Getter;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.Objects.isNull;
 
+@Entity
 public class Buyer extends AggregateRoot {
+  @Column(nullable = false, length = 200, unique = true)
   @Getter
   private String identityGuid;
   @Getter
   private String name;
+  @OneToMany(mappedBy = "id")
   @Getter
   private List<PaymentMethod> paymentMethods;
 

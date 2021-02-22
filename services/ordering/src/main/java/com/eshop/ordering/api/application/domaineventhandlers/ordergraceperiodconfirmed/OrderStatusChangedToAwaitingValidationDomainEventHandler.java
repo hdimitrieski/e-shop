@@ -31,8 +31,8 @@ public class OrderStatusChangedToAwaitingValidationDomainEventHandler
         OrderStatus.AwaitingValidation.getId()
     );
 
-    var order = orderRepository.get(event.orderId());
-    var buyer = buyerRepository.findById(order.getBuyerId().toString());
+    var order = orderRepository.findById(event.orderId()).orElse(null);
+    var buyer = buyerRepository.findById(order.getBuyerId()).orElse(null);
     var orderStockList = event.orderItems().stream()
         .map(orderItem -> new OrderStockItem(orderItem.getProductId(), orderItem.getUnits()))
         .collect(Collectors.toList());

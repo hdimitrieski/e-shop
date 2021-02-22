@@ -27,8 +27,8 @@ public class OrderCancelledDomainEventHandler implements DomainEventHandler<Orde
         OrderStatus.Cancelled.getId()
     );
 
-    var order = orderRepository.get(orderCancelledDomainEvent.order().getId());
-    var buyer = buyerRepository.findById(order.getBuyerId().toString());
+    var order = orderRepository.findById(orderCancelledDomainEvent.order().getId()).orElse(null);
+    var buyer = buyerRepository.findById(order.getBuyerId()).orElse(null);
 
     var orderStatusChangedToCancelledIntegrationEvent = new OrderStatusChangedToCancelledIntegrationEvent(
         order.getId(), order.getOrderStatus().getName(), buyer.getName());

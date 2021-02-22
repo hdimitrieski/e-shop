@@ -21,7 +21,7 @@ public class ValidateOrAddBuyerAggregateWhenOrderStartedDomainEventHandler imple
   @EventListener
   public void handle(OrderStartedDomainEvent orderStartedEvent) {
     var cardTypeId = (orderStartedEvent.cardTypeId() != 0) ? orderStartedEvent.cardTypeId() : 1;
-    var buyer = buyerRepository.find(orderStartedEvent.userId());
+    var buyer = buyerRepository.findByIdentityGuid(orderStartedEvent.userId());
     boolean buyerOriginallyExisted = buyer != null;
 
     if (!buyerOriginallyExisted) {
@@ -36,9 +36,10 @@ public class ValidateOrAddBuyerAggregateWhenOrderStartedDomainEventHandler imple
         orderStartedEvent.cardExpiration(),
         orderStartedEvent.order().getId());
 
-    var buyerUpdated = buyerOriginallyExisted ?
-        buyerRepository.update(buyer) :
-        buyerRepository.add(buyer);
+//    var buyerUpdated = buyerOriginallyExisted ?
+//        buyerRepository.update(buyer) :
+//        buyerRepository.add(buyer);
+    var savedBuyer = buyerRepository.save(buyer);
 
 //    buyerRepository.unitOfWork().saveEntities();
 
@@ -48,7 +49,7 @@ public class ValidateOrAddBuyerAggregateWhenOrderStartedDomainEventHandler imple
 
     System.out.printf(
         "Buyer {%d} and related payment method were validated or updated for orderId: {%d}.%n",
-        buyerUpdated.getId(), orderStartedEvent.order().getId()
+        savedBuyer.getId(), orderStartedEvent.order().getId()
     );
   }
 }

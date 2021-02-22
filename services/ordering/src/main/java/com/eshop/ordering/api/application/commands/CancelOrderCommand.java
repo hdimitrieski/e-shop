@@ -7,5 +7,5 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class CancelOrderCommand implements Command<Boolean> {
-    private final Integer orderNumber;
+  private final Integer orderNumber;
 }

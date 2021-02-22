@@ -18,7 +18,7 @@ public class UpdateOrderWhenBuyerAndPaymentMethodVerifiedDomainEventHandler
   // then we can update the original Order with the BuyerId and PaymentId (foreign keys)
   @EventListener
   public void handle(BuyerAndPaymentMethodVerifiedDomainEvent buyerPaymentMethodVerifiedEvent) {
-    var orderToUpdate = orderRepository.get(buyerPaymentMethodVerifiedEvent.orderId());
+    var orderToUpdate = orderRepository.findById(buyerPaymentMethodVerifiedEvent.orderId()).orElse(null);
     orderToUpdate.setBuyerId(buyerPaymentMethodVerifiedEvent.buyer().getId());
     orderToUpdate.setPaymentMethodId(buyerPaymentMethodVerifiedEvent.payment().getId());
 

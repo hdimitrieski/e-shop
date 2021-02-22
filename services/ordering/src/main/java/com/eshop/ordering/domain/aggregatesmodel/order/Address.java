@@ -5,8 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Embeddable;
+import javax.persistence.Transient;
 import java.util.List;
 
+@Embeddable
 @NoArgsConstructor
 @AllArgsConstructor
 public class Address extends ValueObject {
@@ -21,6 +24,7 @@ public class Address extends ValueObject {
     @Getter
     public String zipCode;
 
+    @Transient
     @Override
     protected List<Object> getEqualityComponents() {
         return List.of(

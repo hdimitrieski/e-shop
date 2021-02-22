@@ -1,10 +1,11 @@
 package com.eshop.ordering.api.application.commands;
 
+import an.awesome.pipelinr.Command;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class SetStockConfirmedOrderStatusCommand {
-    private final Integer orderNumber;
+public class SetStockConfirmedOrderStatusCommand implements Command<Boolean> {
+  private final Integer orderNumber;
 }
