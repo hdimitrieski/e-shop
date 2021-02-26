@@ -30,6 +30,7 @@ public abstract class IdentifiedCommandHandler<T extends Command<R>, R>
     if (requestManager.exist(identifiedCommand.id())) {
       return createResultForDuplicateRequest();
     }
+    requestManager.createRequestForCommand(identifiedCommand.id(), identifiedCommand.getClass().getSimpleName());
 
     var command = identifiedCommand.command();
     var idProperty = "";
