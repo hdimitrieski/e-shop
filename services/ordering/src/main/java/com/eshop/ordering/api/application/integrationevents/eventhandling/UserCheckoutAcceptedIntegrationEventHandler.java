@@ -1,60 +1,47 @@
 package com.eshop.ordering.api.application.integrationevents.eventhandling;
 
+import an.awesome.pipelinr.Pipeline;
+import com.eshop.ordering.api.application.commands.CreateOrderCommand;
+import com.eshop.ordering.api.application.commands.IdentifiedCommand;
 import com.eshop.ordering.api.application.integrationevents.events.UserCheckoutAcceptedIntegrationEvent;
+import lombok.RequiredArgsConstructor;
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.stereotype.Component;
 
-// TODO HD implement kafka bus and integration events
+@Component
+@RequiredArgsConstructor
 public class UserCheckoutAcceptedIntegrationEventHandler {
+  private final Pipeline pipeline;
 
-    /// <summary>
-    /// Integration event handler which starts the create order process
-    /// </summary>
-    /// <param name="@event">
-    /// Integration event message which is sent by the
-    /// basket.api once it has successfully process the
-    /// order items.
-    /// </param>
-    /// <returns></returns>
-    public void handle(UserCheckoutAcceptedIntegrationEvent event) {
-//        using (LogContext.PushProperty("IntegrationEventContext", $"{@event.Id}-{Program.AppName}"))
-//        {
-//            _logger.LogInformation("----- Handling integration event: {IntegrationEventId} at {AppName} - ({@IntegrationEvent})", @event.Id, Program.AppName, @event);
-//
-//            var result = false;
-//
-//            if (@event.RequestId != Guid.Empty)
-//            {
-//                using (LogContext.PushProperty("IdentifiedCommandId", @event.RequestId))
-//                {
-//                    var createOrderCommand = new CreateOrderCommand(@event.Basket.Items, @event.UserId, @event.UserName, @event.City, @event.Street,
-//                    @event.State, @event.Country, @event.ZipCode,
-//                    @event.CardNumber, @event.CardHolderName, @event.CardExpiration,
-//                    @event.CardSecurityNumber, @event.CardTypeId);
-//
-//                    var requestCreateOrder = new IdentifiedCommand<CreateOrderCommand, bool>(createOrderCommand, @event.RequestId);
-//
-//                    _logger.LogInformation(
-//                            "----- Sending command: {CommandName} - {IdProperty}: {CommandId} ({@Command})",
-//                            requestCreateOrder.GetGenericTypeName(),
-//                            nameof(requestCreateOrder.Id),
-//                            requestCreateOrder.Id,
-//                            requestCreateOrder);
-//
-//                    result = await _mediator.Send(requestCreateOrder);
-//
-//                    if (result)
-//                    {
-//                        _logger.LogInformation("----- CreateOrderCommand suceeded - RequestId: {RequestId}", @event.RequestId);
-//                    }
-//                    else
-//                    {
-//                        _logger.LogWarning("CreateOrderCommand failed - RequestId: {RequestId}", @event.RequestId);
-//                    }
-//                }
-//            }
-//                else
-//            {
-//                _logger.LogWarning("Invalid IntegrationEvent - RequestId is missing - {@IntegrationEvent}", @event);
-//            }
-//        }
+  /**
+   * Integration event handler which starts the create order process.
+   *
+   * @param event Integration event message which is sent by the  basket.api once it has successfully process the
+   *              order items.
+   */
+  @KafkaListener(groupId = "catalogGroup", topics = "${spring.kafka.consumer.topic.basket}")
+  public void handle(UserCheckoutAcceptedIntegrationEvent event) {
+    System.out.printf("----- Handling integration event: {%s} - (%s})", event.getId(), event.getClass().getSimpleName());
+    var result = false;
+
+    if (event.getRequestId() != null) {
+      var createOrderCommand = new CreateOrderCommand(
+          event.getBasket().getItems(), event.getUserId(), event.getUserName(), event.getCity(),
+          event.getStreet(), event.getState(), event.getCountry(), event.getZipCode(),
+          event.getCardNumber(), event.getCardHolderName(), event.getCardExpiration(),
+          event.getCardSecurityNumber(), event.getCardTypeId());
+      var requestCreateOrder = new IdentifiedCommand<CreateOrderCommand, Boolean>(createOrderCommand, event.getRequestId());
+
+      result = requestCreateOrder.execute(pipeline);
+
+      if (result) {
+        System.out.printf("----- CreateOrderCommand succeeded - RequestId: {%s}\n", event.getRequestId());
+      } else {
+        System.out.printf("CreateOrderCommand failed - RequestId: {%s}\n", event.getRequestId());
+      }
+
+    } else {
+      System.out.printf("Invalid IntegrationEvent - RequestId is missing - {%s}", event.getClass().getSimpleName());
     }
+  }
 }

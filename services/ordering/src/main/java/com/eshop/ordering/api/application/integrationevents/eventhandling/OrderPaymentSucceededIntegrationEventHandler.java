@@ -1,23 +1,22 @@
 package com.eshop.ordering.api.application.integrationevents.eventhandling;
 
+import an.awesome.pipelinr.Pipeline;
+import com.eshop.ordering.api.application.commands.SetPaidOrderStatusCommand;
 import com.eshop.ordering.api.application.integrationevents.events.OrderPaymentSucceededIntegrationEvent;
+import lombok.RequiredArgsConstructor;
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.stereotype.Component;
 
+@Component
+@RequiredArgsConstructor
 public class OrderPaymentSucceededIntegrationEventHandler {
-    public void handle(OrderPaymentSucceededIntegrationEvent event) {
-//        using (LogContext.PushProperty("IntegrationEventContext", $"{@event.Id}-{Program.AppName}"))
-//        {
-//            _logger.LogInformation("----- Handling integration event: {IntegrationEventId} at {AppName} - ({@IntegrationEvent})", @event.Id, Program.AppName, @event);
-//
-//            var command = new SetPaidOrderStatusCommand(@event.OrderId);
-//
-//            _logger.LogInformation(
-//                    "----- Sending command: {CommandName} - {IdProperty}: {CommandId} ({@Command})",
-//                    command.GetGenericTypeName(),
-//                    nameof(command.OrderNumber),
-//                    command.OrderNumber,
-//                    command);
-//
-//            await _mediator.Send(command);
-//        }
-    }
+  private final Pipeline pipeline;
+
+  @KafkaListener(groupId = "catalogGroup", topics = "${spring.kafka.consumer.topic.payment}")
+  public void handle(OrderPaymentSucceededIntegrationEvent event) {
+    System.out.printf("----- Handling integration event: {%s} - (%s})", event.getId(), event.getClass().getSimpleName());
+
+    var command = new SetPaidOrderStatusCommand(event.getOrderId());
+    command.execute(pipeline);
+  }
 }

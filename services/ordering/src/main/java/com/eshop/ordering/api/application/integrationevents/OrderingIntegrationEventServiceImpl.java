@@ -11,8 +11,7 @@ import java.util.UUID;
 public class OrderingIntegrationEventServiceImpl implements OrderingIntegrationEventService {
   private final EventLogService eventLogService;
   private final IntegrationEventIdGenerator integrationEventIdGenerator;
-
-  // TODO HD generate unique id per user request to save all events with in the event log.
+  private final EventBus eventBus;
 
   @Override
   public void publishEventsThroughEventBus(UUID id) {
@@ -24,10 +23,10 @@ public class OrderingIntegrationEventServiceImpl implements OrderingIntegrationE
 
       try {
         eventLogService.markEventAsInProgress(logEvt.getId());
-//        eventBus.Publish(logEvt.IntegrationEvent);
+        eventBus.publish(logEvt);
         eventLogService.markEventAsPublished(logEvt.getId());
       } catch (Exception ex) {
-//        _logger.LogError(ex, "ERROR publishing integration event: {IntegrationEventId} from {AppName}", logEvt.EventId, Program.AppName);
+        System.out.printf("ERROR publishing integration event: {%s}\n", logEvt.getClass().getSimpleName());
 
         eventLogService.markEventAsFailed(logEvt.getId());
       }

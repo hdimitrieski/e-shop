@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Getter
 public class OrderPaymentSucceededIntegrationEvent extends IntegrationEvent {
-    private String userId;
+    private Integer orderId;
 }
