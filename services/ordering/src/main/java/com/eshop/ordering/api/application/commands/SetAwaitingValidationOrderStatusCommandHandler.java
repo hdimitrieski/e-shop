@@ -20,7 +20,7 @@ public class SetAwaitingValidationOrderStatusCommandHandler
   @Transactional
   @Override
   public Boolean handle(SetAwaitingValidationOrderStatusCommand command) {
-    orderRepository.findById(command.getOrderNumber())
+    orderRepository.findById(command.orderNumber())
         .ifPresent(Order::setAwaitingValidationStatus);
     return true;
 //    return orderRepository.unitOfWork().saveEntities();

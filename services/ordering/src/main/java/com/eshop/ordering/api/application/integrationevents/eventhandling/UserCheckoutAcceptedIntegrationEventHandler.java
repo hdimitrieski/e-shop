@@ -2,6 +2,7 @@ package com.eshop.ordering.api.application.integrationevents.eventhandling;
 
 import com.eshop.ordering.api.application.integrationevents.events.UserCheckoutAcceptedIntegrationEvent;
 
+// TODO HD implement kafka bus and integration events
 public class UserCheckoutAcceptedIntegrationEventHandler {
 
     /// <summary>

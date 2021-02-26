@@ -46,7 +46,7 @@ public class OrdersController {
   public void createOrderDraftFromBasketData(
       @RequestBody CreateOrderDraftCommand command
   ) {
-
+    command.execute(pipeline);
   }
 
 }

@@ -17,7 +17,7 @@ public class CreateOrderDraftCommandHandler implements Command.Handler<CreateOrd
   @Override
   public OrderDraftDTO handle(CreateOrderDraftCommand message) {
     var order = Order.newDraft();
-    var orderItems = message.getItems().stream().map(BasketItem::toOrderItemDTO).collect(Collectors.toList());
+    var orderItems = message.items().stream().map(BasketItem::toOrderItemDTO).collect(Collectors.toList());
 
     for (var item : orderItems) {
       order.addOrderItem(item.productId(), item.productName(), item.unitPrice(), item.discount(), item.pictureUrl(), item.units());

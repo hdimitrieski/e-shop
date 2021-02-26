@@ -1,15 +1,10 @@
 package com.eshop.ordering.api.application.commands;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import an.awesome.pipelinr.Command;
 
 import java.util.UUID;
 
-@AllArgsConstructor
-@Getter
-public class IdentifiedCommand<T, R> {
-    private T command;
-    private UUID id;
+public record IdentifiedCommand<T extends Command<R>, R>(T command, UUID id) implements Command<R> {
 }
 
 //public class IdentifiedCommand<T, R> : IRequest<R>

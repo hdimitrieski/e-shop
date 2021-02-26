@@ -21,7 +21,7 @@ public class CancelOrderCommandHandler implements Command.Handler<CancelOrderCom
   public Boolean handle(CancelOrderCommand command) {
 //    var orderToUpdate = orderRepository.findById(command.getOrderNumber());
 
-    orderRepository.findById(command.getOrderNumber())
+    orderRepository.findById(command.orderNumber())
         .ifPresent(Order::setCancelledStatus);
 
 //    if (orderToUpdate == null) {
