@@ -9,6 +9,6 @@ import java.util.List;
  * Event used when the order is paid.
  */
 public record OrderStatusChangedToPaidDomainEvent(
-    Integer orderId,
+    Long orderId,
     List<OrderItem> orderItems) implements DomainEvent {
 }

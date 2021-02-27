@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 public class OrderStatusChangedToPaidIntegrationEvent extends IntegrationEvent {
-    private Integer orderId;
+    private Long orderId;
     private String buyerName;
     private String orderStatus;
     private List<OrderStockItem> orderStockItems;

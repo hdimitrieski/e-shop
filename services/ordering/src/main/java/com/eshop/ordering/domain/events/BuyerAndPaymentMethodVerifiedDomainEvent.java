@@ -7,5 +7,5 @@ import com.eshop.ordering.domain.seedwork.DomainEvent;
 public record BuyerAndPaymentMethodVerifiedDomainEvent(
     Buyer buyer,
     PaymentMethod payment,
-    Integer orderId) implements DomainEvent {
+    Long orderId) implements DomainEvent {
 }

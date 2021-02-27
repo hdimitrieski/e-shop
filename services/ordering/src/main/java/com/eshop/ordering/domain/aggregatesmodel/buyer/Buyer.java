@@ -44,7 +44,7 @@ public class Buyer extends AggregateRoot {
 
   public PaymentMethod verifyOrAddPaymentMethod(
       int cardTypeId, String alias, String cardNumber,
-      String securityNumber, String cardHolderName, LocalDateTime expiration, int orderId) {
+      String securityNumber, String cardHolderName, LocalDateTime expiration, Long orderId) {
     var existingPayment = paymentMethods.stream()
         .filter(p -> p.isEqualTo(cardTypeId, cardNumber, expiration))
         .findFirst()

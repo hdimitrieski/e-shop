@@ -25,7 +25,7 @@ public class Order extends AggregateRoot {
   @Column(nullable = false)
   @Getter
   @Setter
-  private Integer buyerId;
+  private Long buyerId;
 
   @Transient
   @Getter
@@ -49,7 +49,7 @@ public class Order extends AggregateRoot {
 
   @Column(nullable = false)
   @Setter
-  private Integer paymentMethodId;
+  private Long paymentMethodId;
 
   public static Order newDraft() {
     var order = new Order();
@@ -63,7 +63,7 @@ public class Order extends AggregateRoot {
   }
 
   public Order(String userId, String userName, Address address, Integer cardTypeId, String cardNumber, String cardSecurityNumber,
-               String cardHolderName, LocalDateTime cardExpiration, Integer buyerId, Integer paymentMethodId) {
+               String cardHolderName, LocalDateTime cardExpiration, Long buyerId, Long paymentMethodId) {
     this();
     this.buyerId = buyerId;
     this.paymentMethodId = paymentMethodId;

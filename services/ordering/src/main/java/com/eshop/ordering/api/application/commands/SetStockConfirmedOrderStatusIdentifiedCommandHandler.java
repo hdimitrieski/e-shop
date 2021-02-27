@@ -4,7 +4,7 @@ import an.awesome.pipelinr.Pipeline;
 import com.eshop.ordering.infrastructure.RequestManager;
 import org.springframework.stereotype.Component;
 
-@Component
+//@Component
 public class SetStockConfirmedOrderStatusIdentifiedCommandHandler
     extends IdentifiedCommandHandler<SetStockConfirmedOrderStatusCommand, Boolean> {
   public SetStockConfirmedOrderStatusIdentifiedCommandHandler(Pipeline pipeline, RequestManager requestManager) {

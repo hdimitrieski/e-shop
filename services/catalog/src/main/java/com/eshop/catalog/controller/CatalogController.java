@@ -61,7 +61,7 @@ public class CatalogController {
                 .ifPresentOrElse(catalogItem -> {
                     var oldPrice = catalogItem.getPrice();
                     // TODO HD it doesn't work
-                    var raiseProductPriceChangedEvent = !oldPrice.equals(productToUpdate.getPrice());
+                    var raiseProductPriceChangedEvent = oldPrice.compareTo(productToUpdate.getPrice()) != 0;
 
                     // entityManager.getTransaction().begin();
                     catalogItem = productToUpdate;

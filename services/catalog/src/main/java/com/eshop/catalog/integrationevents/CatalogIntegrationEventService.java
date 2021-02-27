@@ -25,7 +25,7 @@ public class CatalogIntegrationEventService implements IntegrationEventService {
 
     @Override
     public void saveEventAndCatalogContextChanges(IntegrationEvent event) {
-        System.out.printf("----- ----- CatalogIntegrationEventService - Saving changes and integrationEvent: %s (%s)", event.getId(), event.getClass().getSimpleName());
+        System.out.printf("----- ----- CatalogIntegrationEventService - Saving changes and integrationEvent: %s (%s)\n", event.getId(), event.getClass().getSimpleName());
         // TODO HD see ResilientTransaction on eShopOnContainers (BuildingBlocks)
         // TODO HD Achieving atomicity between original catalog database operation and the IntegrationEventLog thanks to a local transaction
         // TODO HD save the event in a event log
@@ -36,7 +36,7 @@ public class CatalogIntegrationEventService implements IntegrationEventService {
     @Override
     public void publishThroughEventBus(IntegrationEvent event) {
         // await _eventLogService.MarkEventAsInProgressAsync(evt.Id);
-        System.out.printf("----- ----- Publishing integration event: %s (%s)", event.getId(), event.getClass().getSimpleName());
+        System.out.printf("----- ----- Publishing integration event: %s (%s)\n", event.getId(), event.getClass().getSimpleName());
         kafkaTemplate.send(catalogTopic, event);
         // await _eventLogService.MarkEventAsPublishedAsync(evt.Id);
     }

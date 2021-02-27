@@ -9,6 +9,6 @@ import java.util.List;
  * Event used when the grace period order is confirmed.
  */
 public record OrderStatusChangedToAwaitingValidationDomainEvent(
-    Integer orderId,
+    Long orderId,
     List<OrderItem> orderItems) implements DomainEvent {
 }

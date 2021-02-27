@@ -13,7 +13,7 @@ public abstract class Entity {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   @Getter
-  protected Integer id;
+  protected Long id;
 
   public boolean isTransient() {
     return id == null;

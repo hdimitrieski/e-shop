@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Getter
 public class GracePeriodConfirmedIntegrationEvent extends IntegrationEvent {
-  private Integer orderId;
+  private Long orderId;
 }

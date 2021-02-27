@@ -39,14 +39,14 @@ public class GracePeriodManagerTask {
     }
   }
 
-  private List<Integer> getConfirmedGracePeriodOrders() {
+  private List<Long> getConfirmedGracePeriodOrders() {
     var query = entityManager.createNativeQuery("""
           SELECT id
           FROM orders
           WHERE (EXTRACT(EPOCH FROM current_timestamp) - EXTRACT(EPOCH FROM order_date))/3600 >= %d
                 AND order_status_id = 1
         """.formatted(2));
-    List<Integer> results = query.getResultList();
+    List<Long> results = query.getResultList();
     return results;
   }
 }
