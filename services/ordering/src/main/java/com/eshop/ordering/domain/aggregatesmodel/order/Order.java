@@ -44,6 +44,7 @@ public class Order extends AggregateRoot {
   // so OrderItems cannot be added from "outside the AggregateRoot" directly to the collection,
   // but only through the method OrderAggrergateRoot.AddOrderItem() which includes behaviour.
   @OneToMany
+  @JoinColumn(name = "order_id")
   @Getter
   private List<OrderItem> orderItems;
 

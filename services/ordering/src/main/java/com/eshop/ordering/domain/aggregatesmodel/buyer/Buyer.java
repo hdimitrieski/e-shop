@@ -6,6 +6,7 @@ import lombok.Getter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -20,7 +21,8 @@ public class Buyer extends AggregateRoot {
   private String identityGuid;
   @Getter
   private String name;
-  @OneToMany(mappedBy = "id")
+  @OneToMany
+  @JoinColumn(name = "buyer_id")
   @Getter
   private List<PaymentMethod> paymentMethods;
 
