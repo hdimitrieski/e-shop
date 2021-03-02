@@ -14,7 +14,7 @@ public class EventLogService {
   private final Map<UUID, List<IntegrationEvent>> integrationEvents = new HashMap<>();
 
   public List<IntegrationEvent> retrieveEventLogsPendingToPublish(UUID transactionId) {
-    return integrationEvents.get(transactionId);
+    return integrationEvents.getOrDefault(transactionId, Collections.emptyList());
   }
 
   public void markEventAsInProgress(UUID eventId) {
