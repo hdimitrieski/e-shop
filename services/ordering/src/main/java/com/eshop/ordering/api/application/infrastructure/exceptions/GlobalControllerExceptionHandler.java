@@ -1,4 +1,4 @@
-package com.eshop.ordering.api.controllers;
+package com.eshop.ordering.api.application.infrastructure.exceptions;
 
 import com.eshop.ordering.domain.exceptions.OrderingDomainException;
 import lombok.extern.log4j.Log4j2;

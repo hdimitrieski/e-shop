@@ -7,7 +7,7 @@ import com.eshop.ordering.api.application.commands.ShipOrderCommand;
 import com.eshop.ordering.api.application.dtos.OrderDraftDTO;
 import com.eshop.ordering.api.application.queries.OrderQueries;
 import com.eshop.ordering.api.application.queries.OrderViewModel;
-import com.eshop.ordering.api.controllers.exceptions.BadRequest;
+import com.eshop.ordering.api.application.infrastructure.exceptions.BadRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

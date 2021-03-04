@@ -1,4 +1,4 @@
-package com.eshop.ordering.api.controllers;
+package com.eshop.ordering.api.application.infrastructure.exceptions;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
