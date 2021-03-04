@@ -6,6 +6,9 @@ import com.eshop.ordering.api.application.dtos.ToOrderItemDTOMapper;
 import com.eshop.ordering.api.application.models.BasketItem;
 import lombok.Getter;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,15 +18,28 @@ public class CreateOrderCommand implements Command<Boolean> {
   private final List<OrderItemDTO> orderItems;
   private final String userId;
   private final String userName;
+  @NotBlank
   private final String city;
+  @NotBlank
   private final String street;
+  @NotBlank
   private final String state;
+  @NotBlank
   private final String country;
+  @NotBlank
   private final String zipCode;
+  @NotBlank
+  @Size(min = 5, max = 19)
   private final String cardNumber;
+  @NotBlank
   private final String cardHolderName;
+  // TODO HD @CardExpirationDate ...
+  @NotNull
   private final LocalDateTime cardExpiration;
+  @NotBlank
+  @Size(min = 3)
   private final String cardSecurityNumber;
+  @NotNull
   private final Integer cardTypeId;
 
   public CreateOrderCommand(

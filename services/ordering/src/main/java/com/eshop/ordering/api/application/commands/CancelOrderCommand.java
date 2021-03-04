@@ -3,5 +3,11 @@ package com.eshop.ordering.api.application.commands;
 import an.awesome.pipelinr.Command;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public record CancelOrderCommand(@JsonProperty("orderNumber") Long orderNumber) implements Command<Boolean> {
+import javax.validation.constraints.NotNull;
+
+public record CancelOrderCommand(
+    @JsonProperty("orderNumber")
+    @NotNull(message = "No order number found")
+    Long orderNumber
+) implements Command<Boolean> {
 }

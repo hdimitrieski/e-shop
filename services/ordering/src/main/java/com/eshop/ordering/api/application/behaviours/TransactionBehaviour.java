@@ -2,6 +2,7 @@ package com.eshop.ordering.api.application.behaviours;
 
 import an.awesome.pipelinr.Command;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.annotation.Order;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.transaction.support.TransactionTemplate;
@@ -9,6 +10,7 @@ import org.springframework.transaction.support.TransactionTemplate;
 // TODO HD try something with middleware (like it is in in eShopOnContainers)
 
 @RequiredArgsConstructor
+@Order(2)
 public class TransactionBehaviour { // implements middleware
   private final PlatformTransactionManager txManager;
 
