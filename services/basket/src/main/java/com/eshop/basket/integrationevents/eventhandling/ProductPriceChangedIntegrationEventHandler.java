@@ -26,7 +26,7 @@ public class ProductPriceChangedIntegrationEventHandler {
         }
     }
 
-    private void updatePriceInBasketItems(Long productId, BigDecimal newPrice, BigDecimal oldPrice, CustomerBasket basket) {
+    private void updatePriceInBasketItems(Long productId, Double newPrice, Double oldPrice, CustomerBasket basket) {
         basket.getItems().stream().filter(x -> x.getProductId().equals(productId))
                 .forEach(item -> {
                     if (item.getUnitPrice().equals(oldPrice)) {

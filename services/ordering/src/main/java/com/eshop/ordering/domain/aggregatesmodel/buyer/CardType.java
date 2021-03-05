@@ -1,6 +1,5 @@
 package com.eshop.ordering.domain.aggregatesmodel.buyer;
 
-import com.eshop.ordering.domain.aggregatesmodel.order.OrderStatus;
 import com.eshop.ordering.domain.exceptions.OrderingDomainException;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

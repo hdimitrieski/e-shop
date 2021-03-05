@@ -5,13 +5,12 @@ import com.eshop.ordering.domain.seedwork.Entity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.util.StringUtils;
 
 import javax.persistence.Column;
 import javax.persistence.PostLoad;
 import javax.persistence.PrePersist;
 import javax.persistence.Transient;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import static java.util.Objects.isNull;
 
@@ -25,7 +24,7 @@ public class PaymentMethod extends Entity {
   private String securityNumber;
   @Column(nullable = false, length = 200)
   private String cardHolderName;
-  private LocalDateTime expiration;
+  private LocalDate expiration;
 
   private int cardTypeId;
 
@@ -37,7 +36,7 @@ public class PaymentMethod extends Entity {
   protected PaymentMethod() {
   }
 
-  public PaymentMethod(int cardTypeId, String alias, String cardNumber, String securityNumber, String cardHolderName, LocalDateTime expiration) {
+  public PaymentMethod(int cardTypeId, String alias, String cardNumber, String securityNumber, String cardHolderName, LocalDate expiration) {
     if (isNull(cardNumber)) {
       throw new OrderingDomainException("Card number");
     }
@@ -50,7 +49,7 @@ public class PaymentMethod extends Entity {
       throw new OrderingDomainException("Card holder name");
     }
 
-    if (expiration.isBefore(LocalDateTime.now())) {
+    if (expiration.isBefore(LocalDate.now())) {
       throw new OrderingDomainException("Expiration");
     }
 
@@ -62,7 +61,7 @@ public class PaymentMethod extends Entity {
     this.cardTypeId = cardTypeId;
   }
 
-  public boolean isEqualTo(int cardTypeId, String cardNumber, LocalDateTime expiration) {
+  public boolean isEqualTo(int cardTypeId, String cardNumber, LocalDate expiration) {
     return this.cardTypeId == cardTypeId
         && this.cardNumber.equals(cardNumber)
         && this.expiration.equals(expiration);

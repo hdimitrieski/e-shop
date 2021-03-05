@@ -2,26 +2,30 @@ package com.eshop.basket.integrationevents.events;
 
 import com.eshop.basket.model.CustomerBasket;
 import com.eshop.basket.shared.IntegrationEvent;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
-@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
 public class UserCheckoutAcceptedIntegrationEvent extends IntegrationEvent {
-    private final String userId;
-    private final String userName;
-    private final String city;
-    private final String street;
-    private final String state;
-    private final String country;
-    private final String zipCode;
-    private final String cardNumber;
-    private final String cardHolderName;
-    private final LocalDate cardExpiration;
-    private final String cardSecurityNumber;
-    private final Integer cardTypeId;
-    private final String buyer;
-    private final UUID requestId;
-    private final CustomerBasket basket;
+  private String userId;
+  private String userName;
+  private String city;
+  private String street;
+  private String state;
+  private String country;
+  private String zipCode;
+  private String cardNumber;
+  private String cardHolderName;
+  private LocalDate cardExpiration;
+  private String cardSecurityNumber;
+  private Integer cardTypeId;
+  private String buyer;
+  private UUID requestId;
+  private CustomerBasket basket;
 }

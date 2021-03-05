@@ -9,7 +9,7 @@ import lombok.Getter;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,7 +35,7 @@ public class CreateOrderCommand implements Command<Boolean> {
   private final String cardHolderName;
   // TODO HD @CardExpirationDate ...
   @NotNull
-  private final LocalDateTime cardExpiration;
+  private final LocalDate cardExpiration;
   @NotBlank
   @Size(min = 3)
   private final String cardSecurityNumber;
@@ -45,7 +45,7 @@ public class CreateOrderCommand implements Command<Boolean> {
   public CreateOrderCommand(
       List<BasketItem> basketItems, String userId, String userName, String city, String street,
       String state, String country, String zipCode, String cardNumber, String cardHolderName,
-      LocalDateTime cardExpiration, String cardSecurityNumber, int cardTypeId) {
+      LocalDate cardExpiration, String cardSecurityNumber, int cardTypeId) {
     orderItems = basketItems.stream()
         .map(basketItem -> new ToOrderItemDTOMapper().map(basketItem))
         .collect(Collectors.toList());

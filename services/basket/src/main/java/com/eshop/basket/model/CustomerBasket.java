@@ -1,16 +1,19 @@
 package com.eshop.basket.model;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-public class CustomerBasket {
-    private final String buyerId;
-    private final List<BasketItem> items = new ArrayList<>();
+@NoArgsConstructor
+public class CustomerBasket implements Serializable {
+  private String buyerId;
+  private List<BasketItem> items = new ArrayList<>();
 
-    public CustomerBasket(String customerId) {
-        buyerId = customerId;
-    }
+  public CustomerBasket(String customerId) {
+    buyerId = customerId;
+  }
 }

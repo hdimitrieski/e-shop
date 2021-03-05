@@ -2,8 +2,10 @@ package com.eshop.ordering.api.application.models;
 
 import com.eshop.ordering.api.application.dtos.OrderItemDTO;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class BasketItem {
     private String id;
     private Integer productId;

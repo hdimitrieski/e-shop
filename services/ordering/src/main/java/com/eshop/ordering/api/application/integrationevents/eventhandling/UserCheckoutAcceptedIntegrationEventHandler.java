@@ -19,7 +19,7 @@ public class UserCheckoutAcceptedIntegrationEventHandler {
    * @param event Integration event message which is sent by the  basket.api once it has successfully process the
    *              order items.
    */
-  @KafkaListener(groupId = "catalogGroup", topics = "${spring.kafka.consumer.topic.basket}")
+  @KafkaListener(groupId = "basketGroup", topics = "${spring.kafka.consumer.topic.basket}")
   public void handle(UserCheckoutAcceptedIntegrationEvent event) {
     System.out.printf("----- Handling integration event: {%s} - (%s})", event.getId(), event.getClass().getSimpleName());
     var result = false;
@@ -30,9 +30,9 @@ public class UserCheckoutAcceptedIntegrationEventHandler {
           event.getStreet(), event.getState(), event.getCountry(), event.getZipCode(),
           event.getCardNumber(), event.getCardHolderName(), event.getCardExpiration(),
           event.getCardSecurityNumber(), event.getCardTypeId());
-      var requestCreateOrder = new IdentifiedCommand<CreateOrderCommand, Boolean>(createOrderCommand, event.getRequestId());
+//      var requestCreateOrder = new IdentifiedCommand<CreateOrderCommand, Boolean>(createOrderCommand, event.getRequestId());
 
-      result = requestCreateOrder.execute(pipeline);
+      result = createOrderCommand.execute(pipeline);
 
       if (result) {
         System.out.printf("----- CreateOrderCommand succeeded - RequestId: {%s}\n", event.getRequestId());

@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -64,7 +65,7 @@ public class Order extends AggregateRoot {
   }
 
   public Order(String userId, String userName, Address address, Integer cardTypeId, String cardNumber, String cardSecurityNumber,
-               String cardHolderName, LocalDateTime cardExpiration, Long buyerId, Long paymentMethodId) {
+               String cardHolderName, LocalDate cardExpiration, Long buyerId, Long paymentMethodId) {
     this();
     this.buyerId = buyerId;
     this.paymentMethodId = paymentMethodId;
@@ -79,7 +80,7 @@ public class Order extends AggregateRoot {
   }
 
   public Order(String userId, String userName, Address address, Integer cardTypeId, String cardNumber, String cardSecurityNumber,
-               String cardHolderName, LocalDateTime cardExpiration) {
+               String cardHolderName, LocalDate cardExpiration) {
     this(userId, userName, address, cardTypeId, cardNumber, cardSecurityNumber, cardHolderName, cardExpiration, null, null);
   }
 
@@ -167,7 +168,7 @@ public class Order extends AggregateRoot {
   }
 
   private void addOrderStartedDomainEvent(String userId, String userName, Integer cardTypeId, String cardNumber,
-                                          String cardSecurityNumber, String cardHolderName, LocalDateTime cardExpiration) {
+                                          String cardSecurityNumber, String cardHolderName, LocalDate cardExpiration) {
     var orderStartedDomainEvent = new OrderStartedDomainEvent(this, userId, userName, cardTypeId,
         cardNumber, cardSecurityNumber, cardHolderName, cardExpiration);
 
