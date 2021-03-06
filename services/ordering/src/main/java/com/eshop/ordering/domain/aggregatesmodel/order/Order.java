@@ -69,9 +69,10 @@ public class Order extends AggregateRoot {
     this();
     this.buyerId = buyerId;
     this.paymentMethodId = paymentMethodId;
-    this.orderStatusId = OrderStatus.Submitted.getId();
     this.orderDate = LocalDateTime.now();
     this.address = address;
+    this.orderStatusId = OrderStatus.Submitted.getId();
+    this.populateOrderStatus();
 
     // Add the OrderStarterDomainEvent to the domain events collection
     // to be raised/dispatched when comitting changes into the Database [ After DbContext.SaveChanges() ]
@@ -187,14 +188,14 @@ public class Order extends AggregateRoot {
   }
 
   @PostLoad
-  void populateRangeAttrAfterLoad() {
+  void populateOrderStatus() {
     if (orderStatusId > 0) {
       this.orderStatus = OrderStatus.from(orderStatusId);
     }
   }
 
   @PrePersist
-  void populateRangeAttrBeforePersist() {
+  void populateOrderStatusId() {
     if (orderStatus != null) {
       this.orderStatusId = orderStatus.getId();
     }

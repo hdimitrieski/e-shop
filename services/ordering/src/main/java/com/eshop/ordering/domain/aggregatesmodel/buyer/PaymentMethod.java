@@ -59,6 +59,7 @@ public class PaymentMethod extends Entity {
     this.alias = alias;
     this.expiration = expiration;
     this.cardTypeId = cardTypeId;
+    this.populateCardType();
   }
 
   public boolean isEqualTo(int cardTypeId, String cardNumber, LocalDate expiration) {
@@ -68,14 +69,14 @@ public class PaymentMethod extends Entity {
   }
 
   @PostLoad
-  void populateRangeAttrAfterLoad() {
+  void populateCardType() {
     if (cardTypeId > 0) {
       this.cardType = CardType.from(cardTypeId);
     }
   }
 
   @PrePersist
-  void populateRangeAttrBeforePersist() {
+  void populateCardTypeId() {
     if (cardType != null) {
       this.cardTypeId = cardType.getId();
     }
