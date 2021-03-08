@@ -1,8 +1,7 @@
 package com.eshop.ordering.api.application.commands;
 
 import an.awesome.pipelinr.Pipeline;
-import com.eshop.ordering.infrastructure.RequestManager;
-import org.springframework.stereotype.Component;
+import com.eshop.ordering.infrastructure.idempotency.RequestManager;
 
 // Use for Idempotency in Command process
 //@Component

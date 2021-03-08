@@ -1,4 +1,4 @@
-package com.eshop.ordering.infrastructure;
+package com.eshop.ordering.infrastructure.idempotency;
 
 import com.eshop.ordering.domain.exceptions.OrderingDomainException;
 import org.springframework.stereotype.Service;

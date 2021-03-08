@@ -2,7 +2,7 @@ package com.eshop.ordering.api.application.commands;
 
 import an.awesome.pipelinr.Command;
 import an.awesome.pipelinr.Pipeline;
-import com.eshop.ordering.infrastructure.RequestManager;
+import com.eshop.ordering.infrastructure.idempotency.RequestManager;
 import lombok.RequiredArgsConstructor;
 
 /**

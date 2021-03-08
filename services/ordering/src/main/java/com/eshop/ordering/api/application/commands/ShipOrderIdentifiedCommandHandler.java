@@ -1,7 +1,7 @@
 package com.eshop.ordering.api.application.commands;
 
 import an.awesome.pipelinr.Pipeline;
-import com.eshop.ordering.infrastructure.RequestManager;
+import com.eshop.ordering.infrastructure.idempotency.RequestManager;
 import org.springframework.stereotype.Component;
 
 @Component

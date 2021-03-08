@@ -1,4 +1,4 @@
-package com.eshop.ordering.infrastructure;
+package com.eshop.ordering.infrastructure.idempotency;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
