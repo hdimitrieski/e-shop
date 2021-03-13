@@ -23,7 +23,6 @@ public class Order extends AggregateRoot {
   @Getter
   private Address address;
 
-  @Column(nullable = false)
   @Getter
   @Setter
   private Long buyerId;
@@ -44,12 +43,10 @@ public class Order extends AggregateRoot {
   // Using a private collection field, better for DDD Aggregate's encapsulation
   // so OrderItems cannot be added from "outside the AggregateRoot" directly to the collection,
   // but only through the method OrderAggrergateRoot.AddOrderItem() which includes behaviour.
-  @OneToMany
-  @JoinColumn(name = "order_id")
+  @OneToMany(targetEntity = OrderItem.class, cascade = CascadeType.ALL, mappedBy = "order")
   @Getter
   private List<OrderItem> orderItems;
 
-  @Column(nullable = false)
   @Setter
   private Long paymentMethodId;
 
@@ -102,7 +99,7 @@ public class Order extends AggregateRoot {
       existingOrderForProduct.addUnits(units);
     } else {
       //add validated new order item
-      orderItems.add(new OrderItem(productId, productName, unitPrice, discount, pictureUrl, units));
+      orderItems.add(new OrderItem(productId, productName, unitPrice, discount, pictureUrl, this, units));
     }
   }
 

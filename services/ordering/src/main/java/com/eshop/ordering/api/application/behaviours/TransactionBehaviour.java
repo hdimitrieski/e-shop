@@ -13,7 +13,7 @@ import org.springframework.transaction.support.TransactionTemplate;
 @Order(2)
 public class TransactionBehaviour { // implements middleware
   private final PlatformTransactionManager txManager;
-
+// TODO HD i can use this for generating requestId :) ??
 //  @Override
   public <R, C extends Command<R>> R invoke(C command, Command.Middleware.Next<R> next) {
     var tx = new TransactionTemplate(txManager);

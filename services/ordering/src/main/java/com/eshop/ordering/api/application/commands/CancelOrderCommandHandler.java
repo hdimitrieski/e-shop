@@ -22,7 +22,10 @@ public class CancelOrderCommandHandler implements Command.Handler<CancelOrderCom
 //    var orderToUpdate = orderRepository.findById(command.getOrderNumber());
 
     orderRepository.findById(command.orderNumber())
-        .ifPresent(Order::setCancelledStatus);
+        .ifPresent(order -> {
+          order.setCancelledStatus();
+          orderRepository.save(order);
+        });
 
 //    if (orderToUpdate == null) {
 //      return false;

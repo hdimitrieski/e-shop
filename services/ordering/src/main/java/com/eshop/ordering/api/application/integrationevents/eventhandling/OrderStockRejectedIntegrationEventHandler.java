@@ -22,7 +22,6 @@ public class OrderStockRejectedIntegrationEventHandler {
         .filter(c -> !c.hasStock())
         .map(ConfirmedOrderStockItem::productId)
         .collect(Collectors.toList());
-    var command = new SetStockRejectedOrderStatusCommand(event.getOrderId(), orderStockRejectedItems);
-    command.execute(pipeline);
+    pipeline.send(new SetStockRejectedOrderStatusCommand(event.getOrderId(), orderStockRejectedItems));
   }
 }

@@ -4,9 +4,9 @@ import com.eshop.ordering.domain.events.BuyerAndPaymentMethodVerifiedDomainEvent
 import com.eshop.ordering.domain.seedwork.AggregateRoot;
 import lombok.Getter;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -21,8 +21,8 @@ public class Buyer extends AggregateRoot {
   private String identityGuid;
   @Getter
   private String name;
-  @OneToMany
-  @JoinColumn(name = "buyer_id")
+
+  @OneToMany(targetEntity = PaymentMethod.class, cascade = CascadeType.ALL, mappedBy = "buyer")
   @Getter
   private List<PaymentMethod> paymentMethods;
 
@@ -57,7 +57,7 @@ public class Buyer extends AggregateRoot {
       return existingPayment;
     }
 
-    var payment = new PaymentMethod(cardTypeId, alias, cardNumber, securityNumber, cardHolderName, expiration);
+    var payment = new PaymentMethod(cardTypeId, alias, cardNumber, securityNumber, cardHolderName, expiration, this);
     paymentMethods.add(payment);
     addDomainEvent(new BuyerAndPaymentMethodVerifiedDomainEvent(this, payment, orderId));
     return payment;

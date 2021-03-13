@@ -43,7 +43,6 @@ public class CreateOrderCommandHandler implements Command.Handler<CreateOrderCom
     System.out.printf("----- Creating Order - Order: {%s}", order.toString());
 
     orderRepository.save(order);
-//    orderRepository.add(order);
 
     return true;
 //        return orderRepository.unitOfWork().saveEntities();

@@ -31,8 +31,7 @@ public class UserCheckoutAcceptedIntegrationEventHandler {
           event.getCardNumber(), event.getCardHolderName(), event.getCardExpiration(),
           event.getCardSecurityNumber(), event.getCardTypeId());
 //      var requestCreateOrder = new IdentifiedCommand<CreateOrderCommand, Boolean>(createOrderCommand, event.getRequestId());
-
-      result = createOrderCommand.execute(pipeline);
+      result = pipeline.send(createOrderCommand);
 
       if (result) {
         System.out.printf("----- CreateOrderCommand succeeded - RequestId: {%s}\n", event.getRequestId());

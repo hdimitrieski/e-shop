@@ -50,16 +50,16 @@ public class AggregateRoot extends Entity {
    * Clears all domain events currently held. Usually invoked by the infrastructure in place in Spring Data
    * repositories.
    */
-  @AfterDomainEventPublication
-  protected void clearDomainEvents() {
+//  @AfterDomainEventPublication
+  public void clearDomainEvents() {
     this.domainEvents.clear();
   }
 
   /**
    * All domain events currently captured by the aggregate.
    */
-  @DomainEvents
-  protected Collection<Object> domainEvents() {
+//  @DomainEvents
+  public Collection<Object> domainEvents() {
     return Collections.unmodifiableList(domainEvents);
   }
 }

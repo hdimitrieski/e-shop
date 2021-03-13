@@ -15,7 +15,7 @@ public class OrderStockConfirmedIntegrationEventHandler {
   @KafkaListener(groupId = "catalogGroup", topics = "${spring.kafka.consumer.topic.catalog}")
   public void handle(OrderStockConfirmedIntegrationEvent event) {
     System.out.printf("----- Handling integration event: {%s} - (%s})", event.getId(), event.getClass().getSimpleName());
-    var command = new SetStockConfirmedOrderStatusCommand(event.getOrderId());
-    command.execute(pipeline);
+
+    pipeline.send(new SetStockConfirmedOrderStatusCommand(event.getOrderId()));
   }
 }

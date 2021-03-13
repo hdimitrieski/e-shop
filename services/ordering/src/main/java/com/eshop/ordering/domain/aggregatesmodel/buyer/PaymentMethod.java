@@ -6,10 +6,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.PostLoad;
-import javax.persistence.PrePersist;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import java.time.LocalDate;
 
 import static java.util.Objects.isNull;
@@ -33,10 +30,14 @@ public class PaymentMethod extends Entity {
   @Setter(AccessLevel.PRIVATE)
   private CardType cardType;
 
+  @ManyToOne(targetEntity = Buyer.class)
+  @JoinColumn(name = "buyer_id", nullable = false)
+  private Buyer buyer;
+
   protected PaymentMethod() {
   }
 
-  public PaymentMethod(int cardTypeId, String alias, String cardNumber, String securityNumber, String cardHolderName, LocalDate expiration) {
+  public PaymentMethod(int cardTypeId, String alias, String cardNumber, String securityNumber, String cardHolderName, LocalDate expiration, Buyer buyer) {
     if (isNull(cardNumber)) {
       throw new OrderingDomainException("Card number");
     }
@@ -59,6 +60,7 @@ public class PaymentMethod extends Entity {
     this.alias = alias;
     this.expiration = expiration;
     this.cardTypeId = cardTypeId;
+    this.buyer = buyer;
     this.populateCardType();
   }
 

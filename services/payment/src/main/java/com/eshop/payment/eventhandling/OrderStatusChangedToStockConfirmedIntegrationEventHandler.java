@@ -15,7 +15,7 @@ public class OrderStatusChangedToStockConfirmedIntegrationEventHandler {
   private final EventBus eventBus;
   private boolean paymentSucceeded = true;
 
-  @KafkaListener(groupId = "catalogGroup", topics = "${spring.kafka.consumer.topic.order}")
+  @KafkaListener(groupId = "orderGroup", topics = "${spring.kafka.consumer.topic.order}")
   public void handle(OrderStatusChangedToStockConfirmedIntegrationEvent event) {
     System.out.printf("----- Handling integration event: {%s} - ({%s})", event.getId(), event.getClass().getSimpleName());
 

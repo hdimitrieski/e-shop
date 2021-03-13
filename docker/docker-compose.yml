@@ -64,6 +64,7 @@ services:
     environment:
       POSTGRES_PASSWORD: dbpass
       POSTGRES_USER: dbuser
+      PGTZ: Europe/Amsterdam
 
   redis:
     image: redis:alpine
