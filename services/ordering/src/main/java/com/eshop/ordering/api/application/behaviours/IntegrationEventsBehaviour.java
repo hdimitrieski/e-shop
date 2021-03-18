@@ -17,7 +17,7 @@ public class IntegrationEventsBehaviour implements Command.Middleware {
   @Override
   public <R, C extends Command<R>> R invoke(C c, Next<R> next) {
     var result = next.invoke();
-     orderingIntegrationEventService.publishEventsThroughEventBus(integrationEventIdGenerator.transactionId());
+     orderingIntegrationEventService.publishEventsThroughEventBus(Thread.currentThread().getId());
     return result;
   }
 }

@@ -11,10 +11,10 @@ import java.util.*;
 @Service
 public class EventLogService {
 
-  private final Map<UUID, List<IntegrationEvent>> integrationEvents = new HashMap<>();
+  private final Map<Long, List<IntegrationEvent>> integrationEvents = new HashMap<>();
 
-  public List<IntegrationEvent> retrieveEventLogsPendingToPublish(UUID transactionId) {
-    return integrationEvents.getOrDefault(transactionId, Collections.emptyList());
+  public List<IntegrationEvent> retrieveEventLogsPendingToPublish(long threadId) {
+    return integrationEvents.getOrDefault(threadId, Collections.emptyList());
   }
 
   public void markEventAsInProgress(UUID eventId) {
@@ -29,11 +29,11 @@ public class EventLogService {
 
   }
 
-  public void saveEvent(IntegrationEvent event, UUID transactionId) {
-    var events = integrationEvents.containsKey(transactionId)
-        ? integrationEvents.get(transactionId)
+  public void saveEvent(IntegrationEvent event, long threadId) {
+    var events = integrationEvents.containsKey(threadId)
+        ? integrationEvents.get(threadId)
         : new ArrayList<IntegrationEvent>();
     events.add(event);
-    integrationEvents.put(transactionId, events);
+    integrationEvents.put(threadId, events);
   }
 }

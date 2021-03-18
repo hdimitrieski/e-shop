@@ -14,7 +14,7 @@ public class OrderingIntegrationEventServiceImpl implements OrderingIntegrationE
   private final EventBus eventBus;
 
   @Override
-  public void publishEventsThroughEventBus(UUID id) {
+  public void publishEventsThroughEventBus(long id) {
     var pendingLogEvents = eventLogService.retrieveEventLogsPendingToPublish(id);
 
     for (var logEvt : pendingLogEvents) {
@@ -37,6 +37,7 @@ public class OrderingIntegrationEventServiceImpl implements OrderingIntegrationE
   public void addAndSaveEvent(IntegrationEvent evt) {
     System.out.printf("----- Enqueuing integration event {%s} to repository ({%s})", evt.getId(), evt.getClass().getSimpleName());
 
-    eventLogService.saveEvent(evt, integrationEventIdGenerator.transactionId());
+    eventLogService.saveEvent(evt, Thread.currentThread().getId());
+//    eventLogService.saveEvent(evt, integrationEventIdGenerator.transactionId());
   }
 }
