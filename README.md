@@ -35,8 +35,9 @@
 3. OrderStatusChangedToPaidIntegrationEvent (handled by Catalog) (triggered by 3)
 4. OrderStatusChangedToCancelledIntegrationEvent (no handlers) (triggered by 2)
 5. OrderStatusChangedToShippedIntegrationEvent (no handlers) (triggered by "/cancel" endpoint)
-6. OrderStatusChangedToSubmittedIntegrationEvent (no handlers) (triggered by 1)
+6. OrderStatusChangedToSubmittedIntegrationEvent (no handlers) (triggered by 6)
 7. OrderStatusChangedToStockConfirmedIntegrationEvent (handled by Ordering) (triggered by 4)
+8. GracePeriodConfirmedIntegrationEvent (handled by Ordering) (triggered by background task after OrderStartedIntegrationEvent)
 
 ### Handles
 1. GracePeriodConfirmedIntegrationEvent (from Ordering - background task) (triggers 2)
