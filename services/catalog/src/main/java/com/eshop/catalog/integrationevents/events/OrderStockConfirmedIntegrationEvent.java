@@ -2,9 +2,10 @@ package com.eshop.catalog.integrationevents.events;
 
 import com.eshop.catalog.shared.IntegrationEvent;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 public class OrderStockConfirmedIntegrationEvent extends IntegrationEvent {
-    private final Long orderId;
+  private Long orderId;
 }

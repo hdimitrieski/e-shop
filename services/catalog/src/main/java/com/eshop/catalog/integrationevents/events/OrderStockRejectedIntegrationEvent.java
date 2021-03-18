@@ -1,12 +1,14 @@
 package com.eshop.catalog.integrationevents.events;
 
 import com.eshop.catalog.shared.IntegrationEvent;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 public class OrderStockRejectedIntegrationEvent extends IntegrationEvent {
-    private final Long orderId;
-    private final List<ConfirmedOrderStockItem> orderStockItems;
+  private Long orderId;
+  private List<ConfirmedOrderStockItem> orderStockItems;
 }

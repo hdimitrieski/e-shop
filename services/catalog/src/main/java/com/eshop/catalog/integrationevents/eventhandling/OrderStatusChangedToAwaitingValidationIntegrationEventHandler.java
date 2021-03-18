@@ -17,7 +17,7 @@ public class OrderStatusChangedToAwaitingValidationIntegrationEventHandler {
     private final IntegrationEventService integrationEventService;
 
     @KafkaListener(groupId = "orderGroup", topics = "${spring.kafka.consumer.topic.order}")
-    public void handle(OrderStatusChangedToAwaitingValidationIntegrationEvent event, Acknowledgment acknowledgment) {
+    public void handle(OrderStatusChangedToAwaitingValidationIntegrationEvent event) {
         System.out.printf("----- Handling integration event: %s (%s)", event.getId(), event.getClass().getSimpleName());
         var confirmedOrderStockItems = new ArrayList<ConfirmedOrderStockItem>();
 
@@ -36,6 +36,5 @@ public class OrderStatusChangedToAwaitingValidationIntegrationEventHandler {
 
         integrationEventService.saveEventAndCatalogContextChanges(confirmedIntegrationEvent);
         integrationEventService.publishThroughEventBus(confirmedIntegrationEvent);
-        acknowledgment.acknowledge();
     }
 }

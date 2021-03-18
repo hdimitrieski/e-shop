@@ -1,15 +1,17 @@
 package com.eshop.catalog.integrationevents.events;
 
 import com.eshop.catalog.shared.IntegrationEvent;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 public class ProductPriceChangedIntegrationEvent extends IntegrationEvent {
-    private final Long productId;
-    private final BigDecimal newPrice;
-    private final BigDecimal oldPrice;
+  private Long productId;
+  private BigDecimal newPrice;
+  private BigDecimal oldPrice;
 }

@@ -16,13 +16,12 @@ public class OrderStatusChangedToPaidIntegrationEventHandler {
 
     @KafkaListener(groupId = "orderGroup", topics = "${spring.kafka.consumer.topic.order}")
     @Transactional
-    public void handle(OrderStatusChangedToPaidIntegrationEvent event, Acknowledgment acknowledgment) {
+    public void handle(OrderStatusChangedToPaidIntegrationEvent event) {
         System.out.printf("----- Handling integration event: %s (%s)", event.getId(), event.getClass().getSimpleName());
         for (var orderStockItem : event.getOrderStockItems()) {
             catalogItemRepository.findById(orderStockItem.productId()).ifPresent(catalogItem ->
                 catalogItem.removeStock(orderStockItem.units())
             );
         }
-        acknowledgment.acknowledge();
     }
 }
