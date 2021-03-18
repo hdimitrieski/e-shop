@@ -13,10 +13,10 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 public class IntegrationEvent {
-    private UUID id;
-    private LocalDateTime creationDate;
+  private UUID id;
+  private LocalDateTime creationDate;
 
-    public IntegrationEvent() {
-        this(UUID.randomUUID(), LocalDateTime.now());
-    }
+  public IntegrationEvent() {
+    this(UUID.randomUUID(), LocalDateTime.now());
+  }
 }

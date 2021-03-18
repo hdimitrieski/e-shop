@@ -8,19 +8,19 @@ import org.springframework.stereotype.Service;
 @Service
 public class KafkaEventBus implements EventBus {
 
-    private final KafkaTemplate<String, IntegrationEvent> kafkaTemplate;
-    private final String paymentTopic;
+  private final KafkaTemplate<String, IntegrationEvent> kafkaTemplate;
+  private final String paymentTopic;
 
-    public KafkaEventBus(
-            KafkaTemplate<String, IntegrationEvent> kafkaTemplate,
-            @Value("${spring.kafka.consumer.topic.payment}") String paymentTopic
-    ) {
-        this.kafkaTemplate = kafkaTemplate;
-        this.paymentTopic = paymentTopic;
-    }
+  public KafkaEventBus(
+      KafkaTemplate<String, IntegrationEvent> kafkaTemplate,
+      @Value("${spring.kafka.consumer.topic.payment}") String paymentTopic
+  ) {
+    this.kafkaTemplate = kafkaTemplate;
+    this.paymentTopic = paymentTopic;
+  }
 
-    @Override
-    public void publish(IntegrationEvent event) {
-        kafkaTemplate.send(paymentTopic, event);
-    }
+  @Override
+  public void publish(IntegrationEvent event) {
+    kafkaTemplate.send(paymentTopic, event);
+  }
 }

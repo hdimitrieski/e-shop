@@ -11,15 +11,15 @@ import org.springframework.util.backoff.FixedBackOff;
 
 @Configuration
 public class KafkaConfig {
-    @Bean
-    public SeekToCurrentErrorHandler errorHandler(KafkaOperations<Object, Object> template) {
-        return new SeekToCurrentErrorHandler(
-                new DeadLetterPublishingRecoverer(template), new FixedBackOff(1000L, 2));
-    }
+  @Bean
+  public SeekToCurrentErrorHandler errorHandler(KafkaOperations<Object, Object> template) {
+    return new SeekToCurrentErrorHandler(
+        new DeadLetterPublishingRecoverer(template), new FixedBackOff(1000L, 2));
+  }
 
-    @Bean
-    public RecordMessageConverter converter() {
-        return new StringJsonMessageConverter();
-    }
+  @Bean
+  public RecordMessageConverter converter() {
+    return new StringJsonMessageConverter();
+  }
 
 }
