@@ -4,6 +4,8 @@ import com.eshop.basket.integrationevents.events.ProductPriceChangedIntegrationE
 import com.eshop.basket.model.BasketRepository;
 import com.eshop.basket.model.CustomerBasket;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
@@ -12,11 +14,13 @@ import java.math.BigDecimal;
 @RequiredArgsConstructor
 @Component
 public class ProductPriceChangedIntegrationEventHandler {
+  private static final Logger logger = LoggerFactory.getLogger(ProductPriceChangedIntegrationEventHandler.class);
+
   private final BasketRepository basketRepository;
 
   @KafkaListener(groupId = "product-price-changes-group", topics = "${spring.kafka.consumer.topic.productPriceChanges}")
   public void handle(ProductPriceChangedIntegrationEvent event) {
-    System.out.printf("----- Handling integration event: %s (%s)", event.getId(), event.getClass().getSimpleName());
+    logger.info("Handling integration event: {} ({})", event.getId(), event.getClass().getSimpleName());
     var userIds = basketRepository.getUsers();
 
     for (var id : userIds) {

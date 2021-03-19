@@ -7,6 +7,8 @@ import com.eshop.basket.model.BasketRepository;
 import com.eshop.basket.model.CustomerBasket;
 import com.eshop.basket.services.IdentityService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +20,8 @@ import java.util.UUID;
 @RequestMapping("basket")
 @RequiredArgsConstructor
 public class BasketController {
+  private static final Logger logger = LoggerFactory.getLogger(BasketController.class);
+
   private final BasketRepository basketRepository;
   private final IdentityService identityService;
   private final EventBus eventBus;
@@ -32,6 +36,7 @@ public class BasketController {
 
   @RequestMapping(method = RequestMethod.POST)
   public ResponseEntity<CustomerBasket> updateBasket(@RequestBody @Valid CustomerBasket basket) {
+    logger.info("Update basket from user: {}", basket.getBuyerId());
     return ResponseEntity.ok(basketRepository.updateBasket(basket));
   }
 
@@ -55,6 +60,8 @@ public class BasketController {
     // this.HttpContext.User.FindFirst(x => x.Type == ClaimTypes.Name).Value;
     // TODO HD i need spring oAuth2 to access the logged in user info
     var userName = "user-id-1";
+
+    logger.info("Checking out the basket for user: {} - request id: {}", userName, basketCheckout.getRequestId());
 
     var event = new UserCheckoutAcceptedIntegrationEvent(
         userId,
