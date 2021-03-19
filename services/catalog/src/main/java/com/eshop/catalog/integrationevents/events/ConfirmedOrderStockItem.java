@@ -1,7 +1,13 @@
 package com.eshop.catalog.integrationevents.events;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
-public record ConfirmedOrderStockItem(Long productId, Boolean hasStock) {
+@AllArgsConstructor
+@Getter
+public class ConfirmedOrderStockItem {
+  private Long productId;
+  private Boolean hasStock;
 }

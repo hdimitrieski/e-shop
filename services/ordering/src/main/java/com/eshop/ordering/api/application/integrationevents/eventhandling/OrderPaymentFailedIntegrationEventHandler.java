@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 public class OrderPaymentFailedIntegrationEventHandler {
   private final Pipeline pipeline;
 
-  @KafkaListener(groupId = "paymentGroup", topics = "${spring.kafka.consumer.topic.payment}")
+  @KafkaListener(groupId = "payment-status-group", topics = "${spring.kafka.consumer.topic.paymentStatus}")
   public void handle(OrderPaymentFailedIntegrationEvent event) {
     System.out.printf("----- Handling integration event: {%s} - (%s})", event.getId(), event.getClass().getSimpleName());
 

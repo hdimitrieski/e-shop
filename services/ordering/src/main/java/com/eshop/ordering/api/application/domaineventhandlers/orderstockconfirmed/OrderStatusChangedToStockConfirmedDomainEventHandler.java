@@ -8,6 +8,7 @@ import com.eshop.ordering.domain.aggregatesmodel.order.OrderRepository;
 import com.eshop.ordering.domain.aggregatesmodel.order.OrderStatus;
 import com.eshop.ordering.domain.events.OrderStatusChangedToStockConfirmedDomainEvent;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +18,8 @@ public class OrderStatusChangedToStockConfirmedDomainEventHandler implements Dom
   private final OrderRepository orderRepository;
   private final BuyerRepository buyerRepository;
   private final OrderingIntegrationEventService orderingIntegrationEventService;
+  @Value("${spring.kafka.consumer.topic.stockConfirmed}")
+  private String stockConfirmedTopic;
 
   @EventListener
   public void handle(OrderStatusChangedToStockConfirmedDomainEvent event) {
@@ -32,6 +35,6 @@ public class OrderStatusChangedToStockConfirmedDomainEventHandler implements Dom
 
     var orderStatusChangedToStockConfirmedIntegrationEvent = new OrderStatusChangedToStockConfirmedIntegrationEvent(
         order.getId(), order.getOrderStatus().getName(), buyer.getName());
-    orderingIntegrationEventService.addAndSaveEvent(orderStatusChangedToStockConfirmedIntegrationEvent);
+    orderingIntegrationEventService.addAndSaveEvent(stockConfirmedTopic, orderStatusChangedToStockConfirmedIntegrationEvent);
   }
 }

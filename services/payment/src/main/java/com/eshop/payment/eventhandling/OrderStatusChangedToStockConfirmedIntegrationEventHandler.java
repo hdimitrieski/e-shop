@@ -6,6 +6,7 @@ import com.eshop.payment.events.OrderPaymentSucceededIntegrationEvent;
 import com.eshop.payment.events.OrderStatusChangedToStockConfirmedIntegrationEvent;
 import com.eshop.payment.infrastructure.EventBus;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
@@ -13,9 +14,11 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class OrderStatusChangedToStockConfirmedIntegrationEventHandler {
   private final EventBus eventBus;
+  @Value("${spring.kafka.consumer.topic.paymentStatus}")
+  private String paymentStatusTopic;
   private boolean paymentSucceeded = true;
 
-  @KafkaListener(groupId = "orderGroup", topics = "${spring.kafka.consumer.topic.order}")
+  @KafkaListener(groupId = "stock-confirmed-group", topics = "${spring.kafka.consumer.topic.stockConfirmed}")
   public void handle(OrderStatusChangedToStockConfirmedIntegrationEvent event) {
     System.out.printf("----- Handling integration event: {%s} - ({%s})", event.getId(), event.getClass().getSimpleName());
 
@@ -38,6 +41,6 @@ public class OrderStatusChangedToStockConfirmedIntegrationEventHandler {
     System.out.printf("----- Publishing integration event: {%s} - ({%s})",
         orderPaymentIntegrationEvent.getId(), orderPaymentIntegrationEvent.getClass().getSimpleName());
 
-    eventBus.publish(orderPaymentIntegrationEvent);
+    eventBus.publish(paymentStatusTopic, orderPaymentIntegrationEvent);
   }
 }

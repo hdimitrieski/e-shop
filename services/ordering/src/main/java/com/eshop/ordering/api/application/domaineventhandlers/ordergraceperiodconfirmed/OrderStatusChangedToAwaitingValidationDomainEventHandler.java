@@ -9,6 +9,7 @@ import com.eshop.ordering.domain.aggregatesmodel.order.OrderRepository;
 import com.eshop.ordering.domain.aggregatesmodel.order.OrderStatus;
 import com.eshop.ordering.domain.events.OrderStatusChangedToAwaitingValidationDomainEvent;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +22,8 @@ public class OrderStatusChangedToAwaitingValidationDomainEventHandler
   private final OrderRepository orderRepository;
   private final BuyerRepository buyerRepository;
   private final OrderingIntegrationEventService orderingIntegrationEventService;
+  @Value("${spring.kafka.consumer.topic.ordersWaitingForValidation}")
+  private String ordersWaitingForValidationTopic;
 
   @EventListener
   public void handle(OrderStatusChangedToAwaitingValidationDomainEvent event) {
@@ -39,6 +42,6 @@ public class OrderStatusChangedToAwaitingValidationDomainEventHandler
 
     var orderStatusChangedToAwaitingValidationIntegrationEvent = new OrderStatusChangedToAwaitingValidationIntegrationEvent(
         order.getId(), order.getOrderStatus().getName(), buyer.getName(), orderStockList);
-    orderingIntegrationEventService.addAndSaveEvent(orderStatusChangedToAwaitingValidationIntegrationEvent);
+    orderingIntegrationEventService.addAndSaveEvent(ordersWaitingForValidationTopic, orderStatusChangedToAwaitingValidationIntegrationEvent);
   }
 }

@@ -11,9 +11,9 @@ import java.util.*;
 @Service
 public class EventLogService {
 
-  private final Map<Long, List<IntegrationEvent>> integrationEvents = new HashMap<>();
+  private final Map<Long, List<LogEvent>> integrationEvents = new HashMap<>();
 
-  public List<IntegrationEvent> retrieveEventLogsPendingToPublish(long threadId) {
+  public List<LogEvent> retrieveEventLogsPendingToPublish(long threadId) {
     return integrationEvents.getOrDefault(threadId, Collections.emptyList());
   }
 
@@ -29,11 +29,11 @@ public class EventLogService {
 
   }
 
-  public void saveEvent(IntegrationEvent event, long threadId) {
+  public void saveEvent(IntegrationEvent event, String topic, long threadId) {
     var events = integrationEvents.containsKey(threadId)
         ? integrationEvents.get(threadId)
-        : new ArrayList<IntegrationEvent>();
-    events.add(event);
+        : new ArrayList<LogEvent>();
+    events.add(new LogEvent(event, topic));
     integrationEvents.put(threadId, events);
   }
 }

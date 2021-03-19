@@ -2,7 +2,6 @@ package com.eshop.ordering.api.application.integrationevents.eventhandling;
 
 import an.awesome.pipelinr.Pipeline;
 import com.eshop.ordering.api.application.commands.CreateOrderCommand;
-import com.eshop.ordering.api.application.commands.IdentifiedCommand;
 import com.eshop.ordering.api.application.integrationevents.events.UserCheckoutAcceptedIntegrationEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -19,7 +18,7 @@ public class UserCheckoutAcceptedIntegrationEventHandler {
    * @param event Integration event message which is sent by the  basket.api once it has successfully process the
    *              order items.
    */
-  @KafkaListener(groupId = "basketGroup", topics = "${spring.kafka.consumer.topic.basket}")
+  @KafkaListener(groupId = "order-checkouts-group", topics = "${spring.kafka.consumer.topic.orderCheckouts}")
   public void handle(UserCheckoutAcceptedIntegrationEvent event) {
     System.out.printf("----- Handling integration event: {%s} - (%s})", event.getId(), event.getClass().getSimpleName());
     var result = false;

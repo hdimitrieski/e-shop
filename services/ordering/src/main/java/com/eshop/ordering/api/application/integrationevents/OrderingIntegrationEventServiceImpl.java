@@ -19,25 +19,25 @@ public class OrderingIntegrationEventServiceImpl implements OrderingIntegrationE
 
     for (var logEvt : pendingLogEvents) {
       System.out.printf(
-          "----- Publishing integration event: {%s} - (%s)\n", logEvt.getId(), logEvt.getClass().getSimpleName());
+          "----- Publishing integration event: {%s} - (%s)\n", logEvt.event().getId(), logEvt.event().getClass().getSimpleName());
 
       try {
-        eventLogService.markEventAsInProgress(logEvt.getId());
-        eventBus.publish(logEvt);
-        eventLogService.markEventAsPublished(logEvt.getId());
+        eventLogService.markEventAsInProgress(logEvt.event().getId());
+        eventBus.publish(logEvt.topic(), logEvt.event());
+        eventLogService.markEventAsPublished(logEvt.event().getId());
       } catch (Exception ex) {
         System.out.printf("ERROR publishing integration event: {%s}\n", logEvt.getClass().getSimpleName());
 
-        eventLogService.markEventAsFailed(logEvt.getId());
+        eventLogService.markEventAsFailed(logEvt.event().getId());
       }
     }
   }
 
   @Override
-  public void addAndSaveEvent(IntegrationEvent evt) {
+  public void addAndSaveEvent(String topic, IntegrationEvent evt) {
     System.out.printf("----- Enqueuing integration event {%s} to repository ({%s})", evt.getId(), evt.getClass().getSimpleName());
 
-    eventLogService.saveEvent(evt, Thread.currentThread().getId());
+    eventLogService.saveEvent(evt, topic, Thread.currentThread().getId());
 //    eventLogService.saveEvent(evt, integrationEventIdGenerator.transactionId());
   }
 }

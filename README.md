@@ -58,14 +58,14 @@
 3. product-price-changes
     - ProductPriceChangedIntegrationEvent
     
-4. order-stock-status
+4. order-stock-statuses
     - OrderStockRejectedIntegrationEvent
     - OrderStockConfirmedIntegrationEvent
     
 5. orders
     - OrderStartedIntegrationEvent
     
-6. orders-waiting-validation
+6. orders-waiting-for-validation
     - OrderStatusChangedToAwaitingValidationIntegrationEvent
     
 7. paid-orders

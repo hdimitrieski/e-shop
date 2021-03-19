@@ -7,6 +7,7 @@ import com.eshop.basket.model.BasketRepository;
 import com.eshop.basket.model.CustomerBasket;
 import com.eshop.basket.services.IdentityService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +21,8 @@ public class BasketController {
   private final BasketRepository basketRepository;
   private final IdentityService identityService;
   private final EventBus eventBus;
+  @Value("${spring.kafka.consumer.topic.orderCheckouts}")
+  private String orderCheckoutsTopic;
 
   @RequestMapping("{customerId}")
   public ResponseEntity<CustomerBasket> getBasketById(@PathVariable String customerId) {
@@ -74,7 +77,7 @@ public class BasketController {
     // Once basket is checkout, sends an integration event to
     // ordering.api to convert basket to order and proceeds with
     // order creation process
-    eventBus.publish(event);
+    eventBus.publish(orderCheckoutsTopic, event);
   }
 
   @RequestMapping("{id}")

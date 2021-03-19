@@ -13,26 +13,26 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Address extends ValueObject {
-    @Getter
-    public String street;
-    @Getter
-    public String city;
-    @Getter
-    public String state;
-    @Getter
-    public String country;
-    @Getter
-    public String zipCode;
+  @Getter
+  public String street;
+  @Getter
+  public String city;
+  @Getter
+  public String state;
+  @Getter
+  public String country;
+  @Getter
+  public String zipCode;
 
-    @Transient
-    @Override
-    protected List<Object> getEqualityComponents() {
-        return List.of(
-                street,
-                city,
-                state,
-                country,
-                zipCode
-        );
-    }
+  @Transient
+  @Override
+  protected List<Object> getEqualityComponents() {
+    return List.of(
+        street,
+        city,
+        state,
+        country,
+        zipCode
+    );
+  }
 }

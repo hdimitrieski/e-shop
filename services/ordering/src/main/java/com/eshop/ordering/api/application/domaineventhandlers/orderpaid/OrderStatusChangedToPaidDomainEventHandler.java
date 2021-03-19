@@ -9,6 +9,7 @@ import com.eshop.ordering.domain.aggregatesmodel.order.OrderRepository;
 import com.eshop.ordering.domain.aggregatesmodel.order.OrderStatus;
 import com.eshop.ordering.domain.events.OrderStatusChangedToPaidDomainEvent;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
@@ -20,6 +21,8 @@ public class OrderStatusChangedToPaidDomainEventHandler implements DomainEventHa
   private final OrderRepository orderRepository;
   private final BuyerRepository buyerRepository;
   private final OrderingIntegrationEventService orderingIntegrationEventService;
+  @Value("${spring.kafka.consumer.topic.paidOrders}")
+  private String paidOrdersTopic;
 
   @EventListener
   public void handle(OrderStatusChangedToPaidDomainEvent event) {
@@ -43,6 +46,6 @@ public class OrderStatusChangedToPaidDomainEventHandler implements DomainEventHa
         buyer.getName(),
         orderStockList);
 
-    orderingIntegrationEventService.addAndSaveEvent(orderStatusChangedToPaidIntegrationEvent);
+    orderingIntegrationEventService.addAndSaveEvent(paidOrdersTopic, orderStatusChangedToPaidIntegrationEvent);
   }
 }

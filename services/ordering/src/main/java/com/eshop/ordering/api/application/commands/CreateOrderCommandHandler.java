@@ -7,6 +7,7 @@ import com.eshop.ordering.domain.aggregatesmodel.order.Address;
 import com.eshop.ordering.domain.aggregatesmodel.order.Order;
 import com.eshop.ordering.domain.aggregatesmodel.order.OrderRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
@@ -17,13 +18,15 @@ public class CreateOrderCommandHandler implements Command.Handler<CreateOrderCom
 
   private final OrderRepository orderRepository;
   private final OrderingIntegrationEventService orderingIntegrationEventService;
+  @Value("${spring.kafka.consumer.topic.orders}")
+  private String ordersTopic;
 
   @Transactional
   @Override
   public Boolean handle(CreateOrderCommand command) {
     // Add Integration event to clean the basket
     var orderStartedIntegrationEvent = new OrderStartedIntegrationEvent(command.getUserId());
-    orderingIntegrationEventService.addAndSaveEvent(orderStartedIntegrationEvent);
+    orderingIntegrationEventService.addAndSaveEvent(ordersTopic, orderStartedIntegrationEvent);
 
     // Add/Update the Buyer AggregateRoot
     // DDD patterns comment: Add child entities and value-objects through the Order Aggregate-Root

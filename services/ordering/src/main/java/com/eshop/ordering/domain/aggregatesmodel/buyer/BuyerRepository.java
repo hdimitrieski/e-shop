@@ -9,9 +9,9 @@ import java.util.Optional;
  * as requisite for the Buyer Aggregate.
  */
 public interface BuyerRepository extends Repository<Buyer> {
-//    Buyer add(Buyer buyer);
+  //    Buyer add(Buyer buyer);
 //    Buyer update(Buyer buyer);
-    Buyer findByIdentityGuid(String buyerIdentityGuid);
+  Buyer findByIdentityGuid(String buyerIdentityGuid);
 
-    Optional<Buyer> findById(Long id);
+  Optional<Buyer> findById(Long id);
 }

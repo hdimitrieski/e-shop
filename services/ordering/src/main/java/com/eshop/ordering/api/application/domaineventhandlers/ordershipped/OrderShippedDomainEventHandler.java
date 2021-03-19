@@ -8,6 +8,7 @@ import com.eshop.ordering.domain.aggregatesmodel.order.OrderRepository;
 import com.eshop.ordering.domain.aggregatesmodel.order.OrderStatus;
 import com.eshop.ordering.domain.events.OrderShippedDomainEvent;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +18,8 @@ public class OrderShippedDomainEventHandler implements DomainEventHandler<OrderS
   private final OrderRepository orderRepository;
   private final BuyerRepository buyerRepository;
   private final OrderingIntegrationEventService orderingIntegrationEventService;
+  @Value("${spring.kafka.consumer.topic.shippedOrders}")
+  private String shippedOrdersTopic;
 
   @EventListener
   public void handle(OrderShippedDomainEvent orderShippedDomainEvent) {
@@ -32,6 +35,6 @@ public class OrderShippedDomainEventHandler implements DomainEventHandler<OrderS
 
     var orderStatusChangedToCancelledIntegrationEvent = new OrderStatusChangedToShippedIntegrationEvent(
         order.getId(), order.getOrderStatus().getName(), buyer.getName());
-    orderingIntegrationEventService.addAndSaveEvent(orderStatusChangedToCancelledIntegrationEvent);
+    orderingIntegrationEventService.addAndSaveEvent(shippedOrdersTopic, orderStatusChangedToCancelledIntegrationEvent);
   }
 }

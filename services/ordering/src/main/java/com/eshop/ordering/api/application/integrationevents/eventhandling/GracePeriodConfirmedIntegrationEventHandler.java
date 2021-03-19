@@ -16,7 +16,7 @@ public class GracePeriodConfirmedIntegrationEventHandler {
    * Event handler which confirms that the grace period has been completed and order will not initially be cancelled.
    * Therefore, the order process continues for validation.
    */
-  @KafkaListener(groupId = "orderGroup", topics = "${spring.kafka.consumer.topic.order}")
+  @KafkaListener(groupId = "grace-period-confirmed-group", topics = "${spring.kafka.consumer.topic.gracePeriodConfirmed}")
   public void handle(GracePeriodConfirmedIntegrationEvent event) {
     System.out.printf("----- Handling integration event: {%s} - (%s})", event.getId(), event.getClass().getSimpleName());
 

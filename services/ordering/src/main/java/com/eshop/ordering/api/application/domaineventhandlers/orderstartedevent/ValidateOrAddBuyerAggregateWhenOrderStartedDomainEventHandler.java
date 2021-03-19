@@ -7,6 +7,7 @@ import com.eshop.ordering.domain.aggregatesmodel.buyer.Buyer;
 import com.eshop.ordering.domain.aggregatesmodel.buyer.BuyerRepository;
 import com.eshop.ordering.domain.events.OrderStartedDomainEvent;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +18,8 @@ import java.time.LocalDateTime;
 public class ValidateOrAddBuyerAggregateWhenOrderStartedDomainEventHandler implements DomainEventHandler<OrderStartedDomainEvent> {
   private final OrderingIntegrationEventService orderingIntegrationEventService;
   private final BuyerRepository buyerRepository;
+  @Value("${spring.kafka.consumer.topic.submittedOrders}")
+  private String submittedOrdersTopic;
 
   @EventListener
   public void handle(OrderStartedDomainEvent orderStartedEvent) {
@@ -45,7 +48,7 @@ public class ValidateOrAddBuyerAggregateWhenOrderStartedDomainEventHandler imple
 
     var orderStatusChangedToSubmittedIntegrationEvent = new OrderStatusChangedToSubmittedIntegrationEvent(
         orderStartedEvent.order().getId(), orderStartedEvent.order().getOrderStatus().getName(), buyer.getName());
-    orderingIntegrationEventService.addAndSaveEvent(orderStatusChangedToSubmittedIntegrationEvent);
+//    orderingIntegrationEventService.addAndSaveEvent(submittedOrdersTopic, orderStatusChangedToSubmittedIntegrationEvent);
 
     System.out.printf(
         "Buyer {%d} and related payment method were validated or updated for orderId: {%d}.%n",

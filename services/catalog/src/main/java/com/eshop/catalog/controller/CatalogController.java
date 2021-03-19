@@ -4,6 +4,7 @@ import com.eshop.catalog.integrationevents.IntegrationEventService;
 import com.eshop.catalog.integrationevents.events.ProductPriceChangedIntegrationEvent;
 import com.eshop.catalog.model.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,8 @@ public class CatalogController {
     private final CatalogBrandRepository catalogBrandRepository;
     private final IntegrationEventService integrationEventService;
     private final EntityManager entityManager;
+    @Value("${spring.kafka.consumer.topic.productPriceChanges}")
+    private String productPriceChangesTopic;
 
     @RequestMapping("items")
     public Page<CatalogItem> catalogItems(
@@ -79,7 +82,7 @@ public class CatalogController {
                         integrationEventService.saveEventAndCatalogContextChanges(priceChangedEvent);
 
                         // Publish through the Event Bus and mark the saved event as published
-                        integrationEventService.publishThroughEventBus(priceChangedEvent);
+                        integrationEventService.publishThroughEventBus(productPriceChangesTopic, priceChangedEvent);
                     } else {
                         // entityManager.getTransaction().commit();
                     }

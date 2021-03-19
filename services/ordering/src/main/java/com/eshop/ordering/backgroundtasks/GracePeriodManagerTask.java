@@ -1,17 +1,15 @@
 package com.eshop.ordering.backgroundtasks;
 
-import an.awesome.pipelinr.Pipeline;
-import com.eshop.ordering.api.application.commands.SetAwaitingValidationOrderStatusCommand;
 import com.eshop.ordering.api.application.integrationevents.EventBus;
 import com.eshop.ordering.backgroundtasks.events.GracePeriodConfirmedIntegrationEvent;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import java.math.BigInteger;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,9 +24,10 @@ import java.util.stream.Collectors;
 public class GracePeriodManagerTask {
   private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
-  private final Pipeline pipeline;
-//  private final EventBus eventBus;
+  private final EventBus eventBus;
   private final EntityManager entityManager;
+  @Value("${spring.kafka.consumer.topic.gracePeriodConfirmed}")
+  private String gracePeriodConfirmedTopic;
 
   @Scheduled(fixedRate = 60000)
   public void execute() {
@@ -46,8 +45,7 @@ public class GracePeriodManagerTask {
       System.out.printf("----- Publishing integration event: {%s}- ({%s})",
           confirmGracePeriodEvent.getId(), confirmGracePeriodEvent.getClass().getSimpleName());
 
-      pipeline.send(new SetAwaitingValidationOrderStatusCommand(orderId));
-//      eventBus.publish(confirmGracePeriodEvent);
+      eventBus.publish(gracePeriodConfirmedTopic, confirmGracePeriodEvent);
     }
   }
 

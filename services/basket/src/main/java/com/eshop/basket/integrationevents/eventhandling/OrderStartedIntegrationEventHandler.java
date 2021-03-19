@@ -9,11 +9,11 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 @Component
 public class OrderStartedIntegrationEventHandler {
-    private final BasketRepository basketRepository;
+  private final BasketRepository basketRepository;
 
-    @KafkaListener(groupId = "orderGroup", topics = "${spring.kafka.consumer.topic.order}")
-    public void handle(OrderStartedIntegrationEvent event) {
-        System.out.printf("----- Handling integration event: %s (%s)", event.getId(), event.getClass().getSimpleName());
-        basketRepository.deleteBasket(event.getUserId());
-    }
+  @KafkaListener(groupId = "orders-group", topics = "${spring.kafka.consumer.topic.orders}")
+  public void handle(OrderStartedIntegrationEvent event) {
+    System.out.printf("----- Handling integration event: %s (%s)", event.getId(), event.getClass().getSimpleName());
+    basketRepository.deleteBasket(event.getUserId());
+  }
 }
