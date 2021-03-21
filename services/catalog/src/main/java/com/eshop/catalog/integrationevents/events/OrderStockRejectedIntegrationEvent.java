@@ -1,6 +1,6 @@
 package com.eshop.catalog.integrationevents.events;
 
-import com.eshop.catalog.shared.IntegrationEvent;
+import com.eshop.eventbus.IntegrationEvent;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 

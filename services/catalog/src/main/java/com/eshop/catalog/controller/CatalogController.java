@@ -3,6 +3,7 @@ package com.eshop.catalog.controller;
 import com.eshop.catalog.integrationevents.IntegrationEventService;
 import com.eshop.catalog.integrationevents.events.ProductPriceChangedIntegrationEvent;
 import com.eshop.catalog.model.*;
+import com.eshop.error.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;

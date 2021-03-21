@@ -1,24 +1,17 @@
 package com.eshop.catalog.integrationevents;
 
-import com.eshop.catalog.shared.IntegrationEvent;
-import org.springframework.beans.factory.annotation.Value;
+import com.eshop.eventbus.IntegrationEvent;
+import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 
+@RequiredArgsConstructor
 @Service
 public class CatalogIntegrationEventService implements IntegrationEventService {
   private final EntityManager entityManager;
-  private final KafkaTemplate<Object, Object> kafkaTemplate;
-
-  public CatalogIntegrationEventService(
-      EntityManager entityManager,
-      KafkaTemplate<Object, Object> kafkaTemplate
-  ) {
-    this.entityManager = entityManager;
-    this.kafkaTemplate = kafkaTemplate;
-  }
+  private final KafkaTemplate<String, IntegrationEvent> kafkaTemplate;
 
   @Override
   public void saveEventAndCatalogContextChanges(IntegrationEvent event) {
