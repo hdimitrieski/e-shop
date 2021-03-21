@@ -4,16 +4,19 @@ import com.eshop.eventbus.IntegrationEvent;
 import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.producer.ProducerConfig;
-import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
-import org.springframework.kafka.core.*;
+import org.springframework.kafka.core.DefaultKafkaProducerFactory;
+import org.springframework.kafka.core.KafkaOperations;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.listener.DeadLetterPublishingRecoverer;
 import org.springframework.kafka.listener.SeekToCurrentErrorHandler;
+import org.springframework.kafka.support.converter.RecordMessageConverter;
+import org.springframework.kafka.support.converter.StringJsonMessageConverter;
 import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 import org.springframework.kafka.support.serializer.JsonSerializer;
@@ -74,19 +77,8 @@ public class KafkaConfig {
 
   // Consumer
   @Bean
-  public ConsumerFactory<String, Object> consumerFactory() {
-    return new DefaultKafkaConsumerFactory<>(
-        kafkaProperties.buildConsumerProperties(),
-        new StringDeserializer(),
-        jsonDeserializer()
-    );
-  }
-
-  @Bean
-  public ConcurrentKafkaListenerContainerFactory<String, Object> kafkaListenerContainerFactory() {
-    var factory = new ConcurrentKafkaListenerContainerFactory<String, Object>();
-    factory.setConsumerFactory(consumerFactory());
-    return factory;
+  public RecordMessageConverter converter() {
+    return new StringJsonMessageConverter();
   }
 
   // Topics
