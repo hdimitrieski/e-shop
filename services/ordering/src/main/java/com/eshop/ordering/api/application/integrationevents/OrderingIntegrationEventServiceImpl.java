@@ -15,12 +15,10 @@ public class OrderingIntegrationEventServiceImpl implements OrderingIntegrationE
   private final EventBus eventBus;
 
   @Override
-  public void publishEventsThroughEventBus(long id) {
+  public void publishEventsThroughEventBus(String id) {
     var pendingLogEvents = eventLogService.retrieveEventLogsPendingToPublish(id);
 
     for (var logEvt : pendingLogEvents) {
-      logger.info("Publishing integration event: {} ({})", logEvt.event().getId(), logEvt.event().getClass().getSimpleName());
-
       try {
         eventLogService.markEventAsInProgress(logEvt.event().getId());
         eventBus.publish(logEvt.topic(), logEvt.event());
@@ -37,6 +35,6 @@ public class OrderingIntegrationEventServiceImpl implements OrderingIntegrationE
   public void addAndSaveEvent(String topic, IntegrationEvent evt) {
     logger.info("Enqueuing integration event {} ({})", evt.getId(), evt.getClass().getSimpleName());
 
-    eventLogService.saveEvent(evt, topic, Thread.currentThread().getId());
+    eventLogService.saveEvent(evt, topic, Thread.currentThread().getName());
   }
 }

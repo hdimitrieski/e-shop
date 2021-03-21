@@ -4,8 +4,7 @@ import an.awesome.pipelinr.Command;
 import com.eshop.ordering.domain.aggregatesmodel.order.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor

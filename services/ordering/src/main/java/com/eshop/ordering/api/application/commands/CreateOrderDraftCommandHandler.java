@@ -6,8 +6,8 @@ import com.eshop.ordering.api.application.models.BasketItem;
 import com.eshop.ordering.domain.aggregatesmodel.order.Order;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.stream.Collectors;
 
 @Component
