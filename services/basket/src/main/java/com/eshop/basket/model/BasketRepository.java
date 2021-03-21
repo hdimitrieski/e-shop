@@ -10,5 +10,5 @@ public interface BasketRepository {
 
   CustomerBasket updateBasket(CustomerBasket basket);
 
-  boolean deleteBasket(String id);
+  void deleteBasket(String customerId);
 }

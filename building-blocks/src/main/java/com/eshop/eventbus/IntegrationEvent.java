@@ -1,4 +1,4 @@
-package com.eshop.basket.shared;
+package com.eshop.eventbus;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,7 +9,6 @@ import java.util.UUID;
 /**
  * An Integration Event is an event that can cause side effects to other microservices, Bounded-Contexts or external systems.
  */
-// TODO HD move to shared maven module
 @Data
 @AllArgsConstructor
 public class IntegrationEvent {

@@ -1,4 +1,4 @@
-package com.eshop.basket;
+package com.eshop.basket.config;
 
 import com.eshop.basket.model.CustomerBasket;
 import io.lettuce.core.ClientOptions;
@@ -7,25 +7,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
-import org.springframework.data.redis.connection.lettuce.LettuceClientConfiguration;
-import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 
 @Configuration
 public class RedisConfig {
-
-  /**
-   * Redis configuration
-   *
-   * @return redisStandaloneConfiguration
-   */
-  @Bean
-  public RedisStandaloneConfiguration redisStandaloneConfiguration() {
-    RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration("localhost", 6379);
-    redisStandaloneConfiguration.setPassword("pass");
-    return redisStandaloneConfiguration;
-  }
 
   /**
    * Client Options
@@ -40,21 +25,6 @@ public class RedisConfig {
         .disconnectedBehavior(ClientOptions.DisconnectedBehavior.REJECT_COMMANDS)
         .autoReconnect(true)
         .build();
-  }
-
-  /**
-   * Create a LettuceConnection with redis configurations and client options
-   *
-   * @param redisStandaloneConfiguration redisStandaloneConfiguration
-   * @return RedisConnectionFactory
-   */
-  @Bean
-  public RedisConnectionFactory connectionFactory(RedisStandaloneConfiguration redisStandaloneConfiguration) {
-
-    LettuceClientConfiguration configuration = LettuceClientConfiguration.builder()
-        .clientOptions(clientOptions()).build();
-
-    return new LettuceConnectionFactory(redisStandaloneConfiguration, configuration);
   }
 
   /**

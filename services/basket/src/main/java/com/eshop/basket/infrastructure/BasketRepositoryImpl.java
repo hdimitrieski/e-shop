@@ -34,8 +34,7 @@ public class BasketRepositoryImpl implements BasketRepository {
   }
 
   @Override
-  public boolean deleteBasket(String id) {
-    hashOperations.delete("USER", id);
-    return true;
+  public void deleteBasket(String customerId) {
+    hashOperations.delete("BASKET", customerId);
   }
 }

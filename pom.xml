@@ -40,5 +40,6 @@
         <module>services/catalog</module>
         <module>services/basket</module>
         <module>services/payment</module>
+        <module>building-blocks</module>
     </modules>
 </project>

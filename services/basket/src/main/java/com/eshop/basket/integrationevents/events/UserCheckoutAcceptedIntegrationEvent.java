@@ -1,7 +1,7 @@
 package com.eshop.basket.integrationevents.events;
 
 import com.eshop.basket.model.CustomerBasket;
-import com.eshop.basket.shared.IntegrationEvent;
+import com.eshop.eventbus.IntegrationEvent;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
