@@ -1,4 +1,4 @@
-package com.eshop.basket.config;
+package com.eshop.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
