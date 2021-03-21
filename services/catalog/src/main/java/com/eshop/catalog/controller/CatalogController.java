@@ -87,13 +87,14 @@ public class CatalogController {
             );
 
             // Achieving atomicity between original Catalog database operation and the IntegrationEventLog thanks to a local transaction
-            integrationEventService.saveEventAndCatalogContextChanges(priceChangedEvent);
+            integrationEventService.saveEventAndCatalogContextChanges(productPriceChangesTopic, priceChangedEvent);
 
             // Publish through the Event Bus and mark the saved event as published
             integrationEventService.publishThroughEventBus(productPriceChangesTopic, priceChangedEvent);
           } else {
             // entityManager.getTransaction().commit();
           }
+          catalogItemRepository.save(catalogItem);
         }, () -> {
           throw new NotFoundException(String.format("Item with id %d not found.", productToUpdate.getId()));
         });

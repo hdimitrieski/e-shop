@@ -1,6 +1,7 @@
 package com.eshop.ordering.api.application.integrationevents;
 
 import com.eshop.eventbus.IntegrationEvent;
+import com.eshop.integrationeventlog.IntegrationEventLogService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Service;
 public class OrderingIntegrationEventServiceImpl implements OrderingIntegrationEventService {
   private static final Logger logger = LoggerFactory.getLogger(OrderingIntegrationEventServiceImpl.class);
 
-  private final EventLogService eventLogService;
+  private final IntegrationEventLogService eventLogService;
   private final EventBus eventBus;
 
   @Override
@@ -20,13 +21,13 @@ public class OrderingIntegrationEventServiceImpl implements OrderingIntegrationE
 
     for (var logEvt : pendingLogEvents) {
       try {
-        eventLogService.markEventAsInProgress(logEvt.event().getId());
-        eventBus.publish(logEvt.topic(), logEvt.event());
-        eventLogService.markEventAsPublished(logEvt.event().getId());
+        eventLogService.markEventAsInProgress(logEvt.getEvent().getId());
+        eventBus.publish(logEvt.getTopic(), logEvt.getEvent());
+        eventLogService.markEventAsPublished(logEvt.getEvent().getId());
       } catch (Exception ex) {
         logger.error("Publishing integration event: {}", logEvt.getClass().getSimpleName());
 
-        eventLogService.markEventAsFailed(logEvt.event().getId());
+        eventLogService.markEventAsFailed(logEvt.getEvent().getId());
       }
     }
   }

@@ -1,4 +1,4 @@
-package com.eshop.ordering.api.application.infrastructure.transaction;
+package com.eshop.ordering.api.application.infrastructure.integrationevents;
 
 import com.eshop.ordering.api.application.integrationevents.OrderingIntegrationEventService;
 import lombok.AllArgsConstructor;
@@ -10,10 +10,14 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 
 import java.util.UUID;
 
+/**
+ * Add unique name to the current thread and use it to store all events that should be published when executing the
+ * thread. After the transaction is committed, publish all events that are stored for the current thread.
+ */
 @AllArgsConstructor
 @Aspect
 @Configuration
-class TransactionAspect extends TransactionSynchronizationAdapter {
+class PublishIntegrationEventsAspect extends TransactionSynchronizationAdapter {
   private final OrderingIntegrationEventService orderingIntegrationEventService;
 
   @Before("@annotation(org.springframework.transaction.annotation.Transactional)")
