@@ -1,13 +1,13 @@
 package com.eshop.ordering.api.controllers;
 
 import an.awesome.pipelinr.Pipeline;
+import com.eshop.error.BadRequestException;
 import com.eshop.ordering.api.application.commands.CancelOrderCommand;
 import com.eshop.ordering.api.application.commands.CreateOrderDraftCommand;
 import com.eshop.ordering.api.application.commands.ShipOrderCommand;
 import com.eshop.ordering.api.application.dtos.OrderDraftDTO;
 import com.eshop.ordering.api.application.queries.OrderQueries;
 import com.eshop.ordering.api.application.queries.OrderViewModel;
-import com.eshop.ordering.api.application.infrastructure.exceptions.BadRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,14 +30,12 @@ public class OrdersController {
       @RequestBody CancelOrderCommand command,
       @RequestHeader("x-requestid") String requestId
   ) {
-//    command.execute(pipeline);
 //    var requestCancelOrder = new CancelOrderIdentifiedCommand(command, UUID.randomUUID());
 //    pipeline.send(requestCancelOrder);
-//    var c = new IdentifiedCommand<>(command, UUID.randomUUID());
     var result = pipeline.send(command);
 
     if (result != Boolean.TRUE) {
-      throw new BadRequest();
+      throw new BadRequestException();
     }
   }
 
@@ -50,7 +48,7 @@ public class OrdersController {
     var result = pipeline.send(command);
 
     if (result != Boolean.TRUE) {
-      throw new BadRequest();
+      throw new BadRequestException();
     }
   }
 

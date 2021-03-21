@@ -1,6 +1,6 @@
 package com.eshop.ordering.api.application.integrationevents.events;
 
-import com.eshop.ordering.api.application.integrationevents.IntegrationEvent;
+import com.eshop.eventbus.IntegrationEvent;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

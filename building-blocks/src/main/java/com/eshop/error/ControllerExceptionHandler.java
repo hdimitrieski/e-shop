@@ -31,6 +31,20 @@ public abstract class ControllerExceptionHandler {
     return createHttpErrorInfo(NOT_FOUND, ex, request);
   }
 
+  /**
+   * Method to handle <i>not found exceptions</i> http error info.
+   *
+   * @param request the request to get some request information
+   * @param ex      the ex to get its information
+   * @return the http error information.
+   */
+  @ResponseStatus(NOT_FOUND)
+  @ExceptionHandler(BadRequestException.class)
+  public @ResponseBody
+  HttpErrorInfo handleNotFoundExceptions(BadRequestException ex, WebRequest request) {
+    return createHttpErrorInfo(NOT_FOUND, ex, request);
+  }
+
   @ResponseStatus(INTERNAL_SERVER_ERROR)
   @ExceptionHandler(Exception.class)
   public @ResponseBody

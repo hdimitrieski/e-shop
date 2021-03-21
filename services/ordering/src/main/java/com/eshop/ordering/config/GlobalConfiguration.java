@@ -1,4 +1,4 @@
-package com.eshop.ordering;
+package com.eshop.ordering.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;

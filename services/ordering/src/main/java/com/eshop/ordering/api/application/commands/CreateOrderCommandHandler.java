@@ -7,6 +7,8 @@ import com.eshop.ordering.domain.aggregatesmodel.order.Address;
 import com.eshop.ordering.domain.aggregatesmodel.order.Order;
 import com.eshop.ordering.domain.aggregatesmodel.order.OrderRepository;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -15,6 +17,7 @@ import javax.transaction.Transactional;
 @Component
 @RequiredArgsConstructor
 public class CreateOrderCommandHandler implements Command.Handler<CreateOrderCommand, Boolean> {
+  private static final Logger logger = LoggerFactory.getLogger(CreateOrderCommandHandler.class);
 
   private final OrderRepository orderRepository;
   private final OrderingIntegrationEventService orderingIntegrationEventService;
@@ -43,12 +46,11 @@ public class CreateOrderCommandHandler implements Command.Handler<CreateOrderCom
           item.pictureUrl(), item.units());
     }
 
-    System.out.printf("----- Creating Order - Order: {%s}", order.toString());
+    logger.info("Creating Order");
 
     orderRepository.save(order);
 
     return true;
-//        return orderRepository.unitOfWork().saveEntities();
   }
 
 }

@@ -8,6 +8,8 @@ import com.eshop.ordering.domain.aggregatesmodel.order.OrderRepository;
 import com.eshop.ordering.domain.aggregatesmodel.order.OrderStatus;
 import com.eshop.ordering.domain.events.OrderShippedDomainEvent;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
@@ -15,6 +17,8 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class OrderShippedDomainEventHandler implements DomainEventHandler<OrderShippedDomainEvent> {
+  private static final Logger logger = LoggerFactory.getLogger(OrderShippedDomainEventHandler.class);
+
   private final OrderRepository orderRepository;
   private final BuyerRepository buyerRepository;
   private final OrderingIntegrationEventService orderingIntegrationEventService;
@@ -23,8 +27,8 @@ public class OrderShippedDomainEventHandler implements DomainEventHandler<OrderS
 
   @EventListener
   public void handle(OrderShippedDomainEvent orderShippedDomainEvent) {
-    System.out.printf(
-        "Order with Id: {%d} has been successfully updated to status {%s} ({%d})%n",
+    logger.info(
+        "Order with Id: {} has been successfully updated to status {} ({})",
         orderShippedDomainEvent.order().getId(),
         OrderStatus.Shipped,
         OrderStatus.Shipped.getId()

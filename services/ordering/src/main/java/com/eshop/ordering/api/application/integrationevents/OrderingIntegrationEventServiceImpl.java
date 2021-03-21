@@ -1,16 +1,17 @@
 package com.eshop.ordering.api.application.integrationevents;
 
-import com.eshop.ordering.api.application.IntegrationEventIdGenerator;
+import com.eshop.eventbus.IntegrationEvent;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-
-import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
 public class OrderingIntegrationEventServiceImpl implements OrderingIntegrationEventService {
+  private static final Logger logger = LoggerFactory.getLogger(OrderingIntegrationEventServiceImpl.class);
+
   private final EventLogService eventLogService;
-  private final IntegrationEventIdGenerator integrationEventIdGenerator;
   private final EventBus eventBus;
 
   @Override
@@ -18,15 +19,14 @@ public class OrderingIntegrationEventServiceImpl implements OrderingIntegrationE
     var pendingLogEvents = eventLogService.retrieveEventLogsPendingToPublish(id);
 
     for (var logEvt : pendingLogEvents) {
-      System.out.printf(
-          "----- Publishing integration event: {%s} - (%s)\n", logEvt.event().getId(), logEvt.event().getClass().getSimpleName());
+      logger.info("Publishing integration event: {} ({})", logEvt.event().getId(), logEvt.event().getClass().getSimpleName());
 
       try {
         eventLogService.markEventAsInProgress(logEvt.event().getId());
         eventBus.publish(logEvt.topic(), logEvt.event());
         eventLogService.markEventAsPublished(logEvt.event().getId());
       } catch (Exception ex) {
-        System.out.printf("ERROR publishing integration event: {%s}\n", logEvt.getClass().getSimpleName());
+        logger.error("Publishing integration event: {}", logEvt.getClass().getSimpleName());
 
         eventLogService.markEventAsFailed(logEvt.event().getId());
       }
@@ -35,9 +35,8 @@ public class OrderingIntegrationEventServiceImpl implements OrderingIntegrationE
 
   @Override
   public void addAndSaveEvent(String topic, IntegrationEvent evt) {
-    System.out.printf("----- Enqueuing integration event {%s} to repository ({%s})", evt.getId(), evt.getClass().getSimpleName());
+    logger.info("Enqueuing integration event {} ({})", evt.getId(), evt.getClass().getSimpleName());
 
     eventLogService.saveEvent(evt, topic, Thread.currentThread().getId());
-//    eventLogService.saveEvent(evt, integrationEventIdGenerator.transactionId());
   }
 }

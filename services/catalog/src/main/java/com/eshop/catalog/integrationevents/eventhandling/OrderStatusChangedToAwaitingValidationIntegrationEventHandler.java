@@ -1,6 +1,5 @@
 package com.eshop.catalog.integrationevents.eventhandling;
 
-import com.eshop.catalog.controller.CatalogController;
 import com.eshop.catalog.integrationevents.IntegrationEventService;
 import com.eshop.catalog.integrationevents.events.ConfirmedOrderStockItem;
 import com.eshop.catalog.integrationevents.events.OrderStatusChangedToAwaitingValidationIntegrationEvent;

@@ -4,19 +4,18 @@ import an.awesome.pipelinr.Command;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.annotation.Order;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import java.util.UUID;
 
-// TODO HD try something with middleware (like it is in in eShopOnContainers)
+// TODO HD try to handle transactions with middleware
 
 @RequiredArgsConstructor
 @Order(1)
 public class TransactionBehaviour { // implements middleware
   private final PlatformTransactionManager txManager;
-// TODO HD i can use this for generating requestId :) ??
-//  @Override
+
+
   public <R, C extends Command<R>> R invoke(C command, Command.Middleware.Next<R> next) {
     var tx = new TransactionTemplate(txManager);
     tx.setName("Tx==" + UUID.randomUUID());

@@ -1,5 +1,6 @@
 package com.eshop.ordering.api.application.integrationevents;
 
+import com.eshop.eventbus.IntegrationEvent;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -7,6 +8,7 @@ import java.util.*;
 /**
  * Stores events by transaction (request in our case). Every event that is published in a single request will be
  * stored with the same id.
+ * TODO HD implement this properly and use it in the other services as well.
  */
 @Service
 public class EventLogService {

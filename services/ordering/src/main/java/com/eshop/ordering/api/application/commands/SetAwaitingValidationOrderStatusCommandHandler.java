@@ -1,7 +1,6 @@
 package com.eshop.ordering.api.application.commands;
 
 import an.awesome.pipelinr.Command;
-import com.eshop.ordering.domain.aggregatesmodel.order.Order;
 import com.eshop.ordering.domain.aggregatesmodel.order.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -26,6 +25,5 @@ public class SetAwaitingValidationOrderStatusCommandHandler
           orderRepository.save(order);
         });
     return true;
-//    return orderRepository.unitOfWork().saveEntities();
   }
 }

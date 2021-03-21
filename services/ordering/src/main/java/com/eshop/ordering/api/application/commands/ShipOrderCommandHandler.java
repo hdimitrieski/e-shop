@@ -22,6 +22,5 @@ public class ShipOrderCommandHandler implements Command.Handler<ShipOrderCommand
     orderRepository.findById(command.orderNumber())
         .ifPresent(Order::setShippedStatus);
     return true;
-//    return orderRepository.unitOfWork().saveEntities();
   }
 }

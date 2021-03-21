@@ -7,6 +7,8 @@ import com.eshop.ordering.domain.aggregatesmodel.buyer.Buyer;
 import com.eshop.ordering.domain.aggregatesmodel.buyer.BuyerRepository;
 import com.eshop.ordering.domain.events.OrderStartedDomainEvent;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
@@ -16,6 +18,8 @@ import java.time.LocalDateTime;
 @Component
 @RequiredArgsConstructor
 public class ValidateOrAddBuyerAggregateWhenOrderStartedDomainEventHandler implements DomainEventHandler<OrderStartedDomainEvent> {
+  private static final Logger logger = LoggerFactory.getLogger(ValidateOrAddBuyerAggregateWhenOrderStartedDomainEventHandler.class);
+
   private final OrderingIntegrationEventService orderingIntegrationEventService;
   private final BuyerRepository buyerRepository;
   @Value("${spring.kafka.consumer.topic.submittedOrders}")
@@ -39,20 +43,16 @@ public class ValidateOrAddBuyerAggregateWhenOrderStartedDomainEventHandler imple
         orderStartedEvent.cardExpiration(),
         orderStartedEvent.order().getId());
 
-//    var buyerUpdated = buyerOriginallyExisted ?
-//        buyerRepository.update(buyer) :
-//        buyerRepository.add(buyer);
     var savedBuyer = buyerRepository.save(buyer);
-
-//    buyerRepository.unitOfWork().saveEntities();
 
     var orderStatusChangedToSubmittedIntegrationEvent = new OrderStatusChangedToSubmittedIntegrationEvent(
         orderStartedEvent.order().getId(), orderStartedEvent.order().getOrderStatus().getName(), buyer.getName());
-//    orderingIntegrationEventService.addAndSaveEvent(submittedOrdersTopic, orderStatusChangedToSubmittedIntegrationEvent);
+    orderingIntegrationEventService.addAndSaveEvent(submittedOrdersTopic, orderStatusChangedToSubmittedIntegrationEvent);
 
-    System.out.printf(
-        "Buyer {%d} and related payment method were validated or updated for orderId: {%d}.%n",
-        savedBuyer.getId(), orderStartedEvent.order().getId()
+    logger.info(
+        "Buyer {} and related payment method were validated or updated for orderId: {}.",
+        savedBuyer.getId(),
+        orderStartedEvent.order().getId()
     );
   }
 }

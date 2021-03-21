@@ -6,5 +6,6 @@ import java.util.List;
 
 public record SetStockRejectedOrderStatusCommand(
     Long orderNumber,
-    List<Integer> orderStockItems) implements Command<Boolean> {
+    List<Integer> orderStockItems
+) implements Command<Boolean> {
 }

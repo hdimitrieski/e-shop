@@ -4,12 +4,16 @@ import an.awesome.pipelinr.Pipeline;
 import com.eshop.ordering.api.application.commands.CreateOrderCommand;
 import com.eshop.ordering.api.application.integrationevents.events.UserCheckoutAcceptedIntegrationEvent;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
 public class UserCheckoutAcceptedIntegrationEventHandler {
+  private static final Logger logger = LoggerFactory.getLogger(UserCheckoutAcceptedIntegrationEventHandler.class);
+
   private final Pipeline pipeline;
 
   /**
@@ -20,7 +24,7 @@ public class UserCheckoutAcceptedIntegrationEventHandler {
    */
   @KafkaListener(groupId = "order-checkouts-group", topics = "${spring.kafka.consumer.topic.orderCheckouts}")
   public void handle(UserCheckoutAcceptedIntegrationEvent event) {
-    System.out.printf("----- Handling integration event: {%s} - (%s})", event.getId(), event.getClass().getSimpleName());
+    logger.info("Handling integration event: {} ({})", event.getId(), event.getClass().getSimpleName());
     var result = false;
 
     if (event.getRequestId() != null) {
@@ -33,13 +37,13 @@ public class UserCheckoutAcceptedIntegrationEventHandler {
       result = pipeline.send(createOrderCommand);
 
       if (result) {
-        System.out.printf("----- CreateOrderCommand succeeded - RequestId: {%s}\n", event.getRequestId());
+        logger.info("CreateOrderCommand succeeded - RequestId: {}", event.getRequestId());
       } else {
-        System.out.printf("CreateOrderCommand failed - RequestId: {%s}\n", event.getRequestId());
+        logger.info("CreateOrderCommand failed - RequestId: {}", event.getRequestId());
       }
 
     } else {
-      System.out.printf("Invalid IntegrationEvent - RequestId is missing - {%s}", event.getClass().getSimpleName());
+      logger.info("Invalid IntegrationEvent - RequestId is missing - {}", event.getClass().getSimpleName());
     }
   }
 }

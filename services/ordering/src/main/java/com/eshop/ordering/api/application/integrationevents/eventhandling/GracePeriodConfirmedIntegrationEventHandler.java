@@ -4,12 +4,16 @@ import an.awesome.pipelinr.Pipeline;
 import com.eshop.ordering.api.application.commands.SetAwaitingValidationOrderStatusCommand;
 import com.eshop.ordering.api.application.integrationevents.events.GracePeriodConfirmedIntegrationEvent;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
 public class GracePeriodConfirmedIntegrationEventHandler {
+  private static final Logger logger = LoggerFactory.getLogger(GracePeriodConfirmedIntegrationEventHandler.class);
+
   private final Pipeline pipeline;
 
   /**
@@ -18,7 +22,7 @@ public class GracePeriodConfirmedIntegrationEventHandler {
    */
   @KafkaListener(groupId = "grace-period-confirmed-group", topics = "${spring.kafka.consumer.topic.gracePeriodConfirmed}")
   public void handle(GracePeriodConfirmedIntegrationEvent event) {
-    System.out.printf("----- Handling integration event: {%s} - (%s})", event.getId(), event.getClass().getSimpleName());
+    logger.info("Handling integration event: {} - ({})", event.getId(), event.getClass().getSimpleName());
 
     pipeline.send(new SetAwaitingValidationOrderStatusCommand(event.getOrderId()));
   }

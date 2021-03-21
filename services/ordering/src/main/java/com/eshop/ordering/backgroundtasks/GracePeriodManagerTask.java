@@ -1,8 +1,11 @@
 package com.eshop.ordering.backgroundtasks;
 
 import com.eshop.ordering.api.application.integrationevents.EventBus;
+import com.eshop.ordering.api.application.integrationevents.eventhandling.GracePeriodConfirmedIntegrationEventHandler;
 import com.eshop.ordering.backgroundtasks.events.GracePeriodConfirmedIntegrationEvent;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -22,6 +25,7 @@ import java.util.stream.Collectors;
 @Component
 @RequiredArgsConstructor
 public class GracePeriodManagerTask {
+  private static final Logger logger = LoggerFactory.getLogger(GracePeriodManagerTask.class);
   private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
   private final EventBus eventBus;
@@ -31,20 +35,16 @@ public class GracePeriodManagerTask {
 
   @Scheduled(fixedRate = 60000)
   public void execute() {
-    System.out.printf("GracePeriodManagerService is starting at %s\n", dateFormat.format(new Date()));
+    logger.info("GracePeriodManagerService is starting at {}", dateFormat.format(new Date()));
 
     checkConfirmedGracePeriodOrders();
   }
 
   private void checkConfirmedGracePeriodOrders() {
-    System.out.println("Checking confirmed grace period orders");
+    logger.info("Checking confirmed grace period orders");
     var orderIds = getConfirmedGracePeriodOrders();
     for (var orderId : orderIds) {
       var confirmGracePeriodEvent = new GracePeriodConfirmedIntegrationEvent(orderId);
-
-      System.out.printf("----- Publishing integration event: {%s}- ({%s})",
-          confirmGracePeriodEvent.getId(), confirmGracePeriodEvent.getClass().getSimpleName());
-
       eventBus.publish(gracePeriodConfirmedTopic, confirmGracePeriodEvent);
     }
   }
