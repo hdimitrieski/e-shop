@@ -1,4 +1,4 @@
-package com.eshop.catalog.config;
+package com.eshop.payment.config;
 
 import com.eshop.eventbus.IntegrationEvent;
 import lombok.RequiredArgsConstructor;
@@ -28,17 +28,11 @@ public class KafkaConfig {
 
   private final KafkaProperties kafkaProperties;
 
-  @Value("${spring.kafka.consumer.topic.paidOrders}")
-  private String paidOrdersTopic;
+  @Value("${spring.kafka.consumer.topic.stockConfirmed}")
+  private String stockConfirmedTopic;
 
-  @Value("${spring.kafka.consumer.topic.ordersWaitingForValidation}")
-  private String ordersWaitingForValidationTopic;
-
-  @Value("${spring.kafka.consumer.topic.productPriceChanges}")
-  private String productPriceChangesTopic;
-
-  @Value("${spring.kafka.consumer.topic.orderStockStatuses}")
-  private String orderStockStatusesTopic;
+  @Value("${spring.kafka.consumer.topic.paymentStatus}")
+  private String paymentStatusTopic;
 
   // Producer
   @Bean
@@ -97,23 +91,13 @@ public class KafkaConfig {
 
   // Topics
   @Bean
-  public NewTopic paidOrdersTopic() {
-    return new NewTopic(paidOrdersTopic, 1, (short) 1);
+  public NewTopic stockConfirmedTopic() {
+    return new NewTopic(stockConfirmedTopic, 1, (short) 1);
   }
 
   @Bean
-  public NewTopic ordersWaitingForValidationTopic() {
-    return new NewTopic(ordersWaitingForValidationTopic, 1, (short) 1);
-  }
-
-  @Bean
-  public NewTopic productPriceChangesTopic() {
-    return new NewTopic(productPriceChangesTopic, 1, (short) 1);
-  }
-
-  @Bean
-  public NewTopic orderStockStatusesTopic() {
-    return new NewTopic(orderStockStatusesTopic, 1, (short) 1);
+  public NewTopic paymentStatusTopic() {
+    return new NewTopic(paymentStatusTopic, 1, (short) 1);
   }
 
   private ErrorHandlingDeserializer<Object> jsonDeserializer() {

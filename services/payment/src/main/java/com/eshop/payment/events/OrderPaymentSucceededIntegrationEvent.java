@@ -1,5 +1,6 @@
 package com.eshop.payment.events;
 
+import com.eshop.eventbus.IntegrationEvent;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

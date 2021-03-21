@@ -1,5 +1,6 @@
 package com.eshop.catalog.integrationevents.eventhandling;
 
+import com.eshop.catalog.controller.CatalogController;
 import com.eshop.catalog.integrationevents.IntegrationEventService;
 import com.eshop.catalog.integrationevents.events.ConfirmedOrderStockItem;
 import com.eshop.catalog.integrationevents.events.OrderStatusChangedToAwaitingValidationIntegrationEvent;
@@ -7,6 +8,8 @@ import com.eshop.catalog.integrationevents.events.OrderStockConfirmedIntegration
 import com.eshop.catalog.integrationevents.events.OrderStockRejectedIntegrationEvent;
 import com.eshop.catalog.model.CatalogItemRepository;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
@@ -16,6 +19,8 @@ import java.util.ArrayList;
 @RequiredArgsConstructor
 @Component
 public class OrderStatusChangedToAwaitingValidationIntegrationEventHandler {
+  private static final Logger logger = LoggerFactory.getLogger(OrderStatusChangedToAwaitingValidationIntegrationEventHandler.class);
+
   private final CatalogItemRepository catalogItemRepository;
   private final IntegrationEventService integrationEventService;
   @Value("${spring.kafka.consumer.topic.orderStockStatuses}")
@@ -23,7 +28,7 @@ public class OrderStatusChangedToAwaitingValidationIntegrationEventHandler {
 
   @KafkaListener(groupId = "orders-waiting-validation-group", topics = "${spring.kafka.consumer.topic.ordersWaitingForValidation}")
   public void handle(OrderStatusChangedToAwaitingValidationIntegrationEvent event) {
-    System.out.printf("----- Handling integration event: %s (%s)", event.getId(), event.getClass().getSimpleName());
+    logger.info("Handling integration event: {} ({})", event.getId(), event.getClass().getSimpleName());
     var confirmedOrderStockItems = new ArrayList<ConfirmedOrderStockItem>();
 
     for (var orderStockItem : event.getOrderStockItems()) {

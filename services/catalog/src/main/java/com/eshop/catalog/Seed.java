@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @RequiredArgsConstructor
-//@Component
+@Component
 class Seed {
   private final CatalogBrandRepository catalogBrandRepository;
   private final CatalogTypeRepository catalogTypeRepository;

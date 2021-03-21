@@ -1,26 +1,27 @@
 package com.eshop.payment.eventhandling;
 
-import com.eshop.payment.events.IntegrationEvent;
+import com.eshop.eventbus.EventBus;
+import com.eshop.eventbus.IntegrationEvent;
 import com.eshop.payment.events.OrderPaymentFailedIntegrationEvent;
 import com.eshop.payment.events.OrderPaymentSucceededIntegrationEvent;
 import com.eshop.payment.events.OrderStatusChangedToStockConfirmedIntegrationEvent;
-import com.eshop.payment.infrastructure.EventBus;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
 public class OrderStatusChangedToStockConfirmedIntegrationEventHandler {
-  private final EventBus eventBus;
-  @Value("${spring.kafka.consumer.topic.paymentStatus}")
-  private String paymentStatusTopic;
+  private static final Logger logger = LoggerFactory.getLogger(OrderStatusChangedToStockConfirmedIntegrationEventHandler.class);
+
+  private final EventBus paymentStatusEventBus;
   private boolean paymentSucceeded = true;
 
   @KafkaListener(groupId = "stock-confirmed-group", topics = "${spring.kafka.consumer.topic.stockConfirmed}")
   public void handle(OrderStatusChangedToStockConfirmedIntegrationEvent event) {
-    System.out.printf("----- Handling integration event: {%s} - ({%s})", event.getId(), event.getClass().getSimpleName());
+    logger.info("Handling integration event: {} - ({})", event.getId(), event.getClass().getSimpleName());
 
     IntegrationEvent orderPaymentIntegrationEvent;
 
@@ -38,9 +39,6 @@ public class OrderStatusChangedToStockConfirmedIntegrationEventHandler {
       paymentSucceeded = true;
     }
 
-    System.out.printf("----- Publishing integration event: {%s} - ({%s})",
-        orderPaymentIntegrationEvent.getId(), orderPaymentIntegrationEvent.getClass().getSimpleName());
-
-    eventBus.publish(paymentStatusTopic, orderPaymentIntegrationEvent);
+    paymentStatusEventBus.publish(orderPaymentIntegrationEvent);
   }
 }
