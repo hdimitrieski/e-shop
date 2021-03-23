@@ -36,10 +36,11 @@
     </dependencyManagement>
 
     <modules>
+        <module>building-blocks</module>
         <module>services/ordering</module>
         <module>services/catalog</module>
         <module>services/basket</module>
         <module>services/payment</module>
-        <module>building-blocks</module>
+        <module>infrastructure/gateway</module>
     </modules>
 </project>

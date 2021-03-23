@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
@@ -31,9 +33,11 @@ public class CatalogController {
   @RequestMapping("items")
   public Page<CatalogItem> catalogItems(
       @RequestParam(defaultValue = "10", required = false) Integer pageSize,
-      @RequestParam(defaultValue = "0", required = false) Integer pageIndex
+      @RequestParam(defaultValue = "0", required = false) Integer pageIndex,
+      @AuthenticationPrincipal Jwt jwt
   ) {
     logger.info("Find catalog items - page size: {}, page index: {}", pageSize, pageIndex);
+    logger.info("Resource accessed by: {} (with subjectId: {})", jwt.getClaims().get("user_name"), jwt.getSubject());
     return catalogItemRepository.findAll(PageRequest.of(pageIndex, pageSize));
   }
 
