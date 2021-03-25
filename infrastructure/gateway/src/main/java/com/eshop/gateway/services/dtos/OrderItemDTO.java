@@ -1,4 +1,4 @@
-package com.eshop.ordering.api.application.dtos;
+package com.eshop.gateway.services.dtos;
 
 public record OrderItemDTO(
     Long productId,

@@ -23,7 +23,7 @@ public class OrderItem extends Entity {
   private Integer units;
   @Column(nullable = false)
   @Getter
-  private Integer productId;
+  private Long productId;
 
   @ManyToOne(targetEntity = Order.class)
   @JoinColumn(name = "order_id", nullable = false)
@@ -32,7 +32,7 @@ public class OrderItem extends Entity {
   protected OrderItem() {
   }
 
-  public OrderItem(Integer productId, String productName, Double unitPrice, Double discount, String PictureUrl, Order order, Integer units) {
+  public OrderItem(Long productId, String productName, Double unitPrice, Double discount, String PictureUrl, Order order, Integer units) {
     if (units <= 0) {
       throw new OrderingDomainException("Invalid number of units");
     }
@@ -51,7 +51,7 @@ public class OrderItem extends Entity {
     this.order = order;
   }
 
-  public OrderItem(Integer productId, String productName, Double unitPrice, Double discount, String pictureUrl, Order order) {
+  public OrderItem(Long productId, String productName, Double unitPrice, Double discount, String pictureUrl, Order order) {
     this(productId, productName, unitPrice, discount, pictureUrl, order, 1);
   }
 

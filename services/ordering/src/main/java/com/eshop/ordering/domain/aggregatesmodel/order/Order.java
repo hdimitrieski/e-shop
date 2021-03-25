@@ -86,7 +86,7 @@ public class Order extends AggregateRoot {
   // This Order AggregateRoot's method "addOrderitem()" should be the only way to add Items to the Order,
   // so any behavior (discounts, etc.) and validations are controlled by the AggregateRoot
   // in order to maintain consistency between the whole Aggregate.
-  public void addOrderItem(Integer productId, String productName, Double unitPrice, Double discount, String pictureUrl, Integer units) {
+  public void addOrderItem(Long productId, String productName, Double unitPrice, Double discount, String pictureUrl, Integer units) {
     var existingOrderForProduct = orderItems.stream().filter(o -> o.getProductId().equals(productId))
         .findFirst()
         .orElse(null);
@@ -103,7 +103,7 @@ public class Order extends AggregateRoot {
     }
   }
 
-  public void addOrderItem(Integer productId, String productName, Double unitPrice, Double discount, String pictureUrl) {
+  public void addOrderItem(Long productId, String productName, Double unitPrice, Double discount, String pictureUrl) {
     addOrderItem(productId, productName, unitPrice, discount, pictureUrl, 1);
   }
 

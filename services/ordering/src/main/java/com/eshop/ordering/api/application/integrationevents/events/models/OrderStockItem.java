@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Getter
 public class OrderStockItem {
-  private Integer productId;
+  private Long productId;
   private Integer units;
 }

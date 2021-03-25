@@ -3,6 +3,7 @@ package com.eshop.catalog.controller;
 import com.eshop.catalog.integrationevents.IntegrationEventService;
 import com.eshop.catalog.integrationevents.events.ProductPriceChangedIntegrationEvent;
 import com.eshop.catalog.model.*;
+import com.eshop.error.BadRequestException;
 import com.eshop.error.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -17,6 +18,12 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.apache.commons.lang3.StringUtils.isEmpty;
+
 @RequestMapping("catalog")
 @RestController
 @RequiredArgsConstructor
@@ -29,6 +36,19 @@ public class CatalogController {
   private final IntegrationEventService integrationEventService;
   @Value("${spring.kafka.consumer.topic.productPriceChanges}")
   private String productPriceChangesTopic;
+
+  @RequestMapping("items/withids/{ids}")
+  public Iterable<CatalogItem> catalogItemsByIds(@PathVariable String ids) {
+    if (isEmpty(ids)) {
+      throw new BadRequestException("Invalid ids value");
+    }
+
+    return catalogItemRepository.findAllById(Arrays.
+        stream(ids.split(","))
+        .map(Long::valueOf)
+        .collect(Collectors.toList())
+    );
+  }
 
   @RequestMapping("items")
   public Page<CatalogItem> catalogItems(

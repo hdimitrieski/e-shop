@@ -1,6 +1,6 @@
-package com.eshop.ordering.api.application.dtos;
+package com.eshop.gateway.models;
 
-public record OrderItemDTO(
+public record OrderItemData(
     Long productId,
     String productName,
     Double unitPrice,

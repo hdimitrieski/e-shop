@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class BasketItem {
     private String id;
-    private Integer productId;
+    private Long productId;
     private String productName;
     private Double unitPrice;
     private Double oldUnitPrice;

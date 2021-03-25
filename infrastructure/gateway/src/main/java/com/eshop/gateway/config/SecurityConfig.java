@@ -1,20 +1,15 @@
 package com.eshop.gateway.config;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.core.userdetails.MapReactiveUserDetailsService;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 
-import static org.springframework.http.HttpMethod.*;
 import static org.springframework.security.config.Customizer.withDefaults;
 
-//@EnableWebSecurity
 @EnableWebFluxSecurity
 public class SecurityConfig {
   // TODO HD read https://spring.io/guides/gs/gateway/
@@ -23,7 +18,6 @@ public class SecurityConfig {
   // here https://github.com/hdimitrieski/microservice-examples/blob/master/clientserver/src/main/java/com/example/config/WebClientConfig.java
   @Bean
   SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
-    var baseUri = "/store/api/v1/products/**";
     /*
      By convention, OAuth 2.0 scopes should be prefixed with SCOPE_
      when checked for authority using Spring Security.
@@ -35,7 +29,6 @@ public class SecurityConfig {
                 .anyExchange().authenticated()
         )
         .oauth2Login(withDefaults())
-//        .formLogin(withDefaults())
         .oauth2Client(withDefaults());
 
 
@@ -72,15 +65,4 @@ public class SecurityConfig {
     return new MapReactiveUserDetailsService(userDetails);
   }
 
-//  @Bean
-//  SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//    http
-//        .authorizeRequests(authorizeRequests ->
-//            authorizeRequests.anyRequest().authenticated()
-//        )
-//        .oauth2Login(oauth2Login ->
-//            oauth2Login.loginPage("/oauth2/authorization/messaging-client-oidc"))
-//        .oauth2Client(withDefaults());
-//    return http.build();
-//  }
 }
