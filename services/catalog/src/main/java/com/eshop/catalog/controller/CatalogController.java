@@ -53,11 +53,11 @@ public class CatalogController {
   @RequestMapping("items")
   public Page<CatalogItem> catalogItems(
       @RequestParam(defaultValue = "10", required = false) Integer pageSize,
-      @RequestParam(defaultValue = "0", required = false) Integer pageIndex,
-      @AuthenticationPrincipal Jwt jwt
+      @RequestParam(defaultValue = "0", required = false) Integer pageIndex
+//      @AuthenticationPrincipal Jwt jwt
   ) {
     logger.info("Find catalog items - page size: {}, page index: {}", pageSize, pageIndex);
-    logger.info("Resource accessed by: {} (with subjectId: {})", jwt.getClaims().get("user_name"), jwt.getSubject());
+//    logger.info("Resource accessed by: {} (with subjectId: {})", jwt.getClaims().get("user_name"), jwt.getSubject());
     return catalogItemRepository.findAll(PageRequest.of(pageIndex, pageSize));
   }
 

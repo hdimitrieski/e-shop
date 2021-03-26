@@ -1,4 +1,4 @@
-package com.eshop.catalog.config;
+package com.eshop.basket.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,12 +12,12 @@ public class SecurityConfig {
   @Bean
   SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http
-        .mvcMatcher("/catalog/**")
+        .mvcMatcher("/basket/**")
         .authorizeRequests()
-        .mvcMatchers(HttpMethod.GET, "/catalog/*").permitAll()
-        .mvcMatchers(HttpMethod.POST, "/catalog/*").hasAuthority("SCOPE_catalog.write") //.access("hasAuthority('SCOPE_catalog.write')")
-        .mvcMatchers(HttpMethod.PUT, "/catalog/*").hasAuthority("SCOPE_catalog.write")
-        .mvcMatchers(HttpMethod.DELETE, "/catalog/*").hasAuthority("SCOPE_catalog.write")
+        .mvcMatchers(HttpMethod.GET, "/basket/*").hasAuthority("SCOPE_basket.read")
+        .mvcMatchers(HttpMethod.POST, "/basket/*").hasAuthority("SCOPE_basket.write")
+        .mvcMatchers(HttpMethod.PUT, "/basket/*").hasAuthority("SCOPE_basket.write")
+        .mvcMatchers(HttpMethod.DELETE, "/basket/*").hasAuthority("SCOPE_basket.write")
         .and()
         .oauth2ResourceServer()
         .jwt();
