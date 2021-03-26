@@ -4,12 +4,10 @@ import com.eshop.gateway.models.*;
 import com.eshop.gateway.services.BasketService;
 import com.eshop.gateway.services.CatalogService;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
-import java.util.ArrayList;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.util.Objects.isNull;
@@ -22,64 +20,90 @@ public class BasketController {
   private final CatalogService catalogService;
   private final BasketService basketService;
 
-  @PostMapping
-  public Mono<BasketData> updateBasket(@RequestBody UpdateBasketRequest data) {
-    if (isEmpty(data.items())) {
-      throw new IllegalArgumentException("Empty basket");
-    }
-
-    var basket = StringUtils.isEmpty(data.buyerId())
-        ? new BasketData(data.buyerId(), new ArrayList<>())
-        : basketService.getById(data.buyerId()).onErrorReturn(new BasketData(data.buyerId(), new ArrayList<>())).block();
-
-    var itemsCalculated = data.items().stream()
+  private Collection<UpdateBasketRequestItemData> calculatedItems(List<UpdateBasketRequestItemData> items) {
+    return items.stream()
         .collect(Collectors.toMap(
             UpdateBasketRequestItemData::productId,
-            b -> b,
+            item -> item,
             (prev, next) -> new UpdateBasketRequestItemData(
                 prev.id(),
                 prev.productId(),
                 prev.quantity() + next.quantity()
             )
         )).values();
+  }
 
-    var productIds = basket.items().stream().map(BasketDataItem::productId).collect(Collectors.toList());
-    var catalogItems = catalogService.getCatalogItems(productIds).collectList().block();
+  private List<CatalogItem> catalogItemsFor(List<BasketDataItem> basketItems) {
+    var productIds = basketItems.stream().map(BasketDataItem::productId).collect(Collectors.toList());
+    return catalogService.getCatalogItems(productIds).collectList().block();
+  }
 
-    for (var item : itemsCalculated) {
-      var catalogItem = catalogItems.stream().filter(ci -> ci.id().equals(item.productId()))
-          .findFirst().orElse(null);
-      if (catalogItem == null) {
-        return Mono.error(new IllegalArgumentException("Basket contains non existing catalog item " + item.productId()));
-      }
-      var itemInBasket = basket.items().stream().filter(x -> x.productId().equals(item.productId()))
-          .findFirst().orElse(null);
+  private BasketDataItem updateBasketItem(BasketDataItem existingBasketItem, UpdateBasketRequestItemData requestedBasketItem) {
+    return new BasketDataItem(
+        existingBasketItem.id(),
+        existingBasketItem.productId(),
+        existingBasketItem.productName(),
+        existingBasketItem.unitPrice(),
+        existingBasketItem.oldUnitPrice(),
+        requestedBasketItem.quantity(),
+        existingBasketItem.pictureUrl()
+    );
+  }
 
-      if (itemInBasket == null) {
-        basket.items().add(new BasketDataItem(
-            item.id(),
-            catalogItem.id(),
-            catalogItem.name(),
-            catalogItem.price(),
-            null,
-            item.quantity(),
-            catalogItem.pictureUrl()
-        ));
-      } else {
-        basket.items().remove(itemInBasket);
-        basket.items().add(new BasketDataItem(
-            itemInBasket.id(),
-            itemInBasket.productId(),
-            itemInBasket.productName(),
-            itemInBasket.unitPrice(),
-            itemInBasket.oldUnitPrice(),
-            item.quantity(),
-            itemInBasket.pictureUrl()
-        ));
-      }
+  private BasketDataItem newBasketItem(UpdateBasketRequestItemData requestedBasketItem, CatalogItem catalogItem) {
+    return new BasketDataItem(
+        requestedBasketItem.id(),
+        catalogItem.id(),
+        catalogItem.name(),
+        catalogItem.price(),
+        null,
+        requestedBasketItem.quantity(),
+        catalogItem.pictureUrl()
+    );
+  }
+
+  private BasketDataItem create(UpdateBasketRequestItemData requestedBasketItem, List<CatalogItem> catalogItems) {
+    return findCatalogItem(catalogItems, requestedBasketItem.productId())
+        .map(catalogItem -> newBasketItem(requestedBasketItem, catalogItem))
+        .orElseThrow(() ->
+            new IllegalArgumentException("Basket contains non existing catalog item " + requestedBasketItem.productId())
+        );
+  }
+
+  private Optional<BasketDataItem> findBasketItem(List<BasketDataItem> basketItems, Long productId) {
+    return basketItems.stream()
+        .filter(x -> x.productId().equals(productId))
+        .findFirst();
+  }
+
+  private Optional<CatalogItem> findCatalogItem(List<CatalogItem> catalogItems, Long productId) {
+    return catalogItems.stream()
+        .filter(catalogItem -> catalogItem.id().equals(productId))
+        .findFirst();
+  }
+
+  private Mono<BasketData> updateBasket(
+      BasketData basket,
+      Collection<UpdateBasketRequestItemData> updatedBasketItems
+  ) {
+    var updatedItems = updatedBasketItems.stream()
+        .map(requestedBasketItem -> {
+          return findBasketItem(basket.items(), requestedBasketItem.productId())
+              .map(existingBasketItem -> updateBasketItem(existingBasketItem, requestedBasketItem))
+              .orElseGet(() -> create(requestedBasketItem, catalogItemsFor(basket.items())));
+        }).collect(Collectors.toList());
+
+    return basketService.update(new BasketData(basket.buyerId(), updatedItems));
+  }
+
+  @PostMapping
+  public Mono<BasketData> updateBasket(@RequestBody UpdateBasketRequest data) {
+    if (isEmpty(data.items())) {
+      throw new IllegalArgumentException("Empty basket");
     }
 
-    return basketService.update(basket);
+    return basketService.getById(data.buyerId())
+        .flatMap(basket -> updateBasket(basket, calculatedItems(data.items())));
   }
 
   @PutMapping("items")

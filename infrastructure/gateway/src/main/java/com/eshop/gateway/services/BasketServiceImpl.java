@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+import java.util.ArrayList;
+
 @RequiredArgsConstructor
 @Service
 public class BasketServiceImpl implements BasketService {
@@ -17,7 +19,8 @@ public class BasketServiceImpl implements BasketService {
         .get()
         .uri("http://localhost:8081/basket/" + id)
         .retrieve()
-        .bodyToMono(BasketData.class);
+        .bodyToMono(BasketData.class)
+        .onErrorReturn(new BasketData(id, new ArrayList<>()));
   }
 
   @Override
