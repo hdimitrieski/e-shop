@@ -1,8 +1,8 @@
 package com.eshop.gateway.controllers;
 
 import com.eshop.gateway.models.OrderData;
-import com.eshop.gateway.services.BasketService;
-import com.eshop.gateway.services.OrderingService;
+import com.eshop.gateway.services.BasketApiService;
+import com.eshop.gateway.services.OrderingApiService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,8 +17,8 @@ import java.util.Objects;
 @RestController
 @RequestMapping("api/v1/order")
 public class OrderController {
-  private final BasketService basketService;
-  private final OrderingService orderingService;
+  private final BasketApiService basketApiService;
+  private final OrderingApiService orderingApiService;
 
   @GetMapping("draft/{basketId}")
   public Mono<OrderData> getOrderDraft(@PathVariable String basketId) {
@@ -26,9 +26,9 @@ public class OrderController {
       throw new IllegalArgumentException("The basketId is not valid"); // TODO HD bad request
     }
 
-    return  basketService.getById(basketId)
+    return  basketApiService.getById(basketId)
         .filter(Objects::nonNull)
-        .flatMap(orderingService::getOrderDraft)
+        .flatMap(orderingApiService::getOrderDraft)
         .switchIfEmpty(Mono.error(new IllegalArgumentException("No basket found for id " + basketId)));
   }
 

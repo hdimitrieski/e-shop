@@ -1,9 +1,11 @@
 package com.eshop.gateway.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 public record BasketData(
-    String buyerId,
-    List<BasketDataItem> items
+    @JsonProperty("buyerId") String buyerId,
+    @JsonProperty("items") List<BasketDataItem> items
 ) {
 }

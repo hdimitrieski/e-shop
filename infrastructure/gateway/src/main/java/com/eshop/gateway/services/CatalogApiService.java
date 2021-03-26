@@ -6,7 +6,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 
-public interface CatalogService {
+public interface CatalogApiService {
   Mono<CatalogItem> getCatalogItem(Long id);
 
   Flux<CatalogItem> getCatalogItems(List<Long> ids);

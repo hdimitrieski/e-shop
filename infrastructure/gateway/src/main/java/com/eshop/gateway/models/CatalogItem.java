@@ -1,9 +1,11 @@
 package com.eshop.gateway.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public record CatalogItem(
-    Long id,
-    String name,
-    Double price,
-    String pictureUrl
+    @JsonProperty("id") Long id,
+    @JsonProperty("name") String name,
+    @JsonProperty("price") Double price,
+    @JsonProperty("pictureUrl") String pictureUrl
 ) {
 }

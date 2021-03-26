@@ -4,6 +4,6 @@ import com.eshop.gateway.models.BasketData;
 import com.eshop.gateway.models.OrderData;
 import reactor.core.publisher.Mono;
 
-public interface OrderingService {
+public interface OrderingApiService {
   Mono<OrderData> getOrderDraft(BasketData basket);
 }

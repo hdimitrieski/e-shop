@@ -1,8 +1,9 @@
-package com.eshop.gateway.services;
+package com.eshop.gateway.infrastructure;
 
 import com.eshop.gateway.models.BasketData;
 import com.eshop.gateway.models.OrderData;
 import com.eshop.gateway.models.OrderItemData;
+import com.eshop.gateway.services.OrderingApiService;
 import com.eshop.gateway.services.dtos.BasketItem;
 import com.eshop.gateway.services.dtos.CreateOrderDraftRequest;
 import com.eshop.gateway.services.dtos.OrderDraftDTO;
@@ -15,7 +16,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
-public class OrderingServiceImpl implements OrderingService {
+public class OrderingApiServiceImpl implements OrderingApiService {
   private final WebClient webClient;
 
   @Override

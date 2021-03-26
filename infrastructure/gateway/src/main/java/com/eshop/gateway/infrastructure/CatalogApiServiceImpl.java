@@ -1,6 +1,7 @@
-package com.eshop.gateway.services;
+package com.eshop.gateway.infrastructure;
 
 import com.eshop.gateway.models.CatalogItem;
+import com.eshop.gateway.services.CatalogApiService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -12,14 +13,14 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
-public class CatalogServiceImpl implements CatalogService {
+public class CatalogApiServiceImpl implements CatalogApiService {
   private final WebClient webClient;
 
   @Override
   public Mono<CatalogItem> getCatalogItem(Long id) {
     return webClient
         .get()
-        .uri("http://localhost:8081/catalog/items/" + id)
+        .uri("http://localhost:8080/catalog/items/" + id)
         .retrieve()
         .bodyToMono(CatalogItem.class);
   }
@@ -30,7 +31,7 @@ public class CatalogServiceImpl implements CatalogService {
 
     return webClient
         .get()
-        .uri("http://localhost:8081/catalog/items/withids" + commaSeparatedIds)
+        .uri("http://localhost:8080/catalog/items/withids/" + commaSeparatedIds)
         .retrieve()
         .bodyToFlux(CatalogItem.class);
   }
