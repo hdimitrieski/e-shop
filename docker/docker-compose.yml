@@ -33,10 +33,31 @@ services:
     environment:
       - REDIS_PASSWORD=pass
 
-  uaa:
-    build: ../infrastructure/uaa
-    container_name: uaa
-    expose:
-      - 8090
+  mariadb:
+    image: mariadb
+    volumes:
+      - mysql_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: keycloak
+      MYSQL_USER: keycloak
+      MYSQL_PASSWORD: password
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "--silent" ]
+
+  authorization-service:
+    image: quay.io/keycloak/keycloak:12.0.4
+    environment:
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+      DB_VENDOR: mariadb
+      DB_ADDR: mariadb
+      DB_DATABASE: keycloak
+      DB_USER: keycloak
+      DB_PASSWORD: password
     ports:
-      - 8090:8090
+      - 8090:8080
+
+volumes:
+  mysql_data:
+    driver: local
