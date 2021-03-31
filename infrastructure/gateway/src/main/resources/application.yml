@@ -2,26 +2,24 @@ server:
   port: 3000
 
 spring:
-#  autoconfigure:
-#    # TODO: remove when fixed https://github.com/spring-projects/spring-security/issues/6314
-#    exclude: org.springframework.boot.actuate.autoconfigure.security.reactive.ReactiveManagementWebSecurityAutoConfiguration
-#  thymeleaf:
-#    cache: false
   security:
     oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:8090/auth/realms/e-shop/protocol/openid-connect/certs
       client:
         registration:
           gateway:
-            provider: uaa
-            client-id: gateway
-            client-secret: secret
-            authorization-grant-type: authorization_code
-            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
-            scope: openid,profile,email,resource.read
+            provider: keycloak
+            client-id: eshop-gateway
+            client-secret: f65e7259-cc66-47c4-9973-b5274858d19c
+            authorization-grant-type: client_credentials
+#            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+            scope: basket
         provider:
-          uaa:
-            authorization-uri: http://localhost:8090/uaa/oauth/authorize
-            token-uri: http://localhost:8090/uaa/oauth/token
-            user-info-uri: http://localhost:8090/uaa/userinfo
-            user-name-attribute: sub
-            jwk-set-uri: http://localhost:8090/uaa/token_keys
+          keycloak:
+#            authorization-uri: http://localhost:8090/auth/realms/e-shop/protocol/openid-connect/auth
+            token-uri: http://localhost:8090/auth/realms/e-shop/protocol/openid-connect/token
+#            user-info-uri: http://localhost:8090/auth/realms/e-shop/protocol/openid-connect/userinfo
+#            user-name-attribute: preferred_username
+#            jwk-set-uri: http://localhost:8090/auth/realms/e-shop/protocol/openid-connect/certs

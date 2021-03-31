@@ -15,9 +15,9 @@ public class SecurityConfig {
         .mvcMatcher("/catalog/**")
         .authorizeRequests()
         .mvcMatchers(HttpMethod.GET, "/catalog/*").permitAll()
-        .mvcMatchers(HttpMethod.POST, "/catalog/*").hasAuthority("SCOPE_catalog.write") //.access("hasAuthority('SCOPE_catalog.write')")
-        .mvcMatchers(HttpMethod.PUT, "/catalog/*").hasAuthority("SCOPE_catalog.write")
-        .mvcMatchers(HttpMethod.DELETE, "/catalog/*").hasAuthority("SCOPE_catalog.write")
+        .mvcMatchers(HttpMethod.POST, "/catalog/*").hasAuthority("SCOPE_catalog") //.access("hasAuthority('SCOPE_catalog.write')")
+        .mvcMatchers(HttpMethod.PUT, "/catalog/*").hasAuthority("SCOPE_catalog")
+        .mvcMatchers(HttpMethod.DELETE, "/catalog/*").hasAuthority("SCOPE_catalog")
         .and()
         .oauth2ResourceServer()
         .jwt();

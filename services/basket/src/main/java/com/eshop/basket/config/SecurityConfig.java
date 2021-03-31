@@ -14,10 +14,10 @@ public class SecurityConfig {
     http
         .mvcMatcher("/basket/**")
         .authorizeRequests()
-        .mvcMatchers(HttpMethod.GET, "/basket/*").hasAuthority("SCOPE_basket.read")
-        .mvcMatchers(HttpMethod.POST, "/basket/*").hasAuthority("SCOPE_basket.write")
-        .mvcMatchers(HttpMethod.PUT, "/basket/*").hasAuthority("SCOPE_basket.write")
-        .mvcMatchers(HttpMethod.DELETE, "/basket/*").hasAuthority("SCOPE_basket.write")
+        .mvcMatchers(HttpMethod.GET, "/basket/*").hasAuthority("SCOPE_basket")
+        .mvcMatchers(HttpMethod.POST, "/basket/*").hasAuthority("SCOPE_basket")
+        .mvcMatchers(HttpMethod.PUT, "/basket/*").hasAuthority("SCOPE_basket")
+        .mvcMatchers(HttpMethod.DELETE, "/basket/*").hasAuthority("SCOPE_basket")
         .and()
         .oauth2ResourceServer()
         .jwt();
