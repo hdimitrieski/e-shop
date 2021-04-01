@@ -1,9 +1,11 @@
 package com.eshop.gateway.services.dtos;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 public record OrderDraftDTO(
-    List<OrderItemDTO> orderItems,
-    Double total
+    @JsonProperty("orderItems") List<OrderItemDTO> orderItems,
+    @JsonProperty("total") Double total
 ) {
 }

@@ -16,13 +16,12 @@ public class SecurityConfig {
      By convention, OAuth 2.0 scopes should be prefixed with SCOPE_
      when checked for authority using Spring Security.
     */
-
     http.csrf().disable()
         .authorizeExchange()
-        .pathMatchers(HttpMethod.GET, "api/v1/catalog/*").permitAll()
-        .pathMatchers("api/v1/basket/*").hasAuthority("SCOPE_webshopping")
-        .pathMatchers("api/v1/orders/*").hasAuthority("SCOPE_webshopping")
-        .pathMatchers( "api/v1/catalog/*").hasAuthority("SCOPE_webshopping")
+        .pathMatchers(HttpMethod.GET, "/api/v1/catalog/*").permitAll()
+        .pathMatchers("/api/v1/basket/*").hasAuthority("SCOPE_webshoppingagg")
+        .pathMatchers("/api/v1/orders/*").hasAuthority("SCOPE_webshoppingagg")
+        .pathMatchers( "/api/v1/catalog/*").hasAuthority("SCOPE_webshoppingagg")
         .anyExchange().authenticated()
         .and()
         .oauth2Client()

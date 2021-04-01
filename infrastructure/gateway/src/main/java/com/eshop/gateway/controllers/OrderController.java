@@ -11,11 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
-import java.util.Objects;
-
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("api/v1/order")
+@RequestMapping("api/v1/orders")
 public class OrderController {
   private final BasketApiService basketApiService;
   private final OrderingApiService orderingApiService;
@@ -26,10 +24,9 @@ public class OrderController {
       throw new IllegalArgumentException("The basketId is not valid"); // TODO HD bad request
     }
 
-    return  basketApiService.getById(basketId)
-        .filter(Objects::nonNull)
-        .flatMap(orderingApiService::getOrderDraft)
-        .switchIfEmpty(Mono.error(new IllegalArgumentException("No basket found for id " + basketId)));
+    return basketApiService.getById(basketId)
+        .switchIfEmpty(Mono.error(new IllegalArgumentException("No basket found for id " + basketId)))
+        .flatMap(orderingApiService::getOrderDraft);
   }
 
 }

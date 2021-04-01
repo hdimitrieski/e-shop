@@ -15,7 +15,7 @@ spring:
             client-secret: f65e7259-cc66-47c4-9973-b5274858d19c
             authorization-grant-type: client_credentials
 #            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
-            scope: basket
+#            scope: openid,profile,orders,basket
         provider:
           keycloak:
 #            authorization-uri: http://localhost:8090/auth/realms/e-shop/protocol/openid-connect/auth
@@ -23,3 +23,5 @@ spring:
 #            user-info-uri: http://localhost:8090/auth/realms/e-shop/protocol/openid-connect/userinfo
 #            user-name-attribute: preferred_username
 #            jwk-set-uri: http://localhost:8090/auth/realms/e-shop/protocol/openid-connect/certs
+
+#logging.level.org.*: DEBUG
