@@ -73,6 +73,17 @@ services:
     ports:
       - 8090:8080
 
+  zipkin:
+    image: openzipkin/zipkin
+    environment:
+      STORAGE_TYPE: mem
+      RABBIT_ADDRESSES: rabbitmq
+    ports:
+      - 9411:9411
+    depends_on:
+      - rabbitmq
+    restart: on-failure
+
 volumes:
   mysql_data:
     driver: local
