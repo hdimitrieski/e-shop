@@ -1,0 +1,23 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: basket
+  cloud:
+    config:
+      uri: http://localhost:8888
+      fail-fast: true
+      password: cfgpassword
+      username: cfguser
+      retry:
+        max-attempts: 10
+        max-interval: 15000
+        initial-interval: 10000
+#    bus:
+#      id: config
+#      enabled: true
+#      refresh:
+#        enabled: true
+#      trace:
+#        enabled: true

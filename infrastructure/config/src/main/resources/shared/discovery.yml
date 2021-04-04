@@ -1,17 +1,12 @@
-server:
-  port: 8761
 
+# Eureka server
 eureka:
   client:
     register-with-eureka: false
     fetch-registry: false
 
-app:
-  eureka:
-    user: user
-    pass: pass
-
-logging.level:
+# Logging
+logging:level:
   com.netflix:
     eureka: DEBUG
     discovery: DEBUG

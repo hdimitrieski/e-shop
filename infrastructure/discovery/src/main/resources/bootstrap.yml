@@ -1,0 +1,12 @@
+server:
+  port: 8761
+
+spring:
+  application:
+    name: discovery
+  cloud:
+    config:
+      uri: http://localhost:8888
+      fail-fast: true
+      password: cfgpassword
+      username: cfguser

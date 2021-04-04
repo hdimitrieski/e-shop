@@ -1,0 +1,87 @@
+# Server config
+server:
+  ## Should be included to show message, if not error message will be empty
+  error:
+    include-message: always
+    include-binding-errors: always
+
+# Custom config
+app:
+  eureka:
+    host: localhost
+    port: 8761
+    user: user
+    pass: pass
+  kafka:
+    broker:
+      host: localhost
+      port: 9092
+  rabbitmq:
+    host: localhost
+    port: 5672
+  auth-server:
+    host: localhost
+    port: 8090
+    realm: e-shop
+
+# Spring
+spring:
+  # Kafka
+  kafka:
+    producer:
+      bootstrap-servers: ${app.kafka.broker.host}:${app.kafka.broker.port}
+    consumer:
+      bootstrap-servers: ${app.kafka.broker.host}:${app.kafka.broker.port}
+      auto-offset-reset: earliest
+      topic:
+        orders: orders
+        orderCheckouts: order-checkouts
+        productPriceChanges: product-price-changes
+        paidOrders: paid-orders
+        ordersWaitingForValidation: orders-waiting-for-validation
+        orderStockStatuses: order-stock-statuses
+        submittedOrders: submitted-orders
+        shippedOrders: shipped-orders
+        cancelledOrders: cancelled-orders
+        gracePeriodConfirmed: grace-period-confirmed
+        paymentStatus: payment-status
+        stockConfirmed: stock-confirmed
+
+  # Rabbit
+  rabbitmq:
+    host: ${app.rabbitmq.host}
+    port: ${app.rabbitmq.port}
+    username: guest
+    password: guest
+
+  cloud:
+    # As Spring Cloud Ribbon is in maintenance mode.
+    # It is recommended switching to BlockingLoadBalancerClient instead.
+    loadbalancer.ribbon.enabled: false
+
+# Service discovery
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    serviceUrl:
+      defaultZone: http://${app.eureka.user}:${app.eureka.pass}@${app.eureka.host}:${app.eureka.port}/eureka/
+    healthcheck:
+      enabled: true
+
+# Management
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: "*"
+
+# Logging
+logging:
+  level:
+    org:
+      springframework:
+        web: DEBUG
+        security: INFO
+    web: INFO
+    root: INFO

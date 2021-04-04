@@ -1,0 +1,26 @@
+# Custom config
+app:
+  postgres:
+    host: localhost
+    port: 5432
+    database: dborders
+
+spring:
+  # Security
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://${app.auth-server.host}:${app.auth-server.port}/auth/realms/${app.auth-server.realm}/protocol/openid-connect/certs
+          issuer-uri: http://${app.auth-server.host}:${app.auth-server.port}/auth/realms/${app.auth-server.realm}
+  # JPA
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+  # Postgres
+  datasource:
+    url: jdbc:postgresql://${app.postgres.host}:${app.postgres.port}/${app.postgres.database}
+    username: dbuser
+    password: dbpass
+    driver-class-name: org.postgresql.Driver

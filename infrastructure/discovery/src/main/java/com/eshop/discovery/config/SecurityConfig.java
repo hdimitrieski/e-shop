@@ -46,6 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
           .antMatchers(HttpMethod.GET).hasAnyRole("ADMIN", "SYSTEM")
           .antMatchers(HttpMethod.POST).hasRole("SYSTEM")
           .antMatchers(HttpMethod.PUT).hasRole("SYSTEM")
+          .antMatchers(HttpMethod.DELETE).hasRole("SYSTEM")
           .and()
         .requestMatchers()
           .antMatchers("/actuator/**")

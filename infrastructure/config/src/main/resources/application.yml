@@ -1,0 +1,28 @@
+server:
+  port: 8888
+
+spring:
+  application:
+    name: config
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: classpath:/shared
+    bus:
+      enabled: true
+      refresh:
+        enabled: true
+      trace:
+        enabled: true
+  profiles:
+    active: native
+  security:
+    user:
+      name: cfguser
+      password: cfgpassword
+
+# Logging
+logging:
+  level:
+    root: info

@@ -4,6 +4,21 @@ services:
   zookeeper:
     image: wurstmeister/zookeeper
 
+  rabbitmq:
+    image: 'rabbitmq:management'
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    ports:
+      - 5672:5672
+      - 15672:15672
+    healthcheck:
+      test: [ "CMD", "rabbitmqctl", "status" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    restart: on-failure
+
   kafka:
     image: wurstmeister/kafka
     depends_on:

@@ -10,39 +10,37 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>discovery</artifactId>
-    <name>discovery</name>
+    <artifactId>config</artifactId>
+    <name>config</name>
     <packaging>jar</packaging>
 
     <dependencies>
-        <!-- Discovery server -->
+        <!-- Config server -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-bootstrap</artifactId>
+            <artifactId>spring-cloud-config-server</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+            <artifactId>spring-cloud-starter-stream-rabbit</artifactId>
         </dependency>
-        <!-- Discovery server -->
-        <!-- Centralized configuration -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-config</artifactId>
-        </dependency>
-        <!-- Centralized configuration -->
-        <!-- Actuator -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-        <!-- Actuator -->
+        <!-- Config server -->
         <!-- Security -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
         <!-- Security -->
+        <!-- Actuator and monitoring -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-config-monitor</artifactId>
+        </dependency>
+        <!-- Actuator and monitoring -->
     </dependencies>
 
     <build>
@@ -66,5 +64,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

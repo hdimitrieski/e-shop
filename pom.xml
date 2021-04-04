@@ -43,5 +43,6 @@
         <module>services/payment</module>
         <module>infrastructure/gateway</module>
         <module>infrastructure/discovery</module>
+        <module>infrastructure/config</module>
     </modules>
 </project>

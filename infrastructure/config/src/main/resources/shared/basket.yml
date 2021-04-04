@@ -1,0 +1,31 @@
+# Custom config
+app:
+  redis:
+    host: localhost
+    port: 6379
+
+spring:
+  # Security
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://${app.auth-server.host}:${app.auth-server.port}/auth/realms/${app.auth-server.realm}/protocol/openid-connect/certs
+          issuer-uri: http://${app.auth-server.host}:${app.auth-server.port}/auth/realms/${app.auth-server.realm}
+
+  # Redis
+  redis:
+    password: pass
+    host: ${app.redis.host}
+    port: ${app.redis.port}
+
+  cloud:
+    bus:
+      enabled: true
+      refresh:
+        enabled: true
+
+# Test refresh config via bus
+test:
+  name: "Test 10"
+  phone: "007"

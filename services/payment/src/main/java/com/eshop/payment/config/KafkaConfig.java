@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,12 +29,7 @@ import java.util.Map;
 public class KafkaConfig {
 
   private final KafkaProperties kafkaProperties;
-
-  @Value("${spring.kafka.consumer.topic.stockConfirmed}")
-  private String stockConfirmedTopic;
-
-  @Value("${spring.kafka.consumer.topic.paymentStatus}")
-  private String paymentStatusTopic;
+  private final KafkaTopics topics;
 
   // Producer
   @Bean
@@ -84,12 +78,12 @@ public class KafkaConfig {
   // Topics
   @Bean
   public NewTopic stockConfirmedTopic() {
-    return new NewTopic(stockConfirmedTopic, 1, (short) 1);
+    return new NewTopic(topics.getStockConfirmed(), 1, (short) 1);
   }
 
   @Bean
   public NewTopic paymentStatusTopic() {
-    return new NewTopic(paymentStatusTopic, 1, (short) 1);
+    return new NewTopic(topics.getPaymentStatus(), 1, (short) 1);
   }
 
   private ErrorHandlingDeserializer<Object> jsonDeserializer() {

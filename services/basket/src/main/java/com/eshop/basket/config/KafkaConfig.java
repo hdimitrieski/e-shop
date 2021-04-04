@@ -30,15 +30,7 @@ import java.util.Map;
 public class KafkaConfig {
 
   private final KafkaProperties kafkaProperties;
-
-  @Value("${spring.kafka.consumer.topic.orderCheckouts}")
-  private String orderCheckoutsTopic;
-
-  @Value("${spring.kafka.consumer.topic.orders}")
-  private String ordersTopic;
-
-  @Value("${spring.kafka.consumer.topic.productPriceChanges}")
-  private String productPriceChangesTopic;
+  private final KafkaTopics topics;
 
   // Producer
   @Bean
@@ -87,17 +79,17 @@ public class KafkaConfig {
   // Topics
   @Bean
   public NewTopic orderCheckoutsTopic() {
-    return new NewTopic(orderCheckoutsTopic, 1, (short) 1);
+    return new NewTopic(topics.getOrderCheckouts(), 1, (short) 1);
   }
 
   @Bean
   public NewTopic ordersTopic() {
-    return new NewTopic(ordersTopic, 1, (short) 1);
+    return new NewTopic(topics.getOrders(), 1, (short) 1);
   }
 
   @Bean
   public NewTopic productPriceChangesTopic() {
-    return new NewTopic(productPriceChangesTopic, 1, (short) 1);
+    return new NewTopic(topics.getProductPriceChanges(), 1, (short) 1);
   }
 
   private ErrorHandlingDeserializer<Object> jsonDeserializer() {

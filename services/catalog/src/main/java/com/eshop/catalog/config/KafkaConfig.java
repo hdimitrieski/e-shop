@@ -30,18 +30,7 @@ import java.util.Map;
 public class KafkaConfig {
 
   private final KafkaProperties kafkaProperties;
-
-  @Value("${spring.kafka.consumer.topic.paidOrders}")
-  private String paidOrdersTopic;
-
-  @Value("${spring.kafka.consumer.topic.ordersWaitingForValidation}")
-  private String ordersWaitingForValidationTopic;
-
-  @Value("${spring.kafka.consumer.topic.productPriceChanges}")
-  private String productPriceChangesTopic;
-
-  @Value("${spring.kafka.consumer.topic.orderStockStatuses}")
-  private String orderStockStatusesTopic;
+  private final KafkaTopics topics;
 
   // Producer
   @Bean
@@ -90,22 +79,22 @@ public class KafkaConfig {
   // Topics
   @Bean
   public NewTopic paidOrdersTopic() {
-    return new NewTopic(paidOrdersTopic, 1, (short) 1);
+    return new NewTopic(topics.getPaidOrders(), 1, (short) 1);
   }
 
   @Bean
   public NewTopic ordersWaitingForValidationTopic() {
-    return new NewTopic(ordersWaitingForValidationTopic, 1, (short) 1);
+    return new NewTopic(topics.getOrdersWaitingForValidation(), 1, (short) 1);
   }
 
   @Bean
   public NewTopic productPriceChangesTopic() {
-    return new NewTopic(productPriceChangesTopic, 1, (short) 1);
+    return new NewTopic(topics.getProductPriceChanges(), 1, (short) 1);
   }
 
   @Bean
   public NewTopic orderStockStatusesTopic() {
-    return new NewTopic(orderStockStatusesTopic, 1, (short) 1);
+    return new NewTopic(topics.getOrderStockStatuses(), 1, (short) 1);
   }
 
   private ErrorHandlingDeserializer<Object> jsonDeserializer() {

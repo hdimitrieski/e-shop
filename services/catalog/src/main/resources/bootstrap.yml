@@ -1,0 +1,16 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: catalog
+  cloud:
+    config:
+      uri: http://localhost:8888
+      fail-fast: true
+      password: cfgpassword
+      username: cfguser
+      retry:
+        max-attempts: 10
+        max-interval: 15000
+        initial-interval: 10000
