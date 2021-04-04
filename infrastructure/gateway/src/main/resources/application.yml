@@ -1,7 +1,10 @@
+# Application
 server:
   port: 3000
 
 spring:
+  application:
+    name: api-gateway
   security:
     oauth2:
       resourceserver:
@@ -24,4 +27,29 @@ spring:
 #            user-name-attribute: preferred_username
 #            jwk-set-uri: http://localhost:8090/auth/realms/e-shop/protocol/openid-connect/certs
 
-#logging.level.org.*: DEBUG
+# Logging
+logging:
+  level:
+    root: INFO
+    web: INFO
+    org:
+      springframework:
+        security: INFO
+        web: DEBUG
+
+# Service discovery
+app:
+  eureka:
+    host: localhost
+    port: 8761
+    user: user
+    pass: pass
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://${app.eureka.user}:${app.eureka.pass}@${app.eureka.host}:${app.eureka.port}/eureka/
+    healthcheck:
+      enabled: true

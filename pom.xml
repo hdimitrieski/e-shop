@@ -42,5 +42,6 @@
         <module>services/basket</module>
         <module>services/payment</module>
         <module>infrastructure/gateway</module>
+        <module>infrastructure/discovery</module>
     </modules>
 </project>
