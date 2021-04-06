@@ -17,6 +17,7 @@
     <properties>
         <apache-commons-lang.version>3.12.0</apache-commons-lang.version>
         <apache-commons-collections.version>4.4</apache-commons-collections.version>
+        <logstash-logback-encoder.version>6.6</logstash-logback-encoder.version>
     </properties>
 
     <dependencies>
@@ -90,6 +91,13 @@
             <artifactId>spring-cloud-sleuth-zipkin</artifactId>
         </dependency>
         <!-- Distributed Tracking -->
+        <!-- Logging -->
+        <dependency>
+            <groupId>net.logstash.logback</groupId>
+            <artifactId>logstash-logback-encoder</artifactId>
+            <version>${logstash-logback-encoder.version}</version>
+        </dependency>
+        <!-- Logging -->
         <!-- Utils -->
         <dependency>
             <groupId>org.projectlombok</groupId>

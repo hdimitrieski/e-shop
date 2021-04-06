@@ -14,6 +14,10 @@
     <name>config</name>
     <packaging>jar</packaging>
 
+    <properties>
+        <logstash-logback-encoder.version>6.6</logstash-logback-encoder.version>
+    </properties>
+
     <dependencies>
         <!-- Config server -->
         <dependency>
@@ -51,6 +55,13 @@
             <artifactId>spring-cloud-sleuth-zipkin</artifactId>
         </dependency>
         <!-- Distributed Tracking -->
+        <!-- Logging -->
+        <dependency>
+            <groupId>net.logstash.logback</groupId>
+            <artifactId>logstash-logback-encoder</artifactId>
+            <version>${logstash-logback-encoder.version}</version>
+        </dependency>
+        <!-- Logging -->
     </dependencies>
 
     <build>

@@ -37,12 +37,12 @@
 
     <modules>
         <module>building-blocks</module>
+        <module>infrastructure/gateway</module>
+        <module>infrastructure/discovery</module>
+        <module>infrastructure/config</module>
         <module>services/ordering</module>
         <module>services/catalog</module>
         <module>services/basket</module>
         <module>services/payment</module>
-        <module>infrastructure/gateway</module>
-        <module>infrastructure/discovery</module>
-        <module>infrastructure/config</module>
     </modules>
 </project>

@@ -6,31 +6,32 @@ services:
 
   rabbitmq:
     image: 'rabbitmq:management'
-    environment:
-      RABBITMQ_DEFAULT_USER: guest
-      RABBITMQ_DEFAULT_PASS: guest
     ports:
       - 5672:5672
       - 15672:15672
+    restart: on-failure
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
     healthcheck:
       test: [ "CMD", "rabbitmqctl", "status" ]
       interval: 10s
       timeout: 5s
       retries: 10
-    restart: on-failure
 
   kafka:
     image: wurstmeister/kafka
-    depends_on:
-      - zookeeper
-    links:
-      - zookeeper
     ports:
       - 9092:9092
+    restart: on-failure
     environment:
       KAFKA_ADVERTISED_HOST_NAME: localhost
       KAFKA_ADVERTISED_PORT: 9092
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    depends_on:
+      - zookeeper
+    links:
+      - zookeeper
 
   postgres:
     build: postgres
@@ -46,12 +47,13 @@ services:
     ports:
       - 6379:6379
     environment:
-      - REDIS_PASSWORD=pass
+      REDIS_PASSWORD: pass
 
   mariadb:
     image: mariadb
-    volumes:
-      - mysql_data:/var/lib/mysql
+    ports:
+      - 3306:3306
+    restart: on-failure
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: keycloak
@@ -59,9 +61,13 @@ services:
       MYSQL_PASSWORD: password
     healthcheck:
       test: [ "CMD", "mysqladmin", "ping", "--silent" ]
+    volumes:
+      - mysql_data:/var/lib/mysql
 
   authorization-service:
     image: quay.io/keycloak/keycloak:12.0.4
+    ports:
+      - 8090:8080
     environment:
       KEYCLOAK_USER: admin
       KEYCLOAK_PASSWORD: admin
@@ -70,20 +76,50 @@ services:
       DB_DATABASE: keycloak
       DB_USER: keycloak
       DB_PASSWORD: password
-    ports:
-      - 8090:8080
+    depends_on:
+      - mariadb
 
   zipkin:
     image: openzipkin/zipkin
+    ports:
+      - 9411:9411
+    restart: on-failure
     environment:
       STORAGE_TYPE: mem
       RABBIT_ADDRESSES: rabbitmq
-    ports:
-      - 9411:9411
     depends_on:
       - rabbitmq
-    restart: on-failure
+
+  elastic-search:
+    image: elasticsearch:7.12.0
+    ports:
+      - 9200:9200
+    restart: always
+    environment:
+      - discovery.type=single-node
+
+  kibana:
+    image: kibana:7.12.0
+    ports:
+      - 5601:5601
+    restart: always
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elastic-search:9200
+    depends_on:
+      - elastic-search
+
+  logstash:
+    image: logstash:7.12.0
+    ports:
+      - 5044:5044
+    restart: always
+    environment:
+      - XPACK_MONITORING_ELASTICSEARCH_HOSTS=http://elastic-search:9200
+      - XPACK_MONITORING_ENABLED=true
+    depends_on:
+      - elastic-search
+    volumes:
+      - ./logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
 
 volumes:
   mysql_data:
-    driver: local

@@ -1,6 +1,11 @@
 server:
   port: 8888
 
+app:
+  logstash:
+    host: localhost
+    port: 5044
+
 spring:
   application:
     name: config

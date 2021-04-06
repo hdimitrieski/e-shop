@@ -15,6 +15,7 @@
 
     <properties>
         <redis-client.version>3.5.1</redis-client.version>
+        <logstash-logback-encoder.version>6.6</logstash-logback-encoder.version>
     </properties>
 
     <dependencies>
@@ -90,6 +91,13 @@
             <artifactId>spring-cloud-sleuth-zipkin</artifactId>
         </dependency>
         <!-- Distributed Tracking -->
+        <!-- Logging -->
+        <dependency>
+            <groupId>net.logstash.logback</groupId>
+            <artifactId>logstash-logback-encoder</artifactId>
+            <version>${logstash-logback-encoder.version}</version>
+        </dependency>
+        <!-- Logging -->
         <!-- Kafka -->
         <dependency>
             <groupId>org.springframework.kafka</groupId>

@@ -23,6 +23,9 @@ app:
     host: localhost
     port: 8090
     realm: e-shop
+  logstash:
+    host: localhost
+    port: 5044
 
 # Spring
 spring:
