@@ -124,5 +124,14 @@ services:
     volumes:
       - ./logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
 
+  image-service:
+    image: minimalcompact/thumbor
+    ports:
+      - 8888:80
+    environment:
+      UPLOAD_ENABLED: 'True'
+      UPLOAD_MAX_SIZE: 5000000 # 5Mb
+    restart: on-failure
+
 volumes:
   mysql_data:
