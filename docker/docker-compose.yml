@@ -76,8 +76,11 @@ services:
       DB_DATABASE: keycloak
       DB_USER: keycloak
       DB_PASSWORD: password
+      KEYCLOAK_IMPORT: /tmp/eshop-realm.json
     depends_on:
       - mariadb
+    volumes:
+      - ./keycloak/eshop-realm.json:/tmp/eshop-realm.json
 
   zipkin:
     image: openzipkin/zipkin
