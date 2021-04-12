@@ -1,0 +1,19 @@
+
+spring:
+  # Security
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://${app.auth-server.host}:${app.auth-server.port}/auth/realms/${app.auth-server.realm}/protocol/openid-connect/certs
+          issuer-uri: http://${app.auth-server.host}:${app.auth-server.port}/auth/realms/${app.auth-server.realm}
+
+logging:
+  level:
+    org:
+      springframework:
+        web: INFO
+        security: DEBUG
+    web: INFO
+    root: INFO
+

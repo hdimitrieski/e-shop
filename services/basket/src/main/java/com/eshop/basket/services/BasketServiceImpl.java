@@ -35,10 +35,7 @@ public class BasketServiceImpl implements BasketService {
   public void checkout(BasketCheckout basketCheckout) {
     var userId = identityService.getUserIdentity();
     var basket = getCustomerBasket(userId);
-
-    // this.HttpContext.User.FindFirst(x => x.Type == ClaimTypes.Name).Value;
-    // TODO HD i need spring oAuth2 to access the logged in user info
-    var userName = "user-id-1";
+    var userName = identityService.getUserName();
 
     logger.info("Checking out the basket for user: {} - request id: {}", userName, basketCheckout.getRequestId());
 

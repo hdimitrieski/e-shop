@@ -1,9 +1,12 @@
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { InjectableRxStompConfig, RxStompService, rxStompServiceFactory } from '@stomp/ng2-stompjs';
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { stompConfig } from './stomp.config';
+import { WebSocketService } from './web-socket.service';
 
 function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
@@ -38,7 +41,18 @@ function initializeKeycloak(keycloak: KeycloakService) {
       useFactory: initializeKeycloak,
       multi: true,
       deps: [KeycloakService],
-    }
+    },
+    RxStompService,
+    WebSocketService
+    // {
+    //   provide: InjectableRxStompConfig,
+    //   useValue: stompConfig
+    // },
+    // {
+    //   provide: RxStompService,
+    //   useFactory: rxStompServiceFactory,
+    //   deps: [InjectableRxStompConfig]
+    // }
   ],
   bootstrap: [AppComponent]
 })

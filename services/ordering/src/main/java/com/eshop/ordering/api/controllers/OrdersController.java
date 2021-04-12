@@ -6,6 +6,7 @@ import com.eshop.ordering.api.application.commands.CancelOrderCommand;
 import com.eshop.ordering.api.application.commands.CreateOrderDraftCommand;
 import com.eshop.ordering.api.application.commands.ShipOrderCommand;
 import com.eshop.ordering.api.application.dtos.OrderDraftDTO;
+import com.eshop.ordering.api.application.infrastructure.services.IdentityService;
 import com.eshop.ordering.api.application.queries.OrderQueries;
 import com.eshop.ordering.api.application.queries.OrderViewModel;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ public class OrdersController {
 
   private final Pipeline pipeline;
   private final OrderQueries orderQueries;
+  private final IdentityService identityService;
 
   // TODO HD check this example with pipeline, validation, ... https://github.com/sizovs/unsuck-java
   @RequestMapping(value = "cancel", method = RequestMethod.PUT)
@@ -60,8 +62,7 @@ public class OrdersController {
 
   @RequestMapping()
   public ResponseEntity<List<OrderViewModel.OrderSummary>> getOrders() {
-    // TODO HD var userid = _identityService.GetUserIdentity();
-    return ResponseEntity.ok(orderQueries.getOrdersFromUser("user-id-1"));
+    return ResponseEntity.ok(orderQueries.getOrdersFromUser(identityService.getUserIdentity()));
   }
 
   @RequestMapping(value = "draft", method = RequestMethod.POST)

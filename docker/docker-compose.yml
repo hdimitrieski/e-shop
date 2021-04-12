@@ -127,7 +127,7 @@ services:
   image-service:
     image: minimalcompact/thumbor
     ports:
-      - 8888:80
+      - 8887:80
     environment:
       UPLOAD_ENABLED: 'True'
       UPLOAD_MAX_SIZE: 5000000 # 5Mb
