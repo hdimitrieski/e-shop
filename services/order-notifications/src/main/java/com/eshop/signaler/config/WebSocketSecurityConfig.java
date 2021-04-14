@@ -1,6 +1,7 @@
 package com.eshop.signaler.config;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.messaging.simp.SimpMessageType;
 import org.springframework.security.config.annotation.web.messaging.MessageSecurityMetadataSourceRegistry;
 import org.springframework.security.config.annotation.web.socket.AbstractSecurityWebSocketMessageBrokerConfigurer;
 
@@ -10,9 +11,14 @@ public class WebSocketSecurityConfig extends AbstractSecurityWebSocketMessageBro
   @Override
   protected void configureInbound(MessageSecurityMetadataSourceRegistry messages) {
     messages
-        .simpDestMatchers("/app/**").authenticated()
-        .simpDestMatchers("/queue/**").authenticated() // TODO HD Add new scope .hasAuthority() order.notifications
-        .anyMessage().authenticated();
+        .simpTypeMatchers(
+            SimpMessageType.CONNECT,
+            SimpMessageType.SUBSCRIBE
+        )
+        .hasAuthority("SCOPE_order.notifications")
+        .simpTypeMatchers(SimpMessageType.DISCONNECT)
+        .authenticated()
+        .anyMessage().denyAll();
   }
 
   @Override

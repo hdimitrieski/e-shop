@@ -55,7 +55,7 @@ public class GracePeriodManagerTask {
           FROM orders
           WHERE EXTRACT(EPOCH FROM (current_timestamp - order_date)) / 60 >= %d
                 AND order_status_id = 1
-        """.formatted(2));
+        """.formatted(1));
     List<BigInteger> result = query.getResultList();
     return result.stream().map(BigInteger::longValue).collect(Collectors.toList());
   }

@@ -44,27 +44,27 @@ export class AppComponent implements OnInit {
 
   private subscribeToQueues() {
     this.webSocketService.watch(this.token, this.userProfile.username, 'order-waiting-validation').subscribe(message => {
-      console.log('Waiting for validation: ', message);
+      console.log('Waiting for validation: ', message.body);
     });
 
     this.webSocketService.watch(this.token, this.userProfile.username, 'order-cancelled').subscribe(message => {
-      console.log('Cancelled: ', message);
+      console.log('Cancelled: ', message.body);
     });
 
     this.webSocketService.watch(this.token, this.userProfile.username, 'order-paid').subscribe(message => {
-      console.log('Paid: ', message);
+      console.log('Paid: ', message.body);
     });
 
     this.webSocketService.watch(this.token, this.userProfile.username, 'order-shipped').subscribe(message => {
-      console.log('Shipped: ', message);
+      console.log('Shipped: ', message.body);
     });
 
     this.webSocketService.watch(this.token, this.userProfile.username, 'order-stock-confirmed').subscribe(message => {
-      console.log('Stock confirmed: ', message);
+      console.log('Stock confirmed: ', message.body);
     });
 
     this.webSocketService.watch(this.token, this.userProfile.username, 'order-submitted').subscribe(message => {
-      console.log('Submitted: ', message);
+      console.log('Submitted: ', message.body);
     });
   }
 }

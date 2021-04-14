@@ -14,6 +14,8 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.listener.DeadLetterPublishingRecoverer;
 import org.springframework.kafka.listener.SeekToCurrentErrorHandler;
+import org.springframework.kafka.support.converter.DefaultJackson2JavaTypeMapper;
+import org.springframework.kafka.support.converter.Jackson2JavaTypeMapper;
 import org.springframework.kafka.support.converter.RecordMessageConverter;
 import org.springframework.kafka.support.converter.StringJsonMessageConverter;
 import org.springframework.kafka.support.serializer.JsonSerializer;
@@ -70,7 +72,17 @@ public class KafkaConfig {
   // Consumer
   @Bean
   public RecordMessageConverter converter() {
-    return new StringJsonMessageConverter();
+    var converter = new StringJsonMessageConverter();
+//    var mapper = new DefaultJackson2JavaTypeMapper();
+//    mapper.setTypePrecedence(Jackson2JavaTypeMapper.TypePrecedence.TYPE_ID);
+//    mapper.addTrustedPackages("*");
+//    Map<String, Class<?>> mappings = new HashMap<>();
+//    mappings.put("foo", Foo2.class);
+//    mappings.put("bar", Bar2.class);
+//    typeMapper.setIdClassMapping(mappings);
+//    converter.setTypeMapper(mapper);
+
+    return converter;
   }
 
   // Topics

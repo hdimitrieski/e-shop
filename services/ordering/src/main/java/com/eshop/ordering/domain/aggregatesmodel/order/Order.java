@@ -68,8 +68,7 @@ public class Order extends AggregateRoot {
     this.paymentMethodId = paymentMethodId;
     this.orderDate = LocalDateTime.now();
     this.address = address;
-    this.orderStatusId = OrderStatus.Submitted.getId();
-    this.populateOrderStatus();
+    changeOrderStatusTo(OrderStatus.Submitted);
 
     // Add the OrderStarterDomainEvent to the domain events collection
     // to be raised/dispatched when comitting changes into the Database [ After DbContext.SaveChanges() ]
@@ -110,7 +109,7 @@ public class Order extends AggregateRoot {
   public void setAwaitingValidationStatus() {
     if (OrderStatus.Submitted.getId().equals(orderStatusId)) {
       addDomainEvent(new OrderStatusChangedToAwaitingValidationDomainEvent(id, orderItems));
-      orderStatusId = OrderStatus.AwaitingValidation.getId();
+      changeOrderStatusTo(OrderStatus.AwaitingValidation);
     }
   }
 
@@ -118,16 +117,16 @@ public class Order extends AggregateRoot {
     if (OrderStatus.AwaitingValidation.getId().equals(orderStatusId)) {
       addDomainEvent(new OrderStatusChangedToStockConfirmedDomainEvent(id));
 
-      orderStatusId = OrderStatus.StockConfirmed.getId();
+      changeOrderStatusTo(OrderStatus.StockConfirmed);
       description = "All the items were confirmed with available stock.";
     }
   }
 
   public void setPaidStatus() {
     if (OrderStatus.StockConfirmed.getId().equals(orderStatusId)) {
-      addDomainEvent(new OrderStatusChangedToPaidDomainEvent(id, orderItems));
-      orderStatusId = OrderStatus.Paid.getId();
+      changeOrderStatusTo(OrderStatus.Paid);
       description = "The payment was performed at a simulated \"American Bank checking bank account ending on XX35071\"";
+      addDomainEvent(new OrderStatusChangedToPaidDomainEvent(id, orderItems));
     }
   }
 
@@ -136,7 +135,7 @@ public class Order extends AggregateRoot {
       statusChangeException(OrderStatus.Shipped);
     }
 
-    orderStatusId = OrderStatus.Shipped.getId();
+    changeOrderStatusTo(OrderStatus.Shipped);
     description = "The order was shipped.";
     addDomainEvent(new OrderShippedDomainEvent(this));
   }
@@ -146,14 +145,14 @@ public class Order extends AggregateRoot {
       statusChangeException(OrderStatus.Cancelled);
     }
 
-    orderStatusId = OrderStatus.Cancelled.getId();
+    changeOrderStatusTo(OrderStatus.Cancelled);
     description = "The order was cancelled.";
     addDomainEvent(new OrderCancelledDomainEvent(this));
   }
 
   public void setCancelledStatusWhenStockIsRejected(List<Integer> orderStockRejectedItems) {
     if (OrderStatus.AwaitingValidation.getId().equals(orderStatusId)) {
-      orderStatusId = OrderStatus.Cancelled.getId();
+      changeOrderStatusTo(OrderStatus.Cancelled);
 
       var itemsStockRejectedProductNames = orderItems.stream()
           .filter(c -> orderStockRejectedItems.contains(c.getProductId()))
@@ -182,6 +181,11 @@ public class Order extends AggregateRoot {
     return orderItems.stream().map(o -> o.getUnits() * o.getUnitPrice())
         .reduce(Double::sum)
         .orElse(0D);
+  }
+
+  private void changeOrderStatusTo(OrderStatus newOrderStatus) {
+    this.orderStatus = newOrderStatus;
+    this.orderStatusId = newOrderStatus.getId();
   }
 
   @PostLoad

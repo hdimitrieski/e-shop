@@ -12,8 +12,8 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 public class OrderStatusChangedToPaidIntegrationEvent extends IntegrationEvent {
-    private Long orderId;
-    private String buyerName;
-    private String orderStatus;
-    private List<OrderStockItem> orderStockItems;
+  private Long orderId;
+  private String orderStatus;
+  private String buyerName;
+  private List<OrderStockItem> orderStockItems;
 }

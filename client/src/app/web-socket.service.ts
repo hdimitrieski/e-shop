@@ -12,7 +12,6 @@ export class WebSocketService {
   async connect(token: string) {
     this.stompService.configure({
       ...stompConfig,
-      brokerURL: `ws://localhost:8085/socket?access_token=${token}`,
       connectHeaders: {
         ...this.headers(token)
       }
@@ -21,7 +20,7 @@ export class WebSocketService {
   }
 
   watch(token: string, userName: string, queueName: string) {
-    return this.stompService.watch(`/user/${userName}/queue/${queueName}`, this.headers(token));
+    return this.stompService.watch(`/user/queue/${queueName}`, this.headers(token));
   }
 
   private headers(token: string) {

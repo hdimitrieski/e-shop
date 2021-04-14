@@ -33,7 +33,7 @@ public class BasketServiceImpl implements BasketService {
 
   @Override
   public void checkout(BasketCheckout basketCheckout) {
-    var userId = identityService.getUserIdentity();
+    var userId = identityService.getUserName();
     var basket = getCustomerBasket(userId);
     var userName = identityService.getUserName();
 
