@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: order-grace-period-task
+  cloud:
+    config:
+      uri: http://localhost:8888
+      fail-fast: true
+      password: cfgpassword
+      username: cfguser
+      retry:
+        max-attempts: 10
+        max-interval: 15000
+        initial-interval: 10000

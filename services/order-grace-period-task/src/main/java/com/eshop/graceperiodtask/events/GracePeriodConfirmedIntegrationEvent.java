@@ -1,4 +1,4 @@
-package com.eshop.ordering.backgroundtasks.events;
+package com.eshop.graceperiodtask.events;
 
 import com.eshop.eventbus.IntegrationEvent;
 import lombok.AllArgsConstructor;

@@ -1,12 +1,10 @@
-package com.eshop.ordering.backgroundtasks;
+package com.eshop.graceperiodtask;
 
-import com.eshop.ordering.api.application.integrationevents.EventBus;
-import com.eshop.ordering.api.application.integrationevents.eventhandling.GracePeriodConfirmedIntegrationEventHandler;
-import com.eshop.ordering.backgroundtasks.events.GracePeriodConfirmedIntegrationEvent;
+import com.eshop.eventbus.EventBus;
+import com.eshop.graceperiodtask.events.GracePeriodConfirmedIntegrationEvent;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -30,8 +28,6 @@ public class GracePeriodManagerTask {
 
   private final EventBus eventBus;
   private final EntityManager entityManager;
-  @Value("${spring.kafka.consumer.topic.gracePeriodConfirmed}")
-  private String gracePeriodConfirmedTopic;
 
   @Scheduled(fixedRate = 60000)
   public void execute() {
@@ -45,7 +41,7 @@ public class GracePeriodManagerTask {
     var orderIds = getConfirmedGracePeriodOrders();
     for (var orderId : orderIds) {
       var confirmGracePeriodEvent = new GracePeriodConfirmedIntegrationEvent(orderId);
-      eventBus.publish(gracePeriodConfirmedTopic, confirmGracePeriodEvent);
+      eventBus.publish(confirmGracePeriodEvent);
     }
   }
 

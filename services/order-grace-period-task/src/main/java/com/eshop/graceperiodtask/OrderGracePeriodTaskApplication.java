@@ -1,0 +1,15 @@
+package com.eshop.graceperiodtask;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableScheduling;
+
+@SpringBootApplication(scanBasePackages = "com.eshop")
+@EnableScheduling
+public class OrderGracePeriodTaskApplication {
+
+  public static void main(String[] args) {
+    SpringApplication.run(OrderGracePeriodTaskApplication.class, args);
+  }
+
+}
