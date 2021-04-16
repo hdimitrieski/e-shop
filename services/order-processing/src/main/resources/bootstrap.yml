@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: orders
+    name: order-processing
   cloud:
     config:
       uri: http://localhost:8888

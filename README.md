@@ -76,3 +76,29 @@
 
 6. stock-confirmed
     - OrderStatusChangedToStockConfirmedIntegrationEvent
+
+# Grace period management
+Create spring.cloud.task for the grace period management (GracePeriodManagerTask). 
+The task is like the amazon lambda - it starts, executes a job and exits. Also, it can be connected
+with a database, so it can write when it's starting, execution result, etc.
+Also, this should be a separate module under ordering.
+
+Also, I can have tasks that are subscribed to a message bus and do something
+only when there is a message related to the task.
+
+OR I can use spring.cloud.dataflow to schedule tasks.
+
+OR before I start using spring.cloud.task i can just create a new module that will 
+contain spring application which will schedule the task. ex. https://spring.io/guides/gs/scheduling-tasks/.
+
+
+See:
+- https://app.pluralsight.com/course-player?clipId=a4627744-c799-47db-8517-4f76c7ca74d9
+- https://github.com/RawSanj/spring-cloud-task-as-k8s-cronjob
+
+# Data pipeline
+See what's spring cloud data flow. 
+
+# Spring cloud stream
+Use spring cloud stream instead of using Kafka directly. Use kafka only
+in the analytics service because there we will need to combine multiple streams.

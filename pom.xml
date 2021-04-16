@@ -40,10 +40,10 @@
         <module>infrastructure/gateway</module>
         <module>infrastructure/discovery</module>
         <module>infrastructure/config</module>
-        <module>services/ordering</module>
+        <module>services/order-processing</module>
+        <module>services/order-notifications</module>
         <module>services/catalog</module>
         <module>services/basket</module>
         <module>services/payment</module>
-        <module>services/order-notifications</module>
     </modules>
 </project>

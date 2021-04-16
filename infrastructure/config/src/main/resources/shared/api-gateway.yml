@@ -10,7 +10,7 @@ spring:
           gateway:
             provider: keycloak
             client-id: eshop-gateway
-            client-secret: f65e7259-cc66-47c4-9973-b5274858d19c
+            client-secret: 9289d4d6-c583-4edb-80b2-97d8d5a6db67
             authorization-grant-type: client_credentials
         #            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
         #            scope: openid,profile,orders,basket
