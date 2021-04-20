@@ -1,6 +1,7 @@
 package com.eshop.signaler.config;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.simp.stomp.StompCommand;
@@ -18,6 +19,8 @@ import java.util.List;
 @Component
 public class WebSocketConnectInterceptor implements ChannelInterceptor {
   private final JwtDecoder jwtDecoderByIssuerUri;
+  @Value("${app.security.jwt.user-name-attribute}")
+  private String userNameAttribute;
 
   @Override
   public Message<?> preSend(Message<?> message, MessageChannel channel) {
@@ -28,7 +31,7 @@ public class WebSocketConnectInterceptor implements ChannelInterceptor {
       String accessToken = authorization.get(0).split(" ")[1];
       var jwt = jwtDecoderByIssuerUri.decode(accessToken);
       JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
-      converter.setPrincipalClaimName("preferred_username");
+      converter.setPrincipalClaimName(userNameAttribute);
       Authentication authentication = converter.convert(jwt);
       accessor.setUser(authentication);
     }

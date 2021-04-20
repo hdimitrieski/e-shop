@@ -7,6 +7,9 @@ server:
 
 # Custom config
 app:
+  security:
+    jwt:
+      user-name-attribute: preferred_user
   eureka:
     host: localhost
     port: 8761

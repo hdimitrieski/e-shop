@@ -1,5 +1,6 @@
 package com.eshop.gateway.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -13,6 +14,10 @@ import reactor.core.publisher.Mono;
 @EnableWebFluxSecurity
 @Configuration
 public class SecurityConfig {
+
+  @Value("${app.security.jwt.user-name-attribute}")
+  private String userNameAttribute;
+
   @Bean
   SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
     http
@@ -31,7 +36,7 @@ public class SecurityConfig {
         .jwt(jwtSpec -> jwtSpec.jwtAuthenticationConverter(jwt -> {
           var token = new JwtAuthenticationConverter().convert(jwt);
           return Mono.just(new JwtAuthenticationToken(jwt,
-              token.getAuthorities(), jwt.getClaim("preferred_username")));
+              token.getAuthorities(), jwt.getClaim(userNameAttribute)));
         }));
 
     return http.build();
