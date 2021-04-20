@@ -15,13 +15,10 @@ import reactor.core.publisher.Mono;
 
 import java.util.stream.Collectors;
 
-import static org.springframework.security.oauth2.client.web.reactive.function.client.ServerOAuth2AuthorizedClientExchangeFilterFunction.clientRegistrationId;
-
 @RequiredArgsConstructor
 @Service
 public class OrderingApiServiceImpl implements OrderingApiService {
   private final WebClient webClient;
-  private static final String clientId = "gateway";
 
   @Override
   public Mono<OrderData> getOrderDraft(BasketData basket) {
@@ -41,7 +38,6 @@ public class OrderingApiServiceImpl implements OrderingApiService {
     return webClient
         .post()
         .uri("http://localhost:8082/orders/draft")
-        .attributes(clientRegistrationId(clientId))
         .contentType(MediaType.APPLICATION_JSON)
         .bodyValue(request)
         .retrieve()

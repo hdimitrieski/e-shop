@@ -24,8 +24,6 @@ public class SecurityConfig {
         .pathMatchers( "/api/v1/catalog/*").hasAuthority("SCOPE_webshoppingagg")
         .anyExchange().authenticated()
         .and()
-        .oauth2Client()
-        .and()
         .oauth2ResourceServer()
         .jwt();
 
