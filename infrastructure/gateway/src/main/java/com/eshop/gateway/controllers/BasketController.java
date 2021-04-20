@@ -9,8 +9,11 @@ import com.eshop.gateway.services.UpdateBasketService;
 import com.eshop.gateway.services.UpdateBasketQuantitiesService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
+
+import java.security.Principal;
 
 import static java.util.Objects.isNull;
 import static org.springframework.util.CollectionUtils.isEmpty;
@@ -24,11 +27,14 @@ public class BasketController {
   private final AddBasketItemService addBasketItemService;
 
   @PostMapping
-  public Mono<BasketData> updateBasket(@RequestBody UpdateBasketRequest data) {
+  public Mono<BasketData> updateBasket(
+      @RequestBody UpdateBasketRequest data,
+      @AuthenticationPrincipal Principal principal
+  ) {
     if (isEmpty(data.items())) {
       return Mono.error(new IllegalArgumentException("Empty basket"));
     }
-    return updateBasketService.updateBasket(data);
+    return updateBasketService.updateBasket(new UpdateBasketRequest(principal.getName(), data.items()));
   }
 
   @PutMapping("items")

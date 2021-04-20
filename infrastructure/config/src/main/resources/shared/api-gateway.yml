@@ -4,7 +4,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          jwk-set-uri: http://${app.auth-server.host}:${app.auth-server.port}/auth/realms/${app.auth-server.realm}/protocol/openid-connect/certs
+          issuer-uri: http://localhost:8090/auth/realms/e-shop
 
 # Logging
 logging:
