@@ -93,45 +93,5 @@ services:
     depends_on:
       - rabbitmq
 
-  elastic-search:
-    image: elasticsearch:7.12.0
-    ports:
-      - 9200:9200
-    restart: always
-    environment:
-      - discovery.type=single-node
-
-  kibana:
-    image: kibana:7.12.0
-    ports:
-      - 5601:5601
-    restart: always
-    environment:
-      - ELASTICSEARCH_HOSTS=http://elastic-search:9200
-    depends_on:
-      - elastic-search
-
-  logstash:
-    image: logstash:7.12.0
-    ports:
-      - 5044:5044
-    restart: always
-    environment:
-      - XPACK_MONITORING_ELASTICSEARCH_HOSTS=http://elastic-search:9200
-      - XPACK_MONITORING_ENABLED=true
-    depends_on:
-      - elastic-search
-    volumes:
-      - ./logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
-
-  image-service:
-    image: minimalcompact/thumbor
-    ports:
-      - 8887:80
-    environment:
-      UPLOAD_ENABLED: 'True'
-      UPLOAD_MAX_SIZE: 5000000 # 5Mb
-    restart: on-failure
-
 volumes:
   mysql_data:

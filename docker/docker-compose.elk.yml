@@ -1,0 +1,41 @@
+version: '3.5'
+
+services:
+
+  elastic-search:
+    build:
+      context: elk/elasticsearch/
+    ports:
+      - 9200:9200
+      - 9300:9300
+    environment:
+      ES_JAVA_OPTS: "-Xmx256m -Xms256m"
+    volumes:
+      - ./elk/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+
+  logstash:
+    build:
+      context: elk/logstash/
+    volumes:
+      - ./elk/logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
+      - ./elk/logstash/pipeline:/usr/share/logstash/pipeline:ro
+    ports:
+      - 5044:8080
+    environment:
+      XPACK_MONITORING_ELASTICSEARCH_HOSTS: "http://elastic-search:9200"
+      XPACK_MONITORING_ENABLED: "true"
+      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+    depends_on:
+      - elastic-search
+
+  kibana:
+    build:
+      context: elk/kibana/
+    volumes:
+      - ./elk/kibana/config/:/usr/share/kibana/config
+    ports:
+      - 5601:5601
+#    environment:
+#      ELASTICSEARCH_URL: "http://elastic-search:9200"
+    depends_on:
+      - elastic-search

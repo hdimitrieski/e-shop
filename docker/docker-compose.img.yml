@@ -1,0 +1,12 @@
+version: '3.5'
+
+services:
+
+  image-service:
+    image: minimalcompact/thumbor
+    ports:
+      - 8887:80
+    environment:
+      UPLOAD_ENABLED: 'True'
+      UPLOAD_MAX_SIZE: 5000000 # 5Mb
+    restart: on-failure
