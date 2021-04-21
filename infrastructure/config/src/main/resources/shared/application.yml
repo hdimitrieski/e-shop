@@ -9,7 +9,7 @@ server:
 app:
   security:
     jwt:
-      user-name-attribute: preferred_user
+      user-name-attribute: preferred_username
   eureka:
     host: localhost
     port: 8761
