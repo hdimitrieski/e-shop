@@ -13,23 +13,28 @@ import java.util.ArrayList;
 @RequiredArgsConstructor
 @Service
 public class BasketApiServiceImpl implements BasketApiService {
-  private final WebClient webClient;
+  private final WebClient.Builder webClient;
 
+//  @CircuitBreaker(name = "basket")
+//  @TimeLimiter(name = "basket")
+//  @Retry(name = "basket")
   @Override
   public Mono<BasketData> getById(String id) {
-    return webClient
+    return webClient.build()
         .get()
-        .uri("http://localhost:8081/basket/" + id)
+        .uri("lb://basket/basket/" + id)
         .retrieve()
         .bodyToMono(BasketData.class)
         .onErrorReturn(new BasketData(id, new ArrayList<>()));
   }
 
+//  @CircuitBreaker(name = "basket")
+//  @Retry(name = "basket")
   @Override
   public Mono<BasketData> update(BasketData currentBasket) {
-    return webClient
+    return webClient.build()
         .post()
-        .uri("http://localhost:8081/basket/")
+        .uri("lb://basket/basket/")
         .contentType(MediaType.APPLICATION_JSON)
         .bodyValue(currentBasket)
         .retrieve()

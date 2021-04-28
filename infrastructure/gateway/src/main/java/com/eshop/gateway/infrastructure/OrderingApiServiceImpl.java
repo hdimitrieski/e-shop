@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 public class OrderingApiServiceImpl implements OrderingApiService {
-  private final WebClient webClient;
+  private final WebClient.Builder webClient;
 
   @Override
   public Mono<OrderData> getOrderDraft(BasketData basket) {
@@ -35,9 +35,9 @@ public class OrderingApiServiceImpl implements OrderingApiService {
         )).collect(Collectors.toList())
     );
 
-    return webClient
+    return webClient.build()
         .post()
-        .uri("http://localhost:8082/orders/draft")
+        .uri("lb://order-processing/orders/draft")
         .contentType(MediaType.APPLICATION_JSON)
         .bodyValue(request)
         .retrieve()

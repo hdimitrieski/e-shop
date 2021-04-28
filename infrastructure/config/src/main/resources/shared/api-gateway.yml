@@ -6,6 +6,75 @@ spring:
         jwt:
           issuer-uri: http://${app.auth-server.host}:${app.auth-server.port}/auth/realms/${app.auth-server.realm}
 
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+
+    loadbalancer:
+      ribbon:
+        enabled: false
+
+#resilience4j:
+#  circuitbreaker:
+#    configs:
+#      default:
+#        registerHealthIndicator: true
+#        slidingWindowSize: 10
+#        minimumNumberOfCalls: 5
+#        permittedNumberOfCallsInHalfOpenState: 3
+#        automaticTransitionFromOpenToHalfOpenEnabled: true
+#        waitDurationInOpenState: 5s
+#        failureRateThreshold: 50
+#        eventConsumerBufferSize: 10
+#        recordExceptions:
+#          - org.springframework.web.client.HttpServerErrorException
+#          - java.util.concurrent.TimeoutException
+#          - java.io.IOException
+#          - java.net.ConnectException
+##        ignoreExceptions:
+##          -
+#    instances:
+#      basket:
+#        baseConfig: default
+#
+#  retry:
+#    configs:
+#      default:
+#        maxRetryAttempts: 3
+#        waitDuration: 100
+#        retryExceptions:
+#          - org.springframework.web.client.HttpServerErrorException
+#          - java.util.concurrent.TimeoutException
+#          - java.io.IOException
+##        ignoreExceptions:
+##          - NotFound, ...
+#    instances:
+#      basket:
+#        baseConfig: default
+#
+#  ratelimiter:
+#    configs:
+#      default:
+#        registerHealthIndicator: false
+#        limitForPeriod: 10
+#        limitRefreshPeriod: 1s
+#        timeoutDuration: 0
+#        eventConsumerBufferSize: 100
+#    instances:
+#      basket:
+#        baseConfig: default
+#
+#  timelimiter:
+#    configs:
+#      default:
+#        cancelRunningFuture: false
+#        timeoutDuration: 2s
+#    instances:
+#      basket:
+#        baseConfig: default
 # Logging
 logging:
   level:

@@ -14,13 +14,13 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 public class CatalogApiServiceImpl implements CatalogApiService {
-  private final WebClient unauthorizedWebClient;
+  private final WebClient.Builder unauthorizedWebClient;
 
   @Override
   public Mono<CatalogItem> getCatalogItem(Long id) {
-    return unauthorizedWebClient
+    return unauthorizedWebClient.build()
         .get()
-        .uri("http://localhost:8080/catalog/items/" + id)
+        .uri("lb://catalog/catalog/items/" + id)
         .retrieve()
         .bodyToMono(CatalogItem.class);
   }
@@ -29,9 +29,9 @@ public class CatalogApiServiceImpl implements CatalogApiService {
   public Flux<CatalogItem> getCatalogItems(List<Long> ids) {
     var commaSeparatedIds = ids.stream().map(String::valueOf).collect(Collectors.joining(", "));
 
-    return unauthorizedWebClient
+    return unauthorizedWebClient.build()
         .get()
-        .uri("http://localhost:8080/catalog/items/withids/" + commaSeparatedIds)
+        .uri("http://catalog/catalog/items/withids/" + commaSeparatedIds)
         .retrieve()
         .bodyToFlux(CatalogItem.class);
   }

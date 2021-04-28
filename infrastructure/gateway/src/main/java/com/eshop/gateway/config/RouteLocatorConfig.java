@@ -16,8 +16,9 @@ public class RouteLocatorConfig {
         .route("catalog", r -> r
             .path("/api/v1/catalog/*")
             .filters(f -> f.removeRequestHeader("Cookie") // Prevents cookie being sent downstream
+//                .circuitBreaker(config -> config.setName("normalflux"))
                 .rewritePath("api/v1", ""))
-            .uri("http://localhost:8080") // Take advantage of docker naming
+            .uri("lb://catalog") // Take advantage of docker naming
         )
         .route("basket", r -> r
             .order(0)
@@ -25,14 +26,14 @@ public class RouteLocatorConfig {
             .filters(f -> f.removeRequestHeader("Cookie")
                 .rewritePath("api/v1", "")
             )
-            .uri("http://localhost:8081")
+            .uri("lb://basket")
         )
         .route("orders", r -> r
             .path("/api/v1/orders/*")
             .filters(f -> f.removeRequestHeader("Cookie")
                 .rewritePath("api/v1", "")
             )
-            .uri("http://localhost:8082")
+            .uri("lb://order-processing")
         )
         .build();
   }

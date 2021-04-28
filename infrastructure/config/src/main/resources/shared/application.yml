@@ -80,7 +80,8 @@ sample:
 eureka:
   instance:
     prefer-ip-address: true
-    instance-id: ${spring.application.name}:${random.int}
+#    instance-id: ${spring.application.name}:${random.int}
+    instance-id: ${spring.application.name}
     hostname: localhost
   client:
     fetch-registry: true
