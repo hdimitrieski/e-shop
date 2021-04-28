@@ -1,6 +1,8 @@
 
 # Eureka server
 eureka:
+  datacenter: Test Data Center
+  environment: pevelopment
   client:
     register-with-eureka: false
     fetch-registry: false

@@ -80,7 +80,10 @@ sample:
 eureka:
   instance:
     prefer-ip-address: true
+    instance-id: ${spring.application.name}:${random.int}
+    hostname: localhost
   client:
+    fetch-registry: true
     serviceUrl:
       defaultZone: http://${app.eureka.user}:${app.eureka.pass}@${app.eureka.host}:${app.eureka.port}/eureka/
     healthcheck:
