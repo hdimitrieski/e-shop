@@ -13,14 +13,14 @@ import java.util.ArrayList;
 @RequiredArgsConstructor
 @Service
 public class BasketApiServiceImpl implements BasketApiService {
-  private final WebClient.Builder webClient;
+  private final WebClient.Builder basketWebClient;
 
 //  @CircuitBreaker(name = "basket")
 //  @TimeLimiter(name = "basket")
 //  @Retry(name = "basket")
   @Override
   public Mono<BasketData> getById(String id) {
-    return webClient.build()
+    return basketWebClient.build()
         .get()
         .uri("lb://basket/basket/" + id)
         .retrieve()
@@ -32,7 +32,7 @@ public class BasketApiServiceImpl implements BasketApiService {
 //  @Retry(name = "basket")
   @Override
   public Mono<BasketData> update(BasketData currentBasket) {
-    return webClient.build()
+    return basketWebClient.build()
         .post()
         .uri("lb://basket/basket/")
         .contentType(MediaType.APPLICATION_JSON)

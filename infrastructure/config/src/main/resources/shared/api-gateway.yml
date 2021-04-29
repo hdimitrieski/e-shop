@@ -16,6 +16,9 @@ spring:
     loadbalancer:
       ribbon:
         enabled: false
+      retry:
+        enabled: false
+
 
 #resilience4j:
 #  circuitbreaker:
