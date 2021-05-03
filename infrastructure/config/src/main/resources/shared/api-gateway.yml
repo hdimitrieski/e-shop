@@ -19,65 +19,82 @@ spring:
       retry:
         enabled: false
 
+management.endpoints.web.exposure.include: '*'
+management.endpoint.health.show-details: always
 
-#resilience4j:
-#  circuitbreaker:
-#    configs:
-#      default:
-#        registerHealthIndicator: true
-#        slidingWindowSize: 10
-#        minimumNumberOfCalls: 5
-#        permittedNumberOfCallsInHalfOpenState: 3
-#        automaticTransitionFromOpenToHalfOpenEnabled: true
-#        waitDurationInOpenState: 5s
-#        failureRateThreshold: 50
-#        eventConsumerBufferSize: 10
-#        recordExceptions:
-#          - org.springframework.web.client.HttpServerErrorException
-#          - java.util.concurrent.TimeoutException
-#          - java.io.IOException
-#          - java.net.ConnectException
-##        ignoreExceptions:
-##          -
-#    instances:
-#      basket:
-#        baseConfig: default
-#
-#  retry:
-#    configs:
-#      default:
-#        maxRetryAttempts: 3
-#        waitDuration: 100
-#        retryExceptions:
-#          - org.springframework.web.client.HttpServerErrorException
-#          - java.util.concurrent.TimeoutException
-#          - java.io.IOException
-##        ignoreExceptions:
-##          - NotFound, ...
-#    instances:
-#      basket:
-#        baseConfig: default
-#
-#  ratelimiter:
-#    configs:
-#      default:
-#        registerHealthIndicator: false
-#        limitForPeriod: 10
-#        limitRefreshPeriod: 1s
-#        timeoutDuration: 0
-#        eventConsumerBufferSize: 100
-#    instances:
-#      basket:
-#        baseConfig: default
-#
-#  timelimiter:
-#    configs:
-#      default:
-#        cancelRunningFuture: false
-#        timeoutDuration: 2s
-#    instances:
-#      basket:
-#        baseConfig: default
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        permittedNumberOfCallsInHalfOpenState: 3
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 5s
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 10
+        recordExceptions:
+          - org.springframework.web.client.HttpServerErrorException
+          - java.util.concurrent.TimeoutException
+          - java.io.IOException
+          - java.net.ConnectException
+          - org.springframework.web.reactive.function.client.WebClientRequestException
+          - org.springframework.web.reactive.function.client.WebClientResponseException$ServiceUnavailable
+    instances:
+      basket:
+        baseConfig: default
+      catalog:
+        baseConfig: default
+      order:
+        baseConfig: default
+        recordExceptions:
+          - com.eshop.gateway.infrastructure.exception.ServiceCallFailedException
+
+  retry:
+    configs:
+      default:
+        maxRetryAttempts: 3
+        waitDuration: 100
+        retryExceptions:
+          - org.springframework.web.client.HttpServerErrorException
+          - java.util.concurrent.TimeoutException
+          - java.io.IOException
+          - java.net.ConnectException
+          - org.springframework.web.reactive.function.client.WebClientRequestException
+          - org.springframework.web.reactive.function.client.WebClientResponseException$ServiceUnavailable
+#        ignoreExceptions:
+#          - ...
+    instances:
+      basket:
+        baseConfig: default
+      catalog:
+        baseConfig: default
+        maxRetryAttempts: 4
+        waitDuration: 200
+
+  ratelimiter:
+    configs:
+      default:
+        registerHealthIndicator: false
+        limitForPeriod: 10
+        limitRefreshPeriod: 1s
+        timeoutDuration: 0
+        eventConsumerBufferSize: 100
+    instances:
+      basket:
+        baseConfig: default
+
+  timelimiter:
+    configs:
+      default:
+        cancelRunningFuture: false
+        timeoutDuration: 2s
+    instances:
+      catalog:
+        baseConfig: default
+        cancelRunningFuture: true
+
 # Logging
 logging:
   level:

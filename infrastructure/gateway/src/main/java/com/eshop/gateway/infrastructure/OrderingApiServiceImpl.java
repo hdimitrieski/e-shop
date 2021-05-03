@@ -1,5 +1,6 @@
 package com.eshop.gateway.infrastructure;
 
+import com.eshop.gateway.infrastructure.exception.ServiceCallFailedException;
 import com.eshop.gateway.models.BasketData;
 import com.eshop.gateway.models.OrderData;
 import com.eshop.gateway.models.OrderItemData;
@@ -7,7 +8,9 @@ import com.eshop.gateway.services.OrderingApiService;
 import com.eshop.gateway.services.dtos.BasketItem;
 import com.eshop.gateway.services.dtos.CreateOrderDraftRequest;
 import com.eshop.gateway.services.dtos.OrderDraftDTO;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -20,6 +23,7 @@ import java.util.stream.Collectors;
 public class OrderingApiServiceImpl implements OrderingApiService {
   private final WebClient.Builder orderWebClient;
 
+  @CircuitBreaker(name = "order")
   @Override
   public Mono<OrderData> getOrderDraft(BasketData basket) {
     var request = new CreateOrderDraftRequest(
@@ -41,6 +45,7 @@ public class OrderingApiServiceImpl implements OrderingApiService {
         .contentType(MediaType.APPLICATION_JSON)
         .bodyValue(request)
         .retrieve()
+        .onStatus(HttpStatus::is5xxServerError, clientResponse -> Mono.error(new ServiceCallFailedException()))
         .bodyToMono(OrderDraftDTO.class)
         .map(orderDraft -> new OrderData(
             basket.buyerId(),
