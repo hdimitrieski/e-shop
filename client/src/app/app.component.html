@@ -1,9 +1,9 @@
 <h1>Keycloak Angular Example</h1>
 
-<button *ngIf="isLoggedIn" type="button" (click)="logout()">Log out</button>
-<button *ngIf="!isLoggedIn" type="button" (click)="login()">Log in</button>
+<button *ngIf="loggedIn$ | async" type="button" (click)="logout()">Log out</button>
+<button *ngIf="!(loggedIn$ | async)" type="button" (click)="login()">Log in</button>
 
-<ng-container *ngIf="userProfile">
+<ng-container *ngIf="(userProfile$ | async) as userProfile">
   <h2>User information</h2>
   <table>
     <tr *ngIf="userProfile.username">

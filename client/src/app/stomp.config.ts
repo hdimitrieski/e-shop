@@ -1,5 +1,5 @@
 import { InjectableRxStompConfig } from '@stomp/ng2-stompjs';
-
+// TODO HD move in env
 export const stompConfig: InjectableRxStompConfig = {
   brokerURL: 'ws://localhost:8085/order-notifications',
 
