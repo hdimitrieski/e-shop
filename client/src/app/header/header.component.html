@@ -1,0 +1,3 @@
+<img src="../../assets/eshop_logo.png" alt="Logo">
+<button *ngIf="loggedIn$ | async" type="button" (click)="logout()">LOGOUT</button>
+<button *ngIf="!(loggedIn$ | async)" type="button" (click)="login()">LOGIN</button>
