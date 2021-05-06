@@ -1,1 +1,23 @@
-<div *ngFor="let type of types">{{type.type}}</div>
+<form [formGroup]="filterForm" (submit)="onFilterSubmitted()" class="form">
+  <div class="select-wrap">
+    <label>TYPES</label>
+    <select formControlName="type">
+      <option>All</option>
+      <option *ngFor="let type of types" [ngValue]=type>
+        {{type.type}}
+      </option>
+    </select>
+  </div>
+
+  <div class="select-wrap">
+    <label>BRANDS</label>
+    <select formControlName="brand">
+      <option>All</option>
+      <option *ngFor="let brand of brands" [ngValue]=brand>
+        {{brand.brand}}
+      </option>
+    </select>
+  </div>
+
+  <button type="submit"> > </button>
+</form>

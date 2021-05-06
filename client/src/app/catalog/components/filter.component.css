@@ -1,0 +1,49 @@
+.form {
+  background-color: #61e0b694;
+  padding: 5px;
+  display: flex;
+  margin: 0 -5px;
+}
+
+.select-wrap {
+  border: 1px solid white;
+  border-radius: 4px;
+  padding: 5px;
+  margin: 0 5px;
+  width: 100px;
+  background-color: #61e0b694;
+  position: relative;
+}
+
+.select-wrap label {
+  font-size: 10px;
+  text-transform: uppercase;
+  color: #777;
+  position: absolute;
+}
+
+select {
+  background-color: #61e0b694;
+  border: 0px;
+  height: 50px;
+  font-size: 16px;
+  padding: 10px 0 5px;
+  color: white;
+}
+
+button {
+  background-color: rgba(172, 255, 47, 0.856);
+  padding: 10px;
+  border: none;
+  color: white;
+  font-size: large;
+  font-weight: bold;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+select:hover {
+  cursor: pointer;
+}

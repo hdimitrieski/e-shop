@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { CatalogBrand } from '../models/catalogBrand';
 import { CatalogType } from '../models/catalogType';
 import { CatalogService } from '../services/catalog.service';
@@ -9,16 +10,37 @@ import { CatalogService } from '../services/catalog.service';
   styleUrls: ['./filter.component.css'],
 })
 export class FilterComponent implements OnInit {
-  types: any;
+  types: CatalogType[];
   brands: CatalogBrand[];
 
-  constructor(private catalogService: CatalogService) {}
+  @Output() typeSubmitted = new EventEmitter();
+  @Output() brandSubmitted = new EventEmitter();
+
+  filterForm: FormGroup;
+
+  constructor(
+    private catalogService: CatalogService,
+    private fb: FormBuilder
+  ) {}
 
   ngOnInit() {
-    console.log('AA');
-    this.catalogService.fetchCatalogTypes().subscribe((data) => {
-      console.log('data', data);
-      this.types = data;
+    this.filterForm = this.fb.group({
+      type: this.fb.control('All'),
+      brand: this.fb.control('All'),
     });
+
+    this.catalogService.fetchCatalogTypes().subscribe((types) => {
+      this.types = types;
+    });
+
+    this.catalogService.fetchCatalogBrands().subscribe((brands) => {
+      this.brands = brands;
+    });
+  }
+
+  onFilterSubmitted() {
+    console.log(this.filterForm.value);
+    this.typeSubmitted.emit(this.filterForm.value.type);
+    this.brandSubmitted.emit(this.filterForm.value.brand);
   }
 }
