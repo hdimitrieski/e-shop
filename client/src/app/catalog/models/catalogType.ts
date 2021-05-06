@@ -1,3 +1,4 @@
 export interface CatalogType {
-  "type": string;
+  id: number;
+  type: string;
 }
