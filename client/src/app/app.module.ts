@@ -1,28 +1,29 @@
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CatalogModule } from './catalog/catalog.module';
+import { CatalogComponent } from './catalog/components/catalog.component';
 import { FilterComponent } from './catalog/components/filter.component';
 import { CoreModule } from './core/core.module';
 import { HeaderComponent } from './header/header.component';
 
 @NgModule({
   declarations: [
-    AppComponent, 
-    HeaderComponent, 
-    FilterComponent
+    AppComponent,
+    HeaderComponent,
+    FilterComponent,
+    CatalogComponent,
   ],
   imports: [
-    BrowserModule, 
-    CoreModule, 
-    AppRoutingModule, 
-    CatalogModule
+    BrowserModule,
+    CoreModule,
+    AppRoutingModule,
+    CatalogModule,
+    ReactiveFormsModule,
   ],
   providers: [],
-  bootstrap: [
-    AppComponent
-  ],
+  bootstrap: [AppComponent],
 })
 export class AppModule {}
