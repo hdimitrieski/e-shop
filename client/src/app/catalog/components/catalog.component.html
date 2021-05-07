@@ -1,6 +1,6 @@
-<div  class="wrapper">
-  <div *ngFor="let item of items">
-    <div>{{item.name}}</div>
-    <div>{{item.price}}</div>
-  </div>
+<div class="wrapper">
+  <es-item
+    *ngFor="let item of items"
+    [item]="item">
+  </es-item>  
 </div>
