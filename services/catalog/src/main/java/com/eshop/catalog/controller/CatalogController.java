@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +19,9 @@ import javax.transaction.Transactional;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
+import static com.eshop.catalog.controller.CatalogSpecification.catalogBrandEqual;
+import static com.eshop.catalog.controller.CatalogSpecification.catalogTypeEqual;
+import static java.util.Objects.nonNull;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 @RequestMapping("catalog")
@@ -49,12 +53,20 @@ public class CatalogController {
   @RequestMapping("items")
   public Page<CatalogItem> catalogItems(
       @RequestParam(defaultValue = "10", required = false) Integer pageSize,
-      @RequestParam(defaultValue = "0", required = false) Integer pageIndex
+      @RequestParam(defaultValue = "0", required = false) Integer pageIndex,
+      @RequestParam(required = false) Long brandId,
+      @RequestParam(required = false) Long typeId
 //      @AuthenticationPrincipal Jwt jwt
   ) {
-    logger.info("Find catalog items - page size: {}, page index: {}", pageSize, pageIndex);
+    logger.info("Find catalog items - page size: {}, page index: {}, brand: {}, type: {}", pageSize, pageIndex, brandId, typeId);
 //    logger.info("Resource accessed by: {} (with subjectId: {})", jwt.getClaims().get("user_name"), jwt.getSubject());
-    return catalogItemRepository.findAll(PageRequest.of(pageIndex, pageSize));
+    var brand = findCatalogBrand(brandId);
+    var type = findCatalogType(typeId);
+
+    return catalogItemRepository.findAll(
+        Specification.where(catalogBrandEqual(brand).and(catalogTypeEqual(type))),
+        PageRequest.of(pageIndex, pageSize)
+    );
   }
 
   @RequestMapping("items/{id}")
@@ -67,9 +79,12 @@ public class CatalogController {
   public Page<CatalogItem> catalogItems(
       @RequestParam(defaultValue = "10", required = false) Integer pageSize,
       @RequestParam(defaultValue = "0", required = false) Integer pageIndex,
-      @PathVariable String name // TODO length should be min 1 character
+      @PathVariable String name
   ) {
-    return null; //return catalogItemRepository.findAllByName(name);
+    if (isEmpty(name)) {
+      throw new BadRequestException("The name must be at least one character long");
+    }
+    return catalogItemRepository.findAllByName(name, PageRequest.of(pageIndex, pageSize));
   }
 
   @RequestMapping("catalogtypes")
@@ -129,5 +144,20 @@ public class CatalogController {
   @RequestMapping(method = RequestMethod.DELETE, path = "items/{id}")
   public void deleteProduct(@PathVariable Long id) {
 
+  }
+
+
+  private CatalogBrand findCatalogBrand(Long id) {
+    return nonNull(id)
+        ? catalogBrandRepository.findById(id)
+        .orElseThrow(() -> new BadRequestException("Catalog brand %s does not exist".formatted(id)))
+        : null;
+  }
+
+  private CatalogType findCatalogType(Long id) {
+    return nonNull(id)
+        ? catalogTypeRepository.findById(id)
+        .orElseThrow(() -> new BadRequestException("Catalog type %s does not exist".formatted(id)))
+        : null;
   }
 }

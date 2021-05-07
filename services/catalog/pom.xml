@@ -18,6 +18,7 @@
         <apache-commons-lang.version>3.12.0</apache-commons-lang.version>
         <apache-commons-collections.version>4.4</apache-commons-collections.version>
         <logstash-logback-encoder.version>6.6</logstash-logback-encoder.version>
+        <hibernate-jpamodelgen.version>5.4.30.Final</hibernate-jpamodelgen.version>
     </properties>
 
     <dependencies>
@@ -109,6 +110,11 @@
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-jpamodelgen</artifactId>
+            <version>${hibernate-jpamodelgen.version}</version>
         </dependency>
         <!-- JPA + db -->
         <!-- Validation -->

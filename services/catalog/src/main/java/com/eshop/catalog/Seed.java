@@ -1,6 +1,7 @@
 package com.eshop.catalog;
 
 import com.eshop.catalog.model.*;
+import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -23,19 +24,19 @@ class Seed {
       return;
     }
 
-    var brands = catalogBrandRepository.saveAll(List.of(
+    var brands = Lists.newArrayList(catalogBrandRepository.saveAll(List.of(
         CatalogBrand.builder().brand("Nike").build(),
         CatalogBrand.builder().brand("Addidas").build(),
         CatalogBrand.builder().brand("Salomon").build(),
         CatalogBrand.builder().brand("Jones").build()
-    ));
+    )));
 
-    var types = catalogTypeRepository.saveAll(List.of(
+    var types = Lists.newArrayList(catalogTypeRepository.saveAll(List.of(
         CatalogType.builder().type("Gloves").build(),
         CatalogType.builder().type("Shoes").build(),
         CatalogType.builder().type("Pants").build(),
         CatalogType.builder().type("Shirts").build()
-    ));
+    )));
 
     catalogItemRepository.saveAll(List.of(
         CatalogItem.builder()
@@ -45,8 +46,8 @@ class Seed {
             .name("Nike shoes 1.5")
             .price(new BigDecimal("23.4"))
             .restockThreshold(5)
-            .catalogBrand(brands.iterator().next())
-            .catalogType(types.iterator().next())
+            .catalogBrand(brands.get(0))
+            .catalogType(types.get(0))
             .build()
     ));
 
@@ -58,8 +59,18 @@ class Seed {
             .name("Addidas shirt 1.5")
             .price(new BigDecimal("43.4"))
             .restockThreshold(5)
-            .catalogBrand(brands.iterator().next())
-            .catalogType(types.iterator().next())
+            .catalogBrand(brands.get(0))
+            .catalogType(types.get(1))
+            .build(),
+        CatalogItem.builder()
+            .availableStock(60)
+            .description("Something...")
+            .maxStockThreshold(20)
+            .name("Puma Shoes")
+            .price(new BigDecimal("43.4"))
+            .restockThreshold(6)
+            .catalogBrand(brands.get(2))
+            .catalogType(types.get(1))
             .build()
     ));
 
