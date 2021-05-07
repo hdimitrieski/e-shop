@@ -1,0 +1,43 @@
+.wrapper {
+  padding: 5px;
+}
+
+div {
+  margin: 0 5px 0 0;
+}
+
+.btn {
+  background-color: #9ae33b;
+  padding: 10px;
+  border: none;
+  color: white;
+  font-size: large;
+  font-weight: bold;
+}
+
+.btn:hover {
+  cursor: pointer;
+}
+
+.btn-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.name,
+.price {
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  margin: 5px 0 5px 0;
+  text-transform: uppercase;
+  display: flex;
+  justify-content: center;
+}
+
+.name {
+  font-size: small;
+}
+
+.price {
+  font-weight: bold;
+  font-size: large;
+}
