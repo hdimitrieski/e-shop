@@ -1,43 +1,46 @@
 import { Injectable } from '@angular/core';
-import { KeycloakEventType, KeycloakService } from 'keycloak-angular';
-import { Observable } from 'rxjs';
+import { OAuthEvent, OAuthService, UserInfo } from 'angular-oauth2-oidc';
 import { fromPromise } from 'rxjs/internal-compatibility';
-import { KeycloakProfile } from 'keycloak-js';
+import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
-  public tokenExpired$ = this.keycloak.keycloakEvents$.pipe(
-    filter(event => event.type === KeycloakEventType.OnTokenExpired)
+  public tokenExpired$ = this.oAuthService.events.pipe(
+    filter(event => event.type === 'token_expires')
   );
 
-  constructor(private readonly keycloak: KeycloakService) {
+  public tokenReceived$ = this.oAuthService.events.pipe(
+    filter(event => event.type === 'token_received')
+  );
+
+  constructor(private readonly oAuthService: OAuthService) {
   }
 
-  public refreshToken(): Observable<boolean> {
-    return fromPromise(this.keycloak.updateToken(5));
+  public refreshToken(): Observable<OAuthEvent> {
+    return fromPromise(this.oAuthService.silentRefresh());
   }
 
-  public accessToken(): Observable<string> {
-    return fromPromise(this.keycloak.getToken());
+  public accessToken(): string {
+    return this.oAuthService.getAccessToken();
   }
 
-  public loadUserProfile(): Observable<KeycloakProfile> {
-    return fromPromise(this.keycloak.loadUserProfile());
+  public loadUserProfile(): Observable<UserInfo> {
+    return fromPromise(this.oAuthService.loadUserProfile());
   }
 
-  public isLoggedIn(): Observable<boolean> {
-    return fromPromise(this.keycloak.isLoggedIn());
+  public isLoggedIn(): boolean {
+    return this.oAuthService.hasValidAccessToken();
   }
 
-  public login(): Observable<void> {
-    return fromPromise(this.keycloak.login());
+  public login(): Observable<boolean> {
+    return fromPromise(this.oAuthService.loadDiscoveryDocumentAndLogin());
   }
 
-  public logout(): Observable<void> {
-    return fromPromise(this.keycloak.logout());
+  public logout() {
+    this.oAuthService.logOut();
   }
 
 }

@@ -102,3 +102,27 @@ See what's spring cloud data flow.
 # Spring cloud stream
 Use spring cloud stream instead of using Kafka directly. Use kafka only
 in the analytics service because there we will need to combine multiple streams.
+Add headers in the messages and dispatch the message to different listeners based 
+on the header's value, ex. priority order header and have two listeners one for priority
+and one for normal orders.
+Also use processors, basically a processor is consumer and producer at the same time.
+And also use consumer groups. Consumer groups are used to avoid handling of a message by
+all consumers in case we have multiple instances of the service that handles that particular message running.
+Also consumer groups are durable, meaning that the actual queue won't be removed in case the service goes down,
+so when it comes back online, it could take all messages that have been queued during its downtime.
+
+Partitions: a way to have dedicated instaces for handling specific messages. The messages can be split up
+based on some property, say we have message {id: x} and 2 partitions
+p1: handles {id: 1}, {id: 3}, ...
+p2: {id: 2}, {id: 4}, ...
+
+
+# Spring data flow (microservices orchestration)
+
+# Auth
+In case the token expires while it's being used between services, I need to
+refresh it. (check the course on pluralsight)
+
+
+- Check antMachers vs mvcMachers, do not pass the acess token for catalog routes,
+if its passed the request is denied - this shouldnt happen

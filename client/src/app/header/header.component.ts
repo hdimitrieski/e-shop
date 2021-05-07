@@ -10,15 +10,16 @@ import { AuthenticationService } from "../core/services/authentication.service";
 export class HeaderComponent implements OnInit, OnDestroy {
   public loggedIn$ = this.authenticationService.isLoggedIn();
   private subscription = new Subscription();
-  
+
   constructor(
     private readonly authenticationService: AuthenticationService
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.subscription.add(this.authenticationService.tokenExpired$.subscribe(() => {
       this.authenticationService.refreshToken();
-    }))
+    }));
   }
 
   ngOnDestroy(): void {
@@ -30,6 +31,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   public logout() {
-    this.authenticationService.logout().subscribe(() => console.log('logged out..'));
+    this.authenticationService.logout();
   }
 }
