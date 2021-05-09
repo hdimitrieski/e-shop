@@ -5,6 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CatalogComponent } from './components/catalog.component';
 import { FilterComponent } from './components/filter.component';
 import { ItemComponent } from './components/item.component';
+import { PaginationComponent } from './components/pagination.component';
 import { CatalogPageComponent } from './pages/catalog-page.component';
 import { CatalogService } from './services/catalog.service';
 
@@ -13,7 +14,8 @@ import { CatalogService } from './services/catalog.service';
     FilterComponent,
     CatalogComponent,
     ItemComponent,
-    CatalogPageComponent
+    CatalogPageComponent,
+    PaginationComponent
   ],
   providers: [
     CatalogService

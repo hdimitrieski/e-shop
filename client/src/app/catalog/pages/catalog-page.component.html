@@ -1,2 +1,5 @@
-<es-filter></es-filter>
-<es-catalog></es-catalog>
+<es-filter (filterSubmitted)='getFormValues($event)'></es-filter>
+<es-pagination [page]="catalogPage"></es-pagination>
+<es-catalog
+  [catalogItems]="catalogPage?.content"
+></es-catalog>

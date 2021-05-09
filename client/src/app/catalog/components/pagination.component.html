@@ -1,0 +1,5 @@
+<div *ngIf="page" class="wrapper">
+  <button class="prev" [hidden]="page.pageable.first">previous</button>
+  <h5>Showing {{page.pageable.size >= page.total ? page.total : page.pageable.size}} of {{page.total}} products - Page {{page.pageable.page + 1}} - {{page.totalPages}}</h5>
+  <button class="next" [hidden]="page.pageable.last">next</button>
+</div>
