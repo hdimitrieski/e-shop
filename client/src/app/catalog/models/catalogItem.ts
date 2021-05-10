@@ -6,7 +6,7 @@ export interface CatalogItem {
   name: string;
   description: string;
   price: number;
-  prictureFileName: string;
+  pictureFileName: string;
   catalogType: CatalogType;
   catalogBrand: CatalogBrand;
   availableStock: number;

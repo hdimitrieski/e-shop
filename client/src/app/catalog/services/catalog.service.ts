@@ -10,11 +10,12 @@ import { Page } from '../models/page';
 export class CatalogService {
   constructor(private http: HttpClient) {}
 
-  fetchCatalogItems(brandId?: number, typeId?: number) {
+  fetchCatalogItems(brandId?: number, typeId?: number, pageIndex?: number) {
     return this.http.get('/api/v1/catalog/items', {
       params: toQueryParams({
         brandId,
         typeId,
+        pageIndex
       }),
     }) as Observable<Page>;
   }

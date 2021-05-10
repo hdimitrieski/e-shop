@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { Page } from "../models/page";
 
 @Component({
@@ -8,5 +8,14 @@ import { Page } from "../models/page";
 })
 export class PaginationComponent {
   @Input() page: Page;
-  
+  @Output() previousClickEvent = new EventEmitter();
+  @Output() nextClickEvent = new EventEmitter();
+
+  previousClicked() {
+    this.previousClickEvent.emit();
+  }
+
+  nextClicked() {
+    this.nextClickEvent.emit();
+  }
 }
