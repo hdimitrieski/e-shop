@@ -17,13 +17,12 @@ function initializeOAuth(oAuthService: OAuthService) {
     });
   }
 }
-
 @NgModule({
   imports: [
     HttpClientModule,
     OAuthModule.forRoot({
       resourceServer: {
-        allowedUrls: ['http://localhost:3000/api'],
+        allowedUrls: ['/api/v1/basket'],
         sendAccessToken: true
       }
     })
