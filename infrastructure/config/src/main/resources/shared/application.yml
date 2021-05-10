@@ -65,16 +65,13 @@ spring:
     # It is recommended switching to BlockingLoadBalancerClient instead.
     loadbalancer.ribbon.enabled: false
 
-  # Distributed tracing
-  zipkin.sender.type: rabbit
-  sleuth:
-    traceId128: true
-    sampler.probability: 1.0
-
-sample:
+    # Disable distributed tracing by default
   zipkin:
-    # When enabled=false, traces log to the console. Comment to send to zipkin
     enabled: false
+  sleuth:
+    enabled: false
+
+
 
 # Service discovery
 eureka:
@@ -106,3 +103,26 @@ logging:
         security: INFO
     web: INFO
     root: INFO
+
+---
+# Distributed tracing
+spring:
+  config:
+    activate:
+      on-profile: distributed-tracing
+
+  sleuth:
+    enabled: true
+    traceId128: true
+    sampler.probability: 1.0
+
+  zipkin:
+    enabled: true
+    sender.type: rabbit
+
+
+
+sample:
+  zipkin:
+    # When enabled=false, traces log to the console. Comment to send to zipkin
+    enabled: false
