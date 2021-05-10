@@ -1,0 +1,15 @@
+.wrapper {
+  display: flex;
+  padding: 0 5px 0 0;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+  gap: 100px;
+}
+
+button {
+  background-color: white;
+  border: none;
+  text-transform: capitalize;
+  font-weight: bold;
+  cursor: pointer;
+}

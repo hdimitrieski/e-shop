@@ -1,0 +1,9 @@
+<es-filter (filterSubmitted)='getFormValues($event)'></es-filter>
+<es-pagination 
+  [page]="catalogPage"
+  (previousClickEvent)="onPreviousClick()"
+  (nextClickEvent)="onNextClick()"
+></es-pagination>
+<es-catalog
+  [catalogItems]="catalogPage?.content"
+></es-catalog>

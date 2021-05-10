@@ -1,0 +1,19 @@
+<div *ngIf="page" class="wrapper">
+  <button 
+    class="prev" 
+    [hidden]="page.first"
+    (click)="previousClicked()"
+  >previous</button>
+
+  <h5>Showing {{page.numberOfElements}} 
+    of {{page.total}} products - 
+    Page {{page.totalPages !== 0 ? page.pageable.page + 1 : page.pageable.page}} - 
+    {{page.totalPages}}
+  </h5>
+
+  <button 
+    class="next" 
+    [hidden]="page.last"
+    (click)="nextClicked()"
+  >next</button>
+</div>
