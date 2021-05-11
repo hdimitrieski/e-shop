@@ -3,7 +3,8 @@
   padding: 0 5px 0 0;
   font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
     "Lucida Sans", Arial, sans-serif;
-  gap: 100px;
+  justify-content: center;
+  gap: 20%;
 }
 
 button {
@@ -12,4 +13,8 @@ button {
   text-transform: capitalize;
   font-weight: bold;
   cursor: pointer;
+}
+
+:disabled {
+  cursor: auto;
 }

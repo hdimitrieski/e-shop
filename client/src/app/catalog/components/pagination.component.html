@@ -1,7 +1,7 @@
 <div *ngIf="page" class="wrapper">
   <button 
     class="prev" 
-    [hidden]="page.first"
+    [disabled]="page.first"
     (click)="previousClicked()"
   >previous</button>
 
@@ -13,7 +13,7 @@
 
   <button 
     class="next" 
-    [hidden]="page.last"
+    [disabled]="page.last"
     (click)="nextClicked()"
   >next</button>
 </div>
