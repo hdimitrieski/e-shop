@@ -20,7 +20,7 @@ export const authCodeFlowConfig: AuthConfig = {
   // set the scope for the permissions the client should request
   // The first two are defined by OIDC.
   // Important: Request offline_access to get a refresh token
-  scope: 'openid profile basket orders webshoppingagg order.notifications',
+  scope: 'openid profile email basket orders webshoppingagg order.notifications',
 
   // offline_access is not needed for silent refresh
 
