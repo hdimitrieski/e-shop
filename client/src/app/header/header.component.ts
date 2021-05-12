@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthenticationService } from '../core/services/authentication.service';
 
@@ -12,7 +13,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
   public user;
 
-  constructor(private readonly authenticationService: AuthenticationService) {}
+  constructor(private readonly authenticationService: AuthenticationService,
+    private router: Router) {}
 
   ngOnInit(): void {
     if (this.authenticationService.isLoggedIn()) {
@@ -33,5 +35,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   public logout() {
     this.authenticationService.logout();
+  }
+
+  goToBasket() {
+    this.router.navigate(['/basket']);
   }
 }

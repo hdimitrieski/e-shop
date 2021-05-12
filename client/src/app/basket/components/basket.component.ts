@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { switchMap, take } from 'rxjs/operators';
-import { AuthenticationService } from 'src/app/core/services/authentication.service';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
+import { BasketService } from '../../core/services/basket.service';
 import { Basket } from '../models/basket';
-import { BasketService } from '../services/basket.service';
 
 @Component({
   selector: 'es-basket',
@@ -10,25 +9,21 @@ import { BasketService } from '../services/basket.service';
   styleUrls: ['./basket.component.css'],
 })
 export class BasketComponent implements OnInit {
+  @ViewChild('quantity') quantityInput: ElementRef;
   basket: Basket;
 
-  constructor(
-    private basketService: BasketService,
-    private authenticationService: AuthenticationService
-  ) {}
+  constructor(private router: Router, private basketService: BasketService) {}
 
   ngOnInit() {
-    this.authenticationService
-      .loadUserProfile()
-      .pipe(
-        switchMap((user) => {
-          return this.basketService.getBasket(user.preferred_username);
-        }),
-        take(1)
-      )
-      .subscribe((basket) => {
-        this.basket = basket;
-        console.log(this.basket);
-      });
+    console.log('init');
+    this.basket = this.basketService.getCustomerBasket();
+  }
+
+  goToCatalog() {
+    this.router.navigate(['/catalog']);
+  }
+
+  updateQuantity() {
+    console.log(this.quantityInput.nativeElement.value);
   }
 }

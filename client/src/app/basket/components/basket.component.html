@@ -1,1 +1,29 @@
-<h2>Basket</h2>
+<div class="header">
+  <h4>product</h4>
+  <h4>price</h4>
+  <h4>quantity</h4>
+  <h4>cost</h4>
+</div>
+
+<div class="item" *ngFor="let item of basket?.items">
+  <div>{{item.pictureUrl}}</div>
+  <div>{{item.productName}}</div>
+  <div>
+    <span>$</span>
+    <span>&nbsp;</span>
+    {{item.unitPrice}}
+  </div>
+  <div>
+    <input #quantity value="{{item.quantity}}"></div>
+  <div class="cost">
+    <span>$</span>
+    <span>&nbsp;</span>
+    {{item.quantity * item.unitPrice}}
+  </div>
+</div>
+
+<div class="footer">
+  <button (click)="goToCatalog()">[continue shopping..]</button>
+  <button (click)="updateQuantity()" type="button">[update]</button>
+  <button>[checkout]</button>
+</div>

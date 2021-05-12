@@ -1,0 +1,36 @@
+.header {
+  display: flex;
+  text-transform: uppercase;
+  justify-content: space-around;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.item {
+  display: flex;
+  justify-content: space-around;
+}
+
+.cost {
+  color: #09885e94;
+  font-weight: bold;
+}
+
+.footer {
+  display: flex;
+  /* gap: 100px; */
+  justify-content: space-around;
+}
+
+button {
+  background-color: #9ae33b;
+  padding: 10px;
+  border: none;
+  color: white;
+  font-size: large;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+button:hover {
+  cursor: pointer;
+}
