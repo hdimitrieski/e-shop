@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { BasketService } from '../basket/services/basket.service';
+import { CatalogRoutingModule } from './catalog-routing.module';
 import { CatalogComponent } from './components/catalog.component';
 import { FilterComponent } from './components/filter.component';
 import { ItemComponent } from './components/item.component';
@@ -18,15 +20,14 @@ import { CatalogService } from './services/catalog.service';
     PaginationComponent
   ],
   providers: [
-    CatalogService
+    CatalogService,
+    BasketService
   ],
   imports: [
     CommonModule, 
     HttpClientModule,
-    ReactiveFormsModule
-  ],
-  exports: [
-    CatalogPageComponent
+    ReactiveFormsModule,
+    CatalogRoutingModule
   ]
 })
 export class CatalogModule {}
