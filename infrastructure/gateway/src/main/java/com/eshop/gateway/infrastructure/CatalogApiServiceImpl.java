@@ -33,7 +33,7 @@ public class CatalogApiServiceImpl implements CatalogApiService {
 
   @Override
   public Flux<CatalogItem> getCatalogItems(List<Long> ids) {
-    var commaSeparatedIds = ids.stream().map(String::valueOf).collect(Collectors.joining(", "));
+    var commaSeparatedIds = ids.stream().map(String::valueOf).collect(Collectors.joining(","));
     return catalogWebClient.build()
         .get()
         .uri("lb://catalog/catalog/items/withids/" + commaSeparatedIds)
