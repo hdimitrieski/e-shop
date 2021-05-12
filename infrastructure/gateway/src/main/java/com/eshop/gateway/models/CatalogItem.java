@@ -6,6 +6,6 @@ public record CatalogItem(
     @JsonProperty("id") Long id,
     @JsonProperty("name") String name,
     @JsonProperty("price") Double price,
-    @JsonProperty("pictureUrl") String pictureUrl
+    @JsonProperty("pictureFileName") String pictureFileName
 ) {
 }

@@ -8,7 +8,7 @@ public record BasketDataItem(
     @JsonProperty("productName") String productName,
     @JsonProperty("unitPrice") Double unitPrice,
     @JsonProperty("oldUnitPrice") Double oldUnitPrice,
-    @JsonProperty("quantity")Integer quantity,
+    @JsonProperty("quantity") Integer quantity,
     @JsonProperty("pictureUrl") String pictureUrl
 ) {
 }

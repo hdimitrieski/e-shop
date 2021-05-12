@@ -10,6 +10,7 @@ import java.io.Serializable;
 @Getter
 @NoArgsConstructor
 public class BasketItem implements Serializable {
+  @Setter
   private String id;
   private Long productId;
   private String productName;

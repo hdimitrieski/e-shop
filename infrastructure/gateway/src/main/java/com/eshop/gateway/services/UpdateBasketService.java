@@ -76,9 +76,9 @@ public class UpdateBasketService {
         catalogItem.id(),
         catalogItem.name(),
         catalogItem.price(),
-        null,
+        catalogItem.price(),
         requestedBasketItem.quantity(),
-        catalogItem.pictureUrl()
+        catalogItem.pictureFileName()
     );
   }
 

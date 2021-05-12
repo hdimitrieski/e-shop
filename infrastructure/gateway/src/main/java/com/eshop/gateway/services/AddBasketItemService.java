@@ -55,9 +55,9 @@ public class AddBasketItemService {
           catalogItem.id(),
           catalogItem.name(),
           catalogItem.price(),
-          null,
+          catalogItem.price(),
           data.quantity(),
-          catalogItem.pictureUrl()
+          catalogItem.pictureFileName()
       ));
     }
 

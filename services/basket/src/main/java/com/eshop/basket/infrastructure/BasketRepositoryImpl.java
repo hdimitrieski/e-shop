@@ -8,6 +8,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
+
+import static java.util.Objects.isNull;
 
 @Repository
 public class BasketRepositoryImpl implements BasketRepository {
@@ -29,6 +32,9 @@ public class BasketRepositoryImpl implements BasketRepository {
 
   @Override
   public CustomerBasket updateBasket(CustomerBasket basket) {
+    basket.getItems()
+        .stream().filter(basketItem -> isNull(basketItem.getId()))
+        .forEach(basketItem -> basketItem.setId(UUID.randomUUID().toString()));
     hashOperations.put("BASKET", basket.getBuyerId(), basket);
     return basket;
   }
