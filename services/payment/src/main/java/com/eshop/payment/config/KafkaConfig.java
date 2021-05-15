@@ -12,7 +12,9 @@ import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaOperations;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
+import org.springframework.kafka.listener.AfterRollbackProcessor;
 import org.springframework.kafka.listener.DeadLetterPublishingRecoverer;
+import org.springframework.kafka.listener.DefaultAfterRollbackProcessor;
 import org.springframework.kafka.listener.SeekToCurrentErrorHandler;
 import org.springframework.kafka.support.converter.RecordMessageConverter;
 import org.springframework.kafka.support.converter.StringJsonMessageConverter;
@@ -61,7 +63,9 @@ public class KafkaConfig {
 
   @Bean
   public ProducerFactory<String, IntegrationEvent> producerFactory() {
-    return new DefaultKafkaProducerFactory<>(producerConfigs());
+    var producerFactory = new DefaultKafkaProducerFactory<String, IntegrationEvent>(producerConfigs());
+    producerFactory.setTransactionIdPrefix(kafkaProperties.getProducer().getTransactionIdPrefix());
+    return producerFactory;
   }
 
   @Bean

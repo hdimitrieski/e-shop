@@ -16,7 +16,7 @@ spring:
   # Kafka
   kafka:
     producer:
-      transaction-id-prefix: tx-
+      transaction-id-prefix: tx-basket-
     consumer:
       enable-auto-commit: false
 

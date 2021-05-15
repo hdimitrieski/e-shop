@@ -10,6 +10,6 @@ spring:
 
   kafka:
     producer:
-      transaction-id-prefix: tx-
+      transaction-id-prefix: tx-payment-
     consumer:
       enable-auto-commit: false

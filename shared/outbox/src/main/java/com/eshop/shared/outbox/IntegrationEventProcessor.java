@@ -17,7 +17,7 @@ public class IntegrationEventProcessor {
     var eventLogEntries = integrationEventLogService.retrieveEventLogsPendingToPublish();
 
     if (eventLogEntries.size() > 0) {
-      logger.info("%d integration events are ready to be published");
+      logger.info("{} integration events are ready to be published", eventLogEntries.size());
       eventLogEntries.forEach(this::publish);
     } else {
       logger.info("No integration events found to publish");

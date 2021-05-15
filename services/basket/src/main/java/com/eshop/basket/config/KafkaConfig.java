@@ -67,7 +67,7 @@ public class KafkaConfig {
   @Bean
   public ProducerFactory<String, IntegrationEvent> producerFactory() {
     var producerFactory = new DefaultKafkaProducerFactory<String, IntegrationEvent>(producerConfigs());
-    producerFactory.setTransactionIdPrefix("tx-");
+    producerFactory.setTransactionIdPrefix(kafkaProperties.getProducer().getTransactionIdPrefix());
     return producerFactory;
   }
 
