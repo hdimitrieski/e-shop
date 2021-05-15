@@ -1,8 +1,8 @@
 package com.eshop.catalog.infrastructure;
 
 import com.eshop.catalog.model.CatalogDomainException;
-import com.eshop.error.ControllerExceptionHandler;
-import com.eshop.error.HttpErrorInfo;
+import com.eshop.rest.error.ControllerExceptionHandler;
+import com.eshop.rest.error.HttpErrorInfo;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;

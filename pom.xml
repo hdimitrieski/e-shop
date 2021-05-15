@@ -37,14 +37,8 @@
 
     <modules>
         <module>building-blocks</module>
-        <module>infrastructure/gateway</module>
-        <module>infrastructure/discovery</module>
-        <module>infrastructure/config</module>
-        <module>services/order-processing</module>
-        <module>services/order-notifications</module>
-        <module>services/order-grace-period-task</module>
-        <module>services/catalog</module>
-        <module>services/basket</module>
-        <module>services/payment</module>
+        <module>shared</module>
+        <module>infrastructure</module>
+        <module>services</module>
     </modules>
 </project>

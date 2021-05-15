@@ -3,8 +3,8 @@ package com.eshop.catalog.controller;
 import com.eshop.catalog.integrationevents.IntegrationEventService;
 import com.eshop.catalog.integrationevents.events.ProductPriceChangedIntegrationEvent;
 import com.eshop.catalog.model.*;
-import com.eshop.error.BadRequestException;
-import com.eshop.error.NotFoundException;
+import com.eshop.rest.error.BadRequestException;
+import com.eshop.rest.error.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -123,11 +123,6 @@ public class CatalogController {
 
             // Achieving atomicity between original Catalog database operation and the IntegrationEventLog thanks to a local transaction
             integrationEventService.saveEventAndCatalogContextChanges(productPriceChangesTopic, priceChangedEvent);
-
-            // Publish through the Event Bus and mark the saved event as published
-            integrationEventService.publishThroughEventBus(productPriceChangesTopic, priceChangedEvent);
-          } else {
-            // entityManager.getTransaction().commit();
           }
           catalogItemRepository.save(catalogItem);
         }, () -> {
