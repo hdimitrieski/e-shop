@@ -1,13 +1,13 @@
 package com.eshop.ordering.api.application.domaineventhandlers.ordergraceperiodconfirmed;
 
 import com.eshop.ordering.api.application.domaineventhandlers.DomainEventHandler;
-import com.eshop.ordering.api.application.integrationevents.OrderingIntegrationEventService;
 import com.eshop.ordering.api.application.integrationevents.events.OrderStatusChangedToAwaitingValidationIntegrationEvent;
 import com.eshop.ordering.api.application.integrationevents.events.models.OrderStockItem;
 import com.eshop.ordering.domain.aggregatesmodel.buyer.BuyerRepository;
 import com.eshop.ordering.domain.aggregatesmodel.order.OrderRepository;
 import com.eshop.ordering.domain.aggregatesmodel.order.OrderStatus;
 import com.eshop.ordering.domain.events.OrderStatusChangedToAwaitingValidationDomainEvent;
+import com.eshop.shared.outbox.IntegrationEventLogService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +25,7 @@ public class OrderStatusChangedToAwaitingValidationDomainEventHandler
 
   private final OrderRepository orderRepository;
   private final BuyerRepository buyerRepository;
-  private final OrderingIntegrationEventService orderingIntegrationEventService;
+  private final IntegrationEventLogService integrationEventLogService;
   @Value("${spring.kafka.consumer.topic.ordersWaitingForValidation}")
   private String ordersWaitingForValidationTopic;
 
@@ -46,6 +46,6 @@ public class OrderStatusChangedToAwaitingValidationDomainEventHandler
 
     var orderStatusChangedToAwaitingValidationIntegrationEvent = new OrderStatusChangedToAwaitingValidationIntegrationEvent(
         order.getId(), order.getOrderStatus().getName(), buyer.getName(), orderStockList);
-    orderingIntegrationEventService.addAndSaveEvent(ordersWaitingForValidationTopic, orderStatusChangedToAwaitingValidationIntegrationEvent);
+    integrationEventLogService.saveEvent(orderStatusChangedToAwaitingValidationIntegrationEvent, ordersWaitingForValidationTopic);
   }
 }

@@ -20,7 +20,7 @@
     <dependencies>
         <dependency>
             <groupId>com.eshop</groupId>
-            <artifactId>building-blocks</artifactId>
+            <artifactId>event-handling</artifactId>
             <version>${project.version}</version>
         </dependency>
 

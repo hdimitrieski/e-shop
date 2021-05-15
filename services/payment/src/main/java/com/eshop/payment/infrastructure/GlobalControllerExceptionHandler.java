@@ -1,6 +1,6 @@
 package com.eshop.payment.infrastructure;
 
-import com.eshop.error.ControllerExceptionHandler;
+import com.eshop.shared.rest.error.ControllerExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice

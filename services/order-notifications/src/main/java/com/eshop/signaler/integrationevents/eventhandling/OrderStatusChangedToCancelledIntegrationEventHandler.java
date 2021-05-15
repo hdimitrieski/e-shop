@@ -1,6 +1,6 @@
 package com.eshop.signaler.integrationevents.eventhandling;
 
-import com.eshop.eventbus.IntegrationEventHandler;
+import com.eshop.shared.eventhandling.IntegrationEventHandler;
 import com.eshop.signaler.integrationevents.events.OrderStatusChangedToCancelledIntegrationEvent;
 import com.eshop.signaler.model.OrderStatus;
 import lombok.RequiredArgsConstructor;

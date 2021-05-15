@@ -1,12 +1,12 @@
 package com.eshop.ordering.api.application.domaineventhandlers.orderstockconfirmed;
 
 import com.eshop.ordering.api.application.domaineventhandlers.DomainEventHandler;
-import com.eshop.ordering.api.application.integrationevents.OrderingIntegrationEventService;
 import com.eshop.ordering.api.application.integrationevents.events.OrderStatusChangedToStockConfirmedIntegrationEvent;
 import com.eshop.ordering.domain.aggregatesmodel.buyer.BuyerRepository;
 import com.eshop.ordering.domain.aggregatesmodel.order.OrderRepository;
 import com.eshop.ordering.domain.aggregatesmodel.order.OrderStatus;
 import com.eshop.ordering.domain.events.OrderStatusChangedToStockConfirmedDomainEvent;
+import com.eshop.shared.outbox.IntegrationEventLogService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +21,7 @@ public class OrderStatusChangedToStockConfirmedDomainEventHandler implements Dom
 
   private final OrderRepository orderRepository;
   private final BuyerRepository buyerRepository;
-  private final OrderingIntegrationEventService orderingIntegrationEventService;
+  private final IntegrationEventLogService integrationEventLogService;
   @Value("${spring.kafka.consumer.topic.stockConfirmed}")
   private String stockConfirmedTopic;
 
@@ -39,6 +39,6 @@ public class OrderStatusChangedToStockConfirmedDomainEventHandler implements Dom
 
     var orderStatusChangedToStockConfirmedIntegrationEvent = new OrderStatusChangedToStockConfirmedIntegrationEvent(
         order.getId(), order.getOrderStatus().getName(), buyer.getName());
-    orderingIntegrationEventService.addAndSaveEvent(stockConfirmedTopic, orderStatusChangedToStockConfirmedIntegrationEvent);
+    integrationEventLogService.saveEvent(orderStatusChangedToStockConfirmedIntegrationEvent, stockConfirmedTopic);
   }
 }

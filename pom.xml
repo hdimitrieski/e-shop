@@ -36,7 +36,6 @@
     </dependencyManagement>
 
     <modules>
-        <module>building-blocks</module>
         <module>shared</module>
         <module>infrastructure</module>
         <module>services</module>

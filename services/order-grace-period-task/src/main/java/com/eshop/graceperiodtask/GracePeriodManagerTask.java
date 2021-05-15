@@ -1,6 +1,6 @@
 package com.eshop.graceperiodtask;
 
-import com.eshop.eventbus.EventBus;
+import com.eshop.shared.eventhandling.EventBus;
 import com.eshop.graceperiodtask.events.GracePeriodConfirmedIntegrationEvent;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;

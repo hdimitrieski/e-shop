@@ -1,10 +1,7 @@
 package com.eshop.ordering.api.application.infrastructure.integrationevents;
 
-import com.eshop.ordering.api.application.integrationevents.OrderingIntegrationEventService;
 import lombok.AllArgsConstructor;
-import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.support.TransactionSynchronizationAdapter;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
@@ -13,12 +10,14 @@ import java.util.UUID;
 /**
  * Add unique name to the current thread and use it to store all events that should be published when executing the
  * thread. After the transaction is committed, publish all events that are stored for the current thread.
+ *
+ * Note: This is not used anymore because now the event publishing is handled by leveraging the outbox pattern.
  */
 @AllArgsConstructor
-@Aspect
-@Configuration
+//@Aspect
+//@Configuration
 class PublishIntegrationEventsAspect extends TransactionSynchronizationAdapter {
-  private final OrderingIntegrationEventService orderingIntegrationEventService;
+//  private final IntegrationEventLogService integrationEventLogService;
 
   @Before("@annotation(org.springframework.transaction.annotation.Transactional)")
   public void registerTransactionSyncrhonization() {
@@ -44,7 +43,7 @@ class PublishIntegrationEventsAspect extends TransactionSynchronizationAdapter {
   @Override
   public void afterCommit() {
     super.afterCommit();
-    orderingIntegrationEventService.publishEventsThroughEventBus(Thread.currentThread().getName());
+//    integrationEventLogService.publishEventsThroughEventBus(Thread.currentThread().getName());
   }
 
 }

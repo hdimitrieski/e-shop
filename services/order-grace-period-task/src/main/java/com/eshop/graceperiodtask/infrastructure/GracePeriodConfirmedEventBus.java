@@ -1,7 +1,7 @@
 package com.eshop.graceperiodtask.infrastructure;
 
-import com.eshop.eventbus.EventBus;
-import com.eshop.eventbus.IntegrationEvent;
+import com.eshop.shared.eventhandling.EventBus;
+import com.eshop.shared.eventhandling.IntegrationEvent;
 import com.eshop.graceperiodtask.config.KafkaTopics;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;

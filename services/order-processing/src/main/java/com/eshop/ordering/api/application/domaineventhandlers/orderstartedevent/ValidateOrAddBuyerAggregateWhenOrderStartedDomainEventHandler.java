@@ -1,11 +1,11 @@
 package com.eshop.ordering.api.application.domaineventhandlers.orderstartedevent;
 
 import com.eshop.ordering.api.application.domaineventhandlers.DomainEventHandler;
-import com.eshop.ordering.api.application.integrationevents.OrderingIntegrationEventService;
 import com.eshop.ordering.api.application.integrationevents.events.OrderStatusChangedToSubmittedIntegrationEvent;
 import com.eshop.ordering.domain.aggregatesmodel.buyer.Buyer;
 import com.eshop.ordering.domain.aggregatesmodel.buyer.BuyerRepository;
 import com.eshop.ordering.domain.events.OrderStartedDomainEvent;
+import com.eshop.shared.outbox.IntegrationEventLogService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 public class ValidateOrAddBuyerAggregateWhenOrderStartedDomainEventHandler implements DomainEventHandler<OrderStartedDomainEvent> {
   private static final Logger logger = LoggerFactory.getLogger(ValidateOrAddBuyerAggregateWhenOrderStartedDomainEventHandler.class);
 
-  private final OrderingIntegrationEventService orderingIntegrationEventService;
+  private final IntegrationEventLogService integrationEventLogService;
   private final BuyerRepository buyerRepository;
   @Value("${spring.kafka.consumer.topic.submittedOrders}")
   private String submittedOrdersTopic;
@@ -47,7 +47,7 @@ public class ValidateOrAddBuyerAggregateWhenOrderStartedDomainEventHandler imple
 
     var orderStatusChangedToSubmittedIntegrationEvent = new OrderStatusChangedToSubmittedIntegrationEvent(
         orderStartedEvent.order().getId(), orderStartedEvent.order().getOrderStatus().getName(), buyer.getName());
-    orderingIntegrationEventService.addAndSaveEvent(submittedOrdersTopic, orderStatusChangedToSubmittedIntegrationEvent);
+    integrationEventLogService.saveEvent(orderStatusChangedToSubmittedIntegrationEvent, submittedOrdersTopic);
 
     logger.info(
         "Buyer {} and related payment method were validated or updated for orderId: {}.",

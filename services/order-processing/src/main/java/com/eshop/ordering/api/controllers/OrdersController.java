@@ -1,7 +1,6 @@
 package com.eshop.ordering.api.controllers;
 
 import an.awesome.pipelinr.Pipeline;
-import com.eshop.error.BadRequestException;
 import com.eshop.ordering.api.application.commands.CancelOrderCommand;
 import com.eshop.ordering.api.application.commands.CreateOrderDraftCommand;
 import com.eshop.ordering.api.application.commands.ShipOrderCommand;
@@ -9,6 +8,7 @@ import com.eshop.ordering.api.application.dtos.OrderDraftDTO;
 import com.eshop.ordering.api.application.infrastructure.services.IdentityService;
 import com.eshop.ordering.api.application.queries.OrderQueries;
 import com.eshop.ordering.api.application.queries.OrderViewModel;
+import com.eshop.shared.rest.error.BadRequestException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +36,7 @@ public class OrdersController {
 //    pipeline.send(requestCancelOrder);
     var result = pipeline.send(command);
 
-    if (result != Boolean.TRUE) {
+    if (!result) {
       throw new BadRequestException();
     }
   }
@@ -49,7 +49,7 @@ public class OrdersController {
   ) {
     var result = pipeline.send(command);
 
-    if (result != Boolean.TRUE) {
+    if (!result) {
       throw new BadRequestException();
     }
   }

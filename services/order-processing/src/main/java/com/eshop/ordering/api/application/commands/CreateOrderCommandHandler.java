@@ -1,11 +1,11 @@
 package com.eshop.ordering.api.application.commands;
 
 import an.awesome.pipelinr.Command;
-import com.eshop.ordering.api.application.integrationevents.OrderingIntegrationEventService;
 import com.eshop.ordering.api.application.integrationevents.events.OrderStartedIntegrationEvent;
 import com.eshop.ordering.domain.aggregatesmodel.order.Address;
 import com.eshop.ordering.domain.aggregatesmodel.order.Order;
 import com.eshop.ordering.domain.aggregatesmodel.order.OrderRepository;
+import com.eshop.shared.outbox.IntegrationEventLogService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +19,7 @@ public class CreateOrderCommandHandler implements Command.Handler<CreateOrderCom
   private static final Logger logger = LoggerFactory.getLogger(CreateOrderCommandHandler.class);
 
   private final OrderRepository orderRepository;
-  private final OrderingIntegrationEventService orderingIntegrationEventService;
+  private final IntegrationEventLogService integrationEventLogService;
   @Value("${spring.kafka.consumer.topic.orders}")
   private String ordersTopic;
 
@@ -28,7 +28,7 @@ public class CreateOrderCommandHandler implements Command.Handler<CreateOrderCom
   public Boolean handle(CreateOrderCommand command) {
     // Add Integration event to clean the basket
     var orderStartedIntegrationEvent = new OrderStartedIntegrationEvent(command.getUserId());
-    orderingIntegrationEventService.addAndSaveEvent(ordersTopic, orderStartedIntegrationEvent);
+    integrationEventLogService.saveEvent(orderStartedIntegrationEvent, ordersTopic);
 
     // Add/Update the Buyer AggregateRoot
     // DDD patterns comment: Add child entities and value-objects through the Order Aggregate-Root

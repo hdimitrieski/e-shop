@@ -1,8 +1,8 @@
 package com.eshop.ordering.api.application.infrastructure.exceptions;
 
-import com.eshop.error.ControllerExceptionHandler;
-import com.eshop.error.HttpErrorInfo;
+import com.eshop.shared.rest.error.ControllerExceptionHandler;
 import com.eshop.ordering.domain.exceptions.OrderingDomainException;
+import com.eshop.shared.rest.error.HttpErrorInfo;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;

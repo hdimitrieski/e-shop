@@ -1,7 +1,7 @@
 package com.eshop.payment.eventhandling;
 
-import com.eshop.eventbus.EventBus;
-import com.eshop.eventbus.IntegrationEvent;
+import com.eshop.shared.eventhandling.EventBus;
+import com.eshop.shared.eventhandling.IntegrationEvent;
 import com.eshop.payment.events.OrderPaymentFailedIntegrationEvent;
 import com.eshop.payment.events.OrderPaymentSucceededIntegrationEvent;
 import com.eshop.payment.events.OrderStatusChangedToStockConfirmedIntegrationEvent;

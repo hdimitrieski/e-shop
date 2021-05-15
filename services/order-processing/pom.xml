@@ -23,7 +23,12 @@
     <dependencies>
         <dependency>
             <groupId>com.eshop</groupId>
-            <artifactId>building-blocks</artifactId>
+            <artifactId>rest</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.eshop</groupId>
+            <artifactId>outbox</artifactId>
             <version>${project.version}</version>
         </dependency>
 

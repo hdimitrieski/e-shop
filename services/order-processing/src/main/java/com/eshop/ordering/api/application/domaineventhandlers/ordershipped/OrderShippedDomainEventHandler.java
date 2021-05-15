@@ -1,12 +1,12 @@
 package com.eshop.ordering.api.application.domaineventhandlers.ordershipped;
 
 import com.eshop.ordering.api.application.domaineventhandlers.DomainEventHandler;
-import com.eshop.ordering.api.application.integrationevents.OrderingIntegrationEventService;
 import com.eshop.ordering.api.application.integrationevents.events.OrderStatusChangedToShippedIntegrationEvent;
 import com.eshop.ordering.domain.aggregatesmodel.buyer.BuyerRepository;
 import com.eshop.ordering.domain.aggregatesmodel.order.OrderRepository;
 import com.eshop.ordering.domain.aggregatesmodel.order.OrderStatus;
 import com.eshop.ordering.domain.events.OrderShippedDomainEvent;
+import com.eshop.shared.outbox.IntegrationEventLogService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +21,7 @@ public class OrderShippedDomainEventHandler implements DomainEventHandler<OrderS
 
   private final OrderRepository orderRepository;
   private final BuyerRepository buyerRepository;
-  private final OrderingIntegrationEventService orderingIntegrationEventService;
+  private final IntegrationEventLogService integrationEventLogService;
   @Value("${spring.kafka.consumer.topic.shippedOrders}")
   private String shippedOrdersTopic;
 
@@ -39,6 +39,6 @@ public class OrderShippedDomainEventHandler implements DomainEventHandler<OrderS
 
     var orderStatusChangedToCancelledIntegrationEvent = new OrderStatusChangedToShippedIntegrationEvent(
         order.getId(), order.getOrderStatus().getName(), buyer.getName());
-    orderingIntegrationEventService.addAndSaveEvent(shippedOrdersTopic, orderStatusChangedToCancelledIntegrationEvent);
+    integrationEventLogService.saveEvent(orderStatusChangedToCancelledIntegrationEvent, shippedOrdersTopic);
   }
 }
