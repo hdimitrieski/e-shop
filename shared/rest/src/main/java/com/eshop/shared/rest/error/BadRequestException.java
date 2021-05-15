@@ -1,4 +1,4 @@
-package com.eshop.rest.error;
+package com.eshop.shared.rest.error;
 
 public class BadRequestException extends RuntimeException {
 

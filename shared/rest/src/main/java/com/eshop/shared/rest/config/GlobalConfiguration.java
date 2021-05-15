@@ -1,4 +1,4 @@
-package com.eshop.rest.config;
+package com.eshop.shared.rest.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;

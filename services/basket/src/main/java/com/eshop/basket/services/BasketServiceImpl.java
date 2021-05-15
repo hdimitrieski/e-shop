@@ -6,7 +6,7 @@ import com.eshop.basket.model.BasketCheckout;
 import com.eshop.basket.model.BasketRepository;
 import com.eshop.basket.model.CustomerBasket;
 import com.eshop.eventhandling.EventBus;
-import com.eshop.rest.error.NotFoundException;
+import com.eshop.shared.rest.error.NotFoundException;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
