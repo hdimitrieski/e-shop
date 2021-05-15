@@ -1,4 +1,4 @@
-package com.eshop.outbox;
+package com.eshop.shared.outbox;
 
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;

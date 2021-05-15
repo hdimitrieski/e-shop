@@ -1,4 +1,4 @@
-package com.eshop.outbox;
+package com.eshop.shared.outbox;
 
 import com.eshop.shared.eventhandling.IntegrationEvent;
 import com.fasterxml.jackson.core.JsonProcessingException;

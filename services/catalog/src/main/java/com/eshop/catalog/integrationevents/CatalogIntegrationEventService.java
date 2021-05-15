@@ -2,7 +2,7 @@ package com.eshop.catalog.integrationevents;
 
 import com.eshop.shared.eventhandling.IntegrationEvent;
 import lombok.RequiredArgsConstructor;
-import com.eshop.outbox.IntegrationEventLogService;
+import com.eshop.shared.outbox.IntegrationEventLogService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.KafkaTemplate;

@@ -1,4 +1,4 @@
-package com.eshop.outbox;
+package com.eshop.shared.outbox;
 
 public enum EventState {
   NotPublished,

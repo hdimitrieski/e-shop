@@ -1,4 +1,4 @@
-package com.eshop.outbox;
+package com.eshop.shared.outbox;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
