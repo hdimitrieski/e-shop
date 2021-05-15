@@ -3,7 +3,7 @@ package com.eshop.basket.integrationevents.eventhandling;
 import com.eshop.basket.integrationevents.events.ProductPriceChangedIntegrationEvent;
 import com.eshop.basket.model.BasketRepository;
 import com.eshop.basket.model.CustomerBasket;
-import com.eshop.eventhandling.IntegrationEventHandler;
+import com.eshop.shared.eventhandling.IntegrationEventHandler;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

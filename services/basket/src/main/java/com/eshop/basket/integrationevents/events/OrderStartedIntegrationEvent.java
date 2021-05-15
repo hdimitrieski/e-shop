@@ -1,6 +1,6 @@
 package com.eshop.basket.integrationevents.events;
 
-import com.eshop.eventhandling.IntegrationEvent;
+import com.eshop.shared.eventhandling.IntegrationEvent;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

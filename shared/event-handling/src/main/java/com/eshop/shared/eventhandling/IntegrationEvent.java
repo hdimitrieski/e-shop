@@ -1,4 +1,4 @@
-package com.eshop.eventhandling;
+package com.eshop.shared.eventhandling;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

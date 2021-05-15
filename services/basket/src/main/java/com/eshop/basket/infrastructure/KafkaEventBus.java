@@ -1,7 +1,7 @@
 package com.eshop.basket.infrastructure;
 
-import com.eshop.eventhandling.EventBus;
-import com.eshop.eventhandling.IntegrationEvent;
+import com.eshop.shared.eventhandling.EventBus;
+import com.eshop.shared.eventhandling.IntegrationEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.KafkaTemplate;

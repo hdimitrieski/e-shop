@@ -1,7 +1,7 @@
 package com.eshop.basket.infrastructure;
 
 import com.eshop.basket.config.KafkaTopics;
-import com.eshop.eventhandling.IntegrationEvent;
+import com.eshop.shared.eventhandling.IntegrationEvent;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 

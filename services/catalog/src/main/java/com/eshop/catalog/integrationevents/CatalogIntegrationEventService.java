@@ -1,6 +1,6 @@
 package com.eshop.catalog.integrationevents;
 
-import com.eshop.eventhandling.IntegrationEvent;
+import com.eshop.shared.eventhandling.IntegrationEvent;
 import lombok.RequiredArgsConstructor;
 import com.eshop.outbox.IntegrationEventLogService;
 import org.slf4j.Logger;

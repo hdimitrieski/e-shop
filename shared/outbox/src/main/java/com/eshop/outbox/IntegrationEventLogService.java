@@ -1,6 +1,6 @@
 package com.eshop.outbox;
 
-import com.eshop.eventhandling.IntegrationEvent;
+import com.eshop.shared.eventhandling.IntegrationEvent;
 
 import java.util.List;
 
