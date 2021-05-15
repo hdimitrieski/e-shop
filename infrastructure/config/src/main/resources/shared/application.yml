@@ -39,6 +39,8 @@ spring:
     consumer:
       bootstrap-servers: ${app.kafka.broker.host}:${app.kafka.broker.port}
       auto-offset-reset: earliest
+      properties:
+        isolation.level: read_committed
       topic:
         orders: orders
         orderCheckouts: order-checkouts

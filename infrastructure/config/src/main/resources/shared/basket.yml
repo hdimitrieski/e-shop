@@ -13,6 +13,13 @@ spring:
           jwk-set-uri: http://${app.auth-server.host}:${app.auth-server.port}/auth/realms/${app.auth-server.realm}/protocol/openid-connect/certs
           issuer-uri: http://${app.auth-server.host}:${app.auth-server.port}/auth/realms/${app.auth-server.realm}
 
+  # Kafka
+  kafka:
+    producer:
+      transaction-id-prefix: tx-
+    consumer:
+      enable-auto-commit: false
+
   # Redis
   redis:
     password: pass
@@ -29,3 +36,11 @@ spring:
 test:
   name: "Test 10"
   phone: "007"
+
+logging:
+  level:
+    org:
+      springframework:
+        transaction: trace
+      kafka:
+        transaction: debug

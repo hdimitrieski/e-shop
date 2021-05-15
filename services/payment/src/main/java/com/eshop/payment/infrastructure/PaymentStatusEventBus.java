@@ -21,6 +21,8 @@ public class PaymentStatusEventBus implements EventBus {
   @Override
   public void publish(IntegrationEvent event) {
     logger.info("Publishing integration event: {} - ({})", event.getId(), event.getClass().getSimpleName());
-    kafkaTemplate.send(paymentStatusTopic, event);
+    kafkaTemplate.executeInTransaction(template ->
+        template.send(paymentStatusTopic, event)
+    );
   }
 }

@@ -8,3 +8,8 @@ spring:
           jwk-set-uri: http://${app.auth-server.host}:${app.auth-server.port}/auth/realms/${app.auth-server.realm}/protocol/openid-connect/certs
           issuer-uri: http://${app.auth-server.host}:${app.auth-server.port}/auth/realms/${app.auth-server.realm}
 
+  kafka:
+    producer:
+      transaction-id-prefix: tx-
+    consumer:
+      enable-auto-commit: false

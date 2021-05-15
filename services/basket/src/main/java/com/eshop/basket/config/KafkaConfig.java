@@ -1,11 +1,10 @@
 package com.eshop.basket.config;
 
-import com.eshop.eventbus.IntegrationEvent;
+import com.eshop.eventhandling.IntegrationEvent;
 import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,17 +12,22 @@ import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaOperations;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
+import org.springframework.kafka.listener.AfterRollbackProcessor;
 import org.springframework.kafka.listener.DeadLetterPublishingRecoverer;
+import org.springframework.kafka.listener.DefaultAfterRollbackProcessor;
 import org.springframework.kafka.listener.SeekToCurrentErrorHandler;
 import org.springframework.kafka.support.converter.RecordMessageConverter;
 import org.springframework.kafka.support.converter.StringJsonMessageConverter;
 import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 import org.springframework.kafka.support.serializer.JsonSerializer;
+import org.springframework.kafka.transaction.KafkaTransactionManager;
 import org.springframework.util.backoff.FixedBackOff;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static org.springframework.transaction.support.AbstractPlatformTransactionManager.SYNCHRONIZATION_ON_ACTUAL_TRANSACTION;
 
 @RequiredArgsConstructor
 @Configuration
@@ -62,12 +66,30 @@ public class KafkaConfig {
 
   @Bean
   public ProducerFactory<String, IntegrationEvent> producerFactory() {
-    return new DefaultKafkaProducerFactory<>(producerConfigs());
+    var producerFactory = new DefaultKafkaProducerFactory<String, IntegrationEvent>(producerConfigs());
+    producerFactory.setTransactionIdPrefix("tx-");
+    return producerFactory;
   }
 
   @Bean
-  public KafkaTemplate<String, IntegrationEvent> kafkaTemplate() {
-    return new KafkaTemplate<>(producerFactory());
+  public KafkaTemplate<String, IntegrationEvent> kafkaTemplate(ProducerFactory<String, IntegrationEvent> producerFactory) {
+    return new KafkaTemplate<>(producerFactory);
+  }
+
+  @Bean
+  public KafkaTransactionManager<String, IntegrationEvent> kafkaTransactionManager(
+      ProducerFactory<String, IntegrationEvent> producerFactory
+  ) {
+    var kafkaTransactionManager = new KafkaTransactionManager<>(producerFactory);
+    kafkaTransactionManager.setTransactionSynchronization(SYNCHRONIZATION_ON_ACTUAL_TRANSACTION);
+    return kafkaTransactionManager;
+  }
+
+  @Bean
+  public AfterRollbackProcessor<String, IntegrationEvent> kafkaAfterRollbackProcessor(
+      KafkaOperations<String, IntegrationEvent> kafkaTemplate) {
+    var dlt = new DeadLetterPublishingRecoverer(kafkaTemplate);
+    return new DefaultAfterRollbackProcessor<>(dlt);
   }
 
   // Consumer

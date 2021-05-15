@@ -5,12 +5,13 @@ import com.eshop.basket.integrationevents.events.UserCheckoutAcceptedIntegration
 import com.eshop.basket.model.BasketCheckout;
 import com.eshop.basket.model.BasketRepository;
 import com.eshop.basket.model.CustomerBasket;
-import com.eshop.error.NotFoundException;
-import com.eshop.eventbus.EventBus;
+import com.eshop.eventhandling.EventBus;
+import com.eshop.rest.error.NotFoundException;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @AllArgsConstructor
 @Service
@@ -31,16 +32,16 @@ public class BasketServiceImpl implements BasketService {
     return basketRepository.updateBasket(basket);
   }
 
+  @Transactional
   @Override
   public void checkout(BasketCheckout basketCheckout) {
-    var userId = identityService.getUserName();
-    var basket = getCustomerBasket(userId);
     var userName = identityService.getUserName();
+    var basket = getCustomerBasket(userName);
 
     logger.info("Checking out the basket for user: {} - request id: {}", userName, basketCheckout.getRequestId());
 
     var event = new UserCheckoutAcceptedIntegrationEvent(
-        userId,
+        userName,
         userName,
         basketCheckout.getCity(),
         basketCheckout.getStreet(),
@@ -57,9 +58,11 @@ public class BasketServiceImpl implements BasketService {
         basket
     );
 
-    // Once basket is checkout, sends an integration event to
-    // ordering.api to convert basket to order and proceeds with
-    // order creation process
+    basket.changeStatusTo("CHECKOUT");
+    basketRepository.updateBasket(basket);
+
+    // Once basket is checkout, sends an integration event to order-processor to convert basket to order and proceeds
+    // with order creation process.
     orderCheckoutsEventBus.publish(event);
   }
 

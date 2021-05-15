@@ -11,9 +11,14 @@ import java.util.List;
 @NoArgsConstructor
 public class CustomerBasket implements Serializable {
   private String buyerId;
+  private String status = "NEW";
   private final List<BasketItem> items = new ArrayList<>();
 
   public CustomerBasket(String customerId) {
     buyerId = customerId;
+  }
+
+  public void changeStatusTo(String status) {
+    this.status = status;
   }
 }

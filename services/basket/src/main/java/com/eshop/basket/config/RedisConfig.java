@@ -39,6 +39,7 @@ public class RedisConfig {
   public RedisTemplate<String, CustomerBasket> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
     RedisTemplate<String, CustomerBasket> template = new RedisTemplate<>();
     template.setConnectionFactory(redisConnectionFactory);
+    template.setEnableTransactionSupport(true);
     return template;
   }
 }
