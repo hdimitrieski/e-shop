@@ -1,4 +1,4 @@
-package com.eshop.ordering.api.application.infrastructure.integrationevents;
+package com.eshop.ordering.api.infrastructure.integrationevents;
 
 import lombok.AllArgsConstructor;
 import org.aspectj.lang.annotation.Before;

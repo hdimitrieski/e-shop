@@ -1,17 +1,13 @@
 package com.eshop.ordering.api.application.commands;
 
-import an.awesome.pipelinr.Pipeline;
-import com.eshop.ordering.infrastructure.idempotency.RequestManager;
+import an.awesome.pipelinr.Command;
+import org.springframework.stereotype.Component;
 
-//@Component
+@Component
 public class SetAwaitingValidationIdentifiedOrderStatusCommandHandler
-    extends IdentifiedCommandHandler<SetAwaitingValidationOrderStatusCommand, Boolean> {
-  public SetAwaitingValidationIdentifiedOrderStatusCommandHandler(Pipeline pipeline, RequestManager requestManager) {
-    super(pipeline, requestManager);
-  }
-
+    implements Command.Handler<SetAwaitingValidationOrderStatusIdentifiedCommand, Boolean> {
   @Override
-  protected Boolean createResultForDuplicateRequest() {
-    return true;  // Ignore duplicate requests for processing order.
+  public Boolean handle(SetAwaitingValidationOrderStatusIdentifiedCommand setAwaitingValidationOrderStatusIdentifiedCommand) {
+    return true;
   }
 }

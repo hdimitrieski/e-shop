@@ -1,4 +1,4 @@
-package com.eshop.ordering.api.application.infrastructure.services;
+package com.eshop.ordering.api.infrastructure.services;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;

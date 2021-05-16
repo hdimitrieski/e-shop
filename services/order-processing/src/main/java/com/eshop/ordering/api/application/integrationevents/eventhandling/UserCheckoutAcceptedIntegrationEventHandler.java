@@ -1,8 +1,9 @@
 package com.eshop.ordering.api.application.integrationevents.eventhandling;
 
-import an.awesome.pipelinr.Pipeline;
 import com.eshop.ordering.api.application.commands.CreateOrderCommand;
+import com.eshop.ordering.api.application.commands.CreateOrderIdentifiedCommand;
 import com.eshop.ordering.api.application.integrationevents.events.UserCheckoutAcceptedIntegrationEvent;
+import com.eshop.ordering.api.infrastructure.commandbus.CommandBus;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Component;
 public class UserCheckoutAcceptedIntegrationEventHandler {
   private static final Logger logger = LoggerFactory.getLogger(UserCheckoutAcceptedIntegrationEventHandler.class);
 
-  private final Pipeline pipeline;
+  private final CommandBus commandBus;
 
   /**
    * Integration event handler which starts the create order process.
@@ -33,8 +34,8 @@ public class UserCheckoutAcceptedIntegrationEventHandler {
           event.getStreet(), event.getState(), event.getCountry(), event.getZipCode(),
           event.getCardNumber(), event.getCardHolderName(), event.getCardExpiration(),
           event.getCardSecurityNumber(), event.getCardTypeId());
-//      var requestCreateOrder = new IdentifiedCommand<CreateOrderCommand, Boolean>(createOrderCommand, event.getRequestId());
-      result = pipeline.send(createOrderCommand);
+      var requestCreateOrder = new CreateOrderIdentifiedCommand(createOrderCommand, event.getRequestId());
+      result = commandBus.send(requestCreateOrder);
 
       if (result) {
         logger.info("CreateOrderCommand succeeded - RequestId: {}", event.getRequestId());

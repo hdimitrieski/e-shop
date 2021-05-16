@@ -1,16 +1,12 @@
 package com.eshop.ordering.api.application.commands;
 
-import an.awesome.pipelinr.Pipeline;
-import com.eshop.ordering.infrastructure.idempotency.RequestManager;
+import an.awesome.pipelinr.Command;
+import org.springframework.stereotype.Component;
 
-//@Component
-public class CreateOrderIdentifiedCommandHandler extends IdentifiedCommandHandler<CreateOrderCommand, Boolean> {
-  public CreateOrderIdentifiedCommandHandler(Pipeline pipeline, RequestManager requestManager) {
-    super(pipeline, requestManager);
-  }
-
+@Component
+public class CreateOrderIdentifiedCommandHandler implements Command.Handler<CreateOrderIdentifiedCommand, Boolean> {
   @Override
-  protected Boolean createResultForDuplicateRequest() {
-    return true;  // Ignore duplicate requests for processing order.
+  public Boolean handle(CreateOrderIdentifiedCommand createOrderIdentifiedCommand) {
+    return true; // Ignore duplicate requests for creating an order.
   }
 }

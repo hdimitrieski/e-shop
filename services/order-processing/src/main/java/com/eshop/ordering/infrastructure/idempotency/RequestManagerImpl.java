@@ -1,6 +1,7 @@
 package com.eshop.ordering.infrastructure.idempotency;
 
 import com.eshop.ordering.domain.exceptions.OrderingDomainException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -8,14 +9,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+@RequiredArgsConstructor
 @Service
-public class InMemoryRequestManager implements RequestManager {
+public class RequestManagerImpl implements RequestManager {
 
-  private final Map<UUID, ClientRequest> requestsById = new HashMap<>();
+  private final ClientRequestRepository clientRequestRepository;
 
   @Override
   public boolean exist(UUID id) {
-    return requestsById.containsKey(id);
+    return clientRequestRepository.findById(id).isPresent();
   }
 
   @Override
@@ -24,6 +26,6 @@ public class InMemoryRequestManager implements RequestManager {
       throw new OrderingDomainException("Request with id: %s already exists".formatted(id));
     }
 
-    requestsById.put(id, new ClientRequest(id, "", LocalDateTime.now()));
+    clientRequestRepository.save(new ClientRequest(id, commandName, LocalDateTime.now()));
   }
 }

@@ -1,4 +1,4 @@
-package com.eshop.ordering.api.application.infrastructure.exceptions;
+package com.eshop.ordering.api.infrastructure.exceptions;
 
 import com.eshop.shared.rest.error.ControllerExceptionHandler;
 import com.eshop.ordering.domain.exceptions.OrderingDomainException;

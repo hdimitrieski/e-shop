@@ -1,17 +1,13 @@
 package com.eshop.ordering.api.application.commands;
 
-import an.awesome.pipelinr.Pipeline;
-import com.eshop.ordering.infrastructure.idempotency.RequestManager;
+import an.awesome.pipelinr.Command;
+import org.springframework.stereotype.Component;
 
 // Use for Idempotency in Command process
-//@Component
-public class CancelOrderIdentifiedCommandHandler extends IdentifiedCommandHandler<CancelOrderCommand, Boolean> {
-  public CancelOrderIdentifiedCommandHandler(Pipeline pipeline, RequestManager requestManager) {
-    super(pipeline, requestManager);
-  }
-
+@Component
+public class CancelOrderIdentifiedCommandHandler implements Command.Handler<CancelOrderIdentifiedCommand, Boolean> {
   @Override
-  protected Boolean createResultForDuplicateRequest() {
-    return true;  // Ignore duplicate requests for processing order.
+  public Boolean handle(CancelOrderIdentifiedCommand cancelOrderIdentifiedCommand) {
+    return true; // Ignore duplicate requests for canceling order.
   }
 }

@@ -1,4 +1,4 @@
-package com.eshop.ordering.api.application.infrastructure.services;
+package com.eshop.ordering.api.infrastructure.services;
 
 public interface IdentityService {
   String getUserIdentity();

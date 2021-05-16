@@ -1,13 +1,11 @@
 package com.eshop.ordering.api.controllers;
 
-import an.awesome.pipelinr.Pipeline;
-import com.eshop.ordering.api.application.commands.CancelOrderCommand;
-import com.eshop.ordering.api.application.commands.CreateOrderDraftCommand;
-import com.eshop.ordering.api.application.commands.ShipOrderCommand;
+import com.eshop.ordering.api.application.commands.*;
 import com.eshop.ordering.api.application.dtos.OrderDraftDTO;
-import com.eshop.ordering.api.application.infrastructure.services.IdentityService;
 import com.eshop.ordering.api.application.queries.OrderQueries;
 import com.eshop.ordering.api.application.queries.OrderViewModel;
+import com.eshop.ordering.api.infrastructure.commandbus.CommandBus;
+import com.eshop.ordering.api.infrastructure.services.IdentityService;
 import com.eshop.shared.rest.error.BadRequestException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,13 +13,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RequestMapping("orders")
 @RestController
 @RequiredArgsConstructor
 public class OrdersController {
 
-  private final Pipeline pipeline;
+  private final CommandBus commandBus;
   private final OrderQueries orderQueries;
   private final IdentityService identityService;
 
@@ -32,9 +31,8 @@ public class OrdersController {
       @RequestBody CancelOrderCommand command,
       @RequestHeader("x-requestid") String requestId
   ) {
-//    var requestCancelOrder = new CancelOrderIdentifiedCommand(command, UUID.randomUUID());
-//    pipeline.send(requestCancelOrder);
-    var result = pipeline.send(command);
+    var requestCancelOrder = new CancelOrderIdentifiedCommand(command, UUID.fromString(requestId));
+    var result = commandBus.send(requestCancelOrder);
 
     if (!result) {
       throw new BadRequestException();
@@ -47,7 +45,8 @@ public class OrdersController {
       @RequestBody ShipOrderCommand command,
       @RequestHeader("x-requestid") String requestId
   ) {
-    var result = pipeline.send(command);
+    var shipOrderCommand = new ShipOrderIdentifiedCommand(command, UUID.fromString(requestId));
+    var result = commandBus.send(shipOrderCommand);
 
     if (!result) {
       throw new BadRequestException();
@@ -69,7 +68,7 @@ public class OrdersController {
   public ResponseEntity<OrderDraftDTO> createOrderDraftFromBasketData(
       @RequestBody CreateOrderDraftCommand command
   ) {
-    return ResponseEntity.ok(pipeline.send(command));
+    return ResponseEntity.ok(commandBus.send(command));
   }
 
 }
