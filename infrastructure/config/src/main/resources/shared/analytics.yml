@@ -1,0 +1,74 @@
+app:
+  host: localhost
+
+spring:
+  cloud.stream:
+    kafka.streams:
+      binder.functions:
+        ordercheckouts:
+          applicationId: analytics-order-checkout
+        orderstatistics:
+          applicationId: analytics-order-statistics
+        allsubmittedorders:
+          applicationId: analytics-all-submitted-orders-statistics
+        allpaidorders:
+          applicationId: analytics-paid-orders-statistics
+        payments:
+          applicationId: analytics-payments-statistics
+
+    function:
+      definition: ordercheckouts;orderstatistics;allsubmittedorders;allpaidorders;payments
+
+    bindings:
+      ordercheckouts-in-0:
+        destination: ${spring.kafka.consumer.topic.orderCheckouts}
+        binder: defaultKafka
+      orderstatistics-in-0:
+        destination: ${spring.kafka.consumer.topic.submittedOrders}
+        binder: defaultKafka
+      orderstatistics-in-1:
+        destination: ${spring.kafka.consumer.topic.cancelledOrders}
+        binder: defaultKafka
+      allsubmittedorders-in-0:
+        destination: ${spring.kafka.consumer.topic.submittedOrders}
+        binder: defaultKafka
+      allsubmittedorders-out-0:
+        destination: allsubmittedorders
+        binder: defaultKafka
+      allpaidorders-in-0:
+        destination: ${spring.kafka.consumer.topic.paidOrders}
+        binder: defaultKafka
+      allpaidorders-in-1:
+        destination: allsubmittedorders
+        binder: defaultKafkaTable
+      allpaidorders-out-0:
+        destination: allpaidorders
+        binder: defaultKafka
+      payments-in-0:
+        destination: ${spring.kafka.consumer.topic.paymentStatus}
+        binder: defaultKafka
+
+    binders:
+      defaultKafka:
+        type: kstream
+        environment:
+          spring.cloud.stream.kafka.streams:
+            binder:
+              brokers: ${app.kafka.broker.host}:${app.kafka.broker.port}
+              configuration:
+                application.server: ${app.host}:${server.port}
+                default.key.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+                default.value.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+                commit.interval.ms: 1000
+
+      defaultKafkaTable:
+        type: ktable
+        environment:
+          spring.cloud.stream.kafka.streams:
+            binder:
+              brokers: ${app.kafka.broker.host}:${app.kafka.broker.port}
+              configuration:
+                application.server: ${app.host}:${server.port}
+                default.key.serde: org.apache.kafka.common.serialization.Serdes$LongSerde
+                default.value.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+                commit.interval.ms: 1000

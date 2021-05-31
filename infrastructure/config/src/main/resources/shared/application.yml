@@ -35,6 +35,8 @@ spring:
   # Kafka
   kafka:
     producer:
+      properties:
+        spring.json.add.type.headers: false
       bootstrap-servers: ${app.kafka.broker.host}:${app.kafka.broker.port}
     consumer:
       bootstrap-servers: ${app.kafka.broker.host}:${app.kafka.broker.port}

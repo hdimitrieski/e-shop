@@ -1,4 +1,4 @@
-package com.eshop.ordering.api.application.integrationevents.events;
+package com.eshop.analytics.streamprocessing.events;
 
 import com.eshop.shared.eventhandling.IntegrationEvent;
 import lombok.AllArgsConstructor;
@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class OrderStatusChangedToShippedIntegrationEvent extends IntegrationEvent {
+public class OrderStatusChangedToCancelledIntegrationEvent extends IntegrationEvent {
   private Long orderId;
   private String orderStatus;
   private String buyerName;

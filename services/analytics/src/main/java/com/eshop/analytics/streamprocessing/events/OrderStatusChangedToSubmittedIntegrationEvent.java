@@ -1,12 +1,15 @@
-package com.eshop.ordering.api.application.integrationevents.events;
+package com.eshop.analytics.streamprocessing.events;
 
+import com.eshop.analytics.model.OrderItem;
 import com.eshop.shared.eventhandling.IntegrationEvent;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -15,15 +18,6 @@ public class OrderStatusChangedToSubmittedIntegrationEvent extends IntegrationEv
   private String orderStatus;
   private String buyerName;
   private Double totalPrice;
-  private List<OrderItemDto> orderItems;
+  private List<OrderItem> orderItems;
 
-  @NoArgsConstructor
-  @AllArgsConstructor
-  @Getter
-  public static class OrderItemDto {
-    private Long id;
-    private String name;
-    private Double unitPrice;
-    private Integer units;
-  }
 }

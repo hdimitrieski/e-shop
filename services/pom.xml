@@ -22,6 +22,7 @@
         <module>order-notifications</module>
         <module>order-processing</module>
         <module>payment</module>
+        <module>analytics</module>
     </modules>
 
 </project>

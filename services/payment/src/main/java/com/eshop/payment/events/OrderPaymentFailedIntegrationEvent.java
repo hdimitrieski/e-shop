@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 @Getter
 public class OrderPaymentFailedIntegrationEvent extends IntegrationEvent {
   private Integer orderId;
+  private final String status = "failed";
 }

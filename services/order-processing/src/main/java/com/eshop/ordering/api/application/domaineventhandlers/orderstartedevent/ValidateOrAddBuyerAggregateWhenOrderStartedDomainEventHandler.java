@@ -4,6 +4,7 @@ import com.eshop.ordering.api.application.domaineventhandlers.DomainEventHandler
 import com.eshop.ordering.api.application.integrationevents.events.OrderStatusChangedToSubmittedIntegrationEvent;
 import com.eshop.ordering.domain.aggregatesmodel.buyer.Buyer;
 import com.eshop.ordering.domain.aggregatesmodel.buyer.BuyerRepository;
+import com.eshop.ordering.domain.aggregatesmodel.order.OrderItem;
 import com.eshop.ordering.domain.events.OrderStartedDomainEvent;
 import com.eshop.shared.outbox.IntegrationEventLogService;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -45,14 +47,24 @@ public class ValidateOrAddBuyerAggregateWhenOrderStartedDomainEventHandler imple
 
     var savedBuyer = buyerRepository.save(buyer);
 
+    var order = orderStartedEvent.order();
+    var orderItems = order.getOrderItems().stream()
+        .map(orderItem -> new OrderStatusChangedToSubmittedIntegrationEvent.OrderItemDto(
+            order.getId(), orderItem.getOrderItemProductName(), orderItem.getUnitPrice(), orderItem.getUnits()
+        )).collect(Collectors.toList());
     var orderStatusChangedToSubmittedIntegrationEvent = new OrderStatusChangedToSubmittedIntegrationEvent(
-        orderStartedEvent.order().getId(), orderStartedEvent.order().getOrderStatus().getName(), buyer.getName());
+        order.getId(),
+        order.getOrderStatus().getName(),
+        buyer.getName(),
+        order.getTotal(),
+        orderItems
+    );
     integrationEventLogService.saveEvent(orderStatusChangedToSubmittedIntegrationEvent, submittedOrdersTopic);
 
     logger.info(
         "Buyer {} and related payment method were validated or updated for orderId: {}.",
         savedBuyer.getId(),
-        orderStartedEvent.order().getId()
+        order.getId()
     );
   }
 }

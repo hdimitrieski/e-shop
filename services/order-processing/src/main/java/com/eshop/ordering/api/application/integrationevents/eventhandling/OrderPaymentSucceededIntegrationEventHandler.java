@@ -16,6 +16,7 @@ public class OrderPaymentSucceededIntegrationEventHandler {
 
   private final Pipeline pipeline;
 
+  // TODO HD handle failed payments
   @KafkaListener(groupId = "payment-status-group", topics = "${spring.kafka.consumer.topic.paymentStatus}")
   public void handle(OrderPaymentSucceededIntegrationEvent event) {
     logger.info("Handling integration event: {} ({})", event.getId(), event.getClass().getSimpleName());

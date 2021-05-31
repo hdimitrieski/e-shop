@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 @Getter
 public class OrderPaymentSucceededIntegrationEvent extends IntegrationEvent {
     private Long orderId;
+    private String status;
 }
