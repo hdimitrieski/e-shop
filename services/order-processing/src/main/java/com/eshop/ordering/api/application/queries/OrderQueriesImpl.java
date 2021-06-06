@@ -8,7 +8,10 @@ import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
 
 @Service
 @RequiredArgsConstructor
@@ -16,7 +19,7 @@ public class OrderQueriesImpl implements OrderQueries {
   private final EntityManager entityManager;
 
   @Override
-  public OrderViewModel.Order getOrder(Long id) {
+  public Optional<OrderViewModel.Order> getOrder(Long id) {
     var query = entityManager.createNativeQuery("""
           SELECT o.id as orderNumber, o.order_date as date, o.description, o.city, o.country, o.state, o.street,
             o.zip_code as zipCode, o.order_status_id as status,
@@ -26,7 +29,9 @@ public class OrderQueriesImpl implements OrderQueries {
           WHERE o.id = ?1
         """).setParameter(1, id);
 
-    return toOrder(query.getResultList());
+    return isNotEmpty(query.getResultList())
+        ? Optional.of(toOrder(query.getResultList()))
+        : Optional.empty();
   }
 
   @Override

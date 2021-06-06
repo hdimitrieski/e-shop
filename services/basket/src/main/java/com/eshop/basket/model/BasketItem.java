@@ -5,6 +5,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Getter
@@ -12,7 +14,9 @@ import java.io.Serializable;
 public class BasketItem implements Serializable {
   @Setter
   private String id;
+  @NotNull(message = "Product id is required")
   private Long productId;
+  @NotEmpty(message = "Product name is required")
   private String productName;
   @Setter
   private Double unitPrice;

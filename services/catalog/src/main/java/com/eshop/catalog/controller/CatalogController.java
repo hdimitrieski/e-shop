@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
@@ -101,17 +102,14 @@ public class CatalogController {
 
   @RequestMapping(method = RequestMethod.PUT, path = "items")
   @Transactional
-  public void updateProduct(@RequestBody CatalogItem productToUpdate) {
+  public void updateProduct(@RequestBody @Valid CatalogItem productToUpdate) {
     logger.info("Update product: {}", productToUpdate.getId());
     catalogItemRepository.findById(productToUpdate.getId())
         .ifPresentOrElse(catalogItem -> {
           var oldPrice = catalogItem.getPrice();
-          // TODO HD it doesn't work
+          // FIXME HD it doesn't work
           var raiseProductPriceChangedEvent = oldPrice.compareTo(productToUpdate.getPrice()) != 0;
-
-          // entityManager.getTransaction().begin();
           catalogItem = productToUpdate;
-          // entityManager.persist(catalogItem);
 
           if (raiseProductPriceChangedEvent) {
             //Create Integration Event to be published through the Event Bus
@@ -132,13 +130,13 @@ public class CatalogController {
   }
 
   @RequestMapping(method = RequestMethod.POST, path = "items")
-  public void createProduct(@RequestBody CatalogItem product) {
-
+  public void createProduct(@RequestBody @Valid CatalogItem product) {
+    // TODO HD implement
   }
 
   @RequestMapping(method = RequestMethod.DELETE, path = "items/{id}")
   public void deleteProduct(@PathVariable Long id) {
-
+    // TODO HD implement
   }
 
 

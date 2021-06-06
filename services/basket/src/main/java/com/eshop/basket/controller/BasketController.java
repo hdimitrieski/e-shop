@@ -33,7 +33,7 @@ public class BasketController {
   }
 
   @RequestMapping(path = "checkout", method = RequestMethod.POST)
-  public void checkout(@RequestBody BasketCheckout basketCheckout, @RequestHeader("x-requestid") String requestId) {
+  public void checkout(@RequestBody @Valid BasketCheckout basketCheckout, @RequestHeader("x-requestid") String requestId) {
     logger.info("Checkout basket for user: {}", basketCheckout.getBuyer());
     setRequestId(basketCheckout, requestId);
     basketService.checkout(basketCheckout);

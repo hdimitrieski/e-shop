@@ -1,4 +1,4 @@
-package com.eshop.ordering.api.application.behaviours;
+package com.eshop.ordering.api.infrastructure.middlewares;
 
 import an.awesome.pipelinr.Command;
 import lombok.RequiredArgsConstructor;
@@ -8,11 +8,10 @@ import org.springframework.transaction.support.TransactionTemplate;
 
 import java.util.UUID;
 
-// TODO HD try to handle transactions with middleware
-
+// Transaction handling with middleware
 @RequiredArgsConstructor
 @Order(1)
-public class TransactionBehaviour { // implements middleware
+public class TransactionMiddleware {
   private final PlatformTransactionManager txManager;
 
 

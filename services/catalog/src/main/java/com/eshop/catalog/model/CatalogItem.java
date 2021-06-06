@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 
 @AllArgsConstructor
@@ -16,11 +18,14 @@ import java.math.BigDecimal;
 @Builder
 @Entity
 public class CatalogItem extends AbstractEntity {
+    @NotNull
+    @Size(min = 5, max = 50)
     @Column(length = 50, nullable = false)
     private String name;
 
     private String description;
 
+    @NotNull
     @Column(nullable = false)
     private BigDecimal price;
 

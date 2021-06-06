@@ -1,4 +1,4 @@
-package com.eshop.ordering.api.application.behaviours;
+package com.eshop.ordering.api.infrastructure.middlewares;
 
 import an.awesome.pipelinr.Command;
 import lombok.AllArgsConstructor;
@@ -13,8 +13,8 @@ import javax.validation.Validation;
 @Component
 @AllArgsConstructor
 @Order(1)
-public class ValidatorBehaviour implements Command.Middleware {
-  private static final Logger logger = LoggerFactory.getLogger(ValidatorBehaviour.class);
+public class ValidationMiddleware implements Command.Middleware {
+  private static final Logger logger = LoggerFactory.getLogger(ValidationMiddleware.class);
 
   @Override
   public <R, C extends Command<R>> R invoke(C command, Next<R> next) {
