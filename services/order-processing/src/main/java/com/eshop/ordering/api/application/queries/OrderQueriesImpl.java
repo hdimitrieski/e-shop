@@ -92,17 +92,17 @@ public class OrderQueriesImpl implements OrderQueries {
       );
     }).collect(Collectors.toList());
 
-    var r = result.get(0);
+    var orderDetails = result.get(0);
 
-    var orderId = (BigInteger) r[0];
-    var date = (Timestamp) r[1];
-    var description = (String) r[2];
-    var city = (String) r[3];
-    var country = (String) r[4];
-    var state = (String) r[5];
-    var street = (String) r[6];
-    var zipCode = (String) r[7];
-    var status = (Integer) r[8];
+    var orderId = (BigInteger) orderDetails[0];
+    var date = (Timestamp) orderDetails[1];
+    var description = (String) orderDetails[2];
+    var city = (String) orderDetails[3];
+    var country = (String) orderDetails[4];
+    var state = (String) orderDetails[5];
+    var street = (String) orderDetails[6];
+    var zipCode = (String) orderDetails[7];
+    var status = (Integer) orderDetails[8];
 
     var total = orderItems.stream()
         .map(item -> item.units() * item.unitPrice())

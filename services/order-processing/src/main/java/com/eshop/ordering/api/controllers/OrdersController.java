@@ -35,11 +35,7 @@ public class OrdersController {
       @RequestHeader("x-requestid") String requestId
   ) {
     var requestCancelOrder = new CancelOrderIdentifiedCommand(command, UUID.fromString(requestId));
-    var result = commandBus.send(requestCancelOrder);
-
-    if (!result) {
-      throw new BadRequestException();
-    }
+    commandBus.send(requestCancelOrder);
   }
 
   @RequestMapping(value = "ship", method = RequestMethod.PUT)
@@ -49,11 +45,7 @@ public class OrdersController {
       @RequestHeader("x-requestid") String requestId
   ) {
     var shipOrderCommand = new ShipOrderIdentifiedCommand(command, UUID.fromString(requestId));
-    var result = commandBus.send(shipOrderCommand);
-
-    if (!result) {
-      throw new BadRequestException();
-    }
+    commandBus.send(shipOrderCommand);
   }
 
   @RequestMapping("{orderId}")

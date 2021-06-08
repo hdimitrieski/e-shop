@@ -14,7 +14,7 @@ import java.util.List;
 public class CustomerBasket implements Serializable {
   @NotEmpty(message = "Buyer id is required")
   private String buyerId;
-  private String status = "NEW";
+  private BasketStatus status = BasketStatus.New;
   @NotEmpty(message = "The basket must contain at least one item")
   @Valid
   private final List<BasketItem> items = new ArrayList<>();
@@ -23,7 +23,7 @@ public class CustomerBasket implements Serializable {
     buyerId = customerId;
   }
 
-  public void changeStatusTo(String status) {
+  public void changeStatusTo(BasketStatus status) {
     this.status = status;
   }
 }

@@ -14,6 +14,8 @@ import static java.util.Objects.isNull;
 
 @Repository
 public class BasketRepositoryImpl implements BasketRepository {
+  private static final String BASKET_KEY = "BASKET";
+
   private final HashOperations<String, String, CustomerBasket> hashOperations;
 
   public BasketRepositoryImpl(RedisTemplate<String, CustomerBasket> redisTemplate) {
@@ -22,12 +24,12 @@ public class BasketRepositoryImpl implements BasketRepository {
 
   @Override
   public Optional<CustomerBasket> getBasket(String customerId) {
-    return Optional.ofNullable(hashOperations.get("BASKET", customerId));
+    return Optional.ofNullable(hashOperations.get(BASKET_KEY, customerId));
   }
 
   @Override
   public Set<String> getUsers() {
-    return hashOperations.keys("BASKET");
+    return hashOperations.keys(BASKET_KEY);
   }
 
   @Override
@@ -35,12 +37,12 @@ public class BasketRepositoryImpl implements BasketRepository {
     basket.getItems()
         .stream().filter(basketItem -> isNull(basketItem.getId()))
         .forEach(basketItem -> basketItem.setId(UUID.randomUUID().toString()));
-    hashOperations.put("BASKET", basket.getBuyerId(), basket);
+    hashOperations.put(BASKET_KEY, basket.getBuyerId(), basket);
     return basket;
   }
 
   @Override
   public void deleteBasket(String customerId) {
-    hashOperations.delete("BASKET", customerId);
+    hashOperations.delete(BASKET_KEY, customerId);
   }
 }

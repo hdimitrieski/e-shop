@@ -21,10 +21,11 @@ public class OrderStatusChangedToPaidIntegrationEventHandler {
   @Transactional
   public void handle(OrderStatusChangedToPaidIntegrationEvent event) {
     logger.info("Handling integration event: {} ({})", event.getId(), event.getClass().getSimpleName());
-    for (var orderStockItem : event.getOrderStockItems()) {
-      catalogItemRepository.findById(orderStockItem.getProductId()).ifPresent(catalogItem ->
-          catalogItem.removeStock(orderStockItem.getUnits())
-      );
-    }
+    event.getOrderStockItems().forEach(orderStockItem -> catalogItemRepository
+        .findById(orderStockItem.getProductId())
+        .ifPresent(catalogItem ->
+            catalogItem.removeStock(orderStockItem.getUnits())
+        )
+    );
   }
 }

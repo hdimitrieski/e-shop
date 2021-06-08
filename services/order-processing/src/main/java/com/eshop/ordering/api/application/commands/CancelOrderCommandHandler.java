@@ -1,7 +1,10 @@
 package com.eshop.ordering.api.application.commands;
 
 import an.awesome.pipelinr.Command;
+import an.awesome.pipelinr.Voidy;
+import com.eshop.ordering.domain.aggregatesmodel.order.Order;
 import com.eshop.ordering.domain.aggregatesmodel.order.OrderRepository;
+import com.eshop.shared.rest.error.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,12 +20,16 @@ public class CancelOrderCommandHandler implements Command.Handler<CancelOrderCom
   @Override
   @Transactional
   public Boolean handle(CancelOrderCommand command) {
-    orderRepository.findById(command.orderNumber())
-        .ifPresent(order -> {
-          order.setCancelledStatus();
-          orderRepository.save(order);
-        });
+    var order = findOrder(command.orderNumber());
+    order.setCancelledStatus();
+    orderRepository.save(order);
 
     return true;
   }
+
+  private Order findOrder(Long orderNumber) {
+    return orderRepository.findById(orderNumber)
+        .orElseThrow(() -> new NotFoundException("Order %s not found".formatted(orderNumber)));
+  }
+
 }

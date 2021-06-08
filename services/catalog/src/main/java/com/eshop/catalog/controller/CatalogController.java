@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
@@ -105,28 +106,12 @@ public class CatalogController {
   public void updateProduct(@RequestBody @Valid CatalogItem productToUpdate) {
     logger.info("Update product: {}", productToUpdate.getId());
     catalogItemRepository.findById(productToUpdate.getId())
-        .ifPresentOrElse(catalogItem -> {
-          var oldPrice = catalogItem.getPrice();
-          // FIXME HD it doesn't work
-          var raiseProductPriceChangedEvent = oldPrice.compareTo(productToUpdate.getPrice()) != 0;
-          catalogItem = productToUpdate;
-
-          if (raiseProductPriceChangedEvent) {
-            //Create Integration Event to be published through the Event Bus
-            var priceChangedEvent = new ProductPriceChangedIntegrationEvent(
-                catalogItem.getId(),
-                productToUpdate.getPrice(),
-                oldPrice
-            );
-
-            // Achieving atomicity between original Catalog database operation and the IntegrationEventLog thanks to a local transaction
-            integrationEventService.saveEventAndCatalogContextChanges(productPriceChangesTopic, priceChangedEvent);
-          }
-          catalogItemRepository.save(catalogItem);
-        }, () -> {
-          throw new NotFoundException(String.format("Item with id %d not found.", productToUpdate.getId()));
-        });
-
+        .ifPresentOrElse(
+            catalogItem -> updateCatalogItem(catalogItem, productToUpdate),
+            () -> {
+              throw new NotFoundException(String.format("Item with id %d not found.", productToUpdate.getId()));
+            }
+        );
   }
 
   @RequestMapping(method = RequestMethod.POST, path = "items")
@@ -138,7 +123,6 @@ public class CatalogController {
   public void deleteProduct(@PathVariable Long id) {
     // TODO HD implement
   }
-
 
   private CatalogBrand findCatalogBrand(Long id) {
     return nonNull(id)
@@ -152,5 +136,27 @@ public class CatalogController {
         ? catalogTypeRepository.findById(id)
         .orElseThrow(() -> new BadRequestException("Catalog type %s does not exist".formatted(id)))
         : null;
+  }
+
+  private void updateCatalogItem(CatalogItem existingProduct, CatalogItem productToUpdate) {
+    var oldPrice = existingProduct.getPrice();
+    existingProduct = productToUpdate;
+
+    if (priceChanged(oldPrice, productToUpdate.getPrice())) {
+      // Create Integration Event to be published through the Event Bus
+      var priceChangedEvent = new ProductPriceChangedIntegrationEvent(
+          existingProduct.getId(),
+          productToUpdate.getPrice(),
+          oldPrice
+      );
+
+      // Achieving atomicity between original Catalog database operation and the IntegrationEventLog thanks to a local transaction
+      integrationEventService.saveEventAndCatalogContextChanges(productPriceChangesTopic, priceChangedEvent);
+    }
+    catalogItemRepository.save(existingProduct);
+  }
+
+  private boolean priceChanged(BigDecimal oldPrice, BigDecimal newPrice) {
+    return oldPrice.compareTo(newPrice) != 0;
   }
 }

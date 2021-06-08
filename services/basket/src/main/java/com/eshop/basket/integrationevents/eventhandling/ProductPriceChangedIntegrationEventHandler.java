@@ -21,13 +21,15 @@ public class ProductPriceChangedIntegrationEventHandler implements IntegrationEv
   @Override
   public void handle(ProductPriceChangedIntegrationEvent event) {
     logger.info("Handling integration event: {} ({})", event.getId(), event.getClass().getSimpleName());
-    var userIds = basketRepository.getUsers();
 
-    for (var id : userIds) {
-      basketRepository.getBasket(id).ifPresent(basket ->
-          updatePriceInBasketItems(event.getProductId(), event.getNewPrice(), event.getOldPrice(), basket)
-      );
-    }
+    basketRepository.getUsers().forEach(id -> basketRepository.getBasket(id)
+        .ifPresent(basket -> updatePriceInBasketItems(
+            event.getProductId(),
+            event.getNewPrice(),
+            event.getOldPrice(),
+            basket
+        ))
+    );
   }
 
   private void updatePriceInBasketItems(Long productId, Double newPrice, Double oldPrice, CustomerBasket basket) {

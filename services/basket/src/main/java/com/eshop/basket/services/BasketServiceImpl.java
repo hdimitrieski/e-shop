@@ -4,6 +4,7 @@ import com.eshop.basket.controller.BasketController;
 import com.eshop.basket.integrationevents.events.UserCheckoutAcceptedIntegrationEvent;
 import com.eshop.basket.model.BasketCheckout;
 import com.eshop.basket.model.BasketRepository;
+import com.eshop.basket.model.BasketStatus;
 import com.eshop.basket.model.CustomerBasket;
 import com.eshop.shared.eventhandling.EventBus;
 import com.eshop.shared.rest.error.NotFoundException;
@@ -58,7 +59,7 @@ public class BasketServiceImpl implements BasketService {
         basket
     );
 
-    basket.changeStatusTo("CHECKOUT");
+    basket.changeStatusTo(BasketStatus.Checkout);
     basketRepository.updateBasket(basket);
 
     // Once basket is checkout, sends an integration event to order-processor to convert basket to order and proceeds

@@ -1,5 +1,6 @@
 package com.eshop.payment.events;
 
+import com.eshop.payment.model.PaymentStatus;
 import com.eshop.shared.eventhandling.IntegrationEvent;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,5 +11,5 @@ import lombok.NoArgsConstructor;
 @Getter
 public class OrderPaymentSucceededIntegrationEvent extends IntegrationEvent {
   private Integer orderId;
-  private final String status = "successful";
+  private final PaymentStatus status = PaymentStatus.SUCCESS;
 }
