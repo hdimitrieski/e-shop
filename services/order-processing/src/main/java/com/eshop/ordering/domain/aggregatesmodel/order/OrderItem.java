@@ -10,19 +10,26 @@ import javax.persistence.ManyToOne;
 
 @javax.persistence.Entity
 public class OrderItem extends Entity {
-  @Column(nullable = false)
+  @Column(name = "product_name", nullable = false)
   private String productName;
+
   @Getter
+  @Column(name = "picture_url")
   private String pictureUrl;
-  @Column(nullable = false)
+
   @Getter
+  @Column(name = "unit_price", nullable = false)
   private Double unitPrice;
+
+  @Column(name = "discount")
   private Double discount;
-  @Column(nullable = false)
+
   @Getter
+  @Column(name = "units", nullable = false)
   private Integer units;
-  @Column(nullable = false)
+
   @Getter
+  @Column(name = "product_id", nullable = false)
   private Long productId;
 
   @ManyToOne(targetEntity = Order.class)

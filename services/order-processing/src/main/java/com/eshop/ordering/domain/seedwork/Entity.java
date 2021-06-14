@@ -2,16 +2,15 @@ package com.eshop.ordering.domain.seedwork;
 
 import lombok.Getter;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 import java.util.Objects;
 
 @MappedSuperclass
 public abstract class Entity {
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence_generator")
+  @SequenceGenerator(name = "sequence_generator", sequenceName = "eshop_sequence", allocationSize = 1)
+  @Column(name = "id", nullable = false)
   @Getter
   protected Long id;
 

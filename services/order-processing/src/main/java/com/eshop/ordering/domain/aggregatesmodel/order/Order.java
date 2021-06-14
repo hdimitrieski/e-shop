@@ -13,7 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Entity(name = "orders")
+@Entity
+@Table(name = "orders")
 public class Order extends AggregateRoot {
   @Column(nullable = false)
   private LocalDateTime orderDate;
@@ -25,14 +26,17 @@ public class Order extends AggregateRoot {
 
   @Getter
   @Setter
+  @Column(name = "buyer_id")
   private Long buyerId;
 
   @Transient
   @Getter
   private OrderStatus orderStatus;
-  @Column(nullable = false)
+
+  @Column(name = "order_status_id", nullable = false)
   private Integer orderStatusId;
 
+  @Column(name = "description")
   private String description;
 
   // Draft orders have this set to true. Currently we don't check anywhere the draft status of an Order,
@@ -48,6 +52,7 @@ public class Order extends AggregateRoot {
   private List<OrderItem> orderItems;
 
   @Setter
+  @Column(name = "payment_method_id")
   private Long paymentMethodId;
 
   public static Order newDraft() {
@@ -61,8 +66,18 @@ public class Order extends AggregateRoot {
     isDraft = false;
   }
 
-  public Order(String userId, String userName, Address address, Integer cardTypeId, String cardNumber, String cardSecurityNumber,
-               String cardHolderName, LocalDate cardExpiration, Long buyerId, Long paymentMethodId) {
+  private Order(
+      String userId,
+      String userName,
+      Address address,
+      Integer cardTypeId,
+      String cardNumber,
+      String cardSecurityNumber,
+      String cardHolderName,
+      LocalDate cardExpiration,
+      Long buyerId,
+      Long paymentMethodId
+  ) {
     this();
     this.buyerId = buyerId;
     this.paymentMethodId = paymentMethodId;
@@ -76,8 +91,16 @@ public class Order extends AggregateRoot {
         cardSecurityNumber, cardHolderName, cardExpiration);
   }
 
-  public Order(String userId, String userName, Address address, Integer cardTypeId, String cardNumber, String cardSecurityNumber,
-               String cardHolderName, LocalDate cardExpiration) {
+  public Order(
+      String userId,
+      String userName,
+      Address address,
+      Integer cardTypeId,
+      String cardNumber,
+      String cardSecurityNumber,
+      String cardHolderName,
+      LocalDate cardExpiration
+  ) {
     this(userId, userName, address, cardTypeId, cardNumber, cardSecurityNumber, cardHolderName, cardExpiration, null, null);
   }
 
@@ -85,7 +108,14 @@ public class Order extends AggregateRoot {
   // This Order AggregateRoot's method "addOrderitem()" should be the only way to add Items to the Order,
   // so any behavior (discounts, etc.) and validations are controlled by the AggregateRoot
   // in order to maintain consistency between the whole Aggregate.
-  public void addOrderItem(Long productId, String productName, Double unitPrice, Double discount, String pictureUrl, Integer units) {
+  public void addOrderItem(
+      Long productId,
+      String productName,
+      Double unitPrice,
+      Double discount,
+      String pictureUrl,
+      Integer units
+  ) {
     var existingOrderForProduct = orderItems.stream().filter(o -> o.getProductId().equals(productId))
         .findFirst()
         .orElse(null);

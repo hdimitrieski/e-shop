@@ -27,7 +27,7 @@ public class BuyerRepositoryImpl implements BuyerRepository {
 
   @Override
   public Buyer findByIdentityGuid(String buyerIdentityGuid) {
-    return buyerJpaRepository.findByIdentityGuid(buyerIdentityGuid);
+    return buyerJpaRepository.findByUserId(buyerIdentityGuid);
   }
 
   @Override

@@ -1,0 +1,9 @@
+spring:
+  # JPA
+  jpa:
+    show-sql: false
+
+  # Flyway
+  flyway:
+    enabled: true
+    locations: classpath:db/migration

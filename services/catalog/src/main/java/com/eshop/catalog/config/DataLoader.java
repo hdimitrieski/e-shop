@@ -1,24 +1,34 @@
-package com.eshop.catalog;
+package com.eshop.catalog.config;
 
 import com.eshop.catalog.model.*;
 import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
 import java.util.List;
 
+/**
+ * Insert test data.
+ */
 @RequiredArgsConstructor
 @Component
-class Seed {
+@Profile("dev")
+public class DataLoader implements ApplicationRunner {
+  private static final Logger logger = LoggerFactory.getLogger(DataLoader.class);
+
   private final CatalogBrandRepository catalogBrandRepository;
   private final CatalogTypeRepository catalogTypeRepository;
   private final CatalogItemRepository catalogItemRepository;
 
-  @PostConstruct
-  void init() {
-    System.out.println("Initializing data...");
+  @Override
+  public void run(ApplicationArguments args) {
+    logger.info("Inserting test data...");
 
     if (catalogBrandRepository.findAll().iterator().hasNext()) {
       return;
@@ -303,8 +313,6 @@ class Seed {
             .catalogType(types.get(1))
             .pictureFileName("people")
             .build()
-
     ));
-
   }
 }

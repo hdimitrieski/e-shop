@@ -4,10 +4,7 @@ import com.eshop.ordering.domain.events.BuyerAndPaymentMethodVerifiedDomainEvent
 import com.eshop.ordering.domain.seedwork.AggregateRoot;
 import lombok.Getter;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,14 +12,19 @@ import java.util.List;
 import static java.util.Objects.isNull;
 
 @Entity
+@Table(name = "buyer", uniqueConstraints = @UniqueConstraint(columnNames = {"user_id"}))
 public class Buyer extends AggregateRoot {
-  @Column(nullable = false, length = 200, unique = true)
+
   @Getter
-  private String identityGuid;
+  @Column(name = "user_id", nullable = false, length = 200, unique = true)
+  private String userId;
+
   @Getter
+  @Column(name = "name")
   private String name;
 
-  @OneToMany(targetEntity = PaymentMethod.class, cascade = CascadeType.ALL, mappedBy = "buyer")
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "buyer")
+  @OrderBy("id")
   @Getter
   private List<PaymentMethod> paymentMethods;
 
@@ -30,17 +32,17 @@ public class Buyer extends AggregateRoot {
     paymentMethods = new ArrayList<>();
   }
 
-  public Buyer(String identity, String name) {
+  public Buyer(String userId, String name) {
     this();
 
-    if (isNull(identity)) {
-      throw new IllegalArgumentException("Identity");
+    if (isNull(userId)) {
+      throw new IllegalArgumentException("userId");
     }
 
     if (isNull(name)) {
       throw new IllegalArgumentException("Name");
     }
-    this.identityGuid = identity;
+    this.userId = userId;
     this.name = name;
   }
 

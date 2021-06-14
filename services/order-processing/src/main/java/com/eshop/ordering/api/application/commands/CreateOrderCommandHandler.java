@@ -34,8 +34,14 @@ public class CreateOrderCommandHandler implements Command.Handler<CreateOrderCom
     // DDD patterns comment: Add child entities and value-objects through the Order Aggregate-Root
     // methods and constructor so validations, invariants and business logic
     // make sure that consistency is preserved across the whole aggregate
-    var address = new Address(command.getStreet(), command.getCity(), command.getState(), command.getCountry(),
-        command.getZipCode());
+
+    var address = Address.builder()
+        .city(command.getCity())
+        .street(command.getStreet())
+        .state(command.getState())
+        .country(command.getCountry())
+        .zipCode(command.getZipCode())
+        .build();
     var order = new Order(command.getUserId(), command.getUserName(), address, command.getCardTypeId(),
         command.getCardNumber(), command.getCardSecurityNumber(), command.getCardHolderName(),
         command.getCardExpiration());

@@ -1,54 +1,57 @@
 package com.eshop.catalog.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Builder
 @Entity
+@Table(name = "catalog_item")
 public class CatalogItem extends AbstractEntity {
     @NotNull
     @Size(min = 5, max = 50)
-    @Column(length = 50, nullable = false)
+    @Column(name = "name", length = 50, nullable = false)
     private String name;
 
+    @Column(name = "description")
     private String description;
 
     @NotNull
-    @Column(nullable = false)
+    @Column(name = "price", nullable = false)
     private BigDecimal price;
 
+    @Column(name = "picture_file_name")
     private String pictureFileName;
-//    private String pictureUri;
-
-    @ManyToOne
-    private CatalogType catalogType;
-
-    @ManyToOne
-    private CatalogBrand catalogBrand;
 
     // Quantity in stock
+    @Column(name = "available_stock")
     private Integer availableStock;
 
     // Available stock at which we should reorder
+    @Column(name = "restock_threshold")
     private Integer restockThreshold;
 
     // Maximum number of units that can be in-stock at any time (due to physicial/logistical constraints in warehouses)
+    @Column(name = "max_stock_threshold")
     private Integer maxStockThreshold;
 
     // True if the item is on reorder
+    @Column(name = "on_reorder")
     private boolean onReorder = false;
+
+    @ManyToOne
+    @JoinColumn(name = "catalog_type_id")
+    private CatalogType catalogType;
+
+    @ManyToOne
+    @JoinColumn(name = "catalog_brand_id")
+    private CatalogBrand catalogBrand;
 
     /**
      * If there is sufficient stock of an item, then the integer returned at the end of this call should be the same as quantityDesired.

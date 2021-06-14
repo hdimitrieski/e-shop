@@ -1,9 +1,9 @@
 package com.eshop.catalog.model;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+
+import javax.persistence.*;
 
 /**
  * Base class to derive entity classes from.
@@ -11,20 +11,14 @@ import javax.persistence.MappedSuperclass;
  * @author Oliver Gierke
  */
 @MappedSuperclass
+@Getter
 public class AbstractEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence_generator")
+    @SequenceGenerator(name = "sequence_generator", sequenceName = "catalog_sequence", allocationSize = 1)
+    @Column(name = "id", nullable = false)
     private Long id;
-
-    /**
-     * Returns the identifier of the entity.
-     *
-     * @return the id
-     */
-    public Long getId() {
-        return id;
-    }
 
     @Override
     public boolean equals(Object obj) {

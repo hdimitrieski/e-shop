@@ -4,5 +4,5 @@ import com.eshop.ordering.domain.aggregatesmodel.buyer.Buyer;
 import org.springframework.data.repository.CrudRepository;
 
 public interface BuyerJpaRepository extends CrudRepository<Buyer, Long> {
-  Buyer findByIdentityGuid(String buyerIdentityGuid);
+  Buyer findByUserId(String buyerIdentityGuid);
 }

@@ -12,18 +12,21 @@ import java.time.LocalDate;
 import static java.util.Objects.isNull;
 
 @javax.persistence.Entity
+@Table(name = "payment_method")
 public class PaymentMethod extends Entity {
-  @Column(nullable = false, length = 200)
+  @Column(name = "alias", nullable = false, length = 200)
   private String alias;
-  @Column(nullable = false, length = 25)
+  @Column(name = "card_number", nullable = false, length = 25)
   private String cardNumber;
-  @Column(nullable = false, length = 200)
+  @Column(name = "security_number", nullable = false, length = 200)
   private String securityNumber;
-  @Column(nullable = false, length = 200)
+  @Column(name = "card_holder_name", nullable = false, length = 200)
   private String cardHolderName;
+  @Column(name = "expiration")
   private LocalDate expiration;
 
-  private int cardTypeId;
+  @Column(name = "card_type_id")
+  private Integer cardTypeId;
 
   @Transient
   @Getter

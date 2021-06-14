@@ -1,19 +1,18 @@
 package com.eshop.catalog.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Builder
 @Entity
+@Table(name = "catalog_brand")
 public class CatalogBrand extends AbstractEntity {
-    @Column(nullable = false, length = 100)
+    @Column(name = "brand", nullable = false, length = 100)
     private String brand;
 }

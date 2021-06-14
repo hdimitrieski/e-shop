@@ -1,0 +1,25 @@
+spring:
+  # JPA
+  jpa:
+    show-sql: false
+
+  # Flyway
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+  # JPA
+  jpa:
+    show-sql: true
+
+  # Insert test data
+  sql:
+    init:
+      enabled: true
+      data-locations: classpath:db/testdata/data.sql

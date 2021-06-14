@@ -16,7 +16,7 @@ spring:
   # JPA
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
 
   # Postgres
   datasource:
