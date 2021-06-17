@@ -3,6 +3,7 @@ package com.eshop.ordering.api.application.commands;
 import an.awesome.pipelinr.Command;
 import an.awesome.pipelinr.Voidy;
 import com.eshop.ordering.domain.aggregatesmodel.order.Order;
+import com.eshop.ordering.domain.aggregatesmodel.order.OrderId;
 import com.eshop.ordering.domain.aggregatesmodel.order.OrderRepository;
 import com.eshop.shared.rest.error.NotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -20,15 +21,15 @@ public class CancelOrderCommandHandler implements Command.Handler<CancelOrderCom
   @Override
   @Transactional
   public Boolean handle(CancelOrderCommand command) {
-    var order = findOrder(command.orderNumber());
+    final var order = findOrder(command.orderNumber());
     order.setCancelledStatus();
     orderRepository.save(order);
 
     return true;
   }
 
-  private Order findOrder(Long orderNumber) {
-    return orderRepository.findById(orderNumber)
+  private Order findOrder(String orderNumber) {
+    return orderRepository.findById(OrderId.of(orderNumber))
         .orElseThrow(() -> new NotFoundException("Order %s not found".formatted(orderNumber)));
   }
 

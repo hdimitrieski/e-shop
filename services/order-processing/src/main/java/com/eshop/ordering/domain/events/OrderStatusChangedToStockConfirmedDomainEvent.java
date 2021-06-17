@@ -1,6 +1,7 @@
 package com.eshop.ordering.domain.events;
 
-import com.eshop.ordering.domain.seedwork.DomainEvent;
+import com.eshop.ordering.domain.aggregatesmodel.order.OrderId;
+import com.eshop.ordering.domain.base.DomainEvent;
 
-public record OrderStatusChangedToStockConfirmedDomainEvent(Long orderId) implements DomainEvent {
+public record OrderStatusChangedToStockConfirmedDomainEvent(OrderId orderId) implements DomainEvent {
 }

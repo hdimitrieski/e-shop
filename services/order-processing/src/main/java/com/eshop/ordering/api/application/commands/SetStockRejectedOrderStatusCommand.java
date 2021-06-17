@@ -5,7 +5,7 @@ import an.awesome.pipelinr.Command;
 import java.util.List;
 
 public record SetStockRejectedOrderStatusCommand(
-    Long orderNumber,
-    List<Integer> orderStockItems
+    String orderNumber,
+    List<Long> orderStockItems
 ) implements Command<Boolean> {
 }

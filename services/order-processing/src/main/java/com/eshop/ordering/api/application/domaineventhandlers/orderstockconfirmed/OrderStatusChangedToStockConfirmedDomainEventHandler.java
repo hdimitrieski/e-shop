@@ -2,8 +2,7 @@ package com.eshop.ordering.api.application.domaineventhandlers.orderstockconfirm
 
 import com.eshop.ordering.api.application.domaineventhandlers.DomainEventHandler;
 import com.eshop.ordering.api.application.integrationevents.events.OrderStatusChangedToStockConfirmedIntegrationEvent;
-import com.eshop.ordering.domain.aggregatesmodel.buyer.BuyerRepository;
-import com.eshop.ordering.domain.aggregatesmodel.order.OrderRepository;
+import com.eshop.ordering.api.application.services.OrderApplicationService;
 import com.eshop.ordering.domain.aggregatesmodel.order.OrderStatus;
 import com.eshop.ordering.domain.events.OrderStatusChangedToStockConfirmedDomainEvent;
 import com.eshop.shared.outbox.IntegrationEventLogService;
@@ -19,8 +18,7 @@ import org.springframework.stereotype.Component;
 public class OrderStatusChangedToStockConfirmedDomainEventHandler implements DomainEventHandler<OrderStatusChangedToStockConfirmedDomainEvent> {
   private static final Logger logger = LoggerFactory.getLogger(OrderStatusChangedToStockConfirmedDomainEventHandler.class);
 
-  private final OrderRepository orderRepository;
-  private final BuyerRepository buyerRepository;
+  private final OrderApplicationService orderApplicationService;
   private final IntegrationEventLogService integrationEventLogService;
   @Value("${spring.kafka.consumer.topic.stockConfirmed}")
   private String stockConfirmedTopic;
@@ -34,11 +32,11 @@ public class OrderStatusChangedToStockConfirmedDomainEventHandler implements Dom
         OrderStatus.StockConfirmed.getId()
     );
 
-    var order = orderRepository.findById(event.orderId()).orElse(null);
-    var buyer = buyerRepository.findById(order.getBuyerId()).orElse(null);
+    var order = orderApplicationService.findOrder(event.orderId());
+    var buyer = orderApplicationService.findBuyerFor(order);
 
     var orderStatusChangedToStockConfirmedIntegrationEvent = new OrderStatusChangedToStockConfirmedIntegrationEvent(
-        order.getId(), order.getOrderStatus().getName(), buyer.getName());
+        order.getId().getUuid(), order.getOrderStatus().getStatus(), buyer.getBuyerName().getName());
     integrationEventLogService.saveEvent(orderStatusChangedToStockConfirmedIntegrationEvent, stockConfirmedTopic);
   }
 }

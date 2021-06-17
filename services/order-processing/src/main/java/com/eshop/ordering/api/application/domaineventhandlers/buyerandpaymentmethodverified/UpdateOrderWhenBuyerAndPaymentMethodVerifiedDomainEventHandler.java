@@ -25,12 +25,14 @@ public class UpdateOrderWhenBuyerAndPaymentMethodVerifiedDomainEventHandler
     logger.info(
         "Order with Id: {} has been successfully updated with a payment method {} ({})",
         buyerPaymentMethodVerifiedEvent.orderId(),
-        buyerPaymentMethodVerifiedEvent.payment().getCardType().getName(),
+        buyerPaymentMethodVerifiedEvent.payment().cardType().getCardName(),
         buyerPaymentMethodVerifiedEvent.payment().getId()
     );
 
-    var orderToUpdate = orderRepository.findById(buyerPaymentMethodVerifiedEvent.orderId()).orElse(null);
-    orderToUpdate.setBuyerId(buyerPaymentMethodVerifiedEvent.buyer().getId());
-    orderToUpdate.setPaymentMethodId(buyerPaymentMethodVerifiedEvent.payment().getId());
+    orderRepository.findById(buyerPaymentMethodVerifiedEvent.orderId()).ifPresent(order -> {
+      order.setBuyerId(buyerPaymentMethodVerifiedEvent.buyer().getId());
+      order.setPaymentMethodId(buyerPaymentMethodVerifiedEvent.payment().getId());
+      orderRepository.save(order);
+    });
   }
 }

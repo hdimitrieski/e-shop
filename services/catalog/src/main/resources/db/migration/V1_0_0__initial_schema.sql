@@ -9,7 +9,7 @@ create sequence catalog_sequence
 
 create table outbox
 (
-    id              bigint not null,
+    id              serial not null,
     content         varchar(255),
     creation_time   timestamp,
     event_id        uuid,

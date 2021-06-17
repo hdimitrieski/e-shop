@@ -8,6 +8,6 @@ import javax.validation.constraints.NotNull;
 public record ShipOrderCommand(
     @JsonProperty("orderNumber")
     @NotNull(message = "No order number found")
-    Long orderNumber
+    String orderNumber
 ) implements Command<Boolean> {
 }

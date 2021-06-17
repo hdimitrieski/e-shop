@@ -17,8 +17,8 @@ class OrdersStoreService implements OrdersService {
   private final InteractiveQueryService interactiveQueryService;
 
   @Override
-  public Order getSubmittedOrder(Long orderId) {
-    final ReadOnlyKeyValueStore<Long, Order> submittedOrdersStore = interactiveQueryService.getQueryableStore(
+  public Order getSubmittedOrder(String orderId) {
+    final ReadOnlyKeyValueStore<String, Order> submittedOrdersStore = interactiveQueryService.getQueryableStore(
         SUBMITTED_ORDERS_STORE,
         QueryableStoreTypes.keyValueStore()
     );
@@ -27,8 +27,8 @@ class OrdersStoreService implements OrdersService {
   }
 
   @Override
-  public Order getPaidOrder(Long orderId) {
-    final ReadOnlyKeyValueStore<Long, Long> paidOrderIdsStore = interactiveQueryService.getQueryableStore(
+  public Order getPaidOrder(String orderId) {
+    final ReadOnlyKeyValueStore<String, String> paidOrderIdsStore = interactiveQueryService.getQueryableStore(
         PAID_ORDER_IDS_STORE,
         QueryableStoreTypes.keyValueStore()
     );

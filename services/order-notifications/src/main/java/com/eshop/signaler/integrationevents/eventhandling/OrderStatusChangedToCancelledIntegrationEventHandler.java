@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 public class OrderStatusChangedToCancelledIntegrationEventHandler
     implements IntegrationEventHandler<OrderStatusChangedToCancelledIntegrationEvent> {
   private static final Logger logger = LoggerFactory.getLogger(OrderStatusChangedToCancelledIntegrationEventHandler.class);
-
+  private static final String DESTINATION = "/queue/order-cancelled";
   private final SimpMessagingTemplate simpMessagingTemplate;
 
   @KafkaListener(groupId = "cancelled-orders-group-2", topics = "${spring.kafka.consumer.topic.cancelledOrders}")
@@ -23,6 +23,9 @@ public class OrderStatusChangedToCancelledIntegrationEventHandler
   public void handle(OrderStatusChangedToCancelledIntegrationEvent event) {
     logger.info("Handling integration event: {} ({})", event.getId(), event.getClass().getSimpleName());
     simpMessagingTemplate.convertAndSendToUser(
-        event.getBuyerName(), "/queue/order-cancelled", new OrderStatus(event.getOrderId(), event.getOrderStatus()));
+        event.getBuyerName(),
+        DESTINATION,
+        new OrderStatus(event.getOrderId(), event.getOrderStatus())
+    );
   }
 }

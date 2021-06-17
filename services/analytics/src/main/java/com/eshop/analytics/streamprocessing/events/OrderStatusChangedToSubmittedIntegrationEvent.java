@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 public class OrderStatusChangedToSubmittedIntegrationEvent extends IntegrationEvent {
-  private Long orderId;
+  private String orderId;
   private String orderStatus;
   private String buyerName;
   private Double totalPrice;

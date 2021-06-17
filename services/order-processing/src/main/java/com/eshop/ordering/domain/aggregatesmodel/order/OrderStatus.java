@@ -4,6 +4,7 @@ import com.eshop.ordering.domain.exceptions.OrderingDomainException;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.springframework.lang.NonNull;
 
 import java.util.stream.Stream;
 
@@ -19,15 +20,15 @@ public enum OrderStatus {
   @Getter
   private final Integer id;
   @Getter
-  private final String name;
+  private final String status;
 
-  public static OrderStatus fromName(String name) {
-    return Stream.of(values()).filter(s -> s.getName().equals(name))
+  public static OrderStatus fromStatus(@NonNull String status) {
+    return Stream.of(values()).filter(s -> s.getStatus().equals(status))
         .findFirst()
-        .orElseThrow(() -> new OrderingDomainException("Invalid name for OrderStatus: %d".formatted(name)));
+        .orElseThrow(() -> new OrderingDomainException("Invalid name for OrderStatus: %s".formatted(status)));
   }
 
-  public static OrderStatus from(Integer id) {
+  public static OrderStatus of(@NonNull Integer id) {
     return Stream.of(values()).filter(s -> s.getId().equals(id))
         .findFirst()
         .orElseThrow(() -> new OrderingDomainException("Invalid value for OrderStatus: %d".formatted(id)));

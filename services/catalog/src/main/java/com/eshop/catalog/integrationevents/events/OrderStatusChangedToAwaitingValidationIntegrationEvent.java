@@ -11,6 +11,6 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 public class OrderStatusChangedToAwaitingValidationIntegrationEvent extends IntegrationEvent {
-  private Long orderId;
+  private String orderId;
   private List<OrderStockItem> orderStockItems;
 }

@@ -26,25 +26,38 @@ public class UserCheckoutAcceptedIntegrationEventHandler {
   @KafkaListener(groupId = "order-checkouts-group", topics = "${spring.kafka.consumer.topic.orderCheckouts}")
   public void handle(UserCheckoutAcceptedIntegrationEvent event) {
     logger.info("Handling integration event: {} ({})", event.getId(), event.getClass().getSimpleName());
-    var result = false;
 
     if (event.getRequestId() != null) {
-      var createOrderCommand = new CreateOrderCommand(
-          event.getBasket().getItems(), event.getUserId(), event.getUserName(), event.getCity(),
-          event.getStreet(), event.getState(), event.getCountry(), event.getZipCode(),
-          event.getCardNumber(), event.getCardHolderName(), event.getCardExpiration(),
-          event.getCardSecurityNumber(), event.getCardTypeId());
-      var requestCreateOrder = new CreateOrderIdentifiedCommand(createOrderCommand, event.getRequestId());
-      result = commandBus.send(requestCreateOrder);
-
-      if (result) {
-        logger.info("CreateOrderCommand succeeded - RequestId: {}", event.getRequestId());
-      } else {
-        logger.info("CreateOrderCommand failed - RequestId: {}", event.getRequestId());
-      }
-
+      createOrder(event);
     } else {
       logger.info("Invalid IntegrationEvent - RequestId is missing - {}", event.getClass().getSimpleName());
     }
   }
+
+  private void createOrder(UserCheckoutAcceptedIntegrationEvent event) {
+    var createOrderCommand = CreateOrderCommand.builder()
+        .basketItems(event.getBasket().getItems())
+        .userId(event.getUserId())
+        .userName(event.getUserName())
+        .city(event.getCity())
+        .street(event.getStreet())
+        .state(event.getState())
+        .country(event.getCountry())
+        .zipCode(event.getZipCode())
+        .cardNumber(event.getCardNumber())
+        .cardHolderName(event.getCardHolderName())
+        .cardExpiration(event.getCardExpiration())
+        .cardSecurityNumber(event.getCardSecurityNumber())
+        .cardTypeId(event.getCardTypeId())
+        .build();
+    var requestCreateOrder = new CreateOrderIdentifiedCommand(createOrderCommand, event.getRequestId());
+    var result = commandBus.send(requestCreateOrder);
+
+    if (result) {
+      logger.info("CreateOrderCommand succeeded - RequestId: {}", event.getRequestId());
+    } else {
+      logger.info("CreateOrderCommand failed - RequestId: {}", event.getRequestId());
+    }
+  }
+
 }

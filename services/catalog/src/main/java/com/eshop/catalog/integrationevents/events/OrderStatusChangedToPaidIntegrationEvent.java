@@ -11,8 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 public class OrderStatusChangedToPaidIntegrationEvent extends IntegrationEvent {
-  private Long orderId;
-  // TODO HD is this ok ?
+  private String orderId;
   private String orderStatus;
   private String buyerName;
   private List<OrderStockItem> orderStockItems;

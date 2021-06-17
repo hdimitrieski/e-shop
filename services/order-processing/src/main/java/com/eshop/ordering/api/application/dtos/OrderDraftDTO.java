@@ -17,13 +17,13 @@ public class OrderDraftDTO {
     return new OrderDraftDTO(
         order.getOrderItems().stream().map(oi -> new OrderItemDTO(
             oi.getProductId(),
-            oi.getOrderItemProductName(),
-            oi.getUnitPrice(),
-            oi.getCurrentDiscount(),
-            oi.getUnits(),
+            oi.orderItemProductName(),
+            oi.getUnitPrice().getValue(),
+            oi.currentDiscount().getValue(),
+            oi.getUnits().getValue(),
             oi.getPictureUrl()
         )).collect(Collectors.toList()),
-        order.getTotal()
+        order.getTotal().getValue()
     );
   }
 }

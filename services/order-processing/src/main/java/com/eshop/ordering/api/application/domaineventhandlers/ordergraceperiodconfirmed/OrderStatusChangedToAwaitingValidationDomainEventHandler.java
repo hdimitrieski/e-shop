@@ -3,8 +3,7 @@ package com.eshop.ordering.api.application.domaineventhandlers.ordergraceperiodc
 import com.eshop.ordering.api.application.domaineventhandlers.DomainEventHandler;
 import com.eshop.ordering.api.application.integrationevents.events.OrderStatusChangedToAwaitingValidationIntegrationEvent;
 import com.eshop.ordering.api.application.integrationevents.events.models.OrderStockItem;
-import com.eshop.ordering.domain.aggregatesmodel.buyer.BuyerRepository;
-import com.eshop.ordering.domain.aggregatesmodel.order.OrderRepository;
+import com.eshop.ordering.api.application.services.OrderApplicationService;
 import com.eshop.ordering.domain.aggregatesmodel.order.OrderStatus;
 import com.eshop.ordering.domain.events.OrderStatusChangedToAwaitingValidationDomainEvent;
 import com.eshop.shared.outbox.IntegrationEventLogService;
@@ -23,8 +22,7 @@ public class OrderStatusChangedToAwaitingValidationDomainEventHandler
     implements DomainEventHandler<OrderStatusChangedToAwaitingValidationDomainEvent> {
   private static final Logger logger = LoggerFactory.getLogger(OrderStatusChangedToAwaitingValidationDomainEventHandler.class);
 
-  private final OrderRepository orderRepository;
-  private final BuyerRepository buyerRepository;
+  private final OrderApplicationService orderApplicationService;
   private final IntegrationEventLogService integrationEventLogService;
   @Value("${spring.kafka.consumer.topic.ordersWaitingForValidation}")
   private String ordersWaitingForValidationTopic;
@@ -38,14 +36,14 @@ public class OrderStatusChangedToAwaitingValidationDomainEventHandler
         OrderStatus.AwaitingValidation.getId()
     );
 
-    var order = orderRepository.findById(event.orderId()).orElse(null);
-    var buyer = buyerRepository.findById(order.getBuyerId()).orElse(null);
+    var order = orderApplicationService.findOrder(event.orderId());
+    var buyer = orderApplicationService.findBuyerFor(order);
     var orderStockList = event.orderItems().stream()
-        .map(orderItem -> new OrderStockItem(orderItem.getProductId(), orderItem.getUnits()))
+        .map(orderItem -> new OrderStockItem(orderItem.getProductId(), orderItem.getUnits().getValue()))
         .collect(Collectors.toList());
 
     var orderStatusChangedToAwaitingValidationIntegrationEvent = new OrderStatusChangedToAwaitingValidationIntegrationEvent(
-        order.getId(), order.getOrderStatus().getName(), buyer.getName(), orderStockList);
+        order.getId().getUuid(), order.getOrderStatus().getStatus(), buyer.getBuyerName().getName(), orderStockList);
     integrationEventLogService.saveEvent(orderStatusChangedToAwaitingValidationIntegrationEvent, ordersWaitingForValidationTopic);
   }
 }

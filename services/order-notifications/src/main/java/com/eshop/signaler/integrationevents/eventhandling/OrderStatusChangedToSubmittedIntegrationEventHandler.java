@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 public class OrderStatusChangedToSubmittedIntegrationEventHandler
     implements IntegrationEventHandler<OrderStatusChangedToSubmittedIntegrationEvent> {
   private static final Logger logger = LoggerFactory.getLogger(OrderStatusChangedToSubmittedIntegrationEventHandler.class);
+  private static final String DESTINATION = "/queue/order-submitted";
 
   private final SimpMessagingTemplate simpMessagingTemplate;
 
@@ -23,6 +24,9 @@ public class OrderStatusChangedToSubmittedIntegrationEventHandler
   public void handle(OrderStatusChangedToSubmittedIntegrationEvent event) {
     logger.info("Handling integration event: {} ({})", event.getId(), event.getClass().getSimpleName());
     simpMessagingTemplate.convertAndSendToUser(
-        event.getBuyerName(), "/queue/order-submitted", new OrderStatus(event.getOrderId(), event.getOrderStatus()));
+        event.getBuyerName(),
+        DESTINATION,
+        new OrderStatus(event.getOrderId(), event.getOrderStatus())
+    );
   }
 }

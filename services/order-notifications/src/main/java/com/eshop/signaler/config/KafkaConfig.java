@@ -72,17 +72,7 @@ public class KafkaConfig {
   // Consumer
   @Bean
   public RecordMessageConverter converter() {
-    var converter = new StringJsonMessageConverter();
-//    var mapper = new DefaultJackson2JavaTypeMapper();
-//    mapper.setTypePrecedence(Jackson2JavaTypeMapper.TypePrecedence.TYPE_ID);
-//    mapper.addTrustedPackages("*");
-//    Map<String, Class<?>> mappings = new HashMap<>();
-//    mappings.put("foo", Foo2.class);
-//    mappings.put("bar", Bar2.class);
-//    typeMapper.setIdClassMapping(mappings);
-//    converter.setTypeMapper(mapper);
-
-    return converter;
+    return new StringJsonMessageConverter();
   }
 
   // Topics

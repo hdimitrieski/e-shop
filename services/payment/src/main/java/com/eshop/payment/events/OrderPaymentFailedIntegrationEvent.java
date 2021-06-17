@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Getter
 public class OrderPaymentFailedIntegrationEvent extends IntegrationEvent {
-  private Integer orderId;
+  private String orderId;
   private final PaymentStatus status = PaymentStatus.FAILED;
 }

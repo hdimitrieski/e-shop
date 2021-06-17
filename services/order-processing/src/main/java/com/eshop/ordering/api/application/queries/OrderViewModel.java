@@ -15,7 +15,7 @@ public final class OrderViewModel {
   }
 
   public record Order(
-      Long orderNumber,
+      String orderNumber,
       LocalDateTime date,
       Integer status,
       String description,
@@ -30,7 +30,7 @@ public final class OrderViewModel {
   }
 
   public record OrderSummary(
-      Long orderNumber,
+      String orderNumber,
       LocalDateTime date,
       Integer status, // TODO HD String
       Double total

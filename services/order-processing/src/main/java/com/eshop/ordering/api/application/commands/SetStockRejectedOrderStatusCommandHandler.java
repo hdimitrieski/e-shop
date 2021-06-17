@@ -1,6 +1,7 @@
 package com.eshop.ordering.api.application.commands;
 
 import an.awesome.pipelinr.Command;
+import com.eshop.ordering.domain.aggregatesmodel.order.OrderId;
 import com.eshop.ordering.domain.aggregatesmodel.order.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -22,7 +23,7 @@ public class SetStockRejectedOrderStatusCommandHandler implements Command.Handle
     // Simulate a work time for rejecting the stock
     Thread.sleep(10000);
 
-    var orderToUpdate = orderRepository.findById(command.orderNumber())
+    final var orderToUpdate = orderRepository.findById(OrderId.of(command.orderNumber()))
         .orElse(null);
     if (orderToUpdate == null) {
       return false;

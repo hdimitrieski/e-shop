@@ -13,6 +13,7 @@ import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
@@ -29,7 +30,7 @@ public class GracePeriodManagerTask {
   private final EventBus eventBus;
   private final EntityManager entityManager;
 
-  @Scheduled(fixedRate = 60000)
+  @Scheduled(fixedRate = 20000)
   public void execute() {
     logger.info("GracePeriodManagerService is starting at {}", dateFormat.format(new Date()));
 
@@ -45,14 +46,13 @@ public class GracePeriodManagerTask {
     }
   }
 
-  private List<Long> getConfirmedGracePeriodOrders() {
+  private List<String> getConfirmedGracePeriodOrders() {
     var query = entityManager.createNativeQuery("""
-          SELECT id
+          SELECT cast(id as varchar)
           FROM orders
-          WHERE EXTRACT(EPOCH FROM (current_timestamp - order_date)) / 60 >= %d
+          WHERE EXTRACT(EPOCH FROM (current_timestamp - order_date)) / 15 >= %d
                 AND order_status_id = 1
         """.formatted(1));
-    List<BigInteger> result = query.getResultList();
-    return result.stream().map(BigInteger::longValue).collect(Collectors.toList());
+    return (List<String>) query.getResultList();
   }
 }

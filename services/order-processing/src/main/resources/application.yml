@@ -16,10 +16,7 @@ spring:
 
   # JPA
   jpa:
-    show-sql: true
+    show-sql: false
 
-  # Insert test data
-  sql:
-    init:
-      enabled: true
-      data-locations: classpath:db/testdata/data.sql
+  flyway:
+    locations: classpath:db/migration, classpath:db/testdata

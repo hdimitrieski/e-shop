@@ -2,8 +2,7 @@ package com.eshop.ordering.api.application.domaineventhandlers.ordershipped;
 
 import com.eshop.ordering.api.application.domaineventhandlers.DomainEventHandler;
 import com.eshop.ordering.api.application.integrationevents.events.OrderStatusChangedToShippedIntegrationEvent;
-import com.eshop.ordering.domain.aggregatesmodel.buyer.BuyerRepository;
-import com.eshop.ordering.domain.aggregatesmodel.order.OrderRepository;
+import com.eshop.ordering.api.application.services.OrderApplicationService;
 import com.eshop.ordering.domain.aggregatesmodel.order.OrderStatus;
 import com.eshop.ordering.domain.events.OrderShippedDomainEvent;
 import com.eshop.shared.outbox.IntegrationEventLogService;
@@ -19,8 +18,7 @@ import org.springframework.stereotype.Component;
 public class OrderShippedDomainEventHandler implements DomainEventHandler<OrderShippedDomainEvent> {
   private static final Logger logger = LoggerFactory.getLogger(OrderShippedDomainEventHandler.class);
 
-  private final OrderRepository orderRepository;
-  private final BuyerRepository buyerRepository;
+  private final OrderApplicationService orderApplicationService;
   private final IntegrationEventLogService integrationEventLogService;
   @Value("${spring.kafka.consumer.topic.shippedOrders}")
   private String shippedOrdersTopic;
@@ -34,11 +32,11 @@ public class OrderShippedDomainEventHandler implements DomainEventHandler<OrderS
         OrderStatus.Shipped.getId()
     );
 
-    var order = orderRepository.findById(orderShippedDomainEvent.order().getId()).orElse(null);
-    var buyer = buyerRepository.findById(order.getBuyerId()).orElse(null);
+    var order = orderApplicationService.findOrder(orderShippedDomainEvent.order().getId());
+    var buyer = orderApplicationService.findBuyerFor(order);
 
     var orderStatusChangedToCancelledIntegrationEvent = new OrderStatusChangedToShippedIntegrationEvent(
-        order.getId(), order.getOrderStatus().getName(), buyer.getName());
+        order.getId().getUuid(), order.getOrderStatus().getStatus(), buyer.getBuyerName().getName());
     integrationEventLogService.saveEvent(orderStatusChangedToCancelledIntegrationEvent, shippedOrdersTopic);
   }
 }

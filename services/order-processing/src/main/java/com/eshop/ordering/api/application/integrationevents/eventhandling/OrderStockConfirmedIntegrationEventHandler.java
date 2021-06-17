@@ -22,4 +22,9 @@ public class OrderStockConfirmedIntegrationEventHandler {
 
     pipeline.send(new SetStockConfirmedOrderStatusCommand(event.getOrderId()));
   }
+
+  @KafkaListener(groupId = "order-stock-statuses-group-dlt", topics = "${spring.kafka.consumer.topic.orderStockStatuses}.DLT")
+  public void handleDlt(OrderStockConfirmedIntegrationEvent event) {
+    logger.info("DLT - Handling integration event: {} ({})", event.getId(), event.getClass().getSimpleName());
+  }
 }

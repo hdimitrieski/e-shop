@@ -1,15 +1,10 @@
-package com.eshop.ordering.domain.seedwork;
+package com.eshop.ordering.domain.base;
 
-import org.springframework.data.annotation.Transient;
 import org.springframework.data.domain.AfterDomainEventPublication;
 import org.springframework.data.domain.DomainEvents;
-import org.springframework.util.Assert;
+import org.springframework.lang.NonNull;
 
-import javax.persistence.MappedSuperclass;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * Convenience base class for aggregate roots that exposes a {@link #addDomainEvent(Object)} to capture domain events and
@@ -17,9 +12,8 @@ import java.util.List;
  * by {@link DomainEvents} and {@link AfterDomainEventPublication}. If in doubt or need to customize anything here,
  * rather build your own base class and use the annotations directly.
  */
-@MappedSuperclass
-public class AggregateRoot extends Entity {
-  @Transient
+public abstract class AggregateRoot<ID extends Identifier> extends Entity<ID> {
+
   private transient final List<Object> domainEvents = new ArrayList<>();
 
   /**
@@ -28,8 +22,8 @@ public class AggregateRoot extends Entity {
    * @param event must not be {@literal null}.
    * @return the event that has been added.
    */
-  protected <T> T addDomainEvent(T event) {
-    Assert.notNull(event, "Domain event must not be null!");
+  protected <T> T addDomainEvent(@NonNull T event) {
+    Objects.requireNonNull(event, "Domain event must not be null!");
 
     this.domainEvents.add(event);
     return event;
@@ -40,8 +34,8 @@ public class AggregateRoot extends Entity {
    *
    * @param event must not be {@literal null}.
    */
-  public <T> void removeDomainEvent(T event) {
-    Assert.notNull(event, "Domain event must not be null!");
+  public <T> void removeDomainEvent(@NonNull T event) {
+    Objects.requireNonNull(event, "Domain event must not be null!");
 
     domainEvents.remove(event);
   }
@@ -50,7 +44,6 @@ public class AggregateRoot extends Entity {
    * Clears all domain events currently held. Usually invoked by the infrastructure in place in Spring Data
    * repositories.
    */
-//  @AfterDomainEventPublication
   public void clearDomainEvents() {
     this.domainEvents.clear();
   }
@@ -58,7 +51,6 @@ public class AggregateRoot extends Entity {
   /**
    * All domain events currently captured by the aggregate.
    */
-//  @DomainEvents
   public Collection<Object> domainEvents() {
     return Collections.unmodifiableList(domainEvents);
   }

@@ -1,6 +1,7 @@
 package com.eshop.ordering.domain.aggregatesmodel.buyer;
 
-import com.eshop.ordering.domain.seedwork.Repository;
+import com.eshop.ordering.domain.base.Repository;
+import org.springframework.lang.NonNull;
 
 import java.util.Optional;
 
@@ -9,7 +10,7 @@ import java.util.Optional;
  * as requisite for the Buyer Aggregate.
  */
 public interface BuyerRepository extends Repository<Buyer> {
-  Buyer findByIdentityGuid(String buyerIdentityGuid);
+  Optional<Buyer> findByUserId(@NonNull UserId userId);
 
-  Optional<Buyer> findById(Long id);
+  Optional<Buyer> findById(@NonNull BuyerId id);
 }

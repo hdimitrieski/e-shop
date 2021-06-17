@@ -4,9 +4,11 @@ import an.awesome.pipelinr.Command;
 import com.eshop.ordering.api.application.dtos.OrderItemDTO;
 import com.eshop.ordering.api.application.dtos.ToOrderItemDTOMapper;
 import com.eshop.ordering.api.application.models.BasketItem;
+import com.eshop.ordering.api.application.validators.CardExpirationDate;
+import lombok.Builder;
 import lombok.Getter;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
@@ -18,34 +20,45 @@ public class CreateOrderCommand implements Command<Boolean> {
   private final List<OrderItemDTO> orderItems;
   private final String userId;
   private final String userName;
-  @NotBlank
+  @NotEmpty
   private final String city;
-  @NotBlank
+  @NotEmpty
   private final String street;
-  @NotBlank
+  @NotEmpty
   private final String state;
-  @NotBlank
+  @NotEmpty
   private final String country;
-  @NotBlank
+  @NotEmpty
   private final String zipCode;
-  @NotBlank
+  @NotEmpty
   @Size(min = 5, max = 19)
   private final String cardNumber;
-  @NotBlank
+  @NotEmpty
   private final String cardHolderName;
-  // TODO HD @CardExpirationDate ...
-  @NotNull
+  @CardExpirationDate
   private final LocalDate cardExpiration;
-  @NotBlank
+  @NotEmpty
   @Size(min = 3)
   private final String cardSecurityNumber;
   @NotNull
   private final Integer cardTypeId;
 
-  public CreateOrderCommand(
-      List<BasketItem> basketItems, String userId, String userName, String city, String street,
-      String state, String country, String zipCode, String cardNumber, String cardHolderName,
-      LocalDate cardExpiration, String cardSecurityNumber, int cardTypeId) {
+  @Builder
+  private CreateOrderCommand(
+      List<BasketItem> basketItems,
+      String userId,
+      String userName,
+      String city,
+      String street,
+      String state,
+      String country,
+      String zipCode,
+      String cardNumber,
+      String cardHolderName,
+      LocalDate cardExpiration,
+      String cardSecurityNumber,
+      Integer cardTypeId
+  ) {
     orderItems = basketItems.stream()
         .map(basketItem -> new ToOrderItemDTOMapper().map(basketItem))
         .collect(Collectors.toList());

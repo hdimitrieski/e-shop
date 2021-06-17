@@ -1,90 +1,90 @@
 package com.eshop.ordering.domain.aggregatesmodel.buyer;
 
-import com.eshop.ordering.domain.exceptions.OrderingDomainException;
-import com.eshop.ordering.domain.seedwork.Entity;
+import com.eshop.ordering.domain.aggregatesmodel.buyer.snapshot.PaymentMethodSnapshot;
+import com.eshop.ordering.domain.base.Entity;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.lang.NonNull;
 
-import javax.persistence.*;
-import java.time.LocalDate;
+import java.util.Objects;
+import java.util.UUID;
 
-import static java.util.Objects.isNull;
+public class PaymentMethod extends Entity<PaymentMethodId> {
+  private final String alias;
+  private final CardNumber cardNumber;
+  private final SecurityNumber securityNumber;
+  private final CardHolder cardHolderName;
+  private final CardExpiration expiration;
+  private final CardType cardType;
 
-@javax.persistence.Entity
-@Table(name = "payment_method")
-public class PaymentMethod extends Entity {
-  @Column(name = "alias", nullable = false, length = 200)
-  private String alias;
-  @Column(name = "card_number", nullable = false, length = 25)
-  private String cardNumber;
-  @Column(name = "security_number", nullable = false, length = 200)
-  private String securityNumber;
-  @Column(name = "card_holder_name", nullable = false, length = 200)
-  private String cardHolderName;
-  @Column(name = "expiration")
-  private LocalDate expiration;
-
-  @Column(name = "card_type_id")
-  private Integer cardTypeId;
-
-  @Transient
-  @Getter
-  @Setter(AccessLevel.PRIVATE)
-  private CardType cardType;
-
-  @ManyToOne(targetEntity = Buyer.class)
-  @JoinColumn(name = "buyer_id", nullable = false)
-  private Buyer buyer;
-
-  protected PaymentMethod() {
+  private PaymentMethod(
+      PaymentMethodId id,
+      CardType cardType,
+      String alias,
+      CardNumber cardNumber,
+      SecurityNumber securityNumber,
+      CardHolder cardHolderName,
+      CardExpiration expiration
+  ) {
+    this.id = Objects.requireNonNull(id, "Id cannot be null");
+    this.cardType = Objects.requireNonNull(cardType, "Card type cannot be null");
+    this.alias = Objects.requireNonNull(alias, "Alias cannot be null");
+    this.cardNumber = Objects.requireNonNull(cardNumber, "Card number cannot be null");
+    this.securityNumber = Objects.requireNonNull(securityNumber, "Security number cannot be null");
+    this.cardHolderName = Objects.requireNonNull(cardHolderName, "Card holder name cannot be null");
+    this.expiration = Objects.requireNonNull(expiration, "Expiration cannot be null");
   }
 
-  public PaymentMethod(int cardTypeId, String alias, String cardNumber, String securityNumber, String cardHolderName, LocalDate expiration, Buyer buyer) {
-    if (isNull(cardNumber)) {
-      throw new OrderingDomainException("Card number");
-    }
-
-    if (isNull(securityNumber)) {
-      throw new OrderingDomainException("Security number");
-    }
-
-    if (isNull(cardHolderName)) {
-      throw new OrderingDomainException("Card holder name");
-    }
-
-    if (expiration.isBefore(LocalDate.now())) {
-      throw new OrderingDomainException("Expiration");
-    }
-
-    this.cardNumber = cardNumber;
-    this.securityNumber = securityNumber;
-    this.cardHolderName = cardHolderName;
-    this.alias = alias;
-    this.expiration = expiration;
-    this.cardTypeId = cardTypeId;
-    this.buyer = buyer;
-    this.populateCardType();
+  @Builder(access = AccessLevel.PACKAGE)
+  private PaymentMethod(
+      @NonNull CardType cardType,
+      @NonNull String alias,
+      @NonNull CardNumber cardNumber,
+      @NonNull SecurityNumber securityNumber,
+      @NonNull CardHolder cardHolderName,
+      @NonNull CardExpiration expiration
+  ) {
+    this(PaymentMethodId.of(UUID.randomUUID()), cardType, alias, cardNumber, securityNumber, cardHolderName, expiration);
   }
 
-  public boolean isEqualTo(int cardTypeId, String cardNumber, LocalDate expiration) {
-    return this.cardTypeId == cardTypeId
+  @NonNull
+  public static PaymentMethod rehydrate(@NonNull PaymentMethodSnapshot snapshot) {
+    Objects.requireNonNull(snapshot, "Snapshot cannot be null");
+    return new PaymentMethod(
+        PaymentMethodId.of(snapshot.getId()),
+        CardType.of(snapshot.getCardTypeId()),
+        snapshot.getAlias(),
+        CardNumber.of(snapshot.getCardNumber()),
+        SecurityNumber.of(snapshot.getSecurityNumber()),
+        CardHolder.of(snapshot.getCardHolderName()),
+        CardExpiration.of(snapshot.getExpiration())
+    );
+  }
+
+  @NonNull
+  public CardType cardType() {
+    return cardType;
+  }
+
+  public boolean isEqualTo(CardType cardType, CardNumber cardNumber, CardExpiration expiration) {
+    return this.cardType == cardType
         && this.cardNumber.equals(cardNumber)
         && this.expiration.equals(expiration);
   }
 
-  @PostLoad
-  void populateCardType() {
-    if (cardTypeId > 0) {
-      this.cardType = CardType.from(cardTypeId);
-    }
+  @NonNull
+  @Override
+  public PaymentMethodSnapshot snapshot() {
+    return PaymentMethodSnapshot.builder()
+        .id(id.getUuid())
+        .cardTypeId(cardType.getId())
+        .securityNumber(securityNumber.getValue())
+        .expiration(expiration.getDate())
+        .cardNumber(cardNumber.getValue())
+        .cardHolderName(cardHolderName.getValue())
+        .alias(alias)
+        .build();
   }
-
-  @PrePersist
-  void populateCardTypeId() {
-    if (cardType != null) {
-      this.cardTypeId = cardType.getId();
-    }
-  }
-
 }

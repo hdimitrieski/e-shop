@@ -13,12 +13,11 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableSpringConfigured
 @EnableOutbox
 @EnableJpaRepositories(basePackages = {
-    "com.eshop.ordering.infrastructure.repositories",
+    "com.eshop.ordering.infrastructure.entity",
     "com.eshop.ordering.infrastructure.idempotency"
 })
 @EntityScan(basePackages = {
-    "com.eshop.ordering.domain.aggregatesmodel.buyer",
-    "com.eshop.ordering.domain.aggregatesmodel.order",
+    "com.eshop.ordering.infrastructure.entity",
     "com.eshop.ordering.infrastructure.idempotency"
 })
 public class OrderingApplication {

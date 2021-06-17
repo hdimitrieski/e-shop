@@ -1,39 +1,24 @@
 package com.eshop.ordering.domain.aggregatesmodel.order;
 
-import com.eshop.ordering.domain.seedwork.ValueObject;
-import lombok.*;
+import com.eshop.ordering.domain.base.ValueObject;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-import javax.persistence.Transient;
 import java.util.List;
 
-@Embeddable
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
+@RequiredArgsConstructor
+@Getter
 @Builder
+@ToString
 public class Address extends ValueObject {
-  @Getter
-  @Column(name = "street")
-  public String street;
+  private final String street;
+  private final String city;
+  private final String state;
+  private final String country;
+  private final String zipCode;
 
-  @Getter
-  @Column(name = "city")
-  public String city;
-
-  @Getter
-  @Column(name = "state")
-  public String state;
-
-  @Getter
-  @Column(name = "country")
-  public String country;
-
-  @Getter
-  @Column(name = "zip_code")
-  public String zipCode;
-
-  @Transient
   @Override
   protected List<Object> getEqualityComponents() {
     return List.of(

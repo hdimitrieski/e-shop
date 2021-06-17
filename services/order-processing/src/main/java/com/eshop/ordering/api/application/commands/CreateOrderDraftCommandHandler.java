@@ -4,6 +4,9 @@ import an.awesome.pipelinr.Command;
 import com.eshop.ordering.api.application.dtos.OrderDraftDTO;
 import com.eshop.ordering.api.application.models.BasketItem;
 import com.eshop.ordering.domain.aggregatesmodel.order.Order;
+import com.eshop.ordering.domain.aggregatesmodel.order.Price;
+import com.eshop.ordering.domain.aggregatesmodel.order.Product;
+import com.eshop.ordering.domain.aggregatesmodel.order.Units;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,12 +19,22 @@ public class CreateOrderDraftCommandHandler implements Command.Handler<CreateOrd
   @Transactional
   @Override
   public OrderDraftDTO handle(CreateOrderDraftCommand message) {
-    var order = Order.newDraft();
-    var orderItems = message.items().stream().map(BasketItem::toOrderItemDTO).collect(Collectors.toList());
+    final var order = Order.newDraft();
+    final var orderItems = message.items()
+        .stream()
+        .map(BasketItem::toOrderItemDTO)
+        .collect(Collectors.toList());
 
-    for (var item : orderItems) {
-      order.addOrderItem(item.productId(), item.productName(), item.unitPrice(), item.discount(), item.pictureUrl(), item.units());
-    }
+    orderItems.forEach(item -> order.addOrderItem(
+        Product.builder()
+            .productId(item.productId())
+            .productName(item.productName())
+            .pictureUrl(item.pictureUrl())
+            .unitPrice(Price.of(item.unitPrice()))
+            .discount(Price.of(item.discount()))
+            .units(Units.of(item.units()))
+            .build()
+    ));
 
     return OrderDraftDTO.fromOrder(order);
   }

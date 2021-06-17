@@ -44,7 +44,7 @@ public class AnalyticsController {
   }
 
   @RequestMapping("/orders/{orderId}")
-  public Order getOrders(@PathVariable Long orderId, @RequestParam(value = "status") String status) {
+  public Order getOrders(@PathVariable String orderId, @RequestParam(value = "status") String status) {
     logger.info("Retrieving all submitted orders");
     return "submitted".equals(status)
         ? ordersService.getSubmittedOrder(orderId)

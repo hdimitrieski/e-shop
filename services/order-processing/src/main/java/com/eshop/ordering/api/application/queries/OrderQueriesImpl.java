@@ -19,7 +19,7 @@ public class OrderQueriesImpl implements OrderQueries {
   private final EntityManager entityManager;
 
   @Override
-  public Optional<OrderViewModel.Order> getOrder(Long id) {
+  public Optional<OrderViewModel.Order> getOrder(String id) {
     var query = entityManager.createNativeQuery("""
           SELECT o.id as orderNumber, o.order_date as date, o.description, o.city, o.country, o.state, o.street,
             o.zip_code as zipCode, o.order_status_id as status,
@@ -41,7 +41,7 @@ public class OrderQueriesImpl implements OrderQueries {
         FROM orders o
         LEFT JOIN order_item oi ON o.id = oi.order_id
         LEFT JOIN buyer ob on o.buyer_id = ob.id
-        WHERE ob.identity_guid = ?1
+        WHERE ob.user_id = ?1
         GROUP BY o.id, o.order_date, o.order_status_id
         ORDER BY o.id
         """).setParameter(1, userId);
@@ -63,13 +63,13 @@ public class OrderQueriesImpl implements OrderQueries {
   private List<OrderViewModel.OrderSummary> toOrderSummaries(List<Object[]> result) {
     return result.stream()
         .map(r -> {
-          var id = (BigInteger) r[0];
+          var id = (String) r[0];
           var date = (Timestamp) r[1];
           var status = (Integer) r[2];
           var total = (Double) r[3];
 
           return new OrderViewModel.OrderSummary(
-              id.longValue(),
+              id,
               date.toLocalDateTime(),
               status,
               total
@@ -94,7 +94,7 @@ public class OrderQueriesImpl implements OrderQueries {
 
     var orderDetails = result.get(0);
 
-    var orderId = (BigInteger) orderDetails[0];
+    var orderId = (String) orderDetails[0];
     var date = (Timestamp) orderDetails[1];
     var description = (String) orderDetails[2];
     var city = (String) orderDetails[3];
@@ -110,7 +110,7 @@ public class OrderQueriesImpl implements OrderQueries {
         .orElse(0D);
 
     return new OrderViewModel.Order(
-        orderId.longValue(),
+        orderId,
         date.toLocalDateTime(),
         status,
         description,

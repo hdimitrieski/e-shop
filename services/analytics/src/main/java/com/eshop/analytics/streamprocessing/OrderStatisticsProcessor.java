@@ -50,7 +50,7 @@ public class OrderStatisticsProcessor {
    * Store all submitted orders in a table.
    */
   @Bean
-  public Function<KStream<String, OrderStatusChangedToSubmittedIntegrationEvent>, KStream<Long, Order>> allsubmittedorders() {
+  public Function<KStream<String, OrderStatusChangedToSubmittedIntegrationEvent>, KStream<String, Order>> allsubmittedorders() {
     return (submittedOrderEventsInput) -> {
       final var orderSerde = new JsonSerde<>(Order.class, mapper);
 
@@ -61,8 +61,8 @@ public class OrderStatisticsProcessor {
           ));
 
       return submittedOrders
-          .toTable(Materialized.<Long, Order, KeyValueStore<Bytes, byte[]>>as(SUBMITTED_ORDERS_STORE)
-              .withKeySerde(Serdes.Long())
+          .toTable(Materialized.<String, Order, KeyValueStore<Bytes, byte[]>>as(SUBMITTED_ORDERS_STORE)
+              .withKeySerde(Serdes.String())
               .withValueSerde(orderSerde))
           .toStream();
     };
@@ -74,8 +74,8 @@ public class OrderStatisticsProcessor {
   @Bean
   public BiFunction<
       KStream<String, OrderStatusChangedToPaidIntegrationEvent>,
-      KTable<Long, Order>,
-      KStream<Long, Order>
+      KTable<String, Order>,
+      KStream<String, Order>
       > allpaidorders() {
     return (paidOrdersInput, allSubmittedOrders) -> {
       final var eventSerde = new JsonSerde<>(OrderStatusChangedToPaidIntegrationEvent.class, mapper);
@@ -87,7 +87,7 @@ public class OrderStatisticsProcessor {
       final var paidOrders = paidOrderEventsByOrderId.leftJoin(
           allSubmittedOrders,
           (event, order) -> order,
-          Joined.with(Serdes.Long(), eventSerde, orderSerde));
+          Joined.with(Serdes.String(), eventSerde, orderSerde));
 
       // Total income
       paidOrders
@@ -101,9 +101,9 @@ public class OrderStatisticsProcessor {
 
       paidOrders
           .map((key, order) -> KeyValue.pair(key, order.getId()))
-          .toTable(Materialized.<Long, Long, KeyValueStore<Bytes, byte[]>>as(PAID_ORDER_IDS_STORE)
-              .withKeySerde(Serdes.Long())
-              .withValueSerde(Serdes.Long()));
+          .toTable(Materialized.<String, String, KeyValueStore<Bytes, byte[]>>as(PAID_ORDER_IDS_STORE)
+              .withKeySerde(Serdes.String())
+              .withValueSerde(Serdes.String()));
 
       return paidOrders;
     };

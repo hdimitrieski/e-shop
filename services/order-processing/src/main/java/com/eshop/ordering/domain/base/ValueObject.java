@@ -1,4 +1,4 @@
-package com.eshop.ordering.domain.seedwork;
+package com.eshop.ordering.domain.base;
 
 import java.util.List;
 import java.util.Objects;

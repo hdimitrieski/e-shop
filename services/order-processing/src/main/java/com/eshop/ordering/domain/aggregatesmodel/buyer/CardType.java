@@ -17,9 +17,9 @@ public enum CardType {
   private final Integer id;
 
   @Getter
-  private final String name;
+  private final String cardName;
 
-  public static CardType from(Integer id) {
+  public static CardType of(Integer id) {
     return Stream.of(values()).filter(s -> s.getId().equals(id))
         .findFirst()
         .orElseThrow(() -> new OrderingDomainException("Invalid id for CardType: %d".formatted(id)));

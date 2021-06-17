@@ -69,6 +69,6 @@ spring:
               brokers: ${app.kafka.broker.host}:${app.kafka.broker.port}
               configuration:
                 application.server: ${app.host}:${server.port}
-                default.key.serde: org.apache.kafka.common.serialization.Serdes$LongSerde
+                default.key.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
                 default.value.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
                 commit.interval.ms: 1000

@@ -4,7 +4,8 @@ import com.eshop.ordering.api.application.domaineventhandlers.DomainEventHandler
 import com.eshop.ordering.api.application.integrationevents.events.OrderStatusChangedToSubmittedIntegrationEvent;
 import com.eshop.ordering.domain.aggregatesmodel.buyer.Buyer;
 import com.eshop.ordering.domain.aggregatesmodel.buyer.BuyerRepository;
-import com.eshop.ordering.domain.aggregatesmodel.order.OrderItem;
+import com.eshop.ordering.domain.aggregatesmodel.buyer.CardType;
+import com.eshop.ordering.domain.aggregatesmodel.buyer.PaymentMethodData;
 import com.eshop.ordering.domain.events.OrderStartedDomainEvent;
 import com.eshop.shared.outbox.IntegrationEventLogService;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,8 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.stream.Collectors;
+
+import static java.util.Objects.nonNull;
 
 @Component
 @RequiredArgsConstructor
@@ -29,42 +32,48 @@ public class ValidateOrAddBuyerAggregateWhenOrderStartedDomainEventHandler imple
 
   @EventListener
   public void handle(OrderStartedDomainEvent orderStartedEvent) {
-    var cardTypeId = (orderStartedEvent.cardTypeId() != 0) ? orderStartedEvent.cardTypeId() : 1;
-    var buyer = buyerRepository.findByIdentityGuid(orderStartedEvent.userId());
-    boolean buyerOriginallyExisted = buyer != null;
-
-    if (!buyerOriginallyExisted) {
-      buyer = new Buyer(orderStartedEvent.userId(), orderStartedEvent.userName());
-    }
-
-    buyer.verifyOrAddPaymentMethod(cardTypeId,
-        "Payment Method on {%s}".formatted(LocalDateTime.now()),
-        orderStartedEvent.cardNumber(),
-        orderStartedEvent.cardSecurityNumber(),
-        orderStartedEvent.cardHolderName(),
-        orderStartedEvent.cardExpiration(),
-        orderStartedEvent.order().getId());
-
-    var savedBuyer = buyerRepository.save(buyer);
-
-    var order = orderStartedEvent.order();
-    var orderItems = order.getOrderItems().stream()
+    final var buyer = verifyOrAddPaymentMethod(orderStartedEvent);
+    final var order = orderStartedEvent.order();
+    final var orderItems = order.getOrderItems().stream()
         .map(orderItem -> new OrderStatusChangedToSubmittedIntegrationEvent.OrderItemDto(
-            order.getId(), orderItem.getOrderItemProductName(), orderItem.getUnitPrice(), orderItem.getUnits()
+            order.getId().getUuid(),
+            orderItem.orderItemProductName(),
+            orderItem.getUnitPrice().getValue(),
+            orderItem.getUnits().getValue()
         )).collect(Collectors.toList());
-    var orderStatusChangedToSubmittedIntegrationEvent = new OrderStatusChangedToSubmittedIntegrationEvent(
-        order.getId(),
-        order.getOrderStatus().getName(),
-        buyer.getName(),
-        order.getTotal(),
+    final var orderStatusChangedToSubmittedIntegrationEvent = new OrderStatusChangedToSubmittedIntegrationEvent(
+        order.getId().getUuid(),
+        order.getOrderStatus().getStatus(),
+        buyer.getBuyerName().getName(),
+        order.getTotal().getValue(),
         orderItems
     );
+
     integrationEventLogService.saveEvent(orderStatusChangedToSubmittedIntegrationEvent, submittedOrdersTopic);
 
     logger.info(
         "Buyer {} and related payment method were validated or updated for orderId: {}.",
-        savedBuyer.getId(),
+        buyer.getId(),
         order.getId()
     );
+  }
+
+  private Buyer verifyOrAddPaymentMethod(OrderStartedDomainEvent orderStartedEvent) {
+    final var buyer = buyerRepository.findByUserId(orderStartedEvent.userId())
+        .orElseGet(() -> new Buyer(orderStartedEvent.userId(), orderStartedEvent.buyerName()));
+    buyer.verifyOrAddPaymentMethod(paymentMethodDataFor(orderStartedEvent), orderStartedEvent.order().getId());
+    return buyerRepository.save(buyer);
+  }
+
+  private PaymentMethodData paymentMethodDataFor(OrderStartedDomainEvent orderStartedEvent) {
+    final var cardType = nonNull(orderStartedEvent.cardType()) ? orderStartedEvent.cardType() : CardType.Amex;
+    return PaymentMethodData.builder()
+        .cardType(cardType)
+        .alias("Payment Method on {%s}".formatted(LocalDateTime.now()))
+        .cardNumber(orderStartedEvent.cardNumber())
+        .expiration(orderStartedEvent.cardExpiration())
+        .securityNumber(orderStartedEvent.cardSecurityNumber())
+        .cardHolderName(orderStartedEvent.cardHolderName())
+        .build();
   }
 }

@@ -49,7 +49,7 @@ public class OrdersController {
   }
 
   @RequestMapping("{orderId}")
-  public ResponseEntity<OrderViewModel.Order> getOrder(@PathVariable Long orderId) {
+  public ResponseEntity<OrderViewModel.Order> getOrder(@PathVariable String orderId) {
     return ResponseEntity.of(orderQueries.getOrder(orderId));
   }
 

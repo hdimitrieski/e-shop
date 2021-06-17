@@ -1,88 +1,105 @@
 package com.eshop.ordering.domain.aggregatesmodel.order;
 
-import com.eshop.ordering.domain.exceptions.OrderingDomainException;
-import com.eshop.ordering.domain.seedwork.Entity;
+import com.eshop.ordering.domain.aggregatesmodel.order.rules.UnitsPriceMustBeGreaterThanDiscount;
+import com.eshop.ordering.domain.aggregatesmodel.order.snapshot.OrderItemSnapshot;
+import com.eshop.ordering.domain.base.Entity;
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
+import org.springframework.lang.NonNull;
 
-import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import java.util.Objects;
+import java.util.UUID;
 
-@javax.persistence.Entity
-public class OrderItem extends Entity {
-  @Column(name = "product_name", nullable = false)
-  private String productName;
-
+public class OrderItem extends Entity<OrderItemId> {
+  private final String productName;
+  private Price discount;
   @Getter
-  @Column(name = "picture_url")
-  private String pictureUrl;
-
+  private final String pictureUrl;
   @Getter
-  @Column(name = "unit_price", nullable = false)
-  private Double unitPrice;
-
-  @Column(name = "discount")
-  private Double discount;
-
+  private final Price unitPrice;
   @Getter
-  @Column(name = "units", nullable = false)
-  private Integer units;
-
+  private Units units;
   @Getter
-  @Column(name = "product_id", nullable = false)
-  private Long productId;
+  private final Long productId;
 
-  @ManyToOne(targetEntity = Order.class)
-  @JoinColumn(name = "order_id", nullable = false)
-  private Order order;
+  private OrderItem(
+      @NonNull OrderItemId id,
+      @NonNull Long productId,
+      @NonNull String productName,
+      @NonNull Price unitPrice,
+      @NonNull Price discount,
+      @NonNull Units units,
+      String pictureUrl
+  ) {
+    Objects.requireNonNull(id, "Id cannot be null");
+    Objects.requireNonNull(productId, "Product id cannot be null");
+    Objects.requireNonNull(productName, "Product name cannot be null");
+    Objects.requireNonNull(unitPrice, "Unit price cannot be null");
+    Objects.requireNonNull(discount, "Discount cannot be null");
+    Objects.requireNonNull(units, "Units cannot be null");
+    checkRule(new UnitsPriceMustBeGreaterThanDiscount(unitPrice, units, discount));
 
-  protected OrderItem() {
-  }
-
-  public OrderItem(Long productId, String productName, Double unitPrice, Double discount, String PictureUrl, Order order, Integer units) {
-    if (units <= 0) {
-      throw new OrderingDomainException("Invalid number of units");
-    }
-
-    if ((unitPrice * units) < discount) {
-      throw new OrderingDomainException("The total of order item is lower than applied discount");
-    }
-
+    this.id = id;
     this.productId = productId;
-
     this.productName = productName;
     this.unitPrice = unitPrice;
     this.discount = discount;
     this.units = units;
-    this.pictureUrl = PictureUrl;
-    this.order = order;
+    this.pictureUrl = pictureUrl;
   }
 
-  public OrderItem(Long productId, String productName, Double unitPrice, Double discount, String pictureUrl, Order order) {
-    this(productId, productName, unitPrice, discount, pictureUrl, order, 1);
+  @Builder(access = AccessLevel.PACKAGE)
+  private OrderItem(Long productId, String productName, Price unitPrice, Price discount, String pictureUrl, Units units) {
+    this(OrderItemId.of(UUID.randomUUID()), productId, productName, unitPrice, discount, units, pictureUrl);
   }
 
-  public Double getCurrentDiscount() {
+  @NonNull
+  public static OrderItem rehydrate(@NonNull OrderItemSnapshot snapshot) {
+    Objects.requireNonNull(snapshot, "Snapshot cannot be null");
+
+    return new OrderItem(
+        OrderItemId.of(snapshot.getId()),
+        snapshot.getProductId(),
+        snapshot.getProductName(),
+        Price.of(snapshot.getUnitPrice()),
+        Price.of(snapshot.getDiscount()),
+        Units.of(snapshot.getUnits()),
+        snapshot.getPictureUrl()
+    );
+  }
+
+  @NonNull
+  public Price currentDiscount() {
     return discount;
   }
 
-  public String getOrderItemProductName() {
+  @NonNull
+  public String orderItemProductName() {
     return productName;
   }
 
-  public void setNewDiscount(Double discount) {
-    if (discount < 0) {
-      throw new OrderingDomainException("Discount is not valid");
-    }
-
+  public void newDiscount(@NonNull Price discount) {
+    Objects.requireNonNull(discount, "Discount cannot be null");
     this.discount = discount;
   }
 
-  public void addUnits(Integer units) {
-    if (units < 0) {
-      throw new OrderingDomainException("Invalid units");
-    }
+  public void addUnits(@NonNull Units units) {
+    Objects.requireNonNull(units, "Units cannot be null");
+    this.units = this.units.add(units);
+  }
 
-    this.units += units;
+  @NonNull
+  @Override
+  public OrderItemSnapshot snapshot() {
+    return OrderItemSnapshot.builder()
+        .id(id.getUuid())
+        .discount(discount.getValue())
+        .pictureUrl(pictureUrl)
+        .productId(productId)
+        .productName(productName)
+        .unitPrice(unitPrice.getValue())
+        .units(units.getValue())
+        .build();
   }
 }

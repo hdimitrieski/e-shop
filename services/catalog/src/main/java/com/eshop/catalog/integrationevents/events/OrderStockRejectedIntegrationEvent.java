@@ -9,6 +9,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderStockRejectedIntegrationEvent extends IntegrationEvent {
-  private Long orderId;
+  private String orderId;
   private List<ConfirmedOrderStockItem> orderStockItems;
 }

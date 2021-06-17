@@ -14,7 +14,8 @@ import java.util.UUID;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class IntegrationEventLogEntry {
   @Id
-  private Long id;
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Integer id;
   private UUID eventId;
   private LocalDateTime creationTime;
   private String eventTypeName;
