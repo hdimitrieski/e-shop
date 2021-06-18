@@ -1,5 +1,7 @@
 package com.eshop.basket.config;
 
+import com.eshop.security.EshopJwtAuthenticationConverter;
+import com.eshop.security.EshopJwtDecoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,8 +11,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.event.AuthenticationSuccessEvent;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -18,6 +18,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Value("${app.security.jwt.user-name-attribute}")
   private String userNameAttribute;
+
+  @Value("${app.auth-server.issuer-uri}")
+  private String issuer;
+
+  @Value("${app.security.audience.basket}")
+  private String basketAudience;
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
@@ -30,11 +36,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .antMatchers(HttpMethod.DELETE, "/basket/*").hasAuthority("SCOPE_basket")
         .and()
         .oauth2ResourceServer()
-        .jwt(jwtSpec -> jwtSpec.jwtAuthenticationConverter(jwt -> {
-          var token = new JwtAuthenticationConverter().convert(jwt);
-          return new JwtAuthenticationToken(jwt,
-              token.getAuthorities(), jwt.getClaim(userNameAttribute));
-        }));
+        .jwt()
+        .decoder(new EshopJwtDecoder(issuer, basketAudience))
+        .jwtAuthenticationConverter(new EshopJwtAuthenticationConverter(userNameAttribute));
   }
 
   @EventListener

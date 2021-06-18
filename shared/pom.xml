@@ -19,6 +19,7 @@
         <module>rest</module>
         <module>event-handling</module>
         <module>outbox</module>
+        <module>security</module>
     </modules>
 
 </project>

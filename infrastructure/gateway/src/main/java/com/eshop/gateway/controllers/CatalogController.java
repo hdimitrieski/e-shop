@@ -15,7 +15,7 @@ public class CatalogController {
   private final BestSellingProductsService bestSellingProductsService;
 
   @GetMapping("top-five")
-  public Flux<CatalogItem> getOrderDraft() {
+  public Flux<CatalogItem> getTopFiveCatalogItems() {
     return bestSellingProductsService.topFive();
   }
 }

@@ -1,10 +1,25 @@
+app:
+  security:
+    oauth2.client:
+      analytics: analytics-service
 
 spring:
   security:
     oauth2:
+      client:
+        registration:
+          analytics-service:
+            provider: keycloak
+            client-id: ${app.security.oauth2.client.analytics}
+            client-secret: 9289d4d6-c583-4edb-80b2-97d8d5a6db67
+            authorization-grant-type: client_credentials
+        provider:
+          keycloak:
+            issuer-uri: ${app.auth-server.issuer-uri}
+
       resourceserver:
         jwt:
-          issuer-uri: http://${app.auth-server.host}:${app.auth-server.port}/auth/realms/${app.auth-server.realm}
+          issuer-uri: ${app.auth-server.issuer-uri}
 
   cloud:
     gateway:

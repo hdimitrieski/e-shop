@@ -2,6 +2,13 @@ app:
   host: localhost
 
 spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: ${app.auth-server.jwk-set-uri}
+          issuer-uri: ${app.auth-server.issuer-uri}
+
   cloud.stream:
     kafka.streams:
       binder.functions:

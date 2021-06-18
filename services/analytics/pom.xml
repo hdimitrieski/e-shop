@@ -21,8 +21,15 @@
         <dependency>
             <groupId>com.eshop</groupId>
             <artifactId>event-handling</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
+        <!-- Security -->
+        <dependency>
+            <groupId>com.eshop</groupId>
+            <artifactId>security</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <!-- Security -->
         <!-- Spring -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>

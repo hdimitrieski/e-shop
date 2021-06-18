@@ -10,6 +10,10 @@ app:
   security:
     jwt:
       user-name-attribute: preferred_username
+    audience:
+      analytics: analytics-service
+      order: orders-service
+      basket: basket-service
   eureka:
     host: localhost
     port: 8761
@@ -26,6 +30,8 @@ app:
     host: localhost
     port: 8090
     realm: e-shop
+    jwk-set-uri: http://${app.auth-server.host}:${app.auth-server.port}/auth/realms/${app.auth-server.realm}/protocol/openid-connect/certs
+    issuer-uri: http://${app.auth-server.host}:${app.auth-server.port}/auth/realms/${app.auth-server.realm}
   logstash:
     host: localhost
     port: 5044

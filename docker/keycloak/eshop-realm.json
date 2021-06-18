@@ -292,6 +292,7 @@
         }
       ],
       "security-admin-console": [],
+      "analytics-service": [],
       "admin-cli": [],
       "account-console": [],
       "eshop-spa": [],
@@ -306,7 +307,6 @@
           "attributes": {}
         }
       ],
-      "eshop-gateway": [],
       "account": [
         {
           "id": "8c579a3d-d7e8-4fa5-9f1e-0c7bfe06aee9",
@@ -385,8 +385,7 @@
           "containerId": "d5097837-7ed4-4921-9eac-36f09e6d9038",
           "attributes": {}
         }
-      ],
-      "eshop-client": []
+      ]
     }
   },
   "groups": [
@@ -402,6 +401,7 @@
   ],
   "defaultRoles": [
     "offline_access",
+    "user",
     "uma_authorization"
   ],
   "requiredCredentials": [
@@ -445,11 +445,11 @@
     {
       "id": "40732b24-230d-4135-8da2-d9bf9b2f75a5",
       "createdTimestamp": 1617219190015,
-      "username": "service-account-eshop-gateway",
+      "username": "service-account-analytics-service",
       "enabled": true,
       "totp": false,
       "emailVerified": false,
-      "serviceAccountClientId": "eshop-gateway",
+      "serviceAccountClientId": "analytics-service",
       "disableableCredentialTypes": [],
       "requiredActions": [],
       "realmRoles": [
@@ -627,97 +627,8 @@
       ]
     },
     {
-      "id": "5a397f42-f8de-4055-828c-30599b081584",
-      "clientId": "broker",
-      "name": "${client_broker}",
-      "surrogateAuthRequired": false,
-      "enabled": true,
-      "alwaysDisplayInConsole": false,
-      "clientAuthenticatorType": "client-secret",
-      "secret": "**********",
-      "redirectUris": [],
-      "webOrigins": [],
-      "notBefore": 0,
-      "bearerOnly": false,
-      "consentRequired": false,
-      "standardFlowEnabled": true,
-      "implicitFlowEnabled": false,
-      "directAccessGrantsEnabled": false,
-      "serviceAccountsEnabled": false,
-      "publicClient": false,
-      "frontchannelLogout": false,
-      "protocol": "openid-connect",
-      "attributes": {},
-      "authenticationFlowBindingOverrides": {},
-      "fullScopeAllowed": false,
-      "nodeReRegistrationTimeout": 0,
-      "defaultClientScopes": [
-        "web-origins",
-        "role_list",
-        "roles",
-        "profile",
-        "email"
-      ],
-      "optionalClientScopes": [
-        "address",
-        "phone",
-        "offline_access",
-        "microprofile-jwt"
-      ]
-    },
-    {
-      "id": "6fadd743-31fe-4ef6-bff9-ec9988d84925",
-      "clientId": "eshop-client",
-      "rootUrl": "http://localhost:4200/",
-      "adminUrl": "http://localhost:4200/",
-      "surrogateAuthRequired": false,
-      "enabled": true,
-      "alwaysDisplayInConsole": false,
-      "clientAuthenticatorType": "client-secret",
-      "secret": "**********",
-      "redirectUris": [
-        "http://localhost:4200/*"
-      ],
-      "webOrigins": [
-        "http://localhost:4200"
-      ],
-      "notBefore": 0,
-      "bearerOnly": false,
-      "consentRequired": false,
-      "standardFlowEnabled": true,
-      "implicitFlowEnabled": false,
-      "directAccessGrantsEnabled": true,
-      "serviceAccountsEnabled": false,
-      "publicClient": true,
-      "frontchannelLogout": false,
-      "protocol": "openid-connect",
-      "attributes": {
-        "backchannel.logout.session.required": "true",
-        "backchannel.logout.revoke.offline.tokens": "false"
-      },
-      "authenticationFlowBindingOverrides": {},
-      "fullScopeAllowed": true,
-      "nodeReRegistrationTimeout": -1,
-      "defaultClientScopes": [
-        "web-origins",
-        "basket",
-        "role_list",
-        "roles",
-        "profile",
-        "webshoppingagg",
-        "orders",
-        "order.notifications"
-      ],
-      "optionalClientScopes": [
-        "address",
-        "phone",
-        "offline_access",
-        "microprofile-jwt"
-      ]
-    },
-    {
       "id": "046597f0-0f99-4a20-9d37-3fb5c8a00e8a",
-      "clientId": "eshop-gateway",
+      "clientId": "analytics-service",
       "rootUrl": "http://localhost:3000/",
       "adminUrl": "http://localhost:3000/",
       "surrogateAuthRequired": false,
@@ -810,12 +721,47 @@
         }
       ],
       "defaultClientScopes": [
+        "analytics",
+        "role_list",
+        "analytics-products"
+      ],
+      "optionalClientScopes": [
+        "address",
+        "phone",
+        "offline_access",
+        "microprofile-jwt"
+      ]
+    },
+    {
+      "id": "5a397f42-f8de-4055-828c-30599b081584",
+      "clientId": "broker",
+      "name": "${client_broker}",
+      "surrogateAuthRequired": false,
+      "enabled": true,
+      "alwaysDisplayInConsole": false,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "**********",
+      "redirectUris": [],
+      "webOrigins": [],
+      "notBefore": 0,
+      "bearerOnly": false,
+      "consentRequired": false,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false,
+      "publicClient": false,
+      "frontchannelLogout": false,
+      "protocol": "openid-connect",
+      "attributes": {},
+      "authenticationFlowBindingOverrides": {},
+      "fullScopeAllowed": false,
+      "nodeReRegistrationTimeout": 0,
+      "defaultClientScopes": [
         "web-origins",
-        "basket",
         "role_list",
         "roles",
         "profile",
-        "orders",
         "email"
       ],
       "optionalClientScopes": [
@@ -853,6 +799,7 @@
       "protocol": "openid-connect",
       "attributes": {
         "saml.assertion.signature": "false",
+        "access.token.lifespan": "1800",
         "saml.force.post.binding": "false",
         "saml.multivalued.roles": "false",
         "saml.encrypt": "false",
@@ -873,17 +820,18 @@
       "fullScopeAllowed": true,
       "nodeReRegistrationTimeout": -1,
       "defaultClientScopes": [
+        "analytics",
         "basket",
+        "eshop-realm-roles",
         "role_list",
         "profile",
         "webshoppingagg",
         "orders",
-        "order.notifications"
+        "order.notifications",
+        "email"
       ],
       "optionalClientScopes": [
-        "address",
-        "offline_access",
-        "microprofile-jwt"
+        "offline_access"
       ]
     },
     {
@@ -1019,7 +967,21 @@
       "attributes": {
         "include.in.token.scope": "true",
         "display.on.consent.screen": "true"
-      }
+      },
+      "protocolMappers": [
+        {
+          "id": "96a45b81-2524-4563-aaf9-b5e6ba46a47a",
+          "name": "Audience for basket service",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-audience-mapper",
+          "consentRequired": false,
+          "config": {
+            "id.token.claim": "false",
+            "access.token.claim": "true",
+            "included.custom.audience": "basket-service"
+          }
+        }
+      ]
     },
     {
       "id": "362e606a-7878-445a-a34c-73e81383f7cf",
@@ -1038,7 +1000,21 @@
       "attributes": {
         "include.in.token.scope": "true",
         "display.on.consent.screen": "true"
-      }
+      },
+      "protocolMappers": [
+        {
+          "id": "10e9fd9b-f265-4636-9cdd-c19b08e95d1a",
+          "name": "Audience for order service",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-audience-mapper",
+          "consentRequired": false,
+          "config": {
+            "id.token.claim": "false",
+            "access.token.claim": "true",
+            "included.custom.audience": "order-service"
+          }
+        }
+      ]
     },
     {
       "id": "6aabd2dd-7327-42b9-a862-ed3ae63b211c",
@@ -1058,6 +1034,34 @@
         "consent.screen.text": "${offlineAccessScopeConsentText}",
         "display.on.consent.screen": "true"
       }
+    },
+    {
+      "id": "7f17be1d-afdf-4b69-bc5a-baa98560e6dd",
+      "name": "eshop-client-roles",
+      "protocol": "openid-connect",
+      "attributes": {
+        "include.in.token.scope": "false",
+        "display.on.consent.screen": "false"
+      },
+      "protocolMappers": [
+        {
+          "id": "1f041023-40fe-461f-bcf4-7ddca70b9144",
+          "name": "Eshop client roles mapper",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-client-role-mapper",
+          "consentRequired": false,
+          "config": {
+            "usermodel.clientRoleMapping.rolePrefix": "ROLE_",
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "roles",
+            "jsonType.label": "String",
+            "usermodel.clientRoleMapping.clientId": "analytics-service"
+          }
+        }
+      ]
     },
     {
       "id": "8212bc0b-f00d-47a3-97ea-bbfe21d594dd",
@@ -1156,6 +1160,16 @@
           }
         }
       ]
+    },
+    {
+      "id": "ad63c583-02d1-42b4-a5ad-f47306caf3a1",
+      "name": "analytics-products",
+      "description": "Analytics products",
+      "protocol": "openid-connect",
+      "attributes": {
+        "include.in.token.scope": "true",
+        "display.on.consent.screen": "false"
+      }
     },
     {
       "id": "b5457ea5-2347-4ecd-9e84-782d5c8a5b76",
@@ -1513,6 +1527,34 @@
       ]
     },
     {
+      "id": "e8495058-d2d5-478f-af58-1e23eda55141",
+      "name": "eshop-realm-roles",
+      "description": "Eshop realm roles mapper",
+      "protocol": "openid-connect",
+      "attributes": {
+        "include.in.token.scope": "false",
+        "display.on.consent.screen": "false"
+      },
+      "protocolMappers": [
+        {
+          "id": "5a23b90d-9beb-465d-968c-800a39a2fc92",
+          "name": "eshop-realm-roles",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-realm-role-mapper",
+          "consentRequired": false,
+          "config": {
+            "usermodel.realmRoleMapping.rolePrefix": "ROLE_",
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "roles",
+            "jsonType.label": "String"
+          }
+        }
+      ]
+    },
+    {
       "id": "ec1de0e1-377f-48db-87ca-8f542289b8cd",
       "name": "webshoppingagg",
       "description": "Web Shopping Aggregator (API Gateway)",
@@ -1521,6 +1563,30 @@
         "include.in.token.scope": "true",
         "display.on.consent.screen": "true"
       }
+    },
+    {
+      "id": "f8bedebe-2a3a-4a0d-9204-6b87cec3f8f5",
+      "name": "analytics",
+      "description": "Analytics service",
+      "protocol": "openid-connect",
+      "attributes": {
+        "include.in.token.scope": "false",
+        "display.on.consent.screen": "false"
+      },
+      "protocolMappers": [
+        {
+          "id": "fd89e257-99eb-4354-a86b-27c0e18eaf84",
+          "name": "Audience for analytics service",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-audience-mapper",
+          "consentRequired": false,
+          "config": {
+            "id.token.claim": "false",
+            "access.token.claim": "true",
+            "included.custom.audience": "analytics-service"
+          }
+        }
+      ]
     }
   ],
   "defaultDefaultClientScopes": [

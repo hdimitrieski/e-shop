@@ -11,8 +11,8 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          jwk-set-uri: http://${app.auth-server.host}:${app.auth-server.port}/auth/realms/${app.auth-server.realm}/protocol/openid-connect/certs
-          issuer-uri: http://${app.auth-server.host}:${app.auth-server.port}/auth/realms/${app.auth-server.realm}
+          jwk-set-uri: ${app.auth-server.jwk-set-uri}
+          issuer-uri: ${app.auth-server.issuer-uri}
   # JPA
   jpa:
     hibernate:

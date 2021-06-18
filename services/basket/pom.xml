@@ -48,16 +48,9 @@
         <!-- Validation -->
         <!-- Security -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-oauth2-resource-server</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-oauth2-jose</artifactId>
+            <groupId>com.eshop</groupId>
+            <artifactId>security</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <!-- Security -->
         <!-- Service discovery -->
