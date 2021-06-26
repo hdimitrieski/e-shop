@@ -30,10 +30,9 @@ public class OrderStatusChangedToAwaitingValidationDomainEventHandler
   @EventListener
   public void handle(OrderStatusChangedToAwaitingValidationDomainEvent event) {
     logger.info(
-        "Order with Id: {} has been successfully updated to status {} ({})",
+        "Order with Id: {} has been successfully updated to status {}",
         event.orderId(),
-        OrderStatus.AwaitingValidation,
-        OrderStatus.AwaitingValidation.getId()
+        OrderStatus.AwaitingValidation
     );
 
     var order = orderApplicationService.findOrder(event.orderId());

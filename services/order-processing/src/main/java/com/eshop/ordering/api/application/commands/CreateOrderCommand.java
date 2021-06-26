@@ -41,7 +41,7 @@ public class CreateOrderCommand implements Command<Boolean> {
   @Size(min = 3)
   private final String cardSecurityNumber;
   @NotNull
-  private final Integer cardTypeId;
+  private final String cardType;
 
   @Builder
   private CreateOrderCommand(
@@ -57,7 +57,7 @@ public class CreateOrderCommand implements Command<Boolean> {
       String cardHolderName,
       LocalDate cardExpiration,
       String cardSecurityNumber,
-      Integer cardTypeId
+      String cardType
   ) {
     orderItems = basketItems.stream()
         .map(basketItem -> new ToOrderItemDTOMapper().map(basketItem))
@@ -73,6 +73,6 @@ public class CreateOrderCommand implements Command<Boolean> {
     this.cardHolderName = cardHolderName;
     this.cardExpiration = cardExpiration;
     this.cardSecurityNumber = cardSecurityNumber;
-    this.cardTypeId = cardTypeId;
+    this.cardType = cardType;
   }
 }

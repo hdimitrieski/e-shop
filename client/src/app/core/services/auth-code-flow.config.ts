@@ -26,10 +26,10 @@ export const authCodeFlowConfig: AuthConfig = {
 
   // This is needed for silent refresh (refreshing tokens w/o a refresh_token)
   // **AND** for logging in with a popup
-  silentRefreshRedirectUri: `${window.location.origin}/assets/silent-refresh.html`,
+  // silentRefreshRedirectUri: `${window.location.origin}/assets/silent-refresh.html`,
 
-  useSilentRefresh: true,
-  showDebugInformation: true,
+  // useSilentRefresh: true,
+  showDebugInformation: false,
   sessionChecksEnabled: true,
   requireHttps: false,
 };

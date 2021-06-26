@@ -1,11 +1,15 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { BasketComponent } from "./components/basket.component";
+import { BasketPageComponent } from './pages/basket-page.component';
+import { AuthGuard } from '../core/guards/auth.guard';
 
 const routes: Routes = [
   {
     path: 'basket',
-    component: BasketComponent
+    component: BasketPageComponent,
+    canActivate: [
+      AuthGuard
+    ]
   }
 ];
 
@@ -14,5 +18,4 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class BasketRoutingModule {
-  
 }

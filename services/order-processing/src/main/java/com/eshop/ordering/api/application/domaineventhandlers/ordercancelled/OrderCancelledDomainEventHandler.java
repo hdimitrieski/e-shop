@@ -27,10 +27,9 @@ public class OrderCancelledDomainEventHandler implements DomainEventHandler<Orde
   @EventListener
   public void handle(OrderCancelledDomainEvent orderCancelledDomainEvent) {
     logger.info(
-        "Order with Id: {} has been successfully updated to status {} ({})",
+        "Order with Id: {} has been successfully updated to status {}",
         orderCancelledDomainEvent.order().getId(),
-        OrderStatus.Cancelled,
-        OrderStatus.Cancelled.getId()
+        OrderStatus.Cancelled
     );
 
     var order = orderApplicationService.findOrder(orderCancelledDomainEvent.order().getId());

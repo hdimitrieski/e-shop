@@ -22,7 +22,7 @@ public record OrderData(
     boolean isDraft,
     @JsonProperty("cardExpiration") LocalDate cardExpiration,
     @JsonProperty("cardSecurityNumber") String cardSecurityNumber,
-    @JsonProperty("cardTypeId") Integer cardTypeId,
+    @JsonProperty("cardType") String cardType,
     @JsonProperty("buyer") String buyer,
     @JsonProperty("orderItems") List<OrderItemData> orderItems
 ) {

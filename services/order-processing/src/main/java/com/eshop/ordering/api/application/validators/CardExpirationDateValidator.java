@@ -6,7 +6,7 @@ import java.time.LocalDate;
 
 import static java.util.Objects.nonNull;
 
-class CardExpirationDateValidator implements ConstraintValidator<CardExpirationDate, LocalDate> {
+public class CardExpirationDateValidator implements ConstraintValidator<CardExpirationDate, LocalDate> {
 
   @Override
   public boolean isValid(LocalDate expiration, ConstraintValidatorContext constraintValidatorContext) {

@@ -32,7 +32,7 @@ create table payment_method
     alias            varchar(200) not null,
     card_holder_name varchar(200) not null,
     card_number      varchar(25)  not null,
-    card_type_id     integer      not null,
+    card_type        varchar(200) not null,
     expiration       date,
     security_number  varchar(200) not null,
     buyer_id         uuid       not null
@@ -50,7 +50,7 @@ create table orders
     description       varchar(255),
     is_draft          boolean   not null,
     order_date        timestamp not null,
-    order_status_id   integer   not null,
+    order_status      varchar(100)   not null,
     payment_method_id uuid
 );
 

@@ -1,19 +1,5 @@
-<div *ngIf="page" class="wrapper">
-  <button 
-    class="prev" 
-    [disabled]="page.first"
-    (click)="previousClicked()"
-  >previous</button>
-
-  <h5>Showing {{page.numberOfElements}} 
-    of {{page.total}} products - 
-    Page {{page.totalPages !== 0 ? page.pageable.page + 1 : page.pageable.page}} - 
-    {{page.totalPages}}
-  </h5>
-
-  <button 
-    class="next" 
-    [disabled]="page.last"
-    (click)="nextClicked()"
-  >next</button>
-</div>
+<ngb-pagination
+  [collectionSize]="page.total"
+  [page]="page.pageable.page + 1"
+  (pageChange)="onPageChange($event)">
+</ngb-pagination>

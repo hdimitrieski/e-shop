@@ -29,7 +29,7 @@ public class BasketCheckout {
   @NotEmpty
   private String cardSecurityNumber;
   @NotNull
-  private Integer cardTypeId;
+  private String cardType;
   @NotEmpty
   private String buyer;
   @Setter

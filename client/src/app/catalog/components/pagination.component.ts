@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
-import { Page } from "../models/page";
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { CatalogPage } from '../models';
 
 @Component({
   selector: 'es-pagination',
@@ -7,15 +7,12 @@ import { Page } from "../models/page";
   styleUrls: ['./pagination.component.css']
 })
 export class PaginationComponent {
-  @Input() page: Page;
-  @Output() previousClickEvent = new EventEmitter();
-  @Output() nextClickEvent = new EventEmitter();
+  @Input() page: CatalogPage;
+  @Output() pageChanged = new EventEmitter<number>();
 
-  previousClicked() {
-    this.previousClickEvent.emit();
-  }
-
-  nextClicked() {
-    this.nextClickEvent.emit();
+  public onPageChange(page: number) {
+    if (page - 1 !== this.page.pageable.page) {
+      this.pageChanged.emit(page - 1);
+    }
   }
 }

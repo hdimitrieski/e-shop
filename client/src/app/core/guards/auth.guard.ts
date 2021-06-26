@@ -7,7 +7,7 @@ import { OAuthService } from 'angular-oauth2-oidc';
 })
 export class AuthGuard implements CanActivate {
 
-  constructor(private router: Router, private oauthService: OAuthService) {
+  constructor(private readonly router: Router, private readonly oauthService: OAuthService) {
   }
 
   canActivate() {
@@ -17,7 +17,7 @@ export class AuthGuard implements CanActivate {
     ) {
       return true;
     } else {
-      this.router.navigate(['/', {login: true}]);
+      this.router.navigate(['/']);
       return false;
     }
   }

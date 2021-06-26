@@ -1,0 +1,5 @@
+<ngb-toast
+  *ngFor="let notification of notificationsService.notifications"
+  [autohide]="true" [delay]="notification.delay || 4000"
+  (hidden)="notificationsService.remove(notification)"
+>{{notification.text}}</ngb-toast>

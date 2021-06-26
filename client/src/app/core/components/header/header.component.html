@@ -1,0 +1,33 @@
+<header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+  <a routerLink="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+    E-Shop
+  </a>
+
+  <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+    <li><a routerLink="/catalog" class="nav-link px-2 link-dark">Catalog</a></li>
+    <li><a routerLink="/orders" class="nav-link px-2 link-dark">Orders</a></li>
+    <li><a href="#" class="nav-link px-2 link-dark">About</a></li>
+  </ul>
+
+  <div *ngIf="loggedIn$;" class="col-md-3 text-end">
+      <div class="cart">
+        <div class="cart_container d-flex flex-row align-items-center justify-content-end">
+          <div class="cart_icon"> <img src="assets/cart.png" alt="Basket">
+            <div class="cart_count"><span>{{numberOfItems()}}</span></div>
+          </div>
+          <div class="cart_content">
+            <div class="cart_text"><a routerLink="/basket">Cart</a></div>
+            <div class="cart_price">{{totalPrice() | number: '.2-2'}}</div>
+          </div>
+        </div>
+      </div>
+  </div>
+
+  <div>
+    <button *ngIf="loggedIn$; else loggedOut" type="button" class="btn btn-primary" (click)="logout()">Logout</button>
+    <ng-template #loggedOut>
+      <button *ngIf="!loggedIn$" type="button" class="btn btn-outline-primary me-2" (click)="login()">Login</button>
+    </ng-template>
+  </div>
+
+</header>

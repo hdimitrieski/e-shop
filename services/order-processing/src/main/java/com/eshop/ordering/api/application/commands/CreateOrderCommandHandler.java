@@ -57,7 +57,7 @@ public class CreateOrderCommandHandler implements Command.Handler<CreateOrderCom
             .country(command.getCountry())
             .zipCode(command.getZipCode())
             .build())
-        .cardType(CardType.of(command.getCardTypeId()))
+        .cardType(CardType.of(command.getCardType()))
         .cardNumber(CardNumber.of(command.getCardNumber()))
         .cardSecurityNumber(SecurityNumber.of(command.getCardSecurityNumber()))
         .cardHolderName(CardHolder.of(command.getCardHolderName()))

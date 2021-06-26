@@ -16,14 +16,14 @@ public class OrderStockConfirmedIntegrationEventHandler {
 
   private final Pipeline pipeline;
 
-  @KafkaListener(groupId = "order-stock-statuses-group", topics = "${spring.kafka.consumer.topic.orderStockStatuses}")
+  @KafkaListener(groupId = "order-stock-confirmed-group", topics = "${spring.kafka.consumer.topic.orderStockConfirmed}")
   public void handle(OrderStockConfirmedIntegrationEvent event) {
     logger.info("Handling integration event: {} ({})", event.getId(), event.getClass().getSimpleName());
 
     pipeline.send(new SetStockConfirmedOrderStatusCommand(event.getOrderId()));
   }
 
-  @KafkaListener(groupId = "order-stock-statuses-group-dlt", topics = "${spring.kafka.consumer.topic.orderStockStatuses}.DLT")
+  @KafkaListener(groupId = "order-stock-confirmed-group-dlt", topics = "${spring.kafka.consumer.topic.orderStockConfirmed}.DLT")
   public void handleDlt(OrderStockConfirmedIntegrationEvent event) {
     logger.info("DLT - Handling integration event: {} ({})", event.getId(), event.getClass().getSimpleName());
   }

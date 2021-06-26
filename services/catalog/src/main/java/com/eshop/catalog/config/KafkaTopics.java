@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 public class KafkaTopics {
   private String ordersWaitingForValidation;
   private String paidOrders;
-  private String orderStockStatuses;
+  private String orderStockConfirmed;
+  private String orderStockRejected;
   private String productPriceChanges;
 }

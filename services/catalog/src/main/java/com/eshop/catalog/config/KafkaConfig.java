@@ -92,8 +92,13 @@ public class KafkaConfig {
   }
 
   @Bean
-  public NewTopic orderStockStatusesTopic() {
-    return new NewTopic(topics.getOrderStockStatuses(), 1, (short) 1);
+  public NewTopic orderStockConfirmedTopic() {
+    return new NewTopic(topics.getOrderStockConfirmed(), 1, (short) 1);
+  }
+
+  @Bean
+  public NewTopic orderStockRejectedTopic() {
+    return new NewTopic(topics.getOrderStockRejected(), 1, (short) 1);
   }
 
   private ErrorHandlingDeserializer<Object> jsonDeserializer() {

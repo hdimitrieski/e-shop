@@ -15,5 +15,5 @@ public class PaymentMethodSnapshot implements Snapshot {
   private final String securityNumber;
   private final String cardHolderName;
   private final LocalDate expiration;
-  private final Integer cardTypeId;
+  private final String cardType;
 }

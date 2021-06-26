@@ -1,5 +1,5 @@
 import { InjectableRxStompConfig } from '@stomp/ng2-stompjs';
-// TODO HD move in env
+// TODO env
 export const stompConfig: InjectableRxStompConfig = {
   brokerURL: 'ws://localhost:8085/order-notifications',
 
@@ -16,7 +16,7 @@ export const stompConfig: InjectableRxStompConfig = {
   // Will log diagnostics on console
   // It can be quite verbose, not recommended in production
   // Skip this key to stop logging to console
-  debug: (msg: string): void => {
-    console.log(new Date(), msg);
-  }
+  // debug: (msg: string): void => {
+  //   console.log(new Date(), msg);
+  // }
 };

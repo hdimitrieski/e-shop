@@ -26,10 +26,9 @@ public class OrderShippedDomainEventHandler implements DomainEventHandler<OrderS
   @EventListener
   public void handle(OrderShippedDomainEvent orderShippedDomainEvent) {
     logger.info(
-        "Order with Id: {} has been successfully updated to status {} ({})",
+        "Order with Id: {} has been successfully updated to status {}",
         orderShippedDomainEvent.order().getId(),
-        OrderStatus.Shipped,
-        OrderStatus.Shipped.getId()
+        OrderStatus.Shipped
     );
 
     var order = orderApplicationService.findOrder(orderShippedDomainEvent.order().getId());

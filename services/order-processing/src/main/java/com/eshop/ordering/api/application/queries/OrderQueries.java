@@ -7,6 +7,4 @@ public interface OrderQueries {
   Optional<OrderViewModel.Order> getOrder(String id);
 
   List<OrderViewModel.OrderSummary> getOrdersFromUser(String userId);
-
-  List<OrderViewModel.CardType> getCardTypes();
 }

@@ -22,7 +22,7 @@ class OrderEntityConverter implements EntityConverter<OrderEntity, Order> {
         .description(snapshot.getDescription())
         .isDraft(snapshot.isDraft())
         .paymentMethodId(snapshot.getPaymentMethodId() != null ? UUID.fromString(snapshot.getPaymentMethodId()) : null)
-        .orderStatusId(order.getOrderStatus().getId())
+        .orderStatus(order.getOrderStatus().getStatus())
         .address(AddressModel.builder()
             .city(snapshot.getCity())
             .country(snapshot.getCountry())
@@ -57,7 +57,7 @@ class OrderEntityConverter implements EntityConverter<OrderEntity, Order> {
   public Order fromEntity(OrderEntity orderEntity) {
     return Order.rehydrate(OrderSnapshot.builder()
         .id(orderEntity.getId().toString())
-        .orderStatusId(orderEntity.getOrderStatusId())
+        .orderStatus(orderEntity.getOrderStatus())
         .orderDate(orderEntity.getOrderDate())
         .draft(orderEntity.isDraft())
         .paymentMethodId(orderEntity.getPaymentMethodId() != null ? orderEntity.getPaymentMethodId().toString() : null)

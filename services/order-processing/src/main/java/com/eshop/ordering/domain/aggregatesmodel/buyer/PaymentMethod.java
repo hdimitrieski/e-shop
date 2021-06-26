@@ -54,7 +54,7 @@ public class PaymentMethod extends Entity<PaymentMethodId> {
     Objects.requireNonNull(snapshot, "Snapshot cannot be null");
     return new PaymentMethod(
         PaymentMethodId.of(snapshot.getId()),
-        CardType.of(snapshot.getCardTypeId()),
+        CardType.of(snapshot.getCardType()),
         snapshot.getAlias(),
         CardNumber.of(snapshot.getCardNumber()),
         SecurityNumber.of(snapshot.getSecurityNumber()),
@@ -79,7 +79,7 @@ public class PaymentMethod extends Entity<PaymentMethodId> {
   public PaymentMethodSnapshot snapshot() {
     return PaymentMethodSnapshot.builder()
         .id(id.getUuid())
-        .cardTypeId(cardType.getId())
+        .cardType(cardType.getCardName())
         .securityNumber(securityNumber.getValue())
         .expiration(expiration.getDate())
         .cardNumber(cardNumber.getValue())

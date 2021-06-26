@@ -1,7 +1,6 @@
-import { Component, Input } from '@angular/core';
-import { Router } from '@angular/router';
-import { BasketService } from 'src/app/core/services/basket.service';
-import { CatalogItem } from '../models/catalogItem';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { CatalogItem } from '../models';
+import { BasketItem } from '../../models';
 
 @Component({
   selector: 'es-item',
@@ -10,18 +9,17 @@ import { CatalogItem } from '../models/catalogItem';
 })
 export class ItemComponent {
   @Input() item: CatalogItem;
+  @Output() addToCart = new EventEmitter<BasketItem>()
 
-  constructor(private basketService: BasketService, private router: Router) {}
-
-  addToCart() {
-    this.basketService.addToBasket({
+  onAddToCart() {
+    this.addToCart.emit({
       id: this.item.id,
       productId: this.item.id,
       productName: this.item.name,
       unitPrice: this.item.price,
       oldUnitPrice: this.item.price,
       quantity: 1,
-      pictureUrl: this.item.pictureFileName,
+      pictureUrl: this.item.pictureFileName
     });
   }
 }

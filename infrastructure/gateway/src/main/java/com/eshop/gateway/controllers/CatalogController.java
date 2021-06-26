@@ -14,7 +14,7 @@ import reactor.core.publisher.Flux;
 public class CatalogController {
   private final BestSellingProductsService bestSellingProductsService;
 
-  @GetMapping("top-five")
+  @GetMapping("topfive")
   public Flux<CatalogItem> getTopFiveCatalogItems() {
     return bestSellingProductsService.topFive();
   }

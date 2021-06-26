@@ -1,0 +1,30 @@
+<form [formGroup]="form" (submit)="updateQuantity()">
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Product Name</th>
+      <th scope="col">Unit Price</th>
+      <th scope="col">Quantity</th>
+      <th scope="col">Price</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let item of basket.items; index as i" formArrayName="quantities">
+      <th scope="row">{{ i + 1 }}</th>
+      <td>
+        <es-image [name]="item.pictureUrl" size="small"></es-image>
+        {{ item.productName }}
+      </td>
+      <td>{{ item.unitPrice | number:'.2-2' }}</td>
+      <td><input [formControlName]="i" id="quantity" type="number"/></td>
+      <td>$ {{(item.quantity * item.unitPrice) | number:'.2-2'}}</td>
+    </tr>
+    </tbody>
+  </table>
+
+  <button type="button" class="btn btn-primary" (click)="goToCatalog()">Continue shopping</button>
+  <button type="button" class="btn btn-success" (click)="goToCheckout()">Go To Checkout</button>
+  <button type="submit" class="btn btn-secondary" [disabled]="form.invalid">Update</button>
+</form>
+

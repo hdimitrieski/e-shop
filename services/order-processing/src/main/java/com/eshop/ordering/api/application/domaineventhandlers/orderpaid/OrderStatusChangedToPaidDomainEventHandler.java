@@ -29,10 +29,9 @@ public class OrderStatusChangedToPaidDomainEventHandler implements DomainEventHa
   @EventListener
   public void handle(OrderStatusChangedToPaidDomainEvent event) {
     logger.info(
-        "Order with Id: {} has been successfully updated to status {} ({})",
+        "Order with Id: {} has been successfully updated to status {}",
         event.orderId(),
-        OrderStatus.Paid,
-        OrderStatus.Paid.getId()
+        OrderStatus.Paid
     );
 
     var order = orderApplicationService.findOrder(event.orderId());

@@ -24,7 +24,7 @@ public class UserCheckoutAcceptedIntegrationEvent extends IntegrationEvent {
   private String cardHolderName;
   private LocalDate cardExpiration;
   private String cardSecurityNumber;
-  private Integer cardTypeId;
+  private String cardType;
   private String buyer;
   private UUID requestId;
   private CustomerBasket basket;

@@ -16,7 +16,7 @@ class BuyerEntity extends DbEntity {
   @Column(name = "user_id", nullable = false, length = 200, unique = true)
   private String userId;
 
-  @Column(name = "name")
+  @Column(name = "name", nullable = false)
   private String name;
 
   @Setter

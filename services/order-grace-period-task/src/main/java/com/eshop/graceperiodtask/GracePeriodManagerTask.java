@@ -51,7 +51,7 @@ public class GracePeriodManagerTask {
           SELECT cast(id as varchar)
           FROM orders
           WHERE EXTRACT(EPOCH FROM (current_timestamp - order_date)) / 15 >= %d
-                AND order_status_id = 1
+                AND order_status = 'Submitted'
         """.formatted(1));
     return (List<String>) query.getResultList();
   }

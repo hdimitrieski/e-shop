@@ -1,6 +1,6 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { CatalogItem } from '../models/catalogItem';
-import { CatalogService } from '../services/catalog.service';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { BasketItem } from '../../models';
+import { CatalogItem } from '../models';
 
 @Component({
   selector: 'es-catalog',
@@ -9,5 +9,5 @@ import { CatalogService } from '../services/catalog.service';
 })
 export class CatalogComponent {
   @Input() catalogItems: CatalogItem[];
-
+  @Output() addItemToCart = new EventEmitter<BasketItem>();
 }

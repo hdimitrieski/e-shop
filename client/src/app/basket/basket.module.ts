@@ -1,16 +1,18 @@
-import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BasketRoutingModule } from './basket-routing.module';
-import { BasketComponent } from './components/basket.component';
+import { BasketPageComponent } from './pages/basket-page.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
-  declarations: [BasketComponent],
+  declarations: [
+    BasketPageComponent
+  ],
   providers: [],
   imports: [
-    CommonModule, 
-    HttpClientModule, 
-    BasketRoutingModule
+    HttpClientModule,
+    BasketRoutingModule,
+    SharedModule
   ]
 })
 export class BasketModule {

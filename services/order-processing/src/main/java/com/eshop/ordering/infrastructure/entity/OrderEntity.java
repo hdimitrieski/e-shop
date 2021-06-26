@@ -23,11 +23,11 @@ class OrderEntity extends DbEntity {
   @Embedded
   private AddressModel address;
 
-  @Column(name = "buyer_id")
+  @Column(name = "buyer_id", nullable = false)
   private UUID buyerId;
 
-  @Column(name = "order_status_id", nullable = false)
-  private Integer orderStatusId;
+  @Column(name = "order_status", nullable = false)
+  private String orderStatus;
 
   @Column(name = "description")
   private String description;
@@ -35,7 +35,7 @@ class OrderEntity extends DbEntity {
   @Column(name = "is_draft")
   private boolean isDraft;
 
-  @Column(name = "payment_method_id")
+  @Column(name = "payment_method_id", nullable = false)
   private UUID paymentMethodId;
 
   @Setter

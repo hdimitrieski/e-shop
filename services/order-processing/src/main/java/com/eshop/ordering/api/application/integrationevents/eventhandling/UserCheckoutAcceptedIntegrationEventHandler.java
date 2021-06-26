@@ -48,7 +48,7 @@ public class UserCheckoutAcceptedIntegrationEventHandler {
         .cardHolderName(event.getCardHolderName())
         .cardExpiration(event.getCardExpiration())
         .cardSecurityNumber(event.getCardSecurityNumber())
-        .cardTypeId(event.getCardTypeId())
+        .cardType(event.getCardType())
         .build();
     var requestCreateOrder = new CreateOrderIdentifiedCommand(createOrderCommand, event.getRequestId());
     var result = commandBus.send(requestCreateOrder);

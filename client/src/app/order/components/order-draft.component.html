@@ -1,0 +1,111 @@
+<div class="py-5 text-center">
+  <h2>Checkout form</h2>
+</div>
+
+<div class="row g-5">
+  <div class="col-md-5 col-lg-4 order-md-last">
+    <h4 class="d-flex justify-content-between align-items-center mb-3">
+      <span class="text-primary">Your cart</span>
+      <span class="badge bg-primary rounded-pill">{{ orderDraft.orderItems.length }}</span>
+    </h4>
+
+    <ul class="list-group mb-3">
+      <li *ngFor="let orderItem of orderDraft.orderItems" class="list-group-item d-flex justify-content-between lh-sm">
+        <div class="d-flex align-items-center">
+          <es-image [name]="orderItem.pictureUrl" size="small"></es-image>
+          <h6 class="my-0 p-1">{{ orderItem.productName }}</h6>
+        </div>
+        <span class="text-muted">
+        {{ orderItem.units }} X {{ orderItem.unitPrice | number:'.2-2' }} =
+          {{ (orderItem.units * orderItem.unitPrice) | number:'.2-2' }}
+      </span>
+      </li>
+      <li class="list-group-item d-flex justify-content-between">
+        <span>Total</span>
+        <strong>{{ orderDraft.total | number:'.2-2' }}</strong>
+      </li>
+    </ul>
+  </div>
+
+  <div class="col-md-7 col-lg-8">
+    <h4 class="mb-3">Billing address</h4>
+    <form [formGroup]="checkoutForm" (submit)="onCheckout()">
+      <div class="row g-3">
+        <div class="col-sm-6">
+          <label for="firstName" class="form-label">First name</label>
+          <input type="text" class="form-control" id="firstName">
+        </div>
+
+        <div class="col-sm-6">
+          <label for="lastName" class="form-label">Last name</label>
+          <input type="text" class="form-control" id="lastName">
+        </div>
+
+        <div class="col-12">
+          <label for="country" class="form-label">Country</label>
+          <input formControlName="country" type="text" class="form-control" id="country">
+        </div>
+
+        <div class="col-12">
+          <label for="city" class="form-label">City</label>
+          <input formControlName="city" type="text" class="form-control" id="city">
+        </div>
+
+        <div class="col-12">
+          <label for="state" class="form-label">State</label>
+          <input formControlName="state" type="text" class="form-control" id="state">
+        </div>
+
+        <div class="col-12">
+          <label for="street" class="form-label">Street</label>
+          <input formControlName="street" type="text" class="form-control" id="street">
+        </div>
+
+        <div class="col-md-3">
+          <label for="zip" class="form-label">Zip</label>
+          <input formControlName="zipCode" type="text" class="form-control" id="zip">
+        </div>
+      </div>
+
+      <hr class="my-4">
+
+      <h4 class="mb-3">Payment</h4>
+
+      <div class="row gy-3">
+
+        <div class="col-md-6">
+          <label for="card-holder-name" class="form-label">Card holder name</label>
+          <input formControlName="cardHolderName" type="text" class="form-control" id="card-holder-name">
+          <small class="text-muted">Full name as displayed on card</small>
+        </div>
+
+        <div class="col-md-6">
+          <label for="card-number" class="form-label">Credit card number</label>
+          <input formControlName="cardNumber" type="text" class="form-control" id="card-number">
+        </div>
+
+        <div class="col-md-3">
+          <label for="cc-expiration" class="form-label">Expiration</label>
+          <div class="input-group">
+            <input formControlName="cardExpiration"
+                   id="cc-expiration"
+                   class="form-control"
+                   placeholder="yyyy-mm-dd"
+                   ngbDatepicker #d="ngbDatepicker">
+            <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button>
+          </div>
+
+        </div>
+
+        <div class="col-md-3">
+          <label for="cc-cvv" class="form-label">CVV</label>
+          <input formControlName="cardSecurityNumber" type="text" class="form-control" id="cc-cvv">
+        </div>
+      </div>
+
+      <hr class="my-4">
+
+      <button class="w-100 btn btn-primary" type="submit" [disabled]="checkoutForm.invalid">Checkout</button>
+    </form>
+  </div>
+</div>

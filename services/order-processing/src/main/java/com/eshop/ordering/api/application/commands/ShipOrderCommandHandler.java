@@ -22,6 +22,7 @@ public class ShipOrderCommandHandler implements Command.Handler<ShipOrderCommand
   public Boolean handle(ShipOrderCommand command) {
     final var order = findOrder(command.orderNumber());
     order.setShippedStatus();
+    orderRepository.save(order);
     return true;
   }
 

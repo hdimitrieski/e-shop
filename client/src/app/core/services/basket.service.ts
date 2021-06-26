@@ -1,63 +1,84 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { switchMap, take } from 'rxjs/operators';
-import { BasketItem } from 'src/app/basket/models/basketItem';
-import { CustomerBasket } from '../../basket/models/customerBasket';
-import { AuthenticationService } from './authentication.service';
+import { Observable, of } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
+import { BasketItem, CustomerBasket } from '../../models';
 
 @Injectable()
 export class BasketService {
-  private customerBasket: CustomerBasket = {
-    buyerId: null,
-    items: [],
-  };
+  private customerBasket: CustomerBasket = this.emptyBasket();
 
-  constructor(
-    private http: HttpClient,
-    private authenticationService: AuthenticationService,
-    private router: Router
-  ) {
-    if (this.authenticationService.isLoggedIn()) {
-      this.authenticationService
-        .loadUserProfile()
-        .pipe(
-          switchMap((user) => {
-            return this.getBasket(user.preferred_username);
-          }),
-          take(1)
-        )
-        .subscribe((basket) => {
-          this.customerBasket = basket;
-          console.log(this.customerBasket);
-        });
-    }
+  constructor(private readonly http: HttpClient) {
   }
 
-  getCustomerBasket() {
+  getCustomerBasket(): CustomerBasket {
     return this.customerBasket;
   }
 
-  addToBasket(catalogItem: BasketItem) {
-    this.customerBasket.items.push(catalogItem);
+  addToBasket(catalogItem: BasketItem): Observable<CustomerBasket> {
+    const updatedBasket = {
+      ...this.customerBasket,
+      items: [
+        ...this.customerBasket.items,
+        catalogItem
+      ]
+    };
 
-    this.updateBasket(this.customerBasket).subscribe(() => {
-      console.log('Test');
-      this.router.navigate(['/basket']);
-    });
+    return this.updateBasket(updatedBasket);
   }
 
-  private updateBasket(basketItems: CustomerBasket) {
-    return this.http.post<CustomerBasket>(
-      '/api/v1/basket',
-      basketItems
-    ) as Observable<CustomerBasket>;
+  getBasket(customerId: string): Observable<CustomerBasket> {
+    return this.http.get<CustomerBasket>(`/api/v1/basket/${customerId}`).pipe(
+      tap(basket => this.customerBasket = basket),
+      catchError(() => of(this.emptyBasket()))
+    );
   }
 
-  private getBasket(customerId: string) {
-    return this.http.get<CustomerBasket>(
-      `/api/v1/basket/${customerId}`
-    ) as Observable<CustomerBasket>;
+  updateQuantities(quantities: number[]): Observable<CustomerBasket> {
+    const quantitiesById = this.quantitiesById(quantities);
+
+    const basketItemUpdates = {
+      basketId: this.customerBasket.buyerId,
+      updates: this.customerBasket.items
+        .filter((item) => item.quantity !== quantitiesById[item.id])
+        .map((item) => ({
+          basketItemId: item.id,
+          newQuantity: quantitiesById[item.id]
+        }))
+    };
+
+    return this.http.put<CustomerBasket>('/api/v1/basket/items', basketItemUpdates).pipe(
+      tap(basket => this.customerBasket = basket)
+    );
   }
+
+  deleteBasket() {
+    return this.http.delete(`/api/v1/basket/${this.customerBasket.buyerId}`).pipe(
+      tap(() => this.customerBasket = this.emptyBasket(this.customerBasket.buyerId))
+    );
+  }
+
+  private quantitiesById(quantities: number[]) {
+    return this.customerBasket.items.reduce(
+      ((byId, item, i) => ({
+        ...byId,
+        [item.id]: quantities[i]
+      })),
+      {}
+    );
+  }
+
+  private updateBasket(basketItems: CustomerBasket): Observable<CustomerBasket> {
+    return this.http.post<CustomerBasket>('/api/v1/basket', basketItems).pipe(
+      tap(basket => this.customerBasket = basket)
+    );
+  }
+
+  private emptyBasket(buyerId: string = null): CustomerBasket {
+    return {
+      buyerId,
+      items: [],
+    };
+  }
+
 }

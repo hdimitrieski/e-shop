@@ -41,7 +41,7 @@ class BuyerEntityConverter implements EntityConverter<BuyerEntity, Buyer> {
         .cardHolderName(snapshot.getCardHolderName())
         .expiration(snapshot.getExpiration())
         .securityNumber(snapshot.getSecurityNumber())
-        .cardTypeId(snapshot.getCardTypeId())
+        .cardType(snapshot.getCardType())
         .buyer(buyerEntity)
         .build();
   }
@@ -68,7 +68,7 @@ class BuyerEntityConverter implements EntityConverter<BuyerEntity, Buyer> {
         .alias(entity.getAlias())
         .cardHolderName(entity.getCardHolderName())
         .cardNumber(entity.getCardNumber())
-        .cardTypeId(entity.getCardTypeId())
+        .cardType(entity.getCardType())
         .expiration(entity.getExpiration())
         .securityNumber(entity.getSecurityNumber())
         .build();

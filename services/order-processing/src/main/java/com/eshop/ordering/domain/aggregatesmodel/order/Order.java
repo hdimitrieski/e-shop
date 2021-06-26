@@ -92,7 +92,7 @@ public class Order extends AggregateRoot<OrderId> {
             .state(snapshot.getState())
             .street(snapshot.getStreet())
             .build(),
-        OrderStatus.of(snapshot.getOrderStatusId()),
+        OrderStatus.of(snapshot.getOrderStatus()),
         snapshot.getBuyerId() != null ? BuyerId.of(snapshot.getBuyerId()) : null,
         snapshot.getPaymentMethodId() != null ? PaymentMethodId.of(snapshot.getPaymentMethodId()) : null,
         snapshot.isDraft(),
@@ -153,7 +153,7 @@ public class Order extends AggregateRoot<OrderId> {
   public void setPaidStatus() {
     if (OrderStatus.StockConfirmed.equals(orderStatus)) {
       changeOrderStatusTo(OrderStatus.Paid);
-      description = "The was paid";
+      description = "The order was paid";
       addDomainEvent(new OrderStatusChangedToPaidDomainEvent(id, orderItems));
     }
   }
@@ -199,7 +199,7 @@ public class Order extends AggregateRoot<OrderId> {
   public OrderSnapshot snapshot() {
     return OrderSnapshot.builder()
         .id(id.getUuid())
-        .orderStatusId(orderStatus.getId())
+        .orderStatus(orderStatus.getStatus())
         .buyerId(buyerId().map(Identifier::getUuid).orElse(null))
         .paymentMethodId(paymentMethodId().map(Identifier::getUuid).orElse(null))
         .draft(draft)

@@ -25,11 +25,11 @@ public class PaymentMethodEntity extends DbEntity {
   @Column(name = "card_holder_name", nullable = false, length = 200)
   private String cardHolderName;
 
-  @Column(name = "expiration")
+  @Column(name = "expiration", nullable = false)
   private LocalDate expiration;
 
-  @Column(name = "card_type_id")
-  private Integer cardTypeId;
+  @Column(name = "card_type", nullable = false)
+  private String cardType;
 
   @Setter
   @ManyToOne

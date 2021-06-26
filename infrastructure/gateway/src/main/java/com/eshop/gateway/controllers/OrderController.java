@@ -21,7 +21,7 @@ public class OrderController {
   @GetMapping("draft/{basketId}")
   public Mono<OrderData> getOrderDraft(@PathVariable String basketId) {
     if (StringUtils.isEmpty(basketId)) {
-      throw new IllegalArgumentException("The basketId is not valid"); // TODO HD bad request
+      throw new IllegalArgumentException("The basketId is not valid"); // TODO bad request
     }
 
     return basketApiService.getById(basketId)

@@ -14,7 +14,7 @@ public class OrderSnapshot implements Snapshot {
   private final LocalDateTime orderDate;
   private final String description;
   private final boolean draft;
-  private final Integer orderStatusId;
+  private final String orderStatus;
   private final String buyerId;
   private final String paymentMethodId;
   private final List<OrderItemSnapshot> orderItems;

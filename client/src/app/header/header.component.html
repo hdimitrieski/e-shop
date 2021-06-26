@@ -1,5 +1,0 @@
-<img src="../../assets/eshop_logo.png" alt="Logo">
-<button *ngIf="loggedIn$" type="button" (click)="logout()">LOGOUT</button>
-<p class="user" *ngIf="loggedIn$">{{user?.email}}</p>
-<button *ngIf="loggedIn$" type="button" (click)="goToBasket()">Basket</button>
-<button *ngIf="!loggedIn$" type="button" (click)="login()">LOGIN</button>

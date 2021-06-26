@@ -33,7 +33,7 @@ public class RouteLocatorConfig {
             .uri("lb://basket")
         )
         .route("orders", r -> r
-            .path("/api/v1/orders/*")
+            .path("/api/v1/orders", "/api/v1/orders/*")
             .filters(f -> f.removeRequestHeader("Cookie")
                 .circuitBreaker(config -> config.setName(ORDER_CIRCUIT_BREAKER))
                 .rewritePath("api/v1", "")

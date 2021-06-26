@@ -4,11 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
-import java.math.BigInteger;
 import java.sql.Timestamp;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
@@ -21,13 +20,13 @@ public class OrderQueriesImpl implements OrderQueries {
   @Override
   public Optional<OrderViewModel.Order> getOrder(String id) {
     var query = entityManager.createNativeQuery("""
-          SELECT o.id as orderNumber, o.order_date as date, o.description, o.city, o.country, o.state, o.street,
-            o.zip_code as zipCode, o.order_status_id as status,
-            oi.product_name, oi.units, oi.unit_price as unitPrice, oi.picture_url as pictureUrl
+          SELECT cast(o.id as varchar) as orderNumber, o.order_date as date, o.description, o.city, o.country, o.state, o.street,
+            o.zip_code as zipCode, o.order_status as status,
+            oi.product_name as productName, oi.units, oi.unit_price as unitPrice, oi.picture_url as pictureUrl
           FROM orders o
           LEFT JOIN order_item oi on o.id = oi.order_id
           WHERE o.id = ?1
-        """).setParameter(1, id);
+        """).setParameter(1, UUID.fromString(id));
 
     return isNotEmpty(query.getResultList())
         ? Optional.of(toOrder(query.getResultList()))
@@ -37,27 +36,16 @@ public class OrderQueriesImpl implements OrderQueries {
   @Override
   public List<OrderViewModel.OrderSummary> getOrdersFromUser(String userId) {
     var query = entityManager.createNativeQuery("""
-        SELECT o.id as orderNumber, o.order_date as date, o.order_status_id as status, sum(oi.units * oi.unit_price) as total
+        SELECT cast(o.id as varchar) as orderNumber, o.order_date as date, o.order_status as status, sum(oi.units * oi.unit_price) as total
         FROM orders o
         LEFT JOIN order_item oi ON o.id = oi.order_id
         LEFT JOIN buyer ob on o.buyer_id = ob.id
-        WHERE ob.user_id = ?1
-        GROUP BY o.id, o.order_date, o.order_status_id
+        WHERE ob.user_id = :userId
+        GROUP BY o.id, o.order_date, o.order_status
         ORDER BY o.id
-        """).setParameter(1, userId);
+        """).setParameter("userId", userId);
 
     return toOrderSummaries(query.getResultList());
-  }
-
-  @Override
-  public List<OrderViewModel.CardType> getCardTypes() {
-    // TODO HD create db tables
-//    var query = entityManager.createNativeQuery(
-//        "SELECT * FROM cardtypes",
-//        OrderViewModel.CardType.class
-//    );
-//    return (List<OrderViewModel.CardType>) query.getResultList();
-    return Collections.emptyList();
   }
 
   private List<OrderViewModel.OrderSummary> toOrderSummaries(List<Object[]> result) {
@@ -65,7 +53,7 @@ public class OrderQueriesImpl implements OrderQueries {
         .map(r -> {
           var id = (String) r[0];
           var date = (Timestamp) r[1];
-          var status = (Integer) r[2];
+          var status = (String) r[2];
           var total = (Double) r[3];
 
           return new OrderViewModel.OrderSummary(
@@ -102,7 +90,7 @@ public class OrderQueriesImpl implements OrderQueries {
     var state = (String) orderDetails[5];
     var street = (String) orderDetails[6];
     var zipCode = (String) orderDetails[7];
-    var status = (Integer) orderDetails[8];
+    var status = (String) orderDetails[8];
 
     var total = orderItems.stream()
         .map(item -> item.units() * item.unitPrice())

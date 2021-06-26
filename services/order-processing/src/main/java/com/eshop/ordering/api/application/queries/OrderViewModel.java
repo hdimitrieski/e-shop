@@ -4,7 +4,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public final class OrderViewModel {
-  private OrderViewModel() {}
+  private OrderViewModel() {
+  }
 
   public record OrderItem(
       String productName,
@@ -17,7 +18,7 @@ public final class OrderViewModel {
   public record Order(
       String orderNumber,
       LocalDateTime date,
-      Integer status,
+      String status,
       String description,
       String street,
       String city,
@@ -32,11 +33,9 @@ public final class OrderViewModel {
   public record OrderSummary(
       String orderNumber,
       LocalDateTime date,
-      Integer status, // TODO HD String
+      String status,
       Double total
   ) {
   }
 
-  public record CardType(Integer id, String name) {
-  }
 }

@@ -53,7 +53,7 @@ public class BasketServiceImpl implements BasketService {
         basketCheckout.getCardHolderName(),
         basketCheckout.getCardExpiration(),
         basketCheckout.getCardSecurityNumber(),
-        basketCheckout.getCardTypeId(),
+        basketCheckout.getCardType(),
         basketCheckout.getBuyer(),
         basketCheckout.getRequestId(),
         basket

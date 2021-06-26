@@ -6,7 +6,6 @@ import com.eshop.ordering.api.application.queries.OrderQueries;
 import com.eshop.ordering.api.application.queries.OrderViewModel;
 import com.eshop.ordering.api.infrastructure.commandbus.CommandBus;
 import com.eshop.ordering.api.infrastructure.services.IdentityService;
-import com.eshop.shared.rest.error.BadRequestException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +13,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.UUID;
 

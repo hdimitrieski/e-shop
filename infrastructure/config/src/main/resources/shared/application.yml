@@ -12,8 +12,9 @@ app:
       user-name-attribute: preferred_username
     audience:
       analytics: analytics-service
-      order: orders-service
+      order: order-service
       basket: basket-service
+      catalog: catalog-service
   eureka:
     host: localhost
     port: 8761
@@ -55,7 +56,8 @@ spring:
         productPriceChanges: product-price-changes
         paidOrders: paid-orders
         ordersWaitingForValidation: orders-waiting-for-validation
-        orderStockStatuses: order-stock-statuses
+        orderStockConfirmed: order-stock-confirmed
+        orderStockRejected: order-stock-rejected
         submittedOrders: submitted-orders
         shippedOrders: shipped-orders
         cancelledOrders: cancelled-orders

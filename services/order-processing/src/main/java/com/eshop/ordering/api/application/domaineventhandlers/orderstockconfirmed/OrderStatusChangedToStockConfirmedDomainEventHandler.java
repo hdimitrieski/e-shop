@@ -26,10 +26,9 @@ public class OrderStatusChangedToStockConfirmedDomainEventHandler implements Dom
   @EventListener
   public void handle(OrderStatusChangedToStockConfirmedDomainEvent event) {
     logger.info(
-        "Order with Id: {} has been successfully updated to status {} ({})",
+        "Order with Id: {} has been successfully updated to status {}",
         event.orderId(),
-        OrderStatus.StockConfirmed,
-        OrderStatus.StockConfirmed.getId()
+        OrderStatus.StockConfirmed
     );
 
     var order = orderApplicationService.findOrder(event.orderId());

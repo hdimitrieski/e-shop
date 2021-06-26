@@ -1,0 +1,20 @@
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th scope="col">#</th>
+    <th scope="col">Order Number</th>
+    <th scope="col">Order Date</th>
+    <th scope="col">Status</th>
+    <th scope="col">Total Price</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let order of (orders$ | async); index as i">
+    <th scope="row">{{ i + 1 }}</th>
+    <td><a [routerLink]="['/orders', order.orderNumber]">{{order.orderNumber}}</a></td>
+    <td>{{ order.date | date : 'yyyy/MM/dd hh:mm:ss' }}</td>
+    <td>{{ order.status }}</td>
+    <td>{{ order.total | number:'.2-2' }}</td>
+  </tr>
+  </tbody>
+</table>

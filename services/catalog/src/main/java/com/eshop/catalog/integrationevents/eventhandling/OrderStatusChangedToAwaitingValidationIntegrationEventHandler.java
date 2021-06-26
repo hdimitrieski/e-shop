@@ -21,8 +21,10 @@ public class OrderStatusChangedToAwaitingValidationIntegrationEventHandler {
 
   private final CatalogItemRepository catalogItemRepository;
   private final IntegrationEventService integrationEventService;
-  @Value("${spring.kafka.consumer.topic.orderStockStatuses}")
-  private String orderStockStatusesTopic;
+  @Value("${spring.kafka.consumer.topic.orderStockConfirmed}")
+  private String orderStockConfirmedTopic;
+  @Value("${spring.kafka.consumer.topic.orderStockRejected}")
+  private String orderStockRejectedTopic;
 
   @KafkaListener(
       groupId = "orders-waiting-validation-group",
@@ -38,11 +40,16 @@ public class OrderStatusChangedToAwaitingValidationIntegrationEventHandler {
             confirmedOrderStockItems.add(createConfirmedOrderStockItem(catalogItem, orderStockItem)))
     );
 
-    var confirmedIntegrationEvent = allItemsAvailable(confirmedOrderStockItems)
-        ? new OrderStockConfirmedIntegrationEvent(event.getOrderId())
-        : new OrderStockRejectedIntegrationEvent(event.getOrderId(), confirmedOrderStockItems);
+    if (allItemsAvailable(confirmedOrderStockItems)) {
+      integrationEventService.saveEventAndCatalogContextChanges(
+          orderStockConfirmedTopic,
+          new OrderStockConfirmedIntegrationEvent(event.getOrderId())
+      );
+    } else {
+      integrationEventService.saveEventAndCatalogContextChanges(orderStockRejectedTopic,
+          new OrderStockRejectedIntegrationEvent(event.getOrderId(), confirmedOrderStockItems));
+    }
 
-    integrationEventService.saveEventAndCatalogContextChanges(orderStockStatusesTopic, confirmedIntegrationEvent);
   }
 
   private ConfirmedOrderStockItem createConfirmedOrderStockItem(CatalogItem catalogItem, OrderStockItem orderStockItem) {

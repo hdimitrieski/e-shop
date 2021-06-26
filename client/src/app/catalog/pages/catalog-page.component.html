@@ -1,9 +1,22 @@
-<es-filter (filterSubmitted)='getFormValues($event)'></es-filter>
-<es-pagination 
-  [page]="catalogPage"
-  (previousClickEvent)="onPreviousClick()"
-  (nextClickEvent)="onNextClick()"
-></es-pagination>
+<es-filter
+  [types]="catalogTypes$ | async"
+  [brands]="catalogBrands$ | async"
+  (filterSubmitted)='onFilterSubmitted($event)'
+></es-filter>
+<h4 class="p-3">Top 5 Products</h4>
+<es-top-five-catalog-items
+  [catalogItems]="topFiveCatalogItems"
+  (addItemToCart)="onAddItemToCart($event)"
+></es-top-five-catalog-items>
+<h4 class="p-3">Product Catalog</h4>
 <es-catalog
-  [catalogItems]="catalogPage?.content"
+  *ngIf="catalogPage"
+  [catalogItems]="catalogPage.content"
+  (addItemToCart)="onAddItemToCart($event)"
 ></es-catalog>
+<es-pagination
+  class="d-flex justify-content-center p-2"
+  *ngIf="catalogPage"
+  [page]="catalogPage"
+  (pageChanged)="onPageChanged($event)"
+></es-pagination>
