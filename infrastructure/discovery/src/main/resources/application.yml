@@ -1,0 +1,5 @@
+# Logging
+logging:level:
+  com.netflix:
+    eureka: INFO
+    discovery: INFO

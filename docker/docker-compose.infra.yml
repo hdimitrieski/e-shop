@@ -1,0 +1,56 @@
+version: '3.9'
+
+services:
+  config:
+    build: ../infrastructure/config
+    networks:
+      - eshopnet
+    ports:
+      - 8888:8888
+    restart: on-failure
+    environment:
+      SPRING_PROFILES_ACTIVE: docker,native
+      CONFIG_SERVICE_USER: ${CONFIG_SERVICE_USER}
+      CONFIG_SERVICE_PASSWORD: ${CONFIG_SERVICE_PASSWORD}
+      CONFIG_KEYSTORE_PASSWORD: ${CONFIG_KEYSTORE_PASSWORD}
+      CONFIG_KEY_PASSWORD: ${CONFIG_KEY_PASSWORD}
+      EUREKA_USER: ${EUREKA_USER}
+      RABBIT_USER: ${RABBIT_USER}
+      POSTGRES_USER: ${POSTGRES_USER}
+
+  discovery:
+    build: ../infrastructure/discovery
+    networks:
+      - eshopnet
+    ports:
+      - 8761:8761
+    restart: on-failure
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      CONFIG_SERVICE_USER: ${CONFIG_SERVICE_USER}
+      CONFIG_SERVICE_PASSWORD: ${CONFIG_SERVICE_PASSWORD}
+      EUREKA_USER: ${EUREKA_USER}
+      RABBIT_USER: ${RABBIT_USER}
+    depends_on:
+      - config
+
+  gateway:
+    build: ../infrastructure/gateway
+    networks:
+      - eshopnet
+    ports:
+      - 8082:8080
+    restart: on-failure
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      CONFIG_SERVICE_USER: ${CONFIG_SERVICE_USER}
+      CONFIG_SERVICE_PASSWORD: ${CONFIG_SERVICE_PASSWORD}
+      EUREKA_USER: ${EUREKA_USER}
+      RABBIT_USER: ${RABBIT_USER}
+    depends_on:
+      - config
+      - discovery
+
+networks:
+  eshopnet:
+    driver: bridge

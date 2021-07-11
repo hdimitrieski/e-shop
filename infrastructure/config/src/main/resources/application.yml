@@ -2,14 +2,24 @@ server:
   port: 8888
 
 app:
+  config:
+    user: cfguser
+    password: cfgpassword
   logstash:
     host: localhost
     port: 5044
+  rabbitmq:
+    host: localhost
+    port: 5672
+    user: guest
+    password: guest
 
 spring:
   application:
     name: config
   cloud:
+    profiles:
+      active: native
     config:
       server:
         native:
@@ -20,14 +30,46 @@ spring:
         enabled: true
       trace:
         enabled: true
-  profiles:
-    active: native
   security:
     user:
-      name: cfguser
-      password: cfgpassword
+      name: ${app.config.user}
+      password: ${app.config.password}
+
+  # Rabbit
+  rabbitmq:
+    host: ${app.rabbitmq.host}
+    port: ${app.rabbitmq.port}
+    username: ${app.rabbitmq.user}
+    password: ${app.rabbitmq.password}
+
+  zipkin:
+    enabled: false
+  sleuth:
+    enabled: false
 
 # Logging
 logging:
   level:
     root: info
+
+---
+spring:
+  config:
+    activate:
+      on-profile: docker
+
+  cloud:
+    config:
+      encrypt:
+        enabled: true
+
+app:
+  config:
+    user: ${CONFIG_SERVICE_USER}
+    password: ${CONFIG_SERVICE_PASSWORD}
+  logstash:
+    host: logstash
+  rabbitmq:
+    host: rabbitmq
+    user: ${RABBIT_USER}
+    password: '{cipher}AQBZ1SxHRW2RTvGQr2Q6VuMy5gsQ8k+q+K/Iq2glQQj8frvqpLqz4JAsPI4u/1YXCiP2Z3v2bW05PaddhPZXN0lOeUU1llRU7Hu13GMCCi0Wd8sDqHAxbtY5uh7wKTto99ABfuBbIB0E0xRrLbPl3o3ZZrc0bHHSEUjlLlTNF4rMbKLmMNe+m2plm6wsumfv73dYhES3Dw248gL1ogW6LnvQlgjiirE44psnCpJpqShILsS9oDPv5h5N8qgaNjW7nY7FdaiR0pfHZ1bK5sX1LrxuYrPeNqfmBJifYgon8haJFCYEBOUZYUeTecUAYfchYXh22wpKeWOanWeDG7a/ORizqPXbEexOv304feEq6oqhfgXXPrB+Os5DMyZrnUFNBKs='

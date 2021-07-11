@@ -29,7 +29,7 @@ export class CatalogService {
   }
 
   fetchTopFive(): Observable<CatalogItem[]> {
-    return this.http.get<CatalogItem[]>(`${environment.apiUrl}api/v1/catalog/topfive`);
+    return this.http.get<CatalogItem[]>(`${environment.apiUrl}/api/v1/catalog/topfive`);
   }
 
 }

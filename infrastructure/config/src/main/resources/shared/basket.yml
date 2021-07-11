@@ -3,6 +3,7 @@ app:
   redis:
     host: localhost
     port: 6379
+    password: pass
 
 spring:
   # Security
@@ -22,7 +23,7 @@ spring:
 
   # Redis
   redis:
-    password: pass
+    password: ${app.redis.password}
     host: ${app.redis.host}
     port: ${app.redis.port}
 
@@ -37,10 +38,13 @@ test:
   name: "Test 10"
   phone: "007"
 
-logging:
-  level:
-    org:
-      springframework:
-        transaction: trace
-      kafka:
-        transaction: debug
+---
+spring:
+  config:
+    activate:
+      on-profile: docker
+
+app:
+  redis:
+    host: redis
+    password: '{cipher}AQACT6GoyRhsNe5S/wO1rQ7YgVJvTnP7EACwFq3wcGhfqJ28pH7//3/BirnmBq5nnriwaYi8Apiy6ttCZpTbCLfYIMTN+7ovAhzNZcJhXVLKcK7Xauq/2fM7mmXnP7QQzt6o00iN05P4mgnNAlwmaBnTodvEaNLUyvW4+VrcwhuUpx83WTDAd/qbR4HkIOiNjzmtIXno2VnRk50+1j8HpSbH7nlpGogDkM0p/KlCuK+mlM9FvjSn96z2awGf/KDwQIkfT6O9qQPxQCC2/3T5qK3D54zQ12048ZYOhj9AQFfx3yaWqxp3etvi27J7G32V9TGU2ZsF72wwfIasP6LKv3cCTx2aoF4HrneGoQEN0Ildt1S/fxFy2VuGeHcPU/NkFio='

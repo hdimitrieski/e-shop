@@ -19,3 +19,15 @@ spring:
     username: ${app.postgres.username}
     password: ${app.postgres.password}
     driver-class-name: org.postgresql.Driver
+
+---
+spring:
+  config:
+    activate:
+      on-profile: docker
+
+app:
+  postgres:
+    host: postgres
+    user: ${POSTGRES_USER}
+    password: '{cipher}AQArKJP0MfvNDICiRayj1wWpyWWcbbqzqIta5I7V2+7id1q1Infg4Ks0wgdyk+dK6gDTe1OK1PCU8gJW2jdiqRXCYyUHef12GbCQX1VQi+FoRrfBXhD2tCcnhOY6KDE4UnlLoukH35I9tFf2ZXT07zjhKSPNDt88PEsKxAmqfq4XZ8UCQ/JEWKWumA+ZbaXgRP2BOZSMvBBEN59OzpbHV1r24trm1JAG++z5Zm6Yr9yjQU/mgWxIgxnXlDVQqEimTG8oqsBg/EKBMdFWaJuyh8T/1bGxuigMIS7JOsCvkoSSXpJ7cWyylKJ5ApjiG5ZlBvs8Wu7JGOp09iTWt0bHqpbn6raLv/3gcSqaE8L1iX1wvgDn89ve+V1JHIKxhewIQ0g='

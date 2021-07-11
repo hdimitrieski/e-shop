@@ -1,0 +1,8 @@
+# Logging
+logging:
+  level:
+    org:
+      springframework:
+        transaction: INFO
+      kafka:
+        transaction: INFO

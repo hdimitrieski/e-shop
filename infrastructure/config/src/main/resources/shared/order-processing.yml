@@ -4,6 +4,8 @@ app:
     host: localhost
     port: 5432
     database: dborders
+    user: dbuser
+    password: dbpass
 
 spring:
   # Security
@@ -21,6 +23,18 @@ spring:
   # Postgres
   datasource:
     url: jdbc:postgresql://${app.postgres.host}:${app.postgres.port}/${app.postgres.database}
-    username: dbuser
-    password: dbpass
+    username: ${app.postgres.user}
+    password: ${app.postgres.password}
     driver-class-name: org.postgresql.Driver
+
+---
+spring:
+  config:
+    activate:
+      on-profile: docker
+
+app:
+  postgres:
+    host: postgres
+    user: ${POSTGRES_USER}
+    password: '{cipher}AQAJNyULQNNKatK+ha3nMYeDC6OgAdSmbI4uS5YiznUsZ2/u2mejSrOGQNUMJLh0m9ZNZe1z5mAYZREu7nDer7aY14zU/zKrKwPuH/i3eZBBRVKw5TEX6Ed9omzzRlyytjUdGb+2OgfufkSM80tODlUCUoHr9klmobpfSlg3u97TNImRWDx1FbR8WJYJfb8abvROmKIjOW6drJqZlpaRfelG8xYFhQ4HPVAfo/rQYPPKLshQPQndWJ4/Jr2yMFo4tlchAtS+9C6kMjWoIk7JKO4nudks1iBZA6RznoYpR3PqU1axNqH4pDxfFSypMR7ck5PF+knf6aaxT6Fc4mASMvsRyb3axN5utkH0NGMsHJlfjznKpE8bOxwQEk9w9SNfijI='

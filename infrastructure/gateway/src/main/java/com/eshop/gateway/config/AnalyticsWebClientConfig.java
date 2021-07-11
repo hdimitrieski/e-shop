@@ -14,7 +14,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 @LoadBalancerClient(value = "analytics", configuration = RoundRobinLoadBalancerConfig.class)
 public class AnalyticsWebClientConfig {
 
-  @Value("${app.security.oauth2.client.analytics}")
+  @Value("${app.security.oauth2.client.analytics.id}")
   private String analyticsClientId;
 
   @LoadBalanced

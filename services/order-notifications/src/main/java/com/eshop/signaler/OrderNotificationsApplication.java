@@ -6,10 +6,10 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
 @SpringBootApplication(scanBasePackages = "com.eshop")
 @EnableEurekaClient
-public class SignalerApplication {
+public class OrderNotificationsApplication {
 
   public static void main(String[] args) {
-    SpringApplication.run(SignalerApplication.class, args);
+    SpringApplication.run(OrderNotificationsApplication.class, args);
   }
 
 }

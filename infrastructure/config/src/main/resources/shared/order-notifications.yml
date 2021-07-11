@@ -7,13 +7,3 @@ spring:
         jwt:
           jwk-set-uri: ${app.auth-server.jwk-set-uri}
           issuer-uri: ${app.auth-server.issuer-uri}
-
-logging:
-  level:
-    org:
-      springframework:
-        web: INFO
-        security: DEBUG
-    web: INFO
-    root: INFO
-

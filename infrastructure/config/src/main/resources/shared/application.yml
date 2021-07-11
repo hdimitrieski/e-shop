@@ -19,7 +19,7 @@ app:
     host: localhost
     port: 8761
     user: user
-    pass: pass
+    pass: password
   kafka:
     broker:
       host: localhost
@@ -27,6 +27,8 @@ app:
   rabbitmq:
     host: localhost
     port: 5672
+    user: guest
+    password: guest
   auth-server:
     host: localhost
     port: 8090
@@ -41,12 +43,11 @@ app:
 spring:
   # Kafka
   kafka:
+    bootstrap-servers: ${app.kafka.broker.host}:${app.kafka.broker.port}
     producer:
       properties:
         spring.json.add.type.headers: false
-      bootstrap-servers: ${app.kafka.broker.host}:${app.kafka.broker.port}
     consumer:
-      bootstrap-servers: ${app.kafka.broker.host}:${app.kafka.broker.port}
       auto-offset-reset: earliest
       properties:
         isolation.level: read_committed
@@ -69,8 +70,8 @@ spring:
   rabbitmq:
     host: ${app.rabbitmq.host}
     port: ${app.rabbitmq.port}
-    username: guest
-    password: guest
+    username: ${app.rabbitmq.user}
+    password: ${app.rabbitmq.password}
 
   cloud:
     # As Spring Cloud Ribbon is in maintenance mode.
@@ -83,15 +84,13 @@ spring:
   sleuth:
     enabled: false
 
-
-
 # Service discovery
 eureka:
   instance:
-    prefer-ip-address: true
+    prefer-ip-address: false
     instance-id: ${spring.application.name}:${random.int}
 #    instance-id: ${spring.application.name}
-    hostname: localhost
+    hostname: ${app.eureka.host}
   client:
     fetch-registry: true
     serviceUrl:
@@ -100,21 +99,16 @@ eureka:
       enabled: true
 
 # Management
-#management:
-#  endpoints:
-#    web:
-#      exposure:
-#        include: "*"
-
-# Logging
-logging:
-  level:
-    org:
-      springframework:
-        web: DEBUG
-        security: INFO
-    web: INFO
-    root: INFO
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    shutdown:
+      enabled: false
+    health:
+      show-details: ALWAYS
 
 ---
 # Distributed tracing
@@ -132,9 +126,36 @@ spring:
     enabled: true
     sender.type: rabbit
 
-
-
 sample:
   zipkin:
     # When enabled=false, traces log to the console. Comment to send to zipkin
     enabled: false
+
+---
+spring:
+  config:
+    activate:
+      on-profile: docker
+
+app:
+  eureka:
+    host: discovery
+    user: ${EUREKA_USER}
+    pass: '{cipher}AQAERvsiEvV0z4nUfpzdjEc4jinmC8UPohZrXbWk0dKFpuxJshF75u1FW7i4bN5XdK5h1AmEXzMNz4s+KcGtJI0OEG6qMA6asazFSkmK1MkZ3voVExPnDG6NB7urRhA8/QCPJSsWm1iaQv74+NAi1wMTCJbt3rstrLgSE9ZbJOkInID4xkHYBHsUKkmW9+iQz47DW1YCgAHwmTIjxXjOJ4dYJdeJNPby4OF1xgAOX6YCjpoJrENq0DFNBWiY5pKPK6M80f6e19JxbFjJUe3mft+3Zy88NNN/dq5pzCW59vOlLMoHSuo/SzLqxeIlOCwunQHcC2424DZd4jWdCiJ7Gyu5sF2UKWtU5J6+fhQMeTSjiyHRgZxfgsQppOg/rQ4oXqo='
+  kafka:
+    broker:
+      host: kafka
+      port: 29092
+  rabbitmq:
+    host: rabbitmq
+    user: ${RABBIT_USER}
+    password: '{cipher}AQBZ1SxHRW2RTvGQr2Q6VuMy5gsQ8k+q+K/Iq2glQQj8frvqpLqz4JAsPI4u/1YXCiP2Z3v2bW05PaddhPZXN0lOeUU1llRU7Hu13GMCCi0Wd8sDqHAxbtY5uh7wKTto99ABfuBbIB0E0xRrLbPl3o3ZZrc0bHHSEUjlLlTNF4rMbKLmMNe+m2plm6wsumfv73dYhES3Dw248gL1ogW6LnvQlgjiirE44psnCpJpqShILsS9oDPv5h5N8qgaNjW7nY7FdaiR0pfHZ1bK5sX1LrxuYrPeNqfmBJifYgon8haJFCYEBOUZYUeTecUAYfchYXh22wpKeWOanWeDG7a/ORizqPXbEexOv304feEq6oqhfgXXPrB+Os5DMyZrnUFNBKs='
+  auth-server:
+    host: authorization-service
+    port: 8090
+  logstash:
+    host: logstash
+
+eureka:
+  instance:
+    prefer-ip-address: true

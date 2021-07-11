@@ -79,3 +79,12 @@ spring:
                 default.key.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
                 default.value.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
                 commit.interval.ms: 1000
+
+---
+spring:
+  config:
+    activate:
+      on-profile: docker
+
+app:
+  host: analytics

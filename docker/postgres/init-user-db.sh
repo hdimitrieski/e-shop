@@ -12,3 +12,9 @@ psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" <<-EOSQL
     GRANT ALL PRIVILEGES ON DATABASE dborders TO dbuser;
     ALTER DATABASE dborders SET TIMEZONE='Europe/Amsterdam';
 EOSQL
+
+psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" <<-EOSQL
+    CREATE DATABASE keycloak;
+    GRANT ALL PRIVILEGES ON DATABASE keycloak TO dbuser;
+    ALTER DATABASE keycloak SET TIMEZONE='Europe/Amsterdam';
+EOSQL

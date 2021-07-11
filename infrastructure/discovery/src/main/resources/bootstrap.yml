@@ -1,12 +1,32 @@
 server:
   port: 8761
 
+app:
+  config:
+    host: localhost
+    port: 8888
+    user: cfguser
+    password: cfgpassword
+
 spring:
   application:
     name: discovery
   cloud:
     config:
-      uri: http://localhost:8888
+      uri: http://${app.config.host}:${app.config.port}
       fail-fast: true
-      password: cfgpassword
-      username: cfguser
+      username: ${app.config.user}
+      password: ${app.config.password}
+
+---
+spring:
+  config:
+    activate:
+      on-profile: docker
+
+app:
+  config:
+    host: config
+    port: 8888
+    user: ${CONFIG_SERVICE_USER}
+    password: ${CONFIG_SERVICE_PASSWORD}

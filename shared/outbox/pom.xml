@@ -13,9 +13,6 @@
     <name>outbox</name>
     <packaging>jar</packaging>
 
-    <properties>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>com.eshop</groupId>
@@ -45,19 +42,4 @@
             <optional>true</optional>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <release>15</release>
-                    <source>15</source>
-                    <target>15</target>
-                    <compilerArgs>--enable-preview</compilerArgs>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 </project>

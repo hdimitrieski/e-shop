@@ -1,0 +1,98 @@
+version: '3.9'
+
+services:
+
+  catalog:
+    build: ../services/catalog
+    networks:
+      - eshopnet
+    restart: on-failure
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      CONFIG_SERVICE_USER: ${CONFIG_SERVICE_USER}
+      CONFIG_SERVICE_PASSWORD: ${CONFIG_SERVICE_PASSWORD}
+      EUREKA_USER: ${EUREKA_USER}
+      RABBIT_USER: ${RABBIT_USER}
+      POSTGRES_USER: ${POSTGRES_USER}
+
+  basket:
+    build: ../services/basket
+    networks:
+      - eshopnet
+    restart: on-failure
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      CONFIG_SERVICE_USER: ${CONFIG_SERVICE_USER}
+      CONFIG_SERVICE_PASSWORD: ${CONFIG_SERVICE_PASSWORD}
+      EUREKA_USER: ${EUREKA_USER}
+      RABBIT_USER: ${RABBIT_USER}
+      POSTGRES_USER: ${POSTGRES_USER}
+
+  order-processing:
+    build: ../services/order-processing
+    networks:
+      - eshopnet
+    restart: on-failure
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      CONFIG_SERVICE_USER: ${CONFIG_SERVICE_USER}
+      CONFIG_SERVICE_PASSWORD: ${CONFIG_SERVICE_PASSWORD}
+      EUREKA_USER: ${EUREKA_USER}
+      RABBIT_USER: ${RABBIT_USER}
+      POSTGRES_USER: ${POSTGRES_USER}
+
+  payment:
+    build: ../services/payment
+    networks:
+      - eshopnet
+    restart: on-failure
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      CONFIG_SERVICE_USER: ${CONFIG_SERVICE_USER}
+      CONFIG_SERVICE_PASSWORD: ${CONFIG_SERVICE_PASSWORD}
+      EUREKA_USER: ${EUREKA_USER}
+      RABBIT_USER: ${RABBIT_USER}
+      POSTGRES_USER: ${POSTGRES_USER}
+
+  order-grace-period-task:
+    build: ../services/order-grace-period-task
+    networks:
+      - eshopnet
+    restart: on-failure
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      CONFIG_SERVICE_USER: ${CONFIG_SERVICE_USER}
+      CONFIG_SERVICE_PASSWORD: ${CONFIG_SERVICE_PASSWORD}
+      EUREKA_USER: ${EUREKA_USER}
+      RABBIT_USER: ${RABBIT_USER}
+      POSTGRES_USER: ${POSTGRES_USER}
+
+  order-notifications:
+    build: ../services/order-notifications
+    networks:
+      - eshopnet
+    restart: on-failure
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      CONFIG_SERVICE_USER: ${CONFIG_SERVICE_USER}
+      CONFIG_SERVICE_PASSWORD: ${CONFIG_SERVICE_PASSWORD}
+      EUREKA_USER: ${EUREKA_USER}
+      RABBIT_USER: ${RABBIT_USER}
+      POSTGRES_USER: ${POSTGRES_USER}
+
+  analytics:
+    build: ../services/analytics
+    networks:
+      - eshopnet
+    restart: on-failure
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      CONFIG_SERVICE_USER: ${CONFIG_SERVICE_USER}
+      CONFIG_SERVICE_PASSWORD: ${CONFIG_SERVICE_PASSWORD}
+      EUREKA_USER: ${EUREKA_USER}
+      RABBIT_USER: ${RABBIT_USER}
+      POSTGRES_USER: ${POSTGRES_USER}
+
+networks:
+  eshopnet:
+    driver: bridge

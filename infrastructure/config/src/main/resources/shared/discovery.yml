@@ -2,13 +2,19 @@
 # Eureka server
 eureka:
   datacenter: Test Data Center
-  environment: pevelopment
+  environment: development
   client:
     register-with-eureka: false
     fetch-registry: false
 
-# Logging
-logging:level:
-  com.netflix:
-    eureka: DEBUG
-    discovery: DEBUG
+---
+spring:
+  config:
+    activate:
+      on-profile: docker
+
+eureka:
+  datacenter: Docker Data Center
+  environment: docker
+  instance:
+    preferIpAddress: true

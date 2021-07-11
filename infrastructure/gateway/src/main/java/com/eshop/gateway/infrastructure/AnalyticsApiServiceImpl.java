@@ -19,7 +19,7 @@ import static org.springframework.security.oauth2.client.web.reactive.function.c
 public class AnalyticsApiServiceImpl implements AnalyticsApiService {
   private final WebClient.Builder analyticsWebClient;
 
-  @Value("${app.security.oauth2.client.analytics}")
+  @Value("${app.security.oauth2.client.analytics.id}")
   private String analyticsClientId;
 
   // TODO Fallback: Get first five catalog items
