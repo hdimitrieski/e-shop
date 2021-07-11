@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CustomerBasket, OrderDraft } from '../../models';
 import { tap } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class OrderDraftService {
@@ -20,7 +21,7 @@ export class OrderDraftService {
   }
 
   createDraft(customerBasket: CustomerBasket): Observable<OrderDraft> {
-    return this.http.post<OrderDraft>(`/api/v1/orders/draft`, customerBasket).pipe(
+    return this.http.post<OrderDraft>(`${environment.apiUrl}/api/v1/orders/draft`, customerBasket).pipe(
       tap(draft => this.orderDraft = draft)
     );
   }

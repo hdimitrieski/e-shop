@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { AuthenticationService } from '../../core/services/authentication.service';
 import { map, switchMap } from 'rxjs/operators';
 import { v4 as uuid } from 'uuid';
+import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class CheckoutService {
@@ -19,7 +20,7 @@ export class CheckoutService {
       })),
       switchMap(checkoutRequest =>
         this.http.post<void>(
-          '/api/v1/basket/checkout',
+          `${environment.apiUrl}/api/v1/basket/checkout`,
           checkoutRequest,
           {
             headers: {

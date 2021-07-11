@@ -1,0 +1,12 @@
+app:
+  gateway:
+    allowed-client-address: http://localhost:4200
+
+logging:
+  level:
+    root: INFO
+    web: INFO
+    org.springframework:
+      cloud.gateway: TRACE
+      cloud.gateway.route.RouteDefinitionRouteLocator: INFO
+      web.server.adapter.HttpWebHandlerAdapter: TRACE

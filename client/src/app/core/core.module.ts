@@ -12,6 +12,7 @@ import { NotificationsComponent } from './components/notifications/notifications
 import { BrowserModule } from '@angular/platform-browser';
 import { HeaderComponent } from './components/header/header.component';
 import { RouterModule } from '@angular/router';
+import { environment } from '../../environments/environment';
 
 function initializeOAuth(
   oAuthService: OAuthService,
@@ -39,7 +40,8 @@ function initializeOAuth(
     HttpClientModule,
     OAuthModule.forRoot({
       resourceServer: {
-        allowedUrls: ['/api/v1/basket', '/api/v1/orders'],
+        allowedUrls: ['/api/v1/basket', '/api/v1/orders']
+          .map(path => `${environment.apiUrl}${path}`),
         sendAccessToken: true
       }
     }),

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { BasketItem, CustomerBasket } from '../../models';
+import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class BasketService {
@@ -28,7 +29,7 @@ export class BasketService {
   }
 
   getBasket(customerId: string): Observable<CustomerBasket> {
-    return this.http.get<CustomerBasket>(`/api/v1/basket/${customerId}`).pipe(
+    return this.http.get<CustomerBasket>(`${environment.apiUrl}/api/v1/basket/${customerId}`).pipe(
       tap(basket => this.customerBasket = basket),
       catchError(() => of(this.emptyBasket()))
     );
@@ -47,13 +48,13 @@ export class BasketService {
         }))
     };
 
-    return this.http.put<CustomerBasket>('/api/v1/basket/items', basketItemUpdates).pipe(
+    return this.http.put<CustomerBasket>(`${environment.apiUrl}/api/v1/basket/items`, basketItemUpdates).pipe(
       tap(basket => this.customerBasket = basket)
     );
   }
 
   deleteBasket() {
-    return this.http.delete(`/api/v1/basket/${this.customerBasket.buyerId}`).pipe(
+    return this.http.delete(`${environment.apiUrl}/api/v1/basket/${this.customerBasket.buyerId}`).pipe(
       tap(() => this.customerBasket = this.emptyBasket(this.customerBasket.buyerId))
     );
   }
@@ -69,7 +70,7 @@ export class BasketService {
   }
 
   private updateBasket(basketItems: CustomerBasket): Observable<CustomerBasket> {
-    return this.http.post<CustomerBasket>('/api/v1/basket', basketItems).pipe(
+    return this.http.post<CustomerBasket>(`${environment.apiUrl}/api/v1/basket`, basketItems).pipe(
       tap(basket => this.customerBasket = basket)
     );
   }
