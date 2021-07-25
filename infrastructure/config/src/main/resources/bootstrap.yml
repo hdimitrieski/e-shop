@@ -1,6 +1,15 @@
 spring:
   config:
     activate:
+      on-profile: dev
+
+encrypt:
+  key: dev-password
+
+---
+spring:
+  config:
+    activate:
       on-profile: docker
 
 encrypt:

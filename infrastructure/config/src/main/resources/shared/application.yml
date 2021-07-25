@@ -152,7 +152,7 @@ app:
     password: '{cipher}AQBZ1SxHRW2RTvGQr2Q6VuMy5gsQ8k+q+K/Iq2glQQj8frvqpLqz4JAsPI4u/1YXCiP2Z3v2bW05PaddhPZXN0lOeUU1llRU7Hu13GMCCi0Wd8sDqHAxbtY5uh7wKTto99ABfuBbIB0E0xRrLbPl3o3ZZrc0bHHSEUjlLlTNF4rMbKLmMNe+m2plm6wsumfv73dYhES3Dw248gL1ogW6LnvQlgjiirE44psnCpJpqShILsS9oDPv5h5N8qgaNjW7nY7FdaiR0pfHZ1bK5sX1LrxuYrPeNqfmBJifYgon8haJFCYEBOUZYUeTecUAYfchYXh22wpKeWOanWeDG7a/ORizqPXbEexOv304feEq6oqhfgXXPrB+Os5DMyZrnUFNBKs='
   auth-server:
     host: authorization-service
-    port: 8090
+    port: 8080
   logstash:
     host: logstash
 
