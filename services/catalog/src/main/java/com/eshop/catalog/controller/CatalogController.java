@@ -1,14 +1,13 @@
 package com.eshop.catalog.controller;
 
-import com.eshop.catalog.model.CatalogBrand;
+import com.eshop.catalog.model.Brand;
 import com.eshop.catalog.model.CatalogItem;
-import com.eshop.catalog.model.CatalogType;
+import com.eshop.catalog.model.Category;
 import com.eshop.catalog.services.CatalogService;
 import com.eshop.shared.rest.error.BadRequestException;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
@@ -69,8 +68,8 @@ public class CatalogController {
             @RequestParam(required = false) Long typeId
     ) {
         logger.info("Find catalog items - page size: {}, page index: {}, brand: {}, type: {}", pageSize, pageIndex, brandId, typeId);
-        final var brand = findCatalogBrand(brandId);
-        final var type = findCatalogType(typeId);
+        final var brand = findBrand(brandId);
+        final var type = findCategory(typeId);
 
         return catalogService.getItems(brand, type, PageRequest.of(pageIndex, pageSize));
     }
@@ -113,9 +112,9 @@ public class CatalogController {
      * @return catalog types
      */
     @RequestMapping("catalogtypes")
-    public Iterable<CatalogType> findAllCatalogTypes() {
+    public Iterable<Category> findAllCategories() {
         logger.info("Find all catalog types");
-        return catalogService.getAllTypes();
+        return catalogService.getAllCategories();
     }
 
     /**
@@ -124,7 +123,7 @@ public class CatalogController {
      * @return catalog brands
      */
     @RequestMapping("catalogbrands")
-    public Iterable<CatalogBrand> findAllCatalogBrands() {
+    public Iterable<Brand> findAllBrands() {
         logger.info("Find all catalog brands");
         return catalogService.getAllBrands();
     }
@@ -151,17 +150,17 @@ public class CatalogController {
         // TODO HD implement
     }
 
-    private CatalogBrand findCatalogBrand(Long id) {
+    private Brand findBrand(Long id) {
         return nonNull(id)
                 ? catalogService.getBrandById(id)
-                .orElseThrow(() -> new BadRequestException("Catalog brand with id: %d does not exist".formatted(id)))
+                .orElseThrow(() -> new BadRequestException("Catalog item brand with id: %d does not exist".formatted(id)))
                 : null;
     }
 
-    private CatalogType findCatalogType(Long id) {
+    private Category findCategory(Long id) {
         return nonNull(id)
-                ? catalogService.getTypeById(id)
-                .orElseThrow(() -> new BadRequestException("Catalog type with id: %d does not exist".formatted(id)))
+                ? catalogService.getCategoryById(id)
+                .orElseThrow(() -> new BadRequestException("Catalog item category with id: %d does not exist".formatted(id)))
                 : null;
     }
 }

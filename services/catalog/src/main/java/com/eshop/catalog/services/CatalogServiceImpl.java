@@ -1,6 +1,5 @@
 package com.eshop.catalog.services;
 
-import com.eshop.catalog.controller.CatalogController;
 import com.eshop.catalog.integrationevents.IntegrationEventService;
 import com.eshop.catalog.integrationevents.events.ProductPriceChangedIntegrationEvent;
 import com.eshop.catalog.model.*;
@@ -18,8 +17,8 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
-import static com.eshop.catalog.services.CatalogSpecification.catalogBrandEqual;
-import static com.eshop.catalog.services.CatalogSpecification.catalogTypeEqual;
+import static com.eshop.catalog.services.CatalogSpecification.itemBrandEqual;
+import static com.eshop.catalog.services.CatalogSpecification.itemCategoryEqual;
 
 @RequiredArgsConstructor
 @Service
@@ -28,8 +27,8 @@ public class CatalogServiceImpl implements CatalogService {
     private static final Logger logger = LoggerFactory.getLogger(CatalogService.class);
 
     private final CatalogItemRepository catalogItemRepository;
-    private final CatalogTypeRepository catalogTypeRepository;
-    private final CatalogBrandRepository catalogBrandRepository;
+    private final CategoryRepository categoryRepository;
+    private final BrandRepository brandRepository;
     private final IntegrationEventService integrationEventService;
 
     @Value("${spring.kafka.consumer.topic.productPriceChanges}")
@@ -46,10 +45,10 @@ public class CatalogServiceImpl implements CatalogService {
     }
 
     @Override
-    public Page<CatalogItem> getItems(CatalogBrand brand, CatalogType type, PageRequest page) {
+    public Page<CatalogItem> getItems(Brand brand, Category category, PageRequest page) {
         logger.info("Load items");
         return catalogItemRepository.findAll(
-                Specification.where(catalogBrandEqual(brand).and(catalogTypeEqual(type))),
+                Specification.where(itemBrandEqual(brand).and(itemCategoryEqual(category))),
                 page
         );
     }
@@ -71,23 +70,23 @@ public class CatalogServiceImpl implements CatalogService {
     }
 
     @Override
-    public Optional<CatalogBrand> getBrandById(Long id) {
-        return catalogBrandRepository.findById(id);
+    public Optional<Brand> getBrandById(Long id) {
+        return brandRepository.findById(id);
     }
 
     @Override
-    public Iterable<CatalogBrand> getAllBrands() {
-        return catalogBrandRepository.findAll();
+    public Iterable<Brand> getAllBrands() {
+        return brandRepository.findAll();
     }
 
     @Override
-    public Optional<CatalogType> getTypeById(Long id) {
-        return catalogTypeRepository.findById(id);
+    public Optional<Category> getCategoryById(Long id) {
+        return categoryRepository.findById(id);
     }
 
     @Override
-    public Iterable<CatalogType> getAllTypes() {
-        return catalogTypeRepository.findAll();
+    public Iterable<Category> getAllCategories() {
+        return categoryRepository.findAll();
     }
 
     private void updateCatalogItem(CatalogItem item, CatalogItem itemFromDb) {

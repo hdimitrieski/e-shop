@@ -7,5 +7,4 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 public interface CatalogItemRepository extends PagingAndSortingRepository<CatalogItem, Long>, JpaSpecificationExecutor<CatalogItem> {
   Page<CatalogItem> findAllByName(String name, Pageable pageable);
-  Page<CatalogItem> findAllByCatalogBrandAndCatalogType(CatalogBrand brand, CatalogType type, Pageable pageable);
 }

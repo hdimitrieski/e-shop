@@ -46,12 +46,12 @@ public class CatalogItem extends AbstractEntity {
     private boolean onReorder = false;
 
     @ManyToOne
-    @JoinColumn(name = "catalog_type_id")
-    private CatalogType catalogType;
+    @JoinColumn(name = "category_id")
+    private Category category;
 
     @ManyToOne
-    @JoinColumn(name = "catalog_brand_id")
-    private CatalogBrand catalogBrand;
+    @JoinColumn(name = "brand_id")
+    private Brand brand;
 
     /**
      * If there is sufficient stock of an item, then the integer returned at the end of this call should be the same as

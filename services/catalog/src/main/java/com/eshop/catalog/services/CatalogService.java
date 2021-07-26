@@ -1,8 +1,8 @@
 package com.eshop.catalog.services;
 
-import com.eshop.catalog.model.CatalogBrand;
+import com.eshop.catalog.model.Brand;
 import com.eshop.catalog.model.CatalogItem;
-import com.eshop.catalog.model.CatalogType;
+import com.eshop.catalog.model.Category;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
@@ -34,11 +34,11 @@ public interface CatalogService {
      * Returns items by given brand and category in given page.
      *
      * @param brand       item brand
-     * @param type        item category
+     * @param category    item category
      * @param pageRequest page
      * @return catalog items
      */
-    Page<CatalogItem> getItems(CatalogBrand brand, CatalogType type, PageRequest pageRequest);
+    Page<CatalogItem> getItems(Brand brand, Category category, PageRequest pageRequest);
 
     /**
      * Returns items by given name in given page.
@@ -62,14 +62,14 @@ public interface CatalogService {
      * @param id brand id
      * @return item brand
      */
-    Optional<CatalogBrand> getBrandById(Long id);
+    Optional<Brand> getBrandById(Long id);
 
     /**
      * Returns available brands.
      *
      * @return items brands
      */
-    Iterable<CatalogBrand> getAllBrands();
+    Iterable<Brand> getAllBrands();
 
     /**
      * Returns category by given id.
@@ -77,12 +77,12 @@ public interface CatalogService {
      * @param id category id
      * @return item category
      */
-    Optional<CatalogType> getTypeById(Long id);
+    Optional<Category> getCategoryById(Long id);
 
     /**
      * Returns available categories.
      *
      * @return item categories
      */
-    Iterable<CatalogType> getAllTypes();
+    Iterable<Category> getAllCategories();
 }

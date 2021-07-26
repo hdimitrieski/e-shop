@@ -22,29 +22,29 @@ import java.util.List;
 public class DataLoader implements ApplicationRunner {
   private static final Logger logger = LoggerFactory.getLogger(DataLoader.class);
 
-  private final CatalogBrandRepository catalogBrandRepository;
-  private final CatalogTypeRepository catalogTypeRepository;
+  private final BrandRepository brandRepository;
+  private final CategoryRepository categoryRepository;
   private final CatalogItemRepository catalogItemRepository;
 
   @Override
   public void run(ApplicationArguments args) {
     logger.info("Inserting test data...");
 
-    if (catalogBrandRepository.findAll().iterator().hasNext()) {
+    if (brandRepository.findAll().iterator().hasNext()) {
       return;
     }
 
-    var brands = Lists.newArrayList(catalogBrandRepository.saveAll(List.of(
-        CatalogBrand.builder().brand("Adidas").build(),
-        CatalogBrand.builder().brand("Endura").build(),
-        CatalogBrand.builder().brand("Etnies").build(),
-        CatalogBrand.builder().brand("Fox").build(),
-        CatalogBrand.builder().brand("Giro").build()
+    var brands = Lists.newArrayList(brandRepository.saveAll(List.of(
+        Brand.builder().name("Adidas").build(),
+        Brand.builder().name("Endura").build(),
+        Brand.builder().name("Etnies").build(),
+        Brand.builder().name("Fox").build(),
+        Brand.builder().name("Giro").build()
     )));
 
-    var types = Lists.newArrayList(catalogTypeRepository.saveAll(List.of(
-        CatalogType.builder().type("Shoes").build(),
-        CatalogType.builder().type("Shirt").build()
+    var types = Lists.newArrayList(categoryRepository.saveAll(List.of(
+        Category.builder().name("Shoes").build(),
+        Category.builder().name("Shirt").build()
     )));
 
     catalogItemRepository.saveAll(List.of(
@@ -55,8 +55,8 @@ public class DataLoader implements ApplicationRunner {
             .name("Adidas terrex")
             .price(new BigDecimal("60"))
             .restockThreshold(5)
-            .catalogBrand(brands.get(0))
-            .catalogType(types.get(0))
+            .brand(brands.get(0))
+            .category(types.get(0))
             .pictureFileName("adidas-shoes-1.png")
             .build(),
         CatalogItem.builder()
@@ -66,8 +66,8 @@ public class DataLoader implements ApplicationRunner {
             .name("Adidas terrex-2")
             .price(new BigDecimal("43.5"))
             .restockThreshold(5)
-            .catalogBrand(brands.get(0))
-            .catalogType(types.get(0))
+            .brand(brands.get(0))
+            .category(types.get(0))
             .pictureFileName("adidas-shoes-2.png")
             .build(),
         CatalogItem.builder()
@@ -77,8 +77,8 @@ public class DataLoader implements ApplicationRunner {
             .name("Adidas sh")
             .price(new BigDecimal("51"))
             .restockThreshold(10)
-            .catalogBrand(brands.get(0))
-            .catalogType(types.get(0))
+            .brand(brands.get(0))
+            .category(types.get(0))
             .pictureFileName("adidas-shoes-3.png")
             .build(),
         CatalogItem.builder()
@@ -88,8 +88,8 @@ public class DataLoader implements ApplicationRunner {
             .name("Adidas sport")
             .price(new BigDecimal("31.7"))
             .restockThreshold(6)
-            .catalogBrand(brands.get(0))
-            .catalogType(types.get(0))
+            .brand(brands.get(0))
+            .category(types.get(0))
             .pictureFileName("adidas-shoes-4.png")
             .build(),
         CatalogItem.builder()
@@ -99,8 +99,8 @@ public class DataLoader implements ApplicationRunner {
             .name("Giro bike shoes")
             .price(new BigDecimal("50.2"))
             .restockThreshold(6)
-            .catalogBrand(brands.get(4))
-            .catalogType(types.get(0))
+            .brand(brands.get(4))
+            .category(types.get(0))
             .pictureFileName("giro-shoes-1.png")
             .build(),
         CatalogItem.builder()
@@ -110,8 +110,8 @@ public class DataLoader implements ApplicationRunner {
             .name("Giro street")
             .price(new BigDecimal("34.8"))
             .restockThreshold(6)
-            .catalogBrand(brands.get(4))
-            .catalogType(types.get(0))
+            .brand(brands.get(4))
+            .category(types.get(0))
             .pictureFileName("giro-shoes-2.png")
             .build(),
         CatalogItem.builder()
@@ -121,8 +121,8 @@ public class DataLoader implements ApplicationRunner {
             .name("Giro vibram")
             .price(new BigDecimal("90"))
             .restockThreshold(5)
-            .catalogBrand(brands.get(0))
-            .catalogType(types.get(0))
+            .brand(brands.get(0))
+            .category(types.get(0))
             .pictureFileName("giro-shoes-3.png")
             .build(),
         CatalogItem.builder()
@@ -132,8 +132,8 @@ public class DataLoader implements ApplicationRunner {
             .name("Etnies bike")
             .price(new BigDecimal("46.2"))
             .restockThreshold(5)
-            .catalogBrand(brands.get(2))
-            .catalogType(types.get(0))
+            .brand(brands.get(2))
+            .category(types.get(0))
             .pictureFileName("etnies-shoes-1.png")
             .build(),
         CatalogItem.builder()
@@ -143,8 +143,8 @@ public class DataLoader implements ApplicationRunner {
             .name("Etnies street")
             .price(new BigDecimal("37.9"))
             .restockThreshold(6)
-            .catalogBrand(brands.get(2))
-            .catalogType(types.get(0))
+            .brand(brands.get(2))
+            .category(types.get(0))
             .pictureFileName("etnies-shoes-2.png")
             .build(),
         CatalogItem.builder()
@@ -154,8 +154,8 @@ public class DataLoader implements ApplicationRunner {
             .name("Endura shirt")
             .price(new BigDecimal("10.9"))
             .restockThreshold(20)
-            .catalogBrand(brands.get(1))
-            .catalogType(types.get(1))
+            .brand(brands.get(1))
+            .category(types.get(1))
             .pictureFileName("endura-shirt-1.png")
             .build(),
         CatalogItem.builder()
@@ -165,8 +165,8 @@ public class DataLoader implements ApplicationRunner {
             .name("Etnies street shirt")
             .price(new BigDecimal("10.5"))
             .restockThreshold(6)
-            .catalogBrand(brands.get(2))
-            .catalogType(types.get(1))
+            .brand(brands.get(2))
+            .category(types.get(1))
             .pictureFileName("etnies-shirt-1.png")
             .build(),
         CatalogItem.builder()
@@ -176,8 +176,8 @@ public class DataLoader implements ApplicationRunner {
             .name("Etnies bike")
             .price(new BigDecimal("12.7"))
             .restockThreshold(6)
-            .catalogBrand(brands.get(2))
-            .catalogType(types.get(0))
+            .brand(brands.get(2))
+            .category(types.get(0))
             .pictureFileName("etnies-shirt-2.png")
             .build(),
         CatalogItem.builder()
@@ -187,8 +187,8 @@ public class DataLoader implements ApplicationRunner {
             .name("Nike shoes")
             .price(new BigDecimal("16.4"))
             .restockThreshold(5)
-            .catalogBrand(brands.get(2))
-            .catalogType(types.get(1))
+            .brand(brands.get(2))
+            .category(types.get(1))
             .pictureFileName("etnies-shirt-3.png")
             .build(),
         CatalogItem.builder()
@@ -198,8 +198,8 @@ public class DataLoader implements ApplicationRunner {
             .name("Fox classic")
             .price(new BigDecimal("20"))
             .restockThreshold(20)
-            .catalogBrand(brands.get(3))
-            .catalogType(types.get(1))
+            .brand(brands.get(3))
+            .category(types.get(1))
             .pictureFileName("fox-shirt-1.png")
             .build(),
         CatalogItem.builder()
@@ -209,8 +209,8 @@ public class DataLoader implements ApplicationRunner {
             .name("Fox racing shirt")
             .price(new BigDecimal("21.25"))
             .restockThreshold(40)
-            .catalogBrand(brands.get(3))
-            .catalogType(types.get(1))
+            .brand(brands.get(3))
+            .category(types.get(1))
             .pictureFileName("fox-shirt-2.png")
             .build(),
         CatalogItem.builder()
@@ -220,8 +220,8 @@ public class DataLoader implements ApplicationRunner {
             .name("Fox street shirt")
             .price(new BigDecimal("13.5"))
             .restockThreshold(6)
-            .catalogBrand(brands.get(3))
-            .catalogType(types.get(1))
+            .brand(brands.get(3))
+            .category(types.get(1))
             .pictureFileName("fox-shirt-3.png")
             .build(),
         CatalogItem.builder()
@@ -231,8 +231,8 @@ public class DataLoader implements ApplicationRunner {
             .name("Puma Shoes")
             .price(new BigDecimal("14"))
             .restockThreshold(20)
-            .catalogBrand(brands.get(3))
-            .catalogType(types.get(1))
+            .brand(brands.get(3))
+            .category(types.get(1))
             .pictureFileName("fox-shirt-4.png")
             .build()
     ));
