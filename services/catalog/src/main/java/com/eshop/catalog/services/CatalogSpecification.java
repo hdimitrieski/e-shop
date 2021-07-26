@@ -1,4 +1,4 @@
-package com.eshop.catalog.controller;
+package com.eshop.catalog.services;
 
 import com.eshop.catalog.model.CatalogBrand;
 import com.eshop.catalog.model.CatalogItem;
