@@ -3,7 +3,7 @@ app:
   postgres:
     host: localhost
     port: 5432
-    database: dborders
+    database: orderdb
     username: dbuser
     password: dbpass
 

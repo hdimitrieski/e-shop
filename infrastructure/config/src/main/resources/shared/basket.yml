@@ -35,8 +35,8 @@ spring:
 
 # Test refresh config via bus
 test:
-  name: "Test 10"
-  phone: "007"
+  name: "Test 19"
+  phone: "009"
 
 ---
 spring:

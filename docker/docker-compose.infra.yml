@@ -15,7 +15,6 @@ services:
       CONFIG_KEYSTORE_PASSWORD: ${CONFIG_KEYSTORE_PASSWORD}
       CONFIG_KEY_PASSWORD: ${CONFIG_KEY_PASSWORD}
       EUREKA_USER: ${EUREKA_USER}
-      RABBIT_USER: ${RABBIT_USER}
       POSTGRES_USER: ${POSTGRES_USER}
 
   discovery:
@@ -30,7 +29,6 @@ services:
       CONFIG_SERVICE_USER: ${CONFIG_SERVICE_USER}
       CONFIG_SERVICE_PASSWORD: ${CONFIG_SERVICE_PASSWORD}
       EUREKA_USER: ${EUREKA_USER}
-      RABBIT_USER: ${RABBIT_USER}
     depends_on:
       - config
 
@@ -39,14 +37,13 @@ services:
     networks:
       - eshopnet
     ports:
-      - 8082:8080
+      - 8080:8080
     restart: on-failure
     environment:
       SPRING_PROFILES_ACTIVE: docker
       CONFIG_SERVICE_USER: ${CONFIG_SERVICE_USER}
       CONFIG_SERVICE_PASSWORD: ${CONFIG_SERVICE_PASSWORD}
       EUREKA_USER: ${EUREKA_USER}
-      RABBIT_USER: ${RABBIT_USER}
     depends_on:
       - config
       - discovery

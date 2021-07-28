@@ -30,6 +30,10 @@ public class OrderStatisticsProcessor {
 
   private final ObjectMapper mapper;
 
+  /**
+   * Transform submitted and cancelled order streams to streams where the key is the order id and then merge those
+   * two streams and finally, just log the order id.
+   */
   @Bean
   public BiConsumer<
       KStream<String, OrderStatusChangedToSubmittedIntegrationEvent>,
@@ -46,8 +50,10 @@ public class OrderStatisticsProcessor {
     };
   }
 
+  // TODO HD The key should be an orderId!
   /**
-   * Store all submitted orders in a table.
+   * Transform the stream of submitted orders to stream of {@link Order} by order id, store the data in the state store.
+   * This stream processor continuously write its current results to the output topic "allsubmittedorders".
    */
   @Bean
   public Function<KStream<String, OrderStatusChangedToSubmittedIntegrationEvent>, KStream<String, Order>> allsubmittedorders() {
@@ -69,7 +75,9 @@ public class OrderStatisticsProcessor {
   }
 
   /**
-   * Store all paid orders in a table.
+   * Use paid orders stream and orders by id table produced in {@link OrderStatisticsProcessor#allsubmittedorders} to
+   * produce new table that contains only the paid orders. Store the paid orders by id in the state store and write its
+   * current results to the output topic "allpaidorders".
    */
   @Bean
   public BiFunction<

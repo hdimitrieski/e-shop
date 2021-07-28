@@ -5,6 +5,8 @@ services:
   elastic-search:
     build:
       context: elk/elasticsearch/
+    networks:
+      - eshopnet
     ports:
       - 9200:9200
       - 9300:9300
@@ -16,6 +18,8 @@ services:
   logstash:
     build:
       context: elk/logstash/
+    networks:
+      - eshopnet
     volumes:
       - ./elk/logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
       - ./elk/logstash/pipeline:/usr/share/logstash/pipeline:ro
@@ -31,6 +35,8 @@ services:
   kibana:
     build:
       context: elk/kibana/
+    networks:
+      - eshopnet
     volumes:
       - ./elk/kibana/config/:/usr/share/kibana/config
     ports:

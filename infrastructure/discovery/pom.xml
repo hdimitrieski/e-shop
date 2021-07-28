@@ -63,16 +63,12 @@
             <version>${logstash-logback-encoder.version}</version>
         </dependency>
         <!-- Logging -->
-        <!-- Rabbitmq -->
+        <!-- Kafka -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-bus-amqp</artifactId>
+            <artifactId>spring-cloud-starter-bus-kafka</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.amqp</groupId>
-            <artifactId>spring-rabbit</artifactId>
-        </dependency>
-        <!-- Rabbitmq -->
+        <!-- Kafka -->
     </dependencies>
 
     <build>

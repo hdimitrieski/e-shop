@@ -1,6 +1,5 @@
 package com.eshop.security;
 
-import org.jetbrains.annotations.NotNull;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -20,7 +19,7 @@ public class EshopJwtAuthenticationConverter implements Converter<Jwt, JwtAuthen
   }
 
   @Override
-  public JwtAuthenticationToken convert(@NotNull Jwt jwt) {
+  public JwtAuthenticationToken convert(Jwt jwt) {
     return new JwtAuthenticationToken(jwt, extractGrantedAuthorities(jwt), jwt.getClaim(userNameAttribute));
   }
 

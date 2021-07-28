@@ -27,6 +27,7 @@ public class SecurityConfig {
         .mvcMatcher("/orders/**")
         .authorizeRequests()
         .mvcMatchers("/orders/ship").hasRole("admin")
+        .mvcMatchers("/orders/cancel").hasRole("admin")
         .mvcMatchers(HttpMethod.GET, "/orders/*").hasAuthority("SCOPE_orders")
         .mvcMatchers(HttpMethod.POST, "/orders/*").hasAuthority("SCOPE_orders")
         .mvcMatchers(HttpMethod.PUT, "/orders/*").hasAuthority("SCOPE_orders")

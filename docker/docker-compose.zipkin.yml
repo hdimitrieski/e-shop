@@ -2,12 +2,14 @@ version: '3.9'
 
 services:
   zipkin:
-    image: openzipkin/zipkin
+    image: openzipkin/zipkin:2.23.2
+    networks:
+      - eshopnet
     ports:
       - 9411:9411
     restart: on-failure
     environment:
       STORAGE_TYPE: mem
-      RABBIT_ADDRESSES: rabbitmq
+      KAFKA_BOOTSTRAP_SERVERS: kafka:29092
     depends_on:
-      - rabbitmq
+      - kafka

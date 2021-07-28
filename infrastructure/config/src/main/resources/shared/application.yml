@@ -24,11 +24,6 @@ app:
     broker:
       host: localhost
       port: 9092
-  rabbitmq:
-    host: localhost
-    port: 5672
-    user: guest
-    password: guest
   auth-server:
     host: localhost
     port: 8090
@@ -65,13 +60,6 @@ spring:
         gracePeriodConfirmed: grace-period-confirmed
         paymentStatus: payment-status
         stockConfirmed: stock-confirmed
-
-  # Rabbit
-  rabbitmq:
-    host: ${app.rabbitmq.host}
-    port: ${app.rabbitmq.port}
-    username: ${app.rabbitmq.user}
-    password: ${app.rabbitmq.password}
 
   cloud:
     # As Spring Cloud Ribbon is in maintenance mode.
@@ -124,7 +112,7 @@ spring:
 
   zipkin:
     enabled: true
-    sender.type: rabbit
+    sender.type: kafka
 
 sample:
   zipkin:
@@ -146,10 +134,6 @@ app:
     broker:
       host: kafka
       port: 29092
-  rabbitmq:
-    host: rabbitmq
-    user: ${RABBIT_USER}
-    password: '{cipher}AQBZ1SxHRW2RTvGQr2Q6VuMy5gsQ8k+q+K/Iq2glQQj8frvqpLqz4JAsPI4u/1YXCiP2Z3v2bW05PaddhPZXN0lOeUU1llRU7Hu13GMCCi0Wd8sDqHAxbtY5uh7wKTto99ABfuBbIB0E0xRrLbPl3o3ZZrc0bHHSEUjlLlTNF4rMbKLmMNe+m2plm6wsumfv73dYhES3Dw248gL1ogW6LnvQlgjiirE44psnCpJpqShILsS9oDPv5h5N8qgaNjW7nY7FdaiR0pfHZ1bK5sX1LrxuYrPeNqfmBJifYgon8haJFCYEBOUZYUeTecUAYfchYXh22wpKeWOanWeDG7a/ORizqPXbEexOv304feEq6oqhfgXXPrB+Os5DMyZrnUFNBKs='
   auth-server:
     host: authorization-service
     port: 8080

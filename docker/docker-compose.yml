@@ -2,14 +2,14 @@ version: '3.9'
 
 services:
   zookeeper:
-    image: wurstmeister/zookeeper
+    image: confluentinc/cp-zookeeper:6.2.0
     networks:
       - eshopnet
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
 
   kafka:
-    image: wurstmeister/kafka
+    image: confluentinc/cp-kafka:6.2.0
     hostname: kafka
     networks:
       - eshopnet
@@ -22,29 +22,15 @@ services:
       KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka:29092,EXTERNAL://localhost:9092
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_DEFAULT_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
     depends_on:
       - zookeeper
     links:
       - zookeeper
-
-  rabbitmq:
-    image: 'rabbitmq:management'
-    networks:
-      - eshopnet
-    ports:
-      - 5672:5672
-      - 15672:15672
-    restart: on-failure
-    environment:
-      RABBITMQ_DEFAULT_USER: guest
-      RABBITMQ_DEFAULT_PASS: guest
-    healthcheck:
-      test: [ "CMD", "rabbitmqctl", "status" ]
-      interval: 10s
-      timeout: 5s
-      retries: 10
 
   postgres:
     build: postgres
@@ -52,19 +38,28 @@ services:
       - eshopnet
     ports:
       - 5432:5432
-    restart: on-failure
+    restart: always
     environment:
       POSTGRES_PASSWORD: dbpass
       POSTGRES_USER: dbuser
       PGTZ: Europe/Amsterdam
+      CATALOG_DB_USER: catalogdbuser
+      CATALOG_DB_PASSWORD: dbpass
+      CATALOG_DB_NAME: catalogdb
+      ORDER_DB_USER: orderdbuser
+      ORDER_DB_PASSWORD: dbpass
+      ORDER_DB_NAME: orderdb
+      KEYCLOAK_DB_USER: keycloak
+      KEYCLOAK_DB_PASSWORD: dbpass
+      KEYCLOAK_DB_NAME: keycloakdb
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      test: [ "CMD-SHELL", "pg_isready -U dbuser" ]
       interval: 10s
       timeout: 5s
       retries: 5
 
   redis:
-    image: redis:alpine
+    image: redis:6.2.4
     networks:
       - eshopnet
     ports:
@@ -85,9 +80,9 @@ services:
       KEYCLOAK_PASSWORD: admin
       DB_VENDOR: postgres
       DB_ADDR: postgres
-      DB_DATABASE: keycloak
+      DB_DATABASE: keycloakdb
       DB_SCHEMA: public
-      DB_USER: dbuser
+      DB_USER: keycloak
       DB_PASSWORD: dbpass
       KEYCLOAK_IMPORT: /tmp/eshop-realm.json
     depends_on:
@@ -95,15 +90,15 @@ services:
     volumes:
       - ./keycloak/eshop-realm.json:/tmp/eshop-realm.json
 
-#  portainer:
-#    image: portainer/portainer
-#    networks:
-#      - eshopnet
-#    volumes:
-#      - /var/run/docker.sock:/var/run/docker.sock
-#      - ./portainer-data:/data
-#    ports:
-#      - 9000:9000
+  portainer:
+    image: portainer/portainer
+    networks:
+      - eshopnet
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./portainer-data:/data
+    ports:
+      - 9000:9000
 
 networks:
   eshopnet:
