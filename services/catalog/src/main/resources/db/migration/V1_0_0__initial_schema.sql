@@ -19,16 +19,16 @@ create table outbox
     topic           varchar(255)
 );
 
-create table catalog_brand
-(
-    id    bigint       not null,
-    brand varchar(100) not null
-);
-
-create table catalog_type
+create table brand
 (
     id   bigint       not null,
-    type varchar(100) not null
+    name varchar(100) not null
+);
+
+create table category
+(
+    id   bigint       not null,
+    name varchar(100) not null
 );
 
 create table catalog_item
@@ -42,26 +42,24 @@ create table catalog_item
     picture_file_name   varchar(255),
     price               numeric(19, 2) not null,
     restock_threshold   integer,
-    catalog_brand_id    bigint,
-    catalog_type_id     bigint
+    brand_id            bigint,
+    category_id         bigint
 );
-
 
 alter table only outbox
     add constraint outbox_pkey primary key (id);
 
-alter table only catalog_brand
-    add constraint catalog_brand_pkey primary key (id);
+alter table only brand
+    add constraint brand_pkey primary key (id);
 
-alter table only catalog_type
-    add constraint catalog_type_pkey primary key (id);
+alter table only category
+    add constraint category_pkey primary key (id);
 
 alter table only catalog_item
     add constraint catalog_item_pkey primary key (id);
 
+alter table only catalog_item
+    add constraint brand_id_fk foreign key (brand_id) references brand (id);
 
 alter table only catalog_item
-    add constraint catalog_brand_id_fk foreign key (catalog_brand_id) references catalog_brand (id);
-
-alter table only catalog_item
-    add constraint catalog_type_id_fk foreign key (catalog_type_id) references catalog_type (id);
+    add constraint category_id_fk foreign key (category_id) references category (id);

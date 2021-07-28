@@ -11,8 +11,8 @@ import javax.persistence.Table;
 @Getter
 @Builder
 @Entity
-@Table(name = "catalog_type")
-public class CatalogType extends AbstractEntity {
-    @Column(name = "type", nullable = false, length = 100)
-    private String type;
+@Table(name = "brand")
+public class Brand extends AbstractEntity {
+    @Column(name = "name", nullable = false, length = 100)
+    private String name;
 }
