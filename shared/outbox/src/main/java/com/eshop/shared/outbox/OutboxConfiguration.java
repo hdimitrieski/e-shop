@@ -10,8 +10,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @Configuration
 @EnableScheduling
-@EnableJpaRepositories(basePackages = "com.eshop.shared.outbox")
-@EntityScan(basePackages = "com.eshop.shared.outbox")
+@EnableJpaRepositories
+@EntityScan
 public class OutboxConfiguration {
 
   @Bean

@@ -8,18 +8,12 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.aspectj.EnableSpringConfigured;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-@SpringBootApplication(scanBasePackages = "com.eshop")
+@SpringBootApplication
 @EnableEurekaClient
 @EnableSpringConfigured
 @EnableOutbox
-@EnableJpaRepositories(basePackages = {
-    "com.eshop.ordering.infrastructure.entity",
-    "com.eshop.ordering.infrastructure.idempotency"
-})
-@EntityScan(basePackages = {
-    "com.eshop.ordering.infrastructure.entity",
-    "com.eshop.ordering.infrastructure.idempotency"
-})
+@EnableJpaRepositories
+@EntityScan
 public class OrderingApplication {
   public static void main(String[] args) {
     SpringApplication.run(OrderingApplication.class, args);
