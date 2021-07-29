@@ -2,5 +2,5 @@ package com.eshop.catalog.model;
 
 import org.springframework.data.repository.CrudRepository;
 
-public interface CatalogTypeRepository extends CrudRepository<CatalogType, Long> {
+public interface CategoryRepository extends CrudRepository<Category, Long> {
 }

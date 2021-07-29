@@ -6,7 +6,7 @@
           <select id="catalog-type" class="form-select" formControlName="type">
             <option>All</option>
             <option *ngFor="let type of types" [ngValue]=type>
-              {{type.type}}
+              {{type.name}}
             </option>
           </select>
           <label for="catalog-type">Type</label>
@@ -18,7 +18,7 @@
           <select id="catalog-brand" class="form-select" formControlName="brand">
             <option>All</option>
             <option *ngFor="let brand of brands" [ngValue]=brand>
-              {{brand.brand}}
+              {{brand.name}}
             </option>
           </select>
           <label for="catalog-brand">Brand</label>

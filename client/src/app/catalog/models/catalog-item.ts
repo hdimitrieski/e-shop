@@ -7,8 +7,8 @@ export interface CatalogItem {
   description: string;
   price: number;
   pictureFileName: string;
-  catalogType: CatalogType;
-  catalogBrand: CatalogBrand;
+  category: CatalogType;
+  brand: CatalogBrand;
   availableStock: number;
   restockThreshold: number;
   maxStockThreshold: number;
