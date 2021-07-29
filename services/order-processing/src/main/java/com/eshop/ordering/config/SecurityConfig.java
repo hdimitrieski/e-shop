@@ -2,15 +2,23 @@ package com.eshop.ordering.config;
 
 import com.eshop.security.EshopJwtAuthenticationConverter;
 import com.eshop.security.EshopJwtDecoder;
+import com.eshop.security.EshopRole;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.security.web.SecurityFilterChain;
+
+import static com.eshop.security.GrantedAuthoritiesUtils.scope;
 
 @Configuration
 public class SecurityConfig {
+  private static final String ORDERS_SCOPE = "orders";
 
   @Value("${app.security.jwt.user-name-attribute}")
   private String userNameAttribute;
@@ -26,19 +34,27 @@ public class SecurityConfig {
     http
         .mvcMatcher("/orders/**")
         .authorizeRequests()
-        .mvcMatchers("/orders/ship").hasRole("admin")
-        .mvcMatchers("/orders/cancel").hasRole("admin")
-        .mvcMatchers(HttpMethod.GET, "/orders/*").hasAuthority("SCOPE_orders")
-        .mvcMatchers(HttpMethod.POST, "/orders/*").hasAuthority("SCOPE_orders")
-        .mvcMatchers(HttpMethod.PUT, "/orders/*").hasAuthority("SCOPE_orders")
-        .mvcMatchers(HttpMethod.DELETE, "/orders/*").hasAuthority("SCOPE_orders")
+        .mvcMatchers("/orders/ship").hasRole(EshopRole.Admin)
+        .mvcMatchers("/orders/cancel").hasRole(EshopRole.Admin)
+        .mvcMatchers(HttpMethod.GET, "/orders/*").hasAuthority(scope(ORDERS_SCOPE))
+        .mvcMatchers(HttpMethod.POST, "/orders/*").hasAuthority(scope(ORDERS_SCOPE))
+        .mvcMatchers(HttpMethod.PUT, "/orders/*").hasAuthority(scope(ORDERS_SCOPE))
+        .mvcMatchers(HttpMethod.DELETE, "/orders/*").hasAuthority(scope(ORDERS_SCOPE))
         .and()
         .oauth2ResourceServer()
         .jwt()
-        .decoder(new EshopJwtDecoder(issuer, orderAudience))
-        .jwtAuthenticationConverter(new EshopJwtAuthenticationConverter(userNameAttribute));
+        .decoder(jwtDecoder())
+        .jwtAuthenticationConverter(jwtAuthenticationConverter());
 
     return http.build();
+  }
+
+  private JwtDecoder jwtDecoder() {
+    return new EshopJwtDecoder(issuer, orderAudience);
+  }
+
+  private Converter<Jwt, JwtAuthenticationToken> jwtAuthenticationConverter() {
+    return new EshopJwtAuthenticationConverter(userNameAttribute);
   }
 
 }

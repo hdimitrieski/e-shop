@@ -14,6 +14,8 @@ import reactor.core.publisher.Mono;
 @EnableWebFluxSecurity
 @EnableReactiveMethodSecurity
 public class SecurityConfig {
+  // By convention, OAuth 2.0 scopes should be prefixed with SCOPE_ when checked for authority using Spring Security.
+  private static final String GATEWAY_SCOPE = "SCOPE_webshoppingagg";
 
   @Value("${app.security.jwt.user-name-attribute}")
   private String userNameAttribute;
@@ -26,17 +28,15 @@ public class SecurityConfig {
         .csrf().disable()
         .authorizeExchange()
         .pathMatchers(HttpMethod.GET, "/api/v1/catalog/*").permitAll()
-        // By convention, OAuth 2.0 scopes should be prefixed with SCOPE_ when checked for authority using Spring Security.
-        .pathMatchers("/api/v1/basket/*").hasAuthority("SCOPE_webshoppingagg")
-        .pathMatchers("/api/v1/orders/*").hasAuthority("SCOPE_webshoppingagg")
-        .pathMatchers("/api/v1/catalog/*").hasAuthority("SCOPE_webshoppingagg")
+        .pathMatchers("/api/v1/basket/*").hasAuthority(GATEWAY_SCOPE)
+        .pathMatchers("/api/v1/orders/*").hasAuthority(GATEWAY_SCOPE)
+        .pathMatchers("/api/v1/catalog/*").hasAuthority(GATEWAY_SCOPE)
         .anyExchange().authenticated()
         .and()
         .oauth2ResourceServer()
         .jwt(jwtSpec -> jwtSpec.jwtAuthenticationConverter(jwt -> {
           var token = new JwtAuthenticationConverter().convert(jwt);
-          return Mono.just(new JwtAuthenticationToken(jwt,
-              token.getAuthorities(), jwt.getClaim(userNameAttribute)));
+          return Mono.just(new JwtAuthenticationToken(jwt, token.getAuthorities(), jwt.getClaim(userNameAttribute)));
         }));
 
     return http.build();

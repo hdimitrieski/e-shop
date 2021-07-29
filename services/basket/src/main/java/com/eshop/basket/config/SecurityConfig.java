@@ -7,14 +7,21 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.EventListener;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.event.AuthenticationSuccessEvent;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
+
+import static com.eshop.security.GrantedAuthoritiesUtils.scope;
 
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-  Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
+  private static final Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
+  private static final String BASKET_SCOPE = "basket";
 
   @Value("${app.security.jwt.user-name-attribute}")
   private String userNameAttribute;
@@ -30,20 +37,28 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     http
         .antMatcher("/basket/**")
         .authorizeRequests()
-        .antMatchers(HttpMethod.GET, "/basket/*").hasAuthority("SCOPE_basket")
-        .antMatchers(HttpMethod.POST, "/basket/*").hasAuthority("SCOPE_basket")
-        .antMatchers(HttpMethod.PUT, "/basket/*").hasAuthority("SCOPE_basket")
-        .antMatchers(HttpMethod.DELETE, "/basket/*").hasAuthority("SCOPE_basket")
+        .antMatchers(HttpMethod.GET, "/basket/*").hasAuthority(scope(BASKET_SCOPE))
+        .antMatchers(HttpMethod.POST, "/basket/*").hasAuthority(scope(BASKET_SCOPE))
+        .antMatchers(HttpMethod.PUT, "/basket/*").hasAuthority(scope(BASKET_SCOPE))
+        .antMatchers(HttpMethod.DELETE, "/basket/*").hasAuthority(scope(BASKET_SCOPE))
         .and()
         .oauth2ResourceServer()
         .jwt()
-        .decoder(new EshopJwtDecoder(issuer, basketAudience))
-        .jwtAuthenticationConverter(new EshopJwtAuthenticationConverter(userNameAttribute));
+        .decoder(jwtDecoder())
+        .jwtAuthenticationConverter(jwtAuthenticationConverter());
   }
 
   @EventListener
   public void authenticationSuccess(AuthenticationSuccessEvent event) {
     logger.info("User {} authenticated", event.getAuthentication().getName());
+  }
+
+  private JwtDecoder jwtDecoder() {
+    return new EshopJwtDecoder(issuer, basketAudience);
+  }
+
+  private Converter<Jwt, JwtAuthenticationToken> jwtAuthenticationConverter() {
+    return new EshopJwtAuthenticationConverter(userNameAttribute);
   }
 
 }
