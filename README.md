@@ -7,7 +7,7 @@ Spring Cloud Stream, Spring Kafka, Kafka Streams API, Keycloak, ...
 
 # Architectural Diagram
 
-# Services and links to each one including image, zipkin
+# Services
 - [Config](infrastructure/config) - Centralized configuration service. You can access this service at 
   http://localhost:8888. Credentials cfguser/cfgpassword.
 - [Discovery](infrastructure/discovery) - Service registry that allows other services to find and communicate with each 
@@ -23,7 +23,7 @@ Spring Cloud Stream, Spring Kafka, Kafka Streams API, Keycloak, ...
 - [Analytics](services/analytics) - Real-time stream processing with Kafka Streams API.
 
 # How To Run
-You need to have Maven, Java 16 and Docker. The best way to run the sample applications is with IDEs like IntelliJ IDEA 
+You need to have Maven, Java 16, Node.js and Docker. The best way to run the sample applications is with IDEs like IntelliJ IDEA 
 or Eclipse.
 
 You can run all docker containers and Spring applications by running the `./scripts/start.sh`. By default, the script
@@ -55,6 +55,7 @@ Then:
     ~ cd docker
     ~ docker-compose -f docker-compose.infra.yml up --build
 
+
 2. Run all domain services [Order Processing](services/order-processing), [Catalog](services/catalog),
 [Basket](services/basket), [Payment](services/payment), [Order Grace Period Task](services/order-grace-period-task),
 [Order Notifications](services/order-notifications), [Analytics](services/analytics) using the following command:
@@ -62,6 +63,7 @@ Then:
 
     ~ cd docker
     ~ docker-compose -f docker-compose.services.yml up --build
+
 
 ## Run imaging service (optional)
 We use [Thumbor](https://github.com/thumbor/thumbor) imaging service. It enables on-demand crop, resizing and flipping 
