@@ -850,6 +850,18 @@
             "access.token.claim": "true",
             "included.custom.audience": "catalog-service"
           }
+        },
+        {
+          "id": "66f70ab5-314f-48db-8a69-d20c7ec76ef0",
+          "name": "Audience for image service",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-audience-mapper",
+          "consentRequired": false,
+          "config": {
+            "id.token.claim": "false",
+            "access.token.claim": "true",
+            "included.custom.audience": "image-service"
+          }
         }
       ],
       "defaultClientScopes": [
