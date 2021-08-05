@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { OrderManagementService } from '../services/order-management.service';
+import { OrderManagementService } from '../../core/services/order-management.service';
 import { OrderStatusForm } from '../models';
 import { NotificationsService } from '../../core/services/notifications.service';
 import { take } from 'rxjs/operators';
