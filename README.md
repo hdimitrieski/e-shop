@@ -6,6 +6,7 @@ Eureka Service Discovery, Spring Cloud Gateway, Spring Cloud Circuit Breaker, Re
 Spring Cloud Stream, Spring Kafka, Kafka Streams API, Keycloak, ...
 
 # Architectural Diagram
+TBD
 
 # Services
 - [Config](infrastructure/config) - Centralized configuration service. You can access this service at 
