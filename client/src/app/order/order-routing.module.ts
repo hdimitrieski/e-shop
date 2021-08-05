@@ -1,5 +1,5 @@
-import { NgModule } from "@angular/core";
-import { RouterModule, Routes } from "@angular/router";
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
 import { OrderPageComponent } from './pages/order-page.component';
 import { OrderDraftPageComponent } from './pages/order-draft-page.component';
 import { OrderDraftResolver } from './resolvers/order-draft.resolver';

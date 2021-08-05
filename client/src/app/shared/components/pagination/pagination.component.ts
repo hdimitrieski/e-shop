@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { CatalogPage } from '../models';
+import { CatalogPage } from '../../../catalog/models';
 
 @Component({
   selector: 'es-pagination',

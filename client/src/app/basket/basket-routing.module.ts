@@ -1,5 +1,5 @@
-import { NgModule } from "@angular/core";
-import { RouterModule, Routes } from "@angular/router";
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
 import { BasketPageComponent } from './pages/basket-page.component';
 import { AuthGuard } from '../core/guards/auth.guard';
 

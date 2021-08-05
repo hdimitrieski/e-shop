@@ -37,7 +37,7 @@ public class CatalogItem extends AbstractEntity {
     @Column(name = "restock_threshold")
     private Integer restockThreshold;
 
-    // Maximum number of units that can be in-stock at any time (due to physicial/logistical constraints in warehouses)
+    // Maximum number of units that can be in-stock at any time
     @Column(name = "max_stock_threshold")
     private Integer maxStockThreshold;
 

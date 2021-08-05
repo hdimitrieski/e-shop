@@ -8,5 +8,5 @@ export const toQueryParams = (params: Record<string, number | string>): Record<s
       queryParams[paramName] = params[paramName].toString();
     });
 
-    return queryParams;
+  return queryParams;
 };

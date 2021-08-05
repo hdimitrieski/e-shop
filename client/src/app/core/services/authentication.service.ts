@@ -35,12 +35,22 @@ export class AuthenticationService {
     return this.oAuthService.hasValidAccessToken();
   }
 
+  public isAdmin(): boolean {
+    return this.roles().some(role => role === 'ROLE_admin');
+  }
+
   public login(): Observable<boolean> {
     return fromPromise(this.oAuthService.loadDiscoveryDocumentAndLogin());
   }
 
   public logout() {
     this.oAuthService.logOut();
+  }
+
+  private roles(): string[] {
+    return this.isLoggedIn()
+      ? this.oAuthService.getIdentityClaims()['roles']
+      : [];
   }
 
 }

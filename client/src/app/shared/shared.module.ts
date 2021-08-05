@@ -4,11 +4,13 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ImageComponent } from './components/image/image.component';
 import { ImgDirective } from './directives/img.directive';
+import { PaginationComponent } from './components/pagination/pagination.component';
 
 @NgModule({
   declarations: [
     ImageComponent,
-    ImgDirective
+    ImgDirective,
+    PaginationComponent
   ],
   providers: [],
   imports: [
@@ -21,7 +23,8 @@ import { ImgDirective } from './directives/img.directive';
     CommonModule,
     ReactiveFormsModule,
     ImageComponent,
-    ImgDirective
+    ImgDirective,
+    PaginationComponent
   ]
 })
 export class SharedModule {

@@ -7,6 +7,8 @@ server:
 
 # Custom config
 app:
+  client:
+    client-address: http://localhost:4200
   security:
     jwt:
       user-name-attribute: preferred_username
@@ -15,6 +17,7 @@ app:
       order: order-service
       basket: basket-service
       catalog: catalog-service
+      image: image-service
   eureka:
     host: localhost
     port: 8761

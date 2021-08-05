@@ -17,7 +17,7 @@ public class RouteLocatorConfig {
 
     return builder.routes()
         .route("catalog", r -> r
-            .path("/api/v1/catalog/*")
+            .path("/api/v1/catalog/**")
             .filters(f -> f.removeRequestHeader("Cookie") // Prevents cookie being sent downstream
                 .circuitBreaker(config -> config.setName(CATALOG_CIRCUIT_BREAKER))
                 .rewritePath("api/v1", ""))

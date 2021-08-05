@@ -4,7 +4,7 @@ import { NgbDateAdapter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 @Injectable()
 export class DateAdapter extends NgbDateAdapter<number[]> {
   fromModel(value: number[] | null): NgbDateStruct | null {
-    if (!value) return null;
+    if (!value) { return null; }
     return {
       day: value[2],
       month: value[1],
@@ -13,7 +13,7 @@ export class DateAdapter extends NgbDateAdapter<number[]> {
   }
 
   toModel(date: NgbDateStruct | null): number[] | null {
-    if (!date) return null;
+    if (!date) { return null; }
     return [
       date.year,
       date.month,

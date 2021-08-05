@@ -19,6 +19,7 @@
         <module>config</module>
         <module>discovery</module>
         <module>gateway</module>
+        <module>image-service</module>
     </modules>
 
 </project>

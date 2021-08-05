@@ -64,26 +64,23 @@ Then:
     ~ docker-compose -f docker-compose.services.yml up --build
 
 ## Run imaging service (optional)
-We use [Thumbor](https://github.com/thumbor/thumbor) imaging service. It enables on-demand crop, resizing and flipping 
-of images. All catalog item images are stored in Thumbor.
 
-If you don't run this service, the catalog items won't be able to fetch their corresponding images.
+We use [imgproxy](https://imgproxy.net/) service to resize images on-the-fly. It is a fast and secure standalone server 
+for resizing and converting remote images.
 
-Run imaging service:
+All catalog item images are stored in [Minio](https://github.com/minio/minio). Minio is an object storage server. It is 
+compatible with Amazon S3, so it can be used with imgproxy.
+
+The images are uploaded to Minio via [Image Service](infrastructure/image-service).
+
+If you don't run these services, the spa client won't be able to fetch catalog item images.
+
+Run imgproxy and Minio services:
 
     ~ cd docker
     ~ docker-compose -f docker-compose.img.yml up
 
-You can access imaging service at http://localhost:8887. To upload an image, you need to make a POST request to "/image"
-endpoint, and add request header: "Slug: IMAGE_NAME". 
-
-    ~ curl -i -X POST http://localhost:8887/image \
-      -H "Slug: image_name" \
-      -H "Content-Type: application/x-www-form-urlencoded" \
-      --data-binary "@image.jpg"
-
-After a response is returned with status code 201, check its location header for the location where you can access the 
-uploaded image.
+You can access Minio at http://localhost:8086, and imgproxy at http://localhost:8887.
 
 ## ELK (optional)
 We use [ELK](https://www.elastic.co/what-is/elk-stack) for log analysis.

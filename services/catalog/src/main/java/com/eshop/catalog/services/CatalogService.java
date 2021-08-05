@@ -57,6 +57,20 @@ public interface CatalogService {
     void updateItem(CatalogItem item);
 
     /**
+     * Add new catalog item
+     *
+     * @param item catalog item
+     */
+    void addItem(CatalogItem item);
+
+    /**
+     * Delete catalog item
+     *
+     * @param id catalog item id
+     */
+    void deleteItem(Long id);
+
+    /**
      * Returns brand by given id.
      *
      * @param id brand id

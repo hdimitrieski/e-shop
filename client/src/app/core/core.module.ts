@@ -31,8 +31,11 @@ function initializeOAuth(
         });
       }
     });
-  }
+  };
 }
+
+const apiGatewayUrls = ['/api/v1/basket', '/api/v1/orders', '/api/v1/catalog']
+  .map(path => `${environment.apiUrl}${path}`);
 
 @NgModule({
   imports: [
@@ -40,8 +43,7 @@ function initializeOAuth(
     HttpClientModule,
     OAuthModule.forRoot({
       resourceServer: {
-        allowedUrls: ['/api/v1/basket', '/api/v1/orders']
-          .map(path => `${environment.apiUrl}${path}`),
+        allowedUrls: [...apiGatewayUrls, `${environment.imageApiUrl}/images/upload`],
         sendAccessToken: true
       }
     }),

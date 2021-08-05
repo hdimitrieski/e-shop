@@ -27,7 +27,7 @@ public class SecurityConfig {
         .and()
         .csrf().disable()
         .authorizeExchange()
-        .pathMatchers(HttpMethod.GET, "/api/v1/catalog/*").permitAll()
+        .pathMatchers(HttpMethod.GET, "/api/v1/catalog/**").permitAll()
         .pathMatchers("/api/v1/basket/*").hasAuthority(GATEWAY_SCOPE)
         .pathMatchers("/api/v1/orders/*").hasAuthority(GATEWAY_SCOPE)
         .pathMatchers("/api/v1/catalog/*").hasAuthority(GATEWAY_SCOPE)

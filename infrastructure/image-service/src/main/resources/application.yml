@@ -1,0 +1,10 @@
+
+# Logging
+logging:
+  level:
+    org:
+      springframework:
+        web: INFO
+        security: INFO
+    web: INFO
+    root: INFO

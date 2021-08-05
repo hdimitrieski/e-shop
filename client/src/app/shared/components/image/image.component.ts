@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ImageSize } from './image-size';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'es-image',
@@ -24,7 +25,7 @@ export class ImageComponent implements OnInit {
 
   public ngOnInit() {
     this.setImageSize();
-    this.url = `http://localhost:8887/unsafe/${this.width}x${this.height}/${this.name}`;
+    this.url = `${environment.imageProxyUrl}/insecure/fit/${this.width}/${this.height}/no/0/plain/s3://catalog-images/${this.name}`;
   }
 
   private setImageSize() {

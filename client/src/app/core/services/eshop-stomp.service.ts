@@ -29,23 +29,23 @@ export class EshopStompService {
   }
 
   watchOrdersWaitingValidation(): Observable<OrderNotification> {
-    return this.watch('order-waiting-validation')
+    return this.watch('order-waiting-validation');
   }
 
   watchOrderCancelled(): Observable<OrderNotification> {
-    return this.watch('order-cancelled')
+    return this.watch('order-cancelled');
   }
 
   watchOrderPaid(): Observable<OrderNotification> {
-    return this.watch('order-paid')
+    return this.watch('order-paid');
   }
 
   watchOrderShipped(): Observable<OrderNotification> {
-    return this.watch('order-shipped')
+    return this.watch('order-shipped');
   }
 
   watchOrderStockConfirmed(): Observable<OrderNotification> {
-    return this.watch('order-stock-confirmed')
+    return this.watch('order-stock-confirmed');
   }
 
   watchOrderSubmitted(): Observable<OrderNotification> {

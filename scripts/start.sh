@@ -61,6 +61,10 @@ echo "Running gateway service..."
 nohup java -Dspring.profiles.active="$profiles" -jar infrastructure/gateway/target/gateway.jar > target/gateway.log 2>&1 &
 sleep 3
 
+echo "Running image service..."
+nohup java -Dspring.profiles.active="$(concat_profiles "dev" "$profiles")" -jar infrastructure/image-service/target/image-service.jar > target/image-service.log 2>&1 &
+sleep 3
+
 echo "Running order-processing service..."
 nohup java -Dspring.profiles.active="$(concat_profiles "dev" "$profiles")" -jar services/order-processing/target/order-processing.jar > target/order-processing.log 2>&1 &
 sleep 5

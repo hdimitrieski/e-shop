@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { CatalogService } from '../services/catalog.service';
+import { CatalogService } from '../../core/services/catalog.service';
 import { CatalogBrand, CatalogType, ChangeFilterEvent } from '../models';
 
 @Component({

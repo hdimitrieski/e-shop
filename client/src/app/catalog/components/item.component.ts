@@ -9,7 +9,7 @@ import { BasketItem } from '../../models';
 })
 export class ItemComponent {
   @Input() item: CatalogItem;
-  @Output() addToCart = new EventEmitter<BasketItem>()
+  @Output() addToCart = new EventEmitter<BasketItem>();
 
   onAddToCart() {
     this.addToCart.emit({

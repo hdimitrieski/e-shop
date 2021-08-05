@@ -1,0 +1,7 @@
+<es-catalog-item-form
+  [catalogItem]="catalogItem$ | async"
+  [brands]="brands$ | async"
+  [categories]="categories$ | async"
+  (add)="addCatalogItem($event)"
+  (update)="updateCatalogItem($event)">
+</es-catalog-item-form>

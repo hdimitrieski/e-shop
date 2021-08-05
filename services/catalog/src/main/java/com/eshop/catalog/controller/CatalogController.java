@@ -142,12 +142,14 @@ public class CatalogController {
 
     @RequestMapping(method = RequestMethod.POST, path = "items")
     public void createProduct(@RequestBody @Valid CatalogItem product) {
-        // TODO HD implement
+        logger.info("Add product: {}", product.getId());
+        catalogService.addItem(product);
     }
 
     @RequestMapping(method = RequestMethod.DELETE, path = "items/{id}")
     public void deleteProduct(@PathVariable Long id) {
-        // TODO HD implement
+        logger.info("Delete product: {}", id);
+        catalogService.deleteItem(id);
     }
 
     private Brand findBrand(Long id) {

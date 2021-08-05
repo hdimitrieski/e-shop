@@ -11,5 +11,5 @@ export interface Order {
   country: string;
   total: number;
   status: string;
-  orderItems: OrderItem[]
+  orderItems: OrderItem[];
 }

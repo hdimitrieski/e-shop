@@ -22,9 +22,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     if (this.authenticationService.isLoggedIn()) {
-      this.authenticationService.loadUserProfile().subscribe(userInfo => {
-        this.user = userInfo;
-      });
+      this.subscription.add(
+        this.authenticationService.loadUserProfile().subscribe(userInfo => {
+          this.user = userInfo;
+        })
+      );
     }
   }
 
@@ -40,6 +42,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     return this.basketService.getCustomerBasket().items
       .map(item => item.quantity * item.unitPrice)
       .reduce((price, sum) => price + sum, 0);
+  }
+
+  public isAdmin(): boolean {
+    return this.authenticationService.isAdmin();
   }
 
   public login() {

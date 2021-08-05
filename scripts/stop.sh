@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-# kill $(jps -l | grep 'infrastructure/.*/target/.*\.jar' | awk '{print $1}') || echo "No services are running"
-
 echo "Stopping all services..."
 jps -l | grep 'infrastructure/.*/target/.*\.jar' | awk '{print $1}' | xargs kill -9
 jps -l | grep 'services/.*/target/.*\.jar' | awk '{print $1}' | xargs kill -9

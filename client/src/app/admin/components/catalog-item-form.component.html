@@ -1,0 +1,67 @@
+<form [formGroup]="form" (submit)="onSubmit()">
+  <div class="col-6">
+    <input type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload>
+
+    <div class="file-upload">
+      {{pictureFileNameControl.value || "Upload picture"}}
+
+      <button type="button" class="btn btn-primary" (click)="fileUpload.click()">
+        Upload
+      </button>
+    </div>
+  </div>
+
+  <div class="col-6">
+    <label for="name" class="form-label">Name</label>
+    <input formControlName="name" type="text" class="form-control" id="name">
+  </div>
+
+  <div class="col-6">
+    <label for="description" class="form-label">Description</label>
+    <input formControlName="description" type="text" class="form-control" id="description">
+  </div>
+
+  <div class="col-6">
+    <label for="price" class="form-label">Price</label>
+    <input formControlName="price" type="number" class="form-control" id="price">
+  </div>
+
+  <div class="col-6">
+    <label for="category" class="form-label">Category</label>
+    <select [compareWith]="compareCategories" id="category" class="form-select" formControlName="category">
+      <option [ngValue]="null" disabled>Choose category</option>
+      <option *ngFor="let category of categories" [ngValue]=category>
+        {{category.name}}
+      </option>
+    </select>
+  </div>
+
+  <div class="col-6">
+    <label for="brand" class="form-label">Brand</label>
+    <select [compareWith]="compareBrands" id="brand" class="form-select" formControlName="brand">
+      <option [ngValue]="null" disabled>Choose brand</option>
+      <option *ngFor="let brand of brands" [ngValue]=brand>
+        {{brand.name}}
+      </option>
+    </select>
+  </div>
+
+  <div class="col-6">
+    <label for="availableStock" class="form-label">Available Stock</label>
+    <input formControlName="availableStock" type="number" class="form-control" id="availableStock">
+  </div>
+
+  <div class="col-6">
+    <label for="restockThreshold" class="form-label">Re-stock Threshold</label>
+    <input formControlName="restockThreshold" type="number" class="form-control" id="restockThreshold">
+  </div>
+
+  <div class="col-6">
+    <label for="maxStockThreshold" class="form-label">Max Stock Threshold</label>
+    <input formControlName="maxStockThreshold" type="number" class="form-control" id="maxStockThreshold">
+  </div>
+
+  <button class="btn btn-primary" type="submit" [disabled]="form.invalid">
+    {{isNew() ? 'Add' : 'Update'}}
+  </button>
+</form>

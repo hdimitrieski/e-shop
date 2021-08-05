@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CatalogService } from '../services/catalog.service';
+import { CatalogService } from '../../core/services/catalog.service';
 import { BasketService } from '../../core/services/basket.service';
 import { CatalogItem, CatalogPage, ChangeFilterEvent } from '../models';
 import { BasketItem } from '../../models';

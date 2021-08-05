@@ -1,0 +1,23 @@
+app:
+  minio:
+    bucketname: catalog-images
+    region: eu-east
+    url: http://localhost:8086
+    credentials:
+      name: mystorage
+      secret: mystorage
+
+spring:
+  # Security
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: ${app.auth-server.jwk-set-uri}
+          issuer-uri: ${app.auth-server.issuer-uri}
+
+---
+spring:
+  config:
+    activate:
+      on-profile: docker

@@ -1,0 +1,9 @@
+<form [formGroup]="form">
+  <div class="col-6">
+    <label for="orderId" class="form-label">Order ID</label>
+    <input formControlName="orderNumber" type="text" class="form-control" id="orderId">
+  </div>
+
+  <button class="btn btn-primary" type="submit" [disabled]="form.invalid" (click)="onCancel()">Cancel</button>
+  <button class="btn btn-primary" type="submit" [disabled]="form.invalid" (click)="onShip()">Ship</button>
+</form>
