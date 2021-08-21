@@ -29,6 +29,11 @@
             <artifactId>event-handling</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.eshop</groupId>
+            <artifactId>validation</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
         <!-- Spring -->
         <dependency>
@@ -40,12 +45,6 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <!-- Spring -->
-        <!-- Validation -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-validation</artifactId>
-        </dependency>
-        <!-- Validation -->
         <!-- Security -->
         <dependency>
             <groupId>com.eshop</groupId>

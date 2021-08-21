@@ -31,6 +31,11 @@
             <artifactId>outbox</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.eshop</groupId>
+            <artifactId>validation</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
         <!-- Spring -->
         <dependency>
@@ -98,12 +103,6 @@
             <artifactId>spring-kafka</artifactId>
         </dependency>
         <!-- Kafka -->
-        <!-- Validation -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-validation</artifactId>
-        </dependency>
-        <!-- Validation -->
         <!-- JPA + db -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

@@ -4,7 +4,7 @@ import an.awesome.pipelinr.Command;
 import com.eshop.ordering.api.application.dtos.OrderItemDTO;
 import com.eshop.ordering.api.application.dtos.ToOrderItemDTOMapper;
 import com.eshop.ordering.api.application.models.BasketItem;
-import com.eshop.ordering.api.application.validators.CardExpirationDate;
+import com.eshop.validation.CardExpirationDate;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -35,6 +35,7 @@ public class CreateOrderCommand implements Command<Boolean> {
   private final String cardNumber;
   @NotEmpty
   private final String cardHolderName;
+  @NotEmpty
   @CardExpirationDate
   private final LocalDate cardExpiration;
   @NotEmpty

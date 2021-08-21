@@ -1,4 +1,4 @@
-package com.eshop.ordering.api.application.validators;
+package com.eshop.validation;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
