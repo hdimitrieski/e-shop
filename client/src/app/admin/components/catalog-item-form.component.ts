@@ -68,7 +68,11 @@ export class CatalogItemFormComponent implements OnInit {
   private createForm(): FormGroup {
     const form = this.fb.group({
       pictureFileName: this.fb.control(''),
-      name: this.fb.control('', Validators.required),
+      name: this.fb.control('', [
+        Validators.required,
+        Validators.minLength(5),
+        Validators.maxLength(50)
+      ]),
       description: this.fb.control('', Validators.required),
       price: this.fb.control('', Validators.required),
       category: this.fb.control('', Validators.required),

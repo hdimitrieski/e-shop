@@ -5,12 +5,14 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ImageComponent } from './components/image/image.component';
 import { ImgDirective } from './directives/img.directive';
 import { PaginationComponent } from './components/pagination/pagination.component';
+import { InputErrorsDirective } from './directives/input-errors.directive';
 
 @NgModule({
   declarations: [
     ImageComponent,
     ImgDirective,
-    PaginationComponent
+    PaginationComponent,
+    InputErrorsDirective
   ],
   providers: [],
   imports: [
@@ -24,7 +26,8 @@ import { PaginationComponent } from './components/pagination/pagination.componen
     ReactiveFormsModule,
     ImageComponent,
     ImgDirective,
-    PaginationComponent
+    PaginationComponent,
+    InputErrorsDirective
   ]
 })
 export class SharedModule {
