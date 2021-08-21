@@ -23,14 +23,10 @@ Spring Cloud Stream, Spring Kafka, Kafka Streams API, Keycloak, ...
 - [Analytics](services/analytics) - Real-time stream processing with Kafka Streams API.
 
 # How To Run
-You need to have Maven, Java 16, Node.js and Docker. The best way to run the sample applications is with IDEs like IntelliJ IDEA 
-or Eclipse.
+You need to have Maven, Java 16, Node.js and Docker. By default, Docker Desktop is set to use 2 GB runtime memory, 
+allocated from the total available memory. We recommend setting the runtime memory to 6GB.
 
-You can run all docker containers and Spring applications by running the `./scripts/start.sh`. By default, the script
-won't start ELK and Zipkin. If you want to use ELK and Zipkin, you can run the script as: 
-`./scripts/start.sh --elk --distributed-tracing`. To stop everything you can run `./scripts/stop.sh`.
-
-Alternatively, you can run the system as described bellow.
+The best way to run the services is with IDEs like IntelliJ IDEA or Eclipse. Check their documentation for more details.
 
 ## Run Infrastructural Components
 Run all infrastructural containers(Postgres, Redis, Kafka, Keycloak authorization service) using the following command:
@@ -65,7 +61,7 @@ Then:
     ~ docker-compose -f docker-compose.services.yml up --build
 
 
-## Run imaging service (optional)
+## Run imaging service
 
 We use [imgproxy](https://imgproxy.net/) service to resize images on-the-fly. It is a fast and secure standalone server 
 for resizing and converting remote images.
@@ -113,7 +109,14 @@ The client application is implemented with angular.
     ~ npm start
 
 You can access the client application at http://localhost:4200. You can stop some services such as basket, order 
-processing, or analytics and you will notice that you can still use the application without some of its features.
+processing, or analytics, and you will notice that you can still use the application without some of its features.
+
+# Run everything
+Alternatively, you can run the system as described bellow.
+
+You can run all docker containers and Spring applications by running the `./scripts/start.sh`. By default, the script
+won't start ELK and Zipkin. If you want to use ELK and Zipkin, you can run the script as:
+`./scripts/start.sh --elk --distributed-tracing`. To stop everything you can run `./scripts/stop.sh`.
 
 ## Create user
 Before you start using the application, you need to create a user. You can access Keycloak authorization service at

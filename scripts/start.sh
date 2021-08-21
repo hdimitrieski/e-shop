@@ -31,6 +31,12 @@ concat_profiles() {
   fi
 }
 
+# Create target directory for the logs if it doesn't exist.
+mkdir -p "target"
+
+# Build all services
+mvn clean install
+
 if [ $elk ]; then
   profiles="$elk"
   docker_files="$docker_files -f docker/docker-compose.elk.yml"
