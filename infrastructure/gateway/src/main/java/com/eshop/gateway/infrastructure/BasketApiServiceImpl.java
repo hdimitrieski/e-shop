@@ -2,6 +2,7 @@ package com.eshop.gateway.infrastructure;
 
 import com.eshop.gateway.models.BasketData;
 import com.eshop.gateway.services.BasketApiService;
+import io.github.resilience4j.circuitbreaker.CallNotPermittedException;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.retry.annotation.Retry;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +18,8 @@ import java.util.ArrayList;
 public class BasketApiServiceImpl implements BasketApiService {
   private final WebClient.Builder basketWebClient;
 
-  @CircuitBreaker(name = "basket", fallbackMethod = "emptyBasketData")
-  @Retry(name = "basket", fallbackMethod = "emptyBasketData")
+  @CircuitBreaker(name = "basket", fallbackMethod = "circuitBreakerEmptyBasketData")
+  @Retry(name = "basket", fallbackMethod = "retryEmptyBasketData")
   @Override
   public Mono<BasketData> getById(String id) {
     return basketWebClient.build()
@@ -41,7 +42,11 @@ public class BasketApiServiceImpl implements BasketApiService {
         .bodyToMono(BasketData.class);
   }
 
-  private Mono<BasketData> emptyBasketData(String id, Exception t) {
+  private Mono<BasketData> circuitBreakerEmptyBasketData(String id, CallNotPermittedException t) {
+    return Mono.just(new BasketData(id, new ArrayList<>()));
+  }
+
+  private Mono<BasketData> retryEmptyBasketData(String id, Exception t) {
     return Mono.just(new BasketData(id, new ArrayList<>()));
   }
 
