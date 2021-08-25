@@ -53,13 +53,15 @@ export class BasketService {
     );
   }
 
-  deleteBasket() {
-    return this.http.delete(`${environment.apiUrl}/api/v1/basket/${this.customerBasket.buyerId}`).pipe(
+  deleteBasket(): Observable<CustomerBasket> {
+    return this.http.delete<CustomerBasket>(
+      `${environment.apiUrl}/api/v1/basket/${this.customerBasket.buyerId}`
+    ).pipe(
       tap(() => this.customerBasket = this.emptyBasket(this.customerBasket.buyerId))
     );
   }
 
-  private quantitiesById(quantities: number[]) {
+  private quantitiesById(quantities: number[]): {} {
     return this.customerBasket.items.reduce(
       ((byId, item, i) => ({
         ...byId,

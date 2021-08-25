@@ -23,7 +23,7 @@ export class CatalogPageComponent implements OnInit {
   ) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.catalogService.fetchTopFive().subscribe(topFiveCatalogItems => {
       this.topFiveCatalogItems = topFiveCatalogItems;
     });
@@ -33,24 +33,25 @@ export class CatalogPageComponent implements OnInit {
     ).subscribe(({brand, type, page}) => {
       this.catalogService
         .fetchCatalogItems(brand, type, page)
-        .subscribe((page) => {
-          this.catalogPage = page;
+        .subscribe((catalogPage) => {
+          this.catalogPage = catalogPage;
         });
     });
   }
 
-  onFilterSubmitted({brand, type}: ChangeFilterEvent) {
+  onFilterSubmitted({brand, type}: ChangeFilterEvent): void {
     this.router.navigate([], {queryParams: {brand: brand.id, type: type.id}, queryParamsHandling: 'merge'});
   }
 
-  onPageChanged(page: number) {
+  onPageChanged(page: number): void {
     this.router.navigate([], {queryParams: {page}, queryParamsHandling: 'merge'});
   }
 
-  onAddItemToCart(basketItem: BasketItem) {
+  onAddItemToCart(basketItem: BasketItem): void {
     this.basketService.addToBasket(basketItem).pipe(
       take(1)
-    ).subscribe(() => console.info('Item added to basket'));
+    ).subscribe(() => {
+    });
   }
 
 }

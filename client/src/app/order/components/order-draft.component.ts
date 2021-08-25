@@ -18,11 +18,11 @@ export class OrderDraftComponent implements OnInit {
   constructor(private readonly fb: FormBuilder) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.checkoutForm = this.createForm();
   }
 
-  onCheckout() {
+  onCheckout(): void {
     this.checkout.emit(this.checkoutForm.value);
   }
 

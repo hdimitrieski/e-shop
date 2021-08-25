@@ -22,14 +22,14 @@ export class CatalogItemFormPageComponent {
   ) {
   }
 
-  addCatalogItem(catalogItem: CatalogItem) {
+  addCatalogItem(catalogItem: CatalogItem): void {
     this.catalogService.add(catalogItem).subscribe(() => {
       this.notificationsService.show({text: 'Catalog item added'});
       this.router.navigate(['/admin']);
     });
   }
 
-  updateCatalogItem(catalogItem: CatalogItem) {
+  updateCatalogItem(catalogItem: CatalogItem): void {
     this.catalogService.update(catalogItem).subscribe(() => {
       this.notificationsService.show({text: `Catalog item ${catalogItem.id} updated`});
       this.router.navigate(['/admin']);

@@ -19,22 +19,22 @@ export class BasketPageComponent implements OnInit {
   ) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.basket = this.basketService.getCustomerBasket();
     this.form = this.createForm();
   }
 
-  goToCatalog() {
+  goToCatalog(): void {
     this.router.navigate(['/catalog']);
   }
 
-  updateQuantity() {
+  updateQuantity(): void {
     this.basketService.updateQuantities(this.form.value.quantities).pipe(
       take(1)
     ).subscribe((updatedBasket) => this.basket = updatedBasket);
   }
 
-  goToCheckout() {
+  goToCheckout(): void {
     this.router.navigate(['/order-draft']);
   }
 
