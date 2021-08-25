@@ -7,7 +7,7 @@ export class UploadImageService {
   constructor(private readonly http: HttpClient) {
   }
 
-  upload(file: File) {
+  upload(file: File)  {
     return this.http.post(`${environment.imageApiUrl}/images/upload?fileName=${file.name}`, file);
   }
 

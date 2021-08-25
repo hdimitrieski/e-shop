@@ -13,12 +13,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HeaderComponent } from './components/header/header.component';
 import { RouterModule } from '@angular/router';
 import { environment } from '../../environments/environment';
+import {CustomerBasket} from '../models';
 
 function initializeOAuth(
   oAuthService: OAuthService,
   basketService: BasketService,
   eshopStompService: EshopStompService
-) {
+): () => Promise<CustomerBasket> {
   return () => {
     oAuthService.configure(authCodeFlowConfig);
     oAuthService.setupAutomaticSilentRefresh();

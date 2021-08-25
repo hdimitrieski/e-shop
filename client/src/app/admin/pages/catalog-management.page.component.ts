@@ -17,15 +17,15 @@ export class CatalogManagementPageComponent implements OnInit {
     this.catalogService.fetchCatalogItems();
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.fetchCatalogItems(0);
   }
 
-  public onPageChanged(page: number) {
+  public onPageChanged(page: number): void {
     this.fetchCatalogItems(page);
   }
 
-  public deleteCatalogItem(catalogItem: CatalogItem) {
+  public deleteCatalogItem(catalogItem: CatalogItem): void {
     this.catalogService.delete(catalogItem.id).subscribe(() => {
       this.notificationsService.show({text: `Catalog item ${catalogItem.id} deleted.`});
       this.catalogPage = {
@@ -35,12 +35,12 @@ export class CatalogManagementPageComponent implements OnInit {
     });
   }
 
-  private fetchCatalogItems(page: number) {
+  private fetchCatalogItems(pageIndex: number): void {
     this.catalogService
-      .fetchCatalogItems(null, null, page)
+      .fetchCatalogItems(null, null, pageIndex)
       .pipe(take(1))
-      .subscribe((page) => {
-        this.catalogPage = page;
+      .subscribe((catalogPage) => {
+        this.catalogPage = catalogPage;
       });
   }
 

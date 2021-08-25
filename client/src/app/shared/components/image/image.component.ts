@@ -23,12 +23,12 @@ export class ImageComponent implements OnInit {
   width = 200;
   height = 150;
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.setImageSize();
     this.url = `${environment.imageProxyUrl}/insecure/fit/${this.width}/${this.height}/no/0/plain/s3://catalog-images/${this.name}`;
   }
 
-  private setImageSize() {
+  private setImageSize(): void {
     if (!this.size || this.size === ImageSize.Medium) {
       this.width = 240;
       this.height = 150;

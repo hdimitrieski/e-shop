@@ -43,7 +43,7 @@ export class AuthenticationService {
     return fromPromise(this.oAuthService.loadDiscoveryDocumentAndLogin());
   }
 
-  public logout() {
+  public logout(): void {
     this.oAuthService.logOut();
   }
 

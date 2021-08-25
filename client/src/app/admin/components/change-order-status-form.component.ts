@@ -20,11 +20,11 @@ export class ChangeOrderStatusFormComponent implements OnInit {
     this.form = this.createForm();
   }
 
-  public onCancel() {
+  public onCancel(): void {
     this.cancel.emit(this.form.value);
   }
 
-  public onShip() {
+  public onShip(): void {
     this.ship.emit(this.form.value);
   }
 

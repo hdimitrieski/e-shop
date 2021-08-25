@@ -10,7 +10,7 @@ export class AuthGuard implements CanActivate {
   constructor(private readonly router: Router, private readonly oauthService: OAuthService) {
   }
 
-  canActivate() {
+  canActivate(): boolean {
     if (
       this.oauthService.hasValidAccessToken() &&
       this.oauthService.hasValidIdToken()

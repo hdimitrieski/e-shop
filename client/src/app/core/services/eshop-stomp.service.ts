@@ -18,7 +18,7 @@ export class EshopStompService {
   ) {
   }
 
-  async connect() {
+  async connect(): Promise<void> {
     this.stompService.configure({
       ...stompConfig,
       connectHeaders: {

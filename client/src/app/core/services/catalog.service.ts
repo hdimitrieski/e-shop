@@ -20,7 +20,7 @@ export class CatalogService {
     });
   }
 
-  fetchById(catalogItemId: number) {
+  fetchById(catalogItemId: number): Observable<CatalogItem> {
     return this.http.get<CatalogItem>(`${environment.apiUrl}/api/v1/catalog/items/${catalogItemId}`);
   }
 
