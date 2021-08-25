@@ -50,7 +50,8 @@ export class CatalogPageComponent implements OnInit {
   onAddItemToCart(basketItem: BasketItem): void {
     this.basketService.addToBasket(basketItem).pipe(
       take(1)
-    ).subscribe(() => console.info('Item added to basket'));
+    ).subscribe(() => {
+    });
   }
 
 }

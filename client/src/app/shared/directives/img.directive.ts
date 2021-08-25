@@ -3,6 +3,7 @@ import { Directive, Input } from '@angular/core';
 @Directive({
   // tslint:disable-next-line:directive-selector
   selector: 'img[src]',
+  // tslint:disable-next-line:no-host-metadata-property
   host: {
     '[src]': 'src',
     '(error)': 'setPlaceholder()'

@@ -49,7 +49,7 @@ export class AuthenticationService {
 
   private roles(): string[] {
     return this.isLoggedIn()
-      ? this.oAuthService.getIdentityClaims()['roles']
+      ? (this.oAuthService.getIdentityClaims() as any).roles
       : [];
   }
 
