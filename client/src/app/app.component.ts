@@ -13,7 +13,7 @@ export class AppComponent implements OnInit {
   ) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.eshopStompService.watchOrderPaid().subscribe((notification) =>
       this.notificationsService.show({
         text: `The payment for order ${notification.orderId} has been accepted. Status: ${notification.status}`

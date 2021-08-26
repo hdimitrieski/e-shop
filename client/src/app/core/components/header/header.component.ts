@@ -34,11 +34,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  public numberOfItems() {
+  public numberOfItems(): number {
     return this.basketService.getCustomerBasket()?.items.length;
   }
 
-  public totalPrice() {
+  public totalPrice(): number {
     return this.basketService.getCustomerBasket().items
       .map(item => item.quantity * item.unitPrice)
       .reduce((price, sum) => price + sum, 0);
@@ -48,11 +48,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
     return this.authenticationService.isAdmin();
   }
 
-  public login() {
+  public login(): void {
     this.authenticationService.login();
   }
 
-  public logout() {
+  public logout(): void {
     this.authenticationService.logout();
   }
 }

@@ -29,7 +29,7 @@ export class CatalogItemFormComponent implements OnInit {
     this.form = this.createForm();
   }
 
-  public onFileSelected(event: Event) {
+  public onFileSelected(event: Event): void {
     event.preventDefault();
     const target = event.target as HTMLInputElement;
     const file: File = target.files[0];
@@ -40,7 +40,7 @@ export class CatalogItemFormComponent implements OnInit {
     }
   }
 
-  public onSubmit() {
+  public onSubmit(): void {
     const catalogItem: CatalogItem = {
       id: this.catalogItem?.id,
       ...this.form.value

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { RxStompService } from '@stomp/ng2-stompjs';
+import { RxStompService, StompHeaders } from '@stomp/ng2-stompjs';
 import { stompConfig } from '../../stomp.config';
 import { AuthenticationService } from './authentication.service';
 import { map } from 'rxjs/operators';
@@ -18,7 +18,7 @@ export class EshopStompService {
   ) {
   }
 
-  async connect() {
+  async connect(): Promise<void> {
     this.stompService.configure({
       ...stompConfig,
       connectHeaders: {
@@ -61,7 +61,7 @@ export class EshopStompService {
     );
   }
 
-  private headers(token: string) {
+  private headers(token: string): StompHeaders {
     return {
       Authorization: `bearer ${token}`
     };

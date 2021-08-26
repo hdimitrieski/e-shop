@@ -3,6 +3,7 @@ import { NgControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
 @Directive({
+  // tslint:disable-next-line:directive-selector @angular-eslint/directive-selector
   selector: '[formControl],[formControlName]'
 })
 export class InputErrorsDirective implements OnInit, OnDestroy {
@@ -15,7 +16,7 @@ export class InputErrorsDirective implements OnInit, OnDestroy {
   ) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.subscription.add(this.ngControl.statusChanges.subscribe((status) => {
       if (status === 'VALID') {
         this.renderer.removeClass(this.elementRef.nativeElement, 'is-invalid');
@@ -28,7 +29,7 @@ export class InputErrorsDirective implements OnInit, OnDestroy {
     }));
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 

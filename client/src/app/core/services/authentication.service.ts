@@ -43,13 +43,13 @@ export class AuthenticationService {
     return fromPromise(this.oAuthService.loadDiscoveryDocumentAndLogin());
   }
 
-  public logout() {
+  public logout(): void {
     this.oAuthService.logOut();
   }
 
   private roles(): string[] {
     return this.isLoggedIn()
-      ? this.oAuthService.getIdentityClaims()['roles']
+      ? (this.oAuthService.getIdentityClaims() as any).roles
       : [];
   }
 

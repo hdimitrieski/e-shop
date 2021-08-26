@@ -21,14 +21,14 @@ export class FilterComponent implements OnInit {
     private readonly fb: FormBuilder
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.filterForm = this.fb.group({
       type: this.fb.control('All'),
       brand: this.fb.control('All'),
     });
   }
 
-  onFilterSubmitted() {
+  onFilterSubmitted(): void {
     this.filterSubmitted.emit(this.filterForm.value);
   }
 }

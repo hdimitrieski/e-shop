@@ -5,11 +5,11 @@ import { AppNotification } from '../models';
 export class NotificationsService {
   notifications: AppNotification[] = [];
 
-  show(notification: AppNotification) {
+  show(notification: AppNotification): void {
     this.notifications.push(notification);
   }
 
-  remove(notification: AppNotification) {
+  remove(notification: AppNotification): void {
     this.notifications = this.notifications.filter(t => t !== notification);
   }
 }

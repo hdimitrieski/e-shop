@@ -20,20 +20,20 @@ export class CatalogService {
     });
   }
 
-  fetchById(catalogItemId: number) {
+  fetchById(catalogItemId: number): Observable<CatalogItem> {
     return this.http.get<CatalogItem>(`${environment.apiUrl}/api/v1/catalog/items/${catalogItemId}`);
   }
 
-  add(catalogItem: CatalogItem) {
-    return this.http.post(`${environment.apiUrl}/api/v1/catalog/items`, catalogItem);
+  add(catalogItem: CatalogItem): Observable<void> {
+    return this.http.post<void>(`${environment.apiUrl}/api/v1/catalog/items`, catalogItem);
   }
 
-  update(catalogItem: CatalogItem) {
-    return this.http.put(`${environment.apiUrl}/api/v1/catalog/items`, catalogItem);
+  update(catalogItem: CatalogItem): Observable<void> {
+    return this.http.put<void>(`${environment.apiUrl}/api/v1/catalog/items`, catalogItem);
   }
 
-  delete(catalogItemId: number) {
-    return this.http.delete(`${environment.apiUrl}/api/v1/catalog/items/${catalogItemId}`);
+  delete(catalogItemId: number): Observable<void> {
+    return this.http.delete<void>(`${environment.apiUrl}/api/v1/catalog/items/${catalogItemId}`);
   }
 
   fetchCatalogTypes(): Observable<CatalogType[]> {

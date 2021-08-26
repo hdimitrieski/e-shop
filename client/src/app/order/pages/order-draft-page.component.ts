@@ -23,11 +23,11 @@ export class OrderDraftPageComponent implements OnInit {
   ) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.orderDraft = this.orderService.getDraft();
   }
 
-  onCheckout(checkoutForm: CheckoutForm) {
+  onCheckout(checkoutForm: CheckoutForm): void {
     this.checkoutService.checkout(checkoutForm).pipe(
       take(1)
     ).subscribe(() => {
@@ -37,19 +37,19 @@ export class OrderDraftPageComponent implements OnInit {
     });
   }
 
-  private sendOrderSubmittedNotification() {
+  private sendOrderSubmittedNotification(): void {
     this.notificationsService.show({
       text: 'Your order has been submitted.'
     });
   }
 
-  private deleteBasket() {
+  private deleteBasket(): void {
     this.basketService.deleteBasket().pipe(
       take(1)
     ).subscribe();
   }
 
-  private goToCatalog() {
+  private goToCatalog(): void {
     this.router.navigate(['/']);
   }
 

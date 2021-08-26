@@ -10,7 +10,7 @@ export class PaginationComponent {
   @Input() page: CatalogPage;
   @Output() pageChanged = new EventEmitter<number>();
 
-  public onPageChange(page: number) {
+  public onPageChange(page: number): void {
     if (page - 1 !== this.page.pageable.page) {
       this.pageChanged.emit(page - 1);
     }

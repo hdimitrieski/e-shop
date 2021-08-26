@@ -14,7 +14,7 @@ export class OrderManagementPageComponent {
   ) {
   }
 
-  public cancelOrder(orderStatusForm: OrderStatusForm) {
+  public cancelOrder(orderStatusForm: OrderStatusForm): void {
     this.orderManagementService.cancel(orderStatusForm).pipe(
       take(1)
     ).subscribe(() => this.notificationsService.show({
@@ -22,7 +22,7 @@ export class OrderManagementPageComponent {
     }));
   }
 
-  public shipOrder(orderStatusForm: OrderStatusForm) {
+  public shipOrder(orderStatusForm: OrderStatusForm): void {
     this.orderManagementService.ship(orderStatusForm).pipe(
       take(1)
     ).subscribe(() => this.notificationsService.show({
