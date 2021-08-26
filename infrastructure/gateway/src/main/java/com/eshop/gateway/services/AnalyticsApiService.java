@@ -1,8 +1,8 @@
 package com.eshop.gateway.services;
 
-import com.eshop.gateway.models.Product;
+import com.eshop.gateway.models.CatalogItem;
 import reactor.core.publisher.Flux;
 
 public interface AnalyticsApiService {
-  Flux<Product> getTopFiveProducts();
+  Flux<CatalogItem> getTopFiveProducts();
 }

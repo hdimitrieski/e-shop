@@ -1,7 +1,9 @@
 package com.eshop.gateway.infrastructure;
 
-import com.eshop.gateway.models.Product;
+import com.eshop.gateway.models.CatalogItem;
 import com.eshop.gateway.services.AnalyticsApiService;
+import com.eshop.gateway.services.CatalogApiService;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.retry.annotation.Retry;
 import lombok.RequiredArgsConstructor;
@@ -12,24 +14,37 @@ import reactor.core.publisher.Flux;
 
 import static org.springframework.security.oauth2.client.web.reactive.function.client.ServerOAuth2AuthorizedClientExchangeFilterFunction.clientRegistrationId;
 
-@CircuitBreaker(name = "catalog")
+@CircuitBreaker(name = "catalog", fallbackMethod = "getFirst5ProductsFromCatalog")
 @Retry(name = "catalog")
 @RequiredArgsConstructor
 @Service
 public class AnalyticsApiServiceImpl implements AnalyticsApiService {
   private final WebClient.Builder analyticsWebClient;
+  private final CatalogApiService catalogApiService;
 
   @Value("${app.security.oauth2.client.analytics.id}")
   private String analyticsClientId;
 
-  // TODO Fallback: Get first five catalog items
   @Override
-  public Flux<Product> getTopFiveProducts() {
+  public Flux<CatalogItem> getTopFiveProducts() {
     return analyticsWebClient.build()
         .get()
         .uri("lb://analytics/analytics/products/top-five")
         .attributes(clientRegistrationId(analyticsClientId))
         .retrieve()
-        .bodyToFlux(Product.class);
+        .bodyToFlux(Product.class)
+        .map(Product::id)
+        .collectList()
+        .flatMapMany(catalogApiService::getCatalogItems);
   }
+
+  private Flux<CatalogItem> getFirst5ProductsFromCatalog(Exception e) {
+    return catalogApiService.getFirst5CatalogItems();
+  }
+
+  private static record Product(
+      @JsonProperty("id") Long id
+  ) {
+  }
+
 }

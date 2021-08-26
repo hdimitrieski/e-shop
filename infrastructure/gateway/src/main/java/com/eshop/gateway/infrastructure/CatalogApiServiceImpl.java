@@ -2,6 +2,7 @@ package com.eshop.gateway.infrastructure;
 
 import com.eshop.gateway.models.CatalogItem;
 import com.eshop.gateway.services.CatalogApiService;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.retry.annotation.Retry;
 import io.github.resilience4j.timelimiter.annotation.TimeLimiter;
@@ -39,5 +40,20 @@ public class CatalogApiServiceImpl implements CatalogApiService {
         .uri("lb://catalog/catalog/items/withids/" + commaSeparatedIds)
         .retrieve()
         .bodyToFlux(CatalogItem.class);
+  }
+
+  @Override
+  public Flux<CatalogItem> getFirst5CatalogItems() {
+    return catalogWebClient.build()
+        .get()
+        .uri("lb://catalog/catalog/items?pageIndex=0&pageSize=5")
+        .retrieve()
+        .bodyToMono(First5CatalogItemsResponse.class)
+        .flatMapIterable(First5CatalogItemsResponse::content);
+  }
+
+  private static record First5CatalogItemsResponse(
+      @JsonProperty("content") List<CatalogItem> content
+  ) {
   }
 }

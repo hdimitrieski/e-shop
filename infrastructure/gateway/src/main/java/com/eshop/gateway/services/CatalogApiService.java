@@ -10,4 +10,6 @@ public interface CatalogApiService {
   Mono<CatalogItem> getCatalogItem(Long id);
 
   Flux<CatalogItem> getCatalogItems(List<Long> ids);
+
+  Flux<CatalogItem> getFirst5CatalogItems();
 }

@@ -38,6 +38,7 @@ spring:
 
 resilience4j:
   circuitbreaker:
+#    circuitBreakerAspectOrder: 1
     configs:
       default:
         registerHealthIndicator: true
@@ -66,6 +67,7 @@ resilience4j:
           - com.eshop.gateway.infrastructure.exception.ServiceCallFailedException
 
   retry:
+#    retryAspectOrder: 2
     configs:
       default:
         maxRetryAttempts: 3
@@ -85,7 +87,7 @@ resilience4j:
       catalog:
         baseConfig: default
         maxRetryAttempts: 4
-        waitDuration: 200
+        waitDuration: 1000
 
   ratelimiter:
     configs:
