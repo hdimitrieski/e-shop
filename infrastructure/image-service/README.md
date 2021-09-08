@@ -1,4 +1,4 @@
-# API Gateway Service
+# Image Service
 
 This service is only used for uploading catalog item images to [Minio](https://github.com/minio/minio). Only the admin
 user is allowed to upload images when editing catalog items.
