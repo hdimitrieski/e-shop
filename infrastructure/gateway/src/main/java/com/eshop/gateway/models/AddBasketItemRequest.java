@@ -1,4 +1,6 @@
 package com.eshop.gateway.models;
 
-public record AddBasketItemRequest(Long catalogItemId, String basketId, Integer quantity) {
+import java.util.UUID;
+
+public record AddBasketItemRequest(UUID catalogItemId, String basketId, Integer quantity) {
 }

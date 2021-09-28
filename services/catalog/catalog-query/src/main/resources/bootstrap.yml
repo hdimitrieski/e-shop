@@ -1,0 +1,39 @@
+server:
+  port: 0
+
+app:
+  config:
+    host: localhost
+    port: 8888
+    user: cfguser
+    password: cfgpassword
+
+spring:
+  application:
+    name: catalog-query
+  cloud:
+    config:
+      uri: http://${app.config.host}:${app.config.port}
+      fail-fast: true
+      username: ${app.config.user}
+      password: ${app.config.password}
+      retry:
+        max-attempts: 10
+        max-interval: 15000
+        initial-interval: 10000
+
+---
+spring:
+  config:
+    activate:
+      on-profile: docker
+
+server.port: 8080
+
+app:
+  config:
+    host: config
+    port: 8888
+    user: ${CONFIG_SERVICE_USER}
+    password: ${CONFIG_SERVICE_PASSWORD}
+

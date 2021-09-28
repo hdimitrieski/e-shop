@@ -4,6 +4,12 @@ app:
       analytics:
         id: analytics-service
         secret: b20b38ac-7a98-429a-9949-b358b23f7b66
+  services:
+    catalog-query: catalog-query
+    catalog-command: catalog-command
+    basket: basket
+    order-processing: order-processing
+    analytics: analytics
 
 spring:
   security:
@@ -59,7 +65,7 @@ resilience4j:
     instances:
       basket:
         baseConfig: default
-      catalog:
+      catalog-query:
         baseConfig: default
       order:
         baseConfig: default
@@ -84,7 +90,7 @@ resilience4j:
     instances:
       basket:
         baseConfig: default
-      catalog:
+      catalog-query:
         baseConfig: default
         maxRetryAttempts: 4
         waitDuration: 1000
@@ -107,7 +113,7 @@ resilience4j:
         cancelRunningFuture: false
         timeoutDuration: 2s
     instances:
-      catalog:
+      catalog-query:
         baseConfig: default
         cancelRunningFuture: true
 

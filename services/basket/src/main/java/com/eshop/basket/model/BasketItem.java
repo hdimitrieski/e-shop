@@ -8,6 +8,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.UUID;
 
 @Getter
 @NoArgsConstructor
@@ -15,7 +16,7 @@ public class BasketItem implements Serializable {
   @Setter
   private String id;
   @NotNull(message = "Product id is required")
-  private Long productId;
+  private UUID productId;
   @NotEmpty(message = "Product name is required")
   private String productName;
   @Setter

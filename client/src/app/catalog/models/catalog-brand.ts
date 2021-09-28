@@ -1,4 +1,4 @@
 export interface CatalogBrand {
-  id: number;
+  id: string;
   name: string;
 }

@@ -2,6 +2,5 @@
   [catalogItem]="catalogItem$ | async"
   [brands]="brands$ | async"
   [categories]="categories$ | async"
-  (add)="addCatalogItem($event)"
-  (update)="updateCatalogItem($event)">
+  (submitted)="addCatalogItem($event)">
 </es-catalog-item-form>

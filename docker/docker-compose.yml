@@ -65,6 +65,17 @@ services:
     environment:
       REDIS_PASSWORD: pass
 
+  mongo:
+    image: mongo:latest
+    networks:
+      - eshopnet
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=user
+      - MONGO_INITDB_ROOT_PASSWORD=pass
+    ports:
+      - 27017:27017
+    restart: always
+
   authorization-service:
     image: jboss/keycloak:14.0.0
     networks:

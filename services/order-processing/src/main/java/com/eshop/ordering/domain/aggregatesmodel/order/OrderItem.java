@@ -21,11 +21,11 @@ public class OrderItem extends Entity<OrderItemId> {
   @Getter
   private Units units;
   @Getter
-  private final Long productId;
+  private final UUID productId;
 
   private OrderItem(
       @NonNull OrderItemId id,
-      @NonNull Long productId,
+      @NonNull UUID productId,
       @NonNull String productName,
       @NonNull Price unitPrice,
       @NonNull Price discount,
@@ -50,7 +50,7 @@ public class OrderItem extends Entity<OrderItemId> {
   }
 
   @Builder(access = AccessLevel.PACKAGE)
-  private OrderItem(Long productId, String productName, Price unitPrice, Price discount, String pictureUrl, Units units) {
+  private OrderItem(UUID productId, String productName, Price unitPrice, Price discount, String pictureUrl, Units units) {
     this(OrderItemId.of(UUID.randomUUID()), productId, productName, unitPrice, discount, units, pictureUrl);
   }
 

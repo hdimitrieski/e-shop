@@ -5,11 +5,12 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @Builder(toBuilder = true)
 public class Product extends ValueObject {
-  private final Long productId;
+  private final UUID productId;
   private final String productName;
   private final Price unitPrice;
   private final Price discount;

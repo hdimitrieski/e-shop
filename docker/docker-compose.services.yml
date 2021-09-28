@@ -2,8 +2,21 @@ version: '3.9'
 
 services:
 
-  catalog:
-    build: ../services/catalog
+  catalog-command:
+    build: ../services/catalog/catalog-command
+    networks:
+      - eshopnet
+    restart: on-failure
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      CONFIG_SERVICE_USER: ${CONFIG_SERVICE_USER}
+      CONFIG_SERVICE_PASSWORD: ${CONFIG_SERVICE_PASSWORD}
+      EUREKA_USER: ${EUREKA_USER}
+      MONGO_USER: ${MONGO_USER}
+      MONGO_PASSWORD: ${MONGO_PASSWORD}
+
+  catalog-query:
+    build: ../services/catalog/catalog-query
     networks:
       - eshopnet
     restart: on-failure
@@ -13,6 +26,8 @@ services:
       CONFIG_SERVICE_PASSWORD: ${CONFIG_SERVICE_PASSWORD}
       EUREKA_USER: ${EUREKA_USER}
       POSTGRES_USER: ${POSTGRES_USER}
+      MONGO_USER: ${MONGO_USER}
+      MONGO_PASSWORD: ${MONGO_PASSWORD}
 
   basket:
     build: ../services/basket

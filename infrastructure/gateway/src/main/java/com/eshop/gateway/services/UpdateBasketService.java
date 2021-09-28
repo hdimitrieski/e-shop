@@ -8,6 +8,7 @@ import reactor.core.publisher.Mono;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -90,13 +91,13 @@ public class UpdateBasketService {
         );
   }
 
-  private Optional<BasketDataItem> findBasketItem(List<BasketDataItem> basketItems, Long productId) {
+  private Optional<BasketDataItem> findBasketItem(List<BasketDataItem> basketItems, UUID productId) {
     return basketItems.stream()
         .filter(x -> x.productId().equals(productId))
         .findFirst();
   }
 
-  private Optional<CatalogItem> findCatalogItem(List<CatalogItem> catalogItems, Long productId) {
+  private Optional<CatalogItem> findCatalogItem(List<CatalogItem> catalogItems, UUID productId) {
     return catalogItems.stream()
         .filter(catalogItem -> catalogItem.id().equals(productId))
         .findFirst();

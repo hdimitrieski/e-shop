@@ -14,7 +14,7 @@ TBD
 - [Discovery](infrastructure/discovery) - Service registry that allows other services to find and communicate with each 
   other. You can access this service at http://localhost:8761 and use admin/admin credentials.
 - [API Gateway](infrastructure/gateway) - API Gateway. You can access the API Gateway at http://localhost:3000.
-- [Catalog](services/catalog) - CRUD data-driven microservice that manages catalog items.
+- [Catalog](services/catalog) - CQRS and Event Sourcing microservice, responsible for managing catalog items.
 - [Basket](services/basket) - CRUD data-driven microservice that manages user basket.
 - [Order Processing](services/order-processing) - Domain Driven Design (DDD) microservice, responsible for 
   the order process.

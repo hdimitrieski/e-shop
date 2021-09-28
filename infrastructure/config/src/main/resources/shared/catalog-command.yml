@@ -1,0 +1,61 @@
+# Custom config
+app:
+  mongodb:
+    host: localhost
+    port: 27017
+    user: user
+    password: pass
+    database: catalog-command-db
+
+spring:
+  # Kafka
+  kafka:
+    producer:
+      transaction-id-prefix: tx-catalog-
+    consumer:
+      enable-auto-commit: false
+
+  # Security
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: ${app.auth-server.jwk-set-uri}
+          issuer-uri: ${app.auth-server.issuer-uri}
+
+  data:
+    # Mongo
+    mongodb:
+      host: ${app.mongodb.host}
+      port: ${app.mongodb.port}
+      username: ${app.mongodb.user}
+      password: ${app.mongodb.password}
+      database: ${app.mongodb.database}
+
+axon:
+  serializer:
+    general: jackson
+    events: jackson
+    messages: jackson
+  axonserver:
+    enabled: false
+  kafka:
+    clientid: catalog-command-app
+    producer:
+      retries: 3
+      bootstrap-servers: ${app.kafka.broker.host}:${app.kafka.broker.port}
+      event-processor-mode: tracking
+    properties:
+      security.protocol: PLAINTEXT
+
+---
+spring:
+  config:
+    activate:
+      on-profile: docker
+
+app:
+  mongodb:
+    host: mongo
+    user: ${MONGO_USER}
+    password: ${MONGO_PASSWORD} # TODO use cipher

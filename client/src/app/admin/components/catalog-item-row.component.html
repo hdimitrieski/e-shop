@@ -1,0 +1,30 @@
+<td>
+  <es-image [name]="item.pictureFileName" size="small"></es-image>
+</td>
+
+<td>
+  <es-input [validators]="nameValidators" name="name" [value]="item.name" (submitted)="onNameChanged($event)">
+    <ng-template let-control="control">
+      <input [formControl]="control" type="text" class="form-control" id="name">
+    </ng-template>
+  </es-input>
+</td>
+
+<td>
+  <es-input
+    [validators]="nameValidators"
+    name="price"
+    [value]="item.price | number:'.2-2'"
+    (submitted)="onPriceChanged($event)">
+    <ng-template let-control="control">
+      <input [formControl]="control" type="number" class="form-control" id="price">
+    </ng-template>
+  </es-input>
+</td>
+<td>{{ item.description }}</td>
+<td>{{ item.brand.name }}</td>
+<td>{{ item.category.name }}</td>
+<td>{{ item.availableStock }}</td>
+<td>
+  <button class="btn btn-danger" (click)="deleted.emit(item)">Remove</button>
+</td>

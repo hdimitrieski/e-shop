@@ -1,7 +1,9 @@
 package com.eshop.ordering.api.application.dtos;
 
+import java.util.UUID;
+
 public record OrderItemDTO(
-    Long productId,
+    UUID productId,
     String productName,
     Double unitPrice,
     Double discount,

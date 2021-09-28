@@ -1,5 +1,5 @@
 export interface OrderDraftItem {
-  productId: number;
+  productId: string;
   productName: string;
   unitPrice: number;
   discount: number;

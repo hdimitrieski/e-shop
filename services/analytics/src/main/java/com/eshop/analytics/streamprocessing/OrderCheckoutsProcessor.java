@@ -19,6 +19,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.support.serializer.JsonSerde;
 
 import java.util.HashMap;
+import java.util.UUID;
 import java.util.function.Consumer;
 
 import static com.eshop.analytics.common.Constants.*;
@@ -45,7 +46,7 @@ public class OrderCheckoutsProcessor {
       checkoutsByUserId.groupByKey(Grouped.with(Serdes.String(), eventSerde))
           .count(Materialized.as(CHECKOUTS_BY_USER_STORE));
 
-      final KStream<Long, Product> sellsByProductId = checkoutEvents
+      final KStream<UUID, Product> sellsByProductId = checkoutEvents
           .flatMapValues((value) -> value.getBasket().getItems())
           .map((key, value) -> KeyValue.pair(value.getProductId(), new Product(value.getProductId())));
 

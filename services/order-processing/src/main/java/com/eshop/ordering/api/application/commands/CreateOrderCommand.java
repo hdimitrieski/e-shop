@@ -35,7 +35,7 @@ public class CreateOrderCommand implements Command<Boolean> {
   private final String cardNumber;
   @NotEmpty
   private final String cardHolderName;
-  @NotEmpty
+  @NotNull
   @CardExpirationDate
   private final LocalDate cardExpiration;
   @NotEmpty

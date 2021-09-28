@@ -8,6 +8,7 @@ import org.apache.kafka.common.serialization.Serializer;
 
 import java.io.*;
 import java.util.Map;
+import java.util.UUID;
 
 class TopFiveSerde implements Serde<TopFiveProducts> {
 
@@ -25,7 +26,7 @@ class TopFiveSerde implements Serde<TopFiveProducts> {
         final DataOutputStream dataOutputStream = new DataOutputStream(out);
         try {
           for (ProductSellCount productSellCount : topFiveProducts) {
-            dataOutputStream.writeLong(productSellCount.getProductId());
+            dataOutputStream.writeUTF(productSellCount.getProductId().toString());
             dataOutputStream.writeLong(productSellCount.getSells());
           }
           dataOutputStream.flush();
@@ -49,7 +50,7 @@ class TopFiveSerde implements Serde<TopFiveProducts> {
 
       try {
         while (dataInputStream.available() > 0) {
-          result.add(new ProductSellCount(dataInputStream.readLong(),
+          result.add(new ProductSellCount(UUID.fromString(dataInputStream.readUTF()),
               dataInputStream.readLong()));
         }
       } catch (IOException e) {

@@ -13,8 +13,7 @@ export class CatalogItemFormComponent implements OnInit {
   @Input() categories = [];
   @Input() brands = [];
 
-  @Output() add = new EventEmitter<CatalogItem>();
-  @Output() update = new EventEmitter<CatalogItem>();
+  @Output() submitted = new EventEmitter<CatalogItem>();
 
   public form: FormGroup = null;
 
@@ -43,18 +42,12 @@ export class CatalogItemFormComponent implements OnInit {
   public onSubmit(): void {
     const catalogItem: CatalogItem = {
       id: this.catalogItem?.id,
-      ...this.form.value
+      ...this.form.value,
+      brandId: this.form.value.brand.id,
+      categoryId: this.form.value.category.id
     };
 
-    if (this.isNew()) {
-      this.add.emit(catalogItem);
-    } else {
-      this.update.emit(catalogItem);
-    }
-  }
-
-  public isNew(): boolean {
-    return !this.catalogItem;
+    this.submitted.emit(catalogItem);
   }
 
   public compareBrands(c1: CatalogBrand, c2: CatalogBrand): boolean {
@@ -77,14 +70,10 @@ export class CatalogItemFormComponent implements OnInit {
       price: this.fb.control('', Validators.required),
       category: this.fb.control('', Validators.required),
       brand: this.fb.control('', Validators.required),
-      availableStock: this.fb.control('', Validators.required),
-      restockThreshold: this.fb.control('', Validators.required),
-      maxStockThreshold: this.fb.control('', Validators.required),
+      availableStock: this.fb.control('', Validators.required)
     });
 
-    if (!this.isNew()) {
-      form.patchValue(this.catalogItem);
-    }
+    form.patchValue(this.catalogItem);
 
     return form;
   }

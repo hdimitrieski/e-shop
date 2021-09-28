@@ -172,7 +172,7 @@ public class Order extends AggregateRoot<OrderId> {
     addDomainEvent(new OrderCancelledDomainEvent(this));
   }
 
-  public void setCancelledStatusWhenStockIsRejected(@NonNull List<Long> orderStockRejectedItems) {
+  public void setCancelledStatusWhenStockIsRejected(@NonNull List<UUID> orderStockRejectedItems) {
     if (OrderStatus.AwaitingValidation.equals(orderStatus)) {
       changeOrderStatusTo(OrderStatus.Cancelled);
 

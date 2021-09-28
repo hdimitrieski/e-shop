@@ -17,4 +17,4 @@ values ('7913e2b7-c190-470a-837f-ba2c84ab2200', 'Ohrid', 'Macedonia', 'Ohrid', '
 );
 
 insert into order_item (id, discount, picture_url, product_id, product_name, unit_price, units, order_id)
-values ('dffd044c-6ada-44bb-94c2-8df782d47bb5', 0, null, 9, 'Nike shoes', 23.0, 1, '7913e2b7-c190-470a-837f-ba2c84ab2200');
+values ('dffd044c-6ada-44bb-94c2-8df782d47bb5', 0, null, '4feb96b7-bb3a-4c0a-9763-af16f3f9c361', 'Nike shoes', 23.0, 1, '7913e2b7-c190-470a-837f-ba2c84ab2200');

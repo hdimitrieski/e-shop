@@ -59,7 +59,7 @@ create table order_item
     id           uuid             not null,
     discount     double precision,
     picture_url  varchar(255),
-    product_id   bigint           not null,
+    product_id   uuid             not null,
     product_name varchar(255)     not null,
     unit_price   double precision not null,
     units        integer          not null,

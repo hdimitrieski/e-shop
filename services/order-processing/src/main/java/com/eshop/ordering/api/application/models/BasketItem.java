@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.util.UUID;
 
 @Getter
 @NoArgsConstructor
@@ -16,7 +17,7 @@ public class BasketItem {
 
     @JsonProperty
     @NotNull
-    private Long productId;
+    private UUID productId;
 
     @JsonProperty
     @NotNull

@@ -12,10 +12,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 
+import java.util.UUID;
+
 import static org.springframework.security.oauth2.client.web.reactive.function.client.ServerOAuth2AuthorizedClientExchangeFilterFunction.clientRegistrationId;
 
-@CircuitBreaker(name = "catalog", fallbackMethod = "getFirst5ProductsFromCatalog")
-@Retry(name = "catalog")
+@CircuitBreaker(name = "catalog-query", fallbackMethod = "getFirst5ProductsFromCatalog")
+@Retry(name = "catalog-query")
 @RequiredArgsConstructor
 @Service
 public class AnalyticsApiServiceImpl implements AnalyticsApiService {
@@ -38,12 +40,13 @@ public class AnalyticsApiServiceImpl implements AnalyticsApiService {
         .flatMapMany(catalogApiService::getCatalogItems);
   }
 
+  @SuppressWarnings("unused")
   private Flux<CatalogItem> getFirst5ProductsFromCatalog(Exception e) {
     return catalogApiService.getFirst5CatalogItems();
   }
 
   private static record Product(
-      @JsonProperty("id") Long id
+      @JsonProperty("id") UUID id
   ) {
   }
 

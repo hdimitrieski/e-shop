@@ -1,15 +1,12 @@
 package com.eshop.analytics.model;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * Used in aggregations to keep track of the top five products.
  */
 public class TopFiveProducts implements Iterable<ProductSellCount> {
-  private final Map<Long, ProductSellCount> currentProducts = new HashMap<>();
+  private final Map<UUID, ProductSellCount> currentProducts = new HashMap<>();
   private final TreeSet<ProductSellCount> topFive = new TreeSet<>((o1, o2) -> {
     final int result = o2.getSells().compareTo(o1.getSells());
     if (result != 0) {

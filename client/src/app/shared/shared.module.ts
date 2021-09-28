@@ -6,13 +6,15 @@ import { ImageComponent } from './components/image/image.component';
 import { ImgDirective } from './directives/img.directive';
 import { PaginationComponent } from './components/pagination/pagination.component';
 import { InputErrorsDirective } from './directives/input-errors.directive';
+import { InputComponent } from './components/input/input.component';
 
 @NgModule({
   declarations: [
     ImageComponent,
     ImgDirective,
     PaginationComponent,
-    InputErrorsDirective
+    InputErrorsDirective,
+    InputComponent
   ],
   providers: [],
   imports: [
@@ -27,7 +29,8 @@ import { InputErrorsDirective } from './directives/input-errors.directive';
     ImageComponent,
     ImgDirective,
     PaginationComponent,
-    InputErrorsDirective
+    InputErrorsDirective,
+    InputComponent
   ]
 })
 export class SharedModule {

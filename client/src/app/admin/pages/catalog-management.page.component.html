@@ -12,27 +12,16 @@
     <th scope="col">Brand</th>
     <th scope="col">Category</th>
     <th scope="col">Available Stock</th>
-    <th scope="col">Max Stock Threshold</th>
-    <th scope="col">Re-stock Threshold</th>
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let item of catalogPage?.content; index as i">
-    <th scope="row">{{ i + 1 }}</th>
-    <td>
-      <es-image [name]="item.pictureFileName" size="small"></es-image>
-      {{ item.name }}
-    </td>
-    <td>{{ item.price | number:'.2-2' }}</td>
-    <td>{{ item.description }}</td>
-    <td>{{ item.brand.name }}</td>
-    <td>{{ item.category.name }}</td>
-    <td>{{ item.availableStock }}</td>
-    <td>{{ item.maxStockThreshold }}</td>
-    <td>{{ item.restockThreshold }}</td>
-    <td><button class="btn btn-danger" (click)="deleteCatalogItem(item)">Remove</button></td>
-    <td><a [routerLink]="['catalog-item', item.id]">Edit</a></td>
-  </tr>
+    <es-catalog-item-row
+      *ngFor="let item of catalogPage?.content;"
+      [item]="item"
+      (deleted)="deleteCatalogItem(item)"
+      (nameChanged)="nameChanged($event)"
+      (priceChanged)="priceChanged($event)">
+    </es-catalog-item-row>
   </tbody>
 </table>
 

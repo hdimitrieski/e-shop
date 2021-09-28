@@ -75,9 +75,13 @@ echo "Running order-processing service..."
 nohup java -Dspring.profiles.active="$(concat_profiles "dev" "$profiles")" -jar services/order-processing/target/order-processing.jar > target/order-processing.log 2>&1 &
 sleep 5
 
-echo "Running catalog service..."
-nohup java -Dspring.profiles.active="$(concat_profiles "dev" "$profiles")" -jar services/catalog/target/catalog.jar > target/catalog.log 2>&1 &
-sleep 3
+echo "Running catalog command service..."
+nohup java -Dspring.profiles.active="$(concat_profiles "dev" "$profiles")" -jar services/catalog/catalog-command/target/catalog-command.jar > target/catalog-command.log 2>&1 &
+sleep 1
+
+echo "Running catalog query service..."
+nohup java -Dspring.profiles.active="$profiles" -jar services/catalog/catalog-query/target/catalog-query.jar > target/catalog-query.log 2>&1 &
+sleep 1
 
 echo "Running basket service..."
 nohup java -Dspring.profiles.active="$profiles" -jar services/basket/target/basket.jar > target/basket.log 2>&1 &

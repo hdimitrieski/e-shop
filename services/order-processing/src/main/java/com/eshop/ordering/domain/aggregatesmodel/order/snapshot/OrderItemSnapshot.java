@@ -4,6 +4,8 @@ import com.eshop.ordering.domain.base.Snapshot;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.util.UUID;
+
 @Builder
 @Getter
 public class OrderItemSnapshot implements Snapshot {
@@ -13,5 +15,5 @@ public class OrderItemSnapshot implements Snapshot {
   private final String pictureUrl;
   private final Double unitPrice;
   private final Integer units;
-  private final Long productId;
+  private final UUID productId;
 }

@@ -29,11 +29,4 @@ export class CatalogItemFormPageComponent {
     });
   }
 
-  updateCatalogItem(catalogItem: CatalogItem): void {
-    this.catalogService.update(catalogItem).subscribe(() => {
-      this.notificationsService.show({text: `Catalog item ${catalogItem.id} updated`});
-      this.router.navigate(['/admin']);
-    });
-  }
-
 }

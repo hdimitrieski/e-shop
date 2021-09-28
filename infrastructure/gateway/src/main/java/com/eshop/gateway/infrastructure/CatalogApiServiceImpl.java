@@ -13,31 +13,32 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
-@CircuitBreaker(name = "catalog")
-@Retry(name = "catalog")
-@TimeLimiter(name = "catalog")
+@CircuitBreaker(name = "catalog-query")
+@Retry(name = "catalog-query")
+@TimeLimiter(name = "catalog-query")
 @RequiredArgsConstructor
 @Service
 public class CatalogApiServiceImpl implements CatalogApiService {
   private final WebClient.Builder catalogWebClient;
 
   @Override
-  public Mono<CatalogItem> getCatalogItem(Long id) {
+  public Mono<CatalogItem> getCatalogItem(UUID id) {
     return catalogWebClient.build()
         .get()
-        .uri("lb://catalog/catalog/items/" + id)
+        .uri("lb://catalog-query/catalog/items/" + id)
         .retrieve()
         .bodyToMono(CatalogItem.class);
   }
 
   @Override
-  public Flux<CatalogItem> getCatalogItems(List<Long> ids) {
+  public Flux<CatalogItem> getCatalogItems(List<UUID> ids) {
     var commaSeparatedIds = ids.stream().map(String::valueOf).collect(Collectors.joining(","));
     return catalogWebClient.build()
         .get()
-        .uri("lb://catalog/catalog/items/withids/" + commaSeparatedIds)
+        .uri("lb://catalog-query/catalog/items/withids/" + commaSeparatedIds)
         .retrieve()
         .bodyToFlux(CatalogItem.class);
   }
@@ -46,7 +47,7 @@ public class CatalogApiServiceImpl implements CatalogApiService {
   public Flux<CatalogItem> getFirst5CatalogItems() {
     return catalogWebClient.build()
         .get()
-        .uri("lb://catalog/catalog/items?pageIndex=0&pageSize=5")
+        .uri("lb://catalog-query/catalog/items?pageIndex=0&pageSize=5")
         .retrieve()
         .bodyToMono(First5CatalogItemsResponse.class)
         .flatMapIterable(First5CatalogItemsResponse::content);

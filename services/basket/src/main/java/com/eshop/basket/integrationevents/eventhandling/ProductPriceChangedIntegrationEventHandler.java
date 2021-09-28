@@ -10,6 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 @RequiredArgsConstructor
 @Component
 public class ProductPriceChangedIntegrationEventHandler implements IntegrationEventHandler<ProductPriceChangedIntegrationEvent> {
@@ -32,7 +34,7 @@ public class ProductPriceChangedIntegrationEventHandler implements IntegrationEv
     );
   }
 
-  private void updatePriceInBasketItems(Long productId, Double newPrice, Double oldPrice, CustomerBasket basket) {
+  private void updatePriceInBasketItems(UUID productId, Double newPrice, Double oldPrice, CustomerBasket basket) {
     basket.getItems().stream().filter(x -> x.getProductId().equals(productId))
         .forEach(item -> {
           if (item.getUnitPrice().equals(oldPrice)) {

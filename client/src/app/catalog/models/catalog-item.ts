@@ -2,7 +2,7 @@ import { CatalogType } from './catalog-type';
 import { CatalogBrand } from './catalog-brand';
 
 export interface CatalogItem {
-  id: number;
+  id: string;
   name: string;
   description: string;
   price: number;
@@ -10,7 +10,4 @@ export interface CatalogItem {
   category: CatalogType;
   brand: CatalogBrand;
   availableStock: number;
-  restockThreshold: number;
-  maxStockThreshold: number;
-  onReorder: number;
 }

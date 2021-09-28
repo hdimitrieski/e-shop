@@ -1,0 +1,18 @@
+:host {
+  display: inline-block;
+  box-sizing: border-box;
+  transition: box-shadow 150ms ease-in 0ms;
+  border-radius: 2px;
+  cursor: text;
+  max-width: 100%;
+  box-shadow: 0 0 0 0 transparent;
+  padding: 2px 30px 2px 5px;
+  position: relative;
+  vertical-align: top;
+  word-break: break-word;
+}
+
+:host.readOnly:hover {
+  background-color: #fff;
+  box-shadow: 0 0 0 1px #ebecf0;
+}

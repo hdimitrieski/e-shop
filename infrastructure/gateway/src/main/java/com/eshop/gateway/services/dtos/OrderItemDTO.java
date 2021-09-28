@@ -2,8 +2,10 @@ package com.eshop.gateway.services.dtos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.UUID;
+
 public record OrderItemDTO(
-    @JsonProperty("productId") Long productId,
+    @JsonProperty("productId") UUID productId,
     @JsonProperty("productName") String productName,
     @JsonProperty("unitPrice") Double unitPrice,
     @JsonProperty("discount") Double discount,

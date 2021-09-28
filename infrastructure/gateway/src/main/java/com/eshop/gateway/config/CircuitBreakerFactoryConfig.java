@@ -16,7 +16,7 @@ import java.time.Duration;
 @Configuration
 public class CircuitBreakerFactoryConfig {
 
-  static final String CATALOG_CIRCUIT_BREAKER = "catalog";
+  static final String CATALOG_CIRCUIT_BREAKER = "catalog-query";
   static final String BASKET_CIRCUIT_BREAKER = "basket";
   static final String ORDER_CIRCUIT_BREAKER = "order";
 

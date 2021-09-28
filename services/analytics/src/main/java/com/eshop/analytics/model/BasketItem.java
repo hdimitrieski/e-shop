@@ -4,11 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class BasketItem {
-  private Long productId;
+  private UUID productId;
   private String productName;
   private Integer quantity;
 }

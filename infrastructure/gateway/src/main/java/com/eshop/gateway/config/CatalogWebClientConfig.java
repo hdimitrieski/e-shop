@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @Configuration
-@LoadBalancerClient(value = "catalog", configuration = RoundRobinLoadBalancerConfig.class)
+@LoadBalancerClient(value = "catalog-query", configuration = RoundRobinLoadBalancerConfig.class)
 public class CatalogWebClientConfig {
 
   @LoadBalanced

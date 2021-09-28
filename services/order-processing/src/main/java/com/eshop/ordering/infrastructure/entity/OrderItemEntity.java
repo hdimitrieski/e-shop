@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
+import java.util.UUID;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -31,7 +32,7 @@ class OrderItemEntity extends DbEntity {
   private Integer units;
 
   @Column(name = "product_id", nullable = false)
-  private Long productId;
+  private UUID productId;
 
   @ManyToOne
   @JoinColumn(name = "order_id", nullable = false)

@@ -9,6 +9,7 @@ import { ChangeOrderStatusFormComponent } from './components/change-order-status
 import { CatalogItemFormComponent } from './components/catalog-item-form.component';
 import { CatalogItemFormPageComponent } from './pages/catalog-item-form-page.component';
 import { CatalogItemResolver } from './resolvers/catalog-item.resolver';
+import { CatalogItemRowComponent } from './components/catalog-item-row.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { CatalogItemResolver } from './resolvers/catalog-item.resolver';
     CatalogManagementPageComponent,
     CatalogItemFormPageComponent,
     ChangeOrderStatusFormComponent,
-    CatalogItemFormComponent
+    CatalogItemFormComponent,
+    CatalogItemRowComponent
   ],
   providers: [
     CatalogItemResolver

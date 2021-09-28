@@ -1,8 +1,10 @@
 package com.eshop.gateway.models;
 
+import java.util.UUID;
+
 public record UpdateBasketRequestItemData(
     String id,
-    Long productId,
+    UUID productId,
     Integer quantity
 ) {
 }

@@ -30,7 +30,7 @@
     <label for="category" class="form-label">Category</label>
     <select [compareWith]="compareCategories" id="category" class="form-select" formControlName="category">
       <option [ngValue]="null" disabled>Choose category</option>
-      <option *ngFor="let category of categories" [ngValue]=category>
+      <option *ngFor="let category of categories" [ngValue]="category">
         {{category.name}}
       </option>
     </select>
@@ -40,7 +40,7 @@
     <label for="brand" class="form-label">Brand</label>
     <select [compareWith]="compareBrands" id="brand" class="form-select" formControlName="brand">
       <option [ngValue]="null" disabled>Choose brand</option>
-      <option *ngFor="let brand of brands" [ngValue]=brand>
+      <option *ngFor="let brand of brands" [ngValue]="brand">
         {{brand.name}}
       </option>
     </select>
@@ -51,17 +51,7 @@
     <input formControlName="availableStock" type="number" class="form-control" id="availableStock">
   </div>
 
-  <div class="col-6">
-    <label for="restockThreshold" class="form-label">Re-stock Threshold</label>
-    <input formControlName="restockThreshold" type="number" class="form-control" id="restockThreshold">
-  </div>
-
-  <div class="col-6">
-    <label for="maxStockThreshold" class="form-label">Max Stock Threshold</label>
-    <input formControlName="maxStockThreshold" type="number" class="form-control" id="maxStockThreshold">
-  </div>
-
   <button class="btn btn-primary" type="submit" [disabled]="form.invalid">
-    {{isNew() ? 'Add' : 'Update'}}
+    Add
   </button>
 </form>
