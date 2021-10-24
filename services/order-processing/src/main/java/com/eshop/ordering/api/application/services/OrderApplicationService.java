@@ -5,12 +5,12 @@ import com.eshop.ordering.domain.aggregatesmodel.buyer.BuyerRepository;
 import com.eshop.ordering.domain.aggregatesmodel.order.Order;
 import com.eshop.ordering.domain.aggregatesmodel.order.OrderId;
 import com.eshop.ordering.domain.aggregatesmodel.order.OrderRepository;
+import com.eshop.ordering.shared.ApplicationService;
 import com.eshop.shared.rest.error.NotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
-@Service
+@ApplicationService
 public class OrderApplicationService {
   private final OrderRepository orderRepository;
   private final BuyerRepository buyerRepository;

@@ -5,7 +5,7 @@ import com.eshop.ordering.api.application.dtos.OrderDraftDTO;
 import com.eshop.ordering.api.application.queries.OrderQueries;
 import com.eshop.ordering.api.application.queries.OrderViewModel;
 import com.eshop.ordering.api.infrastructure.commandbus.CommandBus;
-import com.eshop.ordering.api.infrastructure.services.IdentityService;
+import com.eshop.ordering.api.application.services.IdentityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

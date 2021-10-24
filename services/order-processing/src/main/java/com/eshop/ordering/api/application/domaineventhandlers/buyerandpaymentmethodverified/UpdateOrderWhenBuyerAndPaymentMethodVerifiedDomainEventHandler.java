@@ -3,13 +3,13 @@ package com.eshop.ordering.api.application.domaineventhandlers.buyerandpaymentme
 import com.eshop.ordering.api.application.domaineventhandlers.DomainEventHandler;
 import com.eshop.ordering.domain.aggregatesmodel.order.OrderRepository;
 import com.eshop.ordering.domain.events.BuyerAndPaymentMethodVerifiedDomainEvent;
+import com.eshop.ordering.shared.EventHandler;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
-import org.springframework.stereotype.Component;
 
-@Component
+@EventHandler
 @RequiredArgsConstructor
 public class UpdateOrderWhenBuyerAndPaymentMethodVerifiedDomainEventHandler
     implements DomainEventHandler<BuyerAndPaymentMethodVerifiedDomainEvent> {

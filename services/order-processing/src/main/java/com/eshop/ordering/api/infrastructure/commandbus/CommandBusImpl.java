@@ -3,7 +3,7 @@ package com.eshop.ordering.api.infrastructure.commandbus;
 import an.awesome.pipelinr.Command;
 import an.awesome.pipelinr.Pipeline;
 import com.eshop.ordering.api.application.commands.IdentifiedCommand;
-import com.eshop.ordering.infrastructure.idempotency.RequestManager;
+import com.eshop.ordering.api.infrastructure.requestmanager.RequestManager;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

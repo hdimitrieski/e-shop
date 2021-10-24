@@ -3,34 +3,33 @@ package com.eshop.ordering.api.application.commands;
 import an.awesome.pipelinr.Command;
 import com.eshop.ordering.api.application.dtos.OrderItemDTO;
 import com.eshop.ordering.api.application.integrationevents.events.OrderStartedIntegrationEvent;
+import com.eshop.ordering.config.KafkaTopics;
 import com.eshop.ordering.domain.aggregatesmodel.buyer.*;
 import com.eshop.ordering.domain.aggregatesmodel.order.*;
+import com.eshop.ordering.shared.CommandHandler;
 import com.eshop.shared.outbox.IntegrationEventLogService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Component
+@CommandHandler
 @RequiredArgsConstructor
 public class CreateOrderCommandHandler implements Command.Handler<CreateOrderCommand, Boolean> {
   private static final Logger logger = LoggerFactory.getLogger(CreateOrderCommandHandler.class);
 
   private final OrderRepository orderRepository;
   private final IntegrationEventLogService integrationEventLogService;
-  @Value("${spring.kafka.consumer.topic.orders}")
-  private String ordersTopic;
+  private final KafkaTopics topics;
 
   @Transactional
   @Override
   public Boolean handle(CreateOrderCommand command) {
     // Add Integration event to clean the basket
-    integrationEventLogService.saveEvent(new OrderStartedIntegrationEvent(command.getUserId()), ordersTopic);
+    integrationEventLogService.saveEvent(new OrderStartedIntegrationEvent(command.getUserId()), topics.getOrders());
 
     // Add/Update AggregateRoot
     // DDD patterns comment:

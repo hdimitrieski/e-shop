@@ -1,7 +1,7 @@
 package com.eshop.ordering.api.application.queries;
 
+import com.eshop.ordering.shared.QueryHandler;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import java.sql.Timestamp;
@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
 
-@Service
+@QueryHandler
 @RequiredArgsConstructor
 public class OrderQueriesImpl implements OrderQueries {
   private final EntityManager entityManager;

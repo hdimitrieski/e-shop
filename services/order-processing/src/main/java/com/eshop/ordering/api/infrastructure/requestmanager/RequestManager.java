@@ -1,9 +1,9 @@
-package com.eshop.ordering.infrastructure.idempotency;
+package com.eshop.ordering.api.infrastructure.requestmanager;
 
 import java.util.UUID;
 
 /**
- * Used for handling idempotency.
+ * Used for handling command idempotency.
  */
 public interface RequestManager {
   boolean exist(UUID id);

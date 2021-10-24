@@ -1,10 +1,11 @@
 package com.eshop.ordering.api.infrastructure.services;
 
+import com.eshop.ordering.api.application.services.IdentityService;
+import com.eshop.ordering.shared.ApplicationService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Service;
 
-@Service
+@ApplicationService
 public class IdentityServiceImpl implements IdentityService {
   @Override
   public String getUserIdentity() {

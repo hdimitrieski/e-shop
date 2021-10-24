@@ -2,33 +2,32 @@ package com.eshop.ordering.api.application.domaineventhandlers.orderstartedevent
 
 import com.eshop.ordering.api.application.domaineventhandlers.DomainEventHandler;
 import com.eshop.ordering.api.application.integrationevents.events.OrderStatusChangedToSubmittedIntegrationEvent;
+import com.eshop.ordering.config.KafkaTopics;
 import com.eshop.ordering.domain.aggregatesmodel.buyer.Buyer;
 import com.eshop.ordering.domain.aggregatesmodel.buyer.BuyerRepository;
 import com.eshop.ordering.domain.aggregatesmodel.buyer.CardType;
 import com.eshop.ordering.domain.aggregatesmodel.buyer.PaymentMethodData;
 import com.eshop.ordering.domain.events.OrderStartedDomainEvent;
+import com.eshop.ordering.shared.EventHandler;
 import com.eshop.shared.outbox.IntegrationEventLogService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.event.EventListener;
-import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 
 import static java.util.Objects.nonNull;
 
-@Component
+@EventHandler
 @RequiredArgsConstructor
 public class ValidateOrAddBuyerAggregateWhenOrderStartedDomainEventHandler implements DomainEventHandler<OrderStartedDomainEvent> {
   private static final Logger logger = LoggerFactory.getLogger(ValidateOrAddBuyerAggregateWhenOrderStartedDomainEventHandler.class);
 
   private final IntegrationEventLogService integrationEventLogService;
   private final BuyerRepository buyerRepository;
-  @Value("${spring.kafka.consumer.topic.submittedOrders}")
-  private String submittedOrdersTopic;
+  private final KafkaTopics topics;
 
   @EventListener
   public void handle(OrderStartedDomainEvent orderStartedEvent) {
@@ -49,7 +48,7 @@ public class ValidateOrAddBuyerAggregateWhenOrderStartedDomainEventHandler imple
         orderItems
     );
 
-    integrationEventLogService.saveEvent(orderStatusChangedToSubmittedIntegrationEvent, submittedOrdersTopic);
+    integrationEventLogService.saveEvent(orderStatusChangedToSubmittedIntegrationEvent, topics.getSubmittedOrders());
 
     logger.info(
         "Buyer {} and related payment method were validated or updated for orderId: {}.",
