@@ -16,8 +16,6 @@ import static java.util.Objects.isNull;
 public class AddStockCommandHandler implements CatalogCommandHandler<CatalogItemResponse, AddStockCommand> {
   private final CatalogItemRepository catalogItemRepository;
 
-//  @Transactional TODO Do i need it?
-
   @CommandHandler
   @Override
   public CatalogItemResponse handle(AddStockCommand command) {
