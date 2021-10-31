@@ -9,4 +9,21 @@
     <span>&nbsp;</span>
     <span>{{item.price}}</span>
   </div>
+  <div class="rate">
+    <input type="radio" id="{{item.id}} - star5" name="{{item.id}} - rate" value="{{RatingOption.EXCELLENT}}"
+           [checked]="totalRating === 5" (change)="onAddRating($event)"/>
+    <label for="{{item.id}} - star5" title="text">5 stars</label>
+    <input type="radio" id="{{item.id}} - star4" name="{{item.id}} - rate" value="{{RatingOption.VERY_GOOD}}"
+           [checked]="totalRating === 4" (change)="onAddRating($event)"/>
+    <label for="{{item.id}} - star4" title="text">4 stars</label>
+    <input type="radio" id="{{item.id}} - star3" name="{{item.id}} - rate" value="{{RatingOption.GOOD}}"
+           [checked]="totalRating === 3" (change)="onAddRating($event)"/>
+    <label for="{{item.id}} - star3" title="text">3 stars</label>
+    <input type="radio" id="{{item.id}} - star2" name="{{item.id}} - rate" value="{{RatingOption.DECENT}}"
+           [checked]="totalRating === 2" (change)="onAddRating($event)"/>
+    <label for="{{item.id}} - star2" title="text">2 stars</label>
+    <input type="radio" id="{{item.id}} - star1" name="{{item.id}} - rate" value="{{RatingOption.BAD}}"
+           [checked]="totalRating === 1" (change)="onAddRating($event)"/>
+    <label for="{{item.id}} - star1" title="text">1 star</label>
+  </div>
 </div>

@@ -1,0 +1,78 @@
+# Custom config
+app:
+  postgres:
+    host: localhost
+    port: 5432
+    database: ratingdb
+    user: ratingdbuser
+    password: dbpass
+  mongodb:
+    host: localhost
+    port: 27017
+    user: user
+    password: pass
+    database: rating-db
+
+spring:
+  # Security
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: ${app.auth-server.jwk-set-uri}
+          issuer-uri: ${app.auth-server.issuer-uri}
+
+  data:
+    # Mongo
+    mongodb:
+      host: ${app.mongodb.host}
+      port: ${app.mongodb.port}
+      username: ${app.mongodb.user}
+      password: ${app.mongodb.password}
+      database: ${app.mongodb.database}
+
+  # JPA
+  jpa:
+    hibernate:
+      ddl-auto: validate
+
+  # Postgres
+  datasource:
+    url: jdbc:postgresql://${app.postgres.host}:${app.postgres.port}/${app.postgres.database}
+    username: ${app.postgres.user}
+    password: ${app.postgres.password}
+    driver-class-name: org.postgresql.Driver
+
+axon:
+  serializer:
+    general: jackson
+    events: jackson
+    messages: jackson
+  axonserver:
+    enabled: false
+  kafka:
+    clientid: rating-app
+    consumer:
+      bootstrap-servers: ${app.kafka.broker.host}:${app.kafka.broker.port}
+      event-processor-mode: tracking
+      auto-offset-reset: earliest
+      properties:
+        isolation.level: read_committed
+    properties:
+      security.protocol: PLAINTEXT
+
+---
+spring:
+  config:
+    activate:
+      on-profile: docker
+
+app:
+  postgres:
+    host: mongo
+    user: ${MONGO_USER}
+    password: '{cipher}AQAJNyULQNNKatK+ha3nMYeDC6OgAdSmbI4uS5YiznUsZ2/u2mejSrOGQNUMJLh0m9ZNZe1z5mAYZREu7nDer7aY14zU/zKrKwPuH/i3eZBBRVKw5TEX6Ed9omzzRlyytjUdGb+2OgfufkSM80tODlUCUoHr9klmobpfSlg3u97TNImRWDx1FbR8WJYJfb8abvROmKIjOW6drJqZlpaRfelG8xYFhQ4HPVAfo/rQYPPKLshQPQndWJ4/Jr2yMFo4tlchAtS+9C6kMjWoIk7JKO4nudks1iBZA6RznoYpR3PqU1axNqH4pDxfFSypMR7ck5PF+knf6aaxT6Fc4mASMvsRyb3axN5utkH0NGMsHJlfjznKpE8bOxwQEk9w9SNfijI='
+  mongodb:
+    host: mongo
+    user: ${MONGO_USER}
+    password: ${MONGO_PASSWORD} # TODO use cipher

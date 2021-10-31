@@ -57,6 +57,15 @@ public class RouteLocatorConfig {
             )
             .uri(loadBalancerUriFor(eshopServices.getOrderProcessing()))
         )
+        .route("rating", r -> r
+            .path("/api/v1/rating", "/api/v1/rating/*")
+            .filters(f -> f
+                .removeRequestHeader("Cookie")
+                .circuitBreaker(config -> config.setName(RATING_CIRCUIT_BREAKER))
+                .rewritePath("api/v1", "")
+            )
+            .uri(loadBalancerUriFor(eshopServices.getRating()))
+        )
         .build();
   }
 
