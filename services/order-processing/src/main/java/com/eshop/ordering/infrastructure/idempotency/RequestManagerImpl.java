@@ -1,12 +1,11 @@
 package com.eshop.ordering.infrastructure.idempotency;
 
+import com.eshop.ordering.api.infrastructure.requestmanager.RequestManager;
 import com.eshop.ordering.domain.exceptions.OrderingDomainException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 @RequiredArgsConstructor

@@ -5,13 +5,13 @@ import com.eshop.ordering.api.application.commands.CancelOrderCommand;
 import com.eshop.ordering.api.application.commands.SetPaidOrderStatusCommand;
 import com.eshop.ordering.api.application.integrationevents.events.OrderPaymentStatusChangedIntegrationEvent;
 import com.eshop.ordering.api.application.integrationevents.events.models.PaymentStatus;
+import com.eshop.ordering.shared.EventHandler;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.stereotype.Component;
 
-@Component
+@EventHandler
 @RequiredArgsConstructor
 public class OrderPaymentSucceededIntegrationEventHandler {
   private static final Logger logger = LoggerFactory.getLogger(OrderPaymentSucceededIntegrationEventHandler.class);

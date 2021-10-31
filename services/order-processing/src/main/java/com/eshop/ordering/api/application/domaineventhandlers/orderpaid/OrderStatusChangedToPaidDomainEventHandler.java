@@ -4,27 +4,26 @@ import com.eshop.ordering.api.application.domaineventhandlers.DomainEventHandler
 import com.eshop.ordering.api.application.integrationevents.events.OrderStatusChangedToPaidIntegrationEvent;
 import com.eshop.ordering.api.application.integrationevents.events.models.OrderStockItem;
 import com.eshop.ordering.api.application.services.OrderApplicationService;
+import com.eshop.ordering.config.KafkaTopics;
 import com.eshop.ordering.domain.aggregatesmodel.order.OrderStatus;
 import com.eshop.ordering.domain.events.OrderStatusChangedToPaidDomainEvent;
+import com.eshop.ordering.shared.EventHandler;
 import com.eshop.shared.outbox.IntegrationEventLogService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.event.EventListener;
-import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;
 
-@Component
+@EventHandler
 @RequiredArgsConstructor
 public class OrderStatusChangedToPaidDomainEventHandler implements DomainEventHandler<OrderStatusChangedToPaidDomainEvent> {
   private static final Logger logger = LoggerFactory.getLogger(OrderStatusChangedToPaidDomainEventHandler.class);
 
   private final OrderApplicationService orderApplicationService;
   private final IntegrationEventLogService integrationEventLogService;
-  @Value("${spring.kafka.consumer.topic.paidOrders}")
-  private String paidOrdersTopic;
+  private final KafkaTopics topics;
 
   @EventListener
   public void handle(OrderStatusChangedToPaidDomainEvent event) {
@@ -47,6 +46,6 @@ public class OrderStatusChangedToPaidDomainEventHandler implements DomainEventHa
         buyer.getBuyerName().getName(),
         orderStockList);
 
-    integrationEventLogService.saveEvent(orderStatusChangedToPaidIntegrationEvent, paidOrdersTopic);
+    integrationEventLogService.saveEvent(orderStatusChangedToPaidIntegrationEvent, topics.getPaidOrders());
   }
 }

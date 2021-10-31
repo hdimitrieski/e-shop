@@ -2,12 +2,12 @@ package com.eshop.catalog.application.integrationevents.eventhandling;
 
 import com.eshop.catalog.application.integrationevents.IntegrationEventPublisher;
 import com.eshop.catalog.application.integrationevents.events.*;
+import com.eshop.catalog.config.KafkaTopics;
 import com.eshop.catalog.domain.catalogitem.CatalogItem;
 import com.eshop.catalog.domain.catalogitem.CatalogItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,10 +22,7 @@ public class OrderStatusChangedToAwaitingValidationIntegrationEventHandler {
 
   private final CatalogItemRepository catalogItemRepository;
   private final IntegrationEventPublisher integrationEventService;
-  @Value("${spring.kafka.consumer.topic.orderStockConfirmed}")
-  private String orderStockConfirmedTopic;
-  @Value("${spring.kafka.consumer.topic.orderStockRejected}")
-  private String orderStockRejectedTopic;
+  private final KafkaTopics kafkaTopics;
 
   @KafkaListener(
       groupId = "orders-waiting-validation-group",
@@ -44,11 +41,11 @@ public class OrderStatusChangedToAwaitingValidationIntegrationEventHandler {
 
     if (allItemsAvailable(confirmedOrderStockItems)) {
       integrationEventService.publish(
-          orderStockConfirmedTopic,
+          kafkaTopics.getOrderStockConfirmed(),
           new OrderStockConfirmedIntegrationEvent(event.getOrderId())
       );
     } else {
-      integrationEventService.publish(orderStockRejectedTopic,
+      integrationEventService.publish(kafkaTopics.getOrderStockRejected(),
           new OrderStockRejectedIntegrationEvent(event.getOrderId(), confirmedOrderStockItems));
     }
 

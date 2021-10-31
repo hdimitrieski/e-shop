@@ -3,25 +3,24 @@ package com.eshop.ordering.api.application.domaineventhandlers.orderstockconfirm
 import com.eshop.ordering.api.application.domaineventhandlers.DomainEventHandler;
 import com.eshop.ordering.api.application.integrationevents.events.OrderStatusChangedToStockConfirmedIntegrationEvent;
 import com.eshop.ordering.api.application.services.OrderApplicationService;
+import com.eshop.ordering.config.KafkaTopics;
 import com.eshop.ordering.domain.aggregatesmodel.order.OrderStatus;
 import com.eshop.ordering.domain.events.OrderStatusChangedToStockConfirmedDomainEvent;
+import com.eshop.ordering.shared.EventHandler;
 import com.eshop.shared.outbox.IntegrationEventLogService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.event.EventListener;
-import org.springframework.stereotype.Component;
 
-@Component
+@EventHandler
 @RequiredArgsConstructor
 public class OrderStatusChangedToStockConfirmedDomainEventHandler implements DomainEventHandler<OrderStatusChangedToStockConfirmedDomainEvent> {
   private static final Logger logger = LoggerFactory.getLogger(OrderStatusChangedToStockConfirmedDomainEventHandler.class);
 
   private final OrderApplicationService orderApplicationService;
   private final IntegrationEventLogService integrationEventLogService;
-  @Value("${spring.kafka.consumer.topic.stockConfirmed}")
-  private String stockConfirmedTopic;
+  private final KafkaTopics topics;
 
   @EventListener
   public void handle(OrderStatusChangedToStockConfirmedDomainEvent event) {
@@ -36,6 +35,6 @@ public class OrderStatusChangedToStockConfirmedDomainEventHandler implements Dom
 
     var orderStatusChangedToStockConfirmedIntegrationEvent = new OrderStatusChangedToStockConfirmedIntegrationEvent(
         order.getId().getUuid(), order.getOrderStatus().getStatus(), buyer.getBuyerName().getName());
-    integrationEventLogService.saveEvent(orderStatusChangedToStockConfirmedIntegrationEvent, stockConfirmedTopic);
+    integrationEventLogService.saveEvent(orderStatusChangedToStockConfirmedIntegrationEvent, topics.getStockConfirmed());
   }
 }

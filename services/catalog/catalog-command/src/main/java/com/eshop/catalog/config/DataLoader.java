@@ -6,6 +6,7 @@ import com.eshop.catalog.domain.catalogitem.Brand;
 import com.eshop.catalog.domain.catalogitem.BrandRepository;
 import com.eshop.catalog.domain.catalogitem.Category;
 import com.eshop.catalog.domain.catalogitem.CategoryRepository;
+import com.eshop.catalog.shared.CatalogProfiles;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +22,7 @@ import java.util.UUID;
  */
 @RequiredArgsConstructor
 @Component
-@Profile("dev")
+@Profile(CatalogProfiles.DEV)
 public class DataLoader implements ApplicationRunner {
   private static final Logger logger = LoggerFactory.getLogger(DataLoader.class);
 

@@ -46,15 +46,17 @@ public class AxonConfig {
    * Configures Mongo embedded event store.
    */
   @Bean
-  public EventStore eventStore(MongoClient client) {
-    return EmbeddedEventStore.builder().storageEngine(eventStorageEngine(client)).build();
+  public EventStore eventStore(MongoClient client, Serializer serializer) {
+    return EmbeddedEventStore.builder()
+        .storageEngine(eventStorageEngine(client, serializer)).build();
   }
 
   /**
    * Configures Mongo based Event Storage Engine.
    */
-  private EventStorageEngine eventStorageEngine(MongoClient client) {
+  private EventStorageEngine eventStorageEngine(MongoClient client, Serializer serializer) {
     return MongoEventStorageEngine.builder()
+        .eventSerializer(serializer)
         .mongoTemplate(DefaultMongoTemplate.builder()
             .mongoDatabase(client)
             .build())

@@ -7,13 +7,13 @@ import com.eshop.ordering.domain.aggregatesmodel.order.Order;
 import com.eshop.ordering.domain.aggregatesmodel.order.Price;
 import com.eshop.ordering.domain.aggregatesmodel.order.Product;
 import com.eshop.ordering.domain.aggregatesmodel.order.Units;
+import com.eshop.ordering.shared.CommandHandler;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.stream.Collectors;
 
-@Component
+@CommandHandler
 @RequiredArgsConstructor
 public class CreateOrderDraftCommandHandler implements Command.Handler<CreateOrderDraftCommand, OrderDraftDTO> {
   @Transactional

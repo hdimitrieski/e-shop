@@ -4,6 +4,7 @@ import com.eshop.catalog.application.commandbus.CatalogCommandHandler;
 import com.eshop.catalog.application.integrationevents.IntegrationEventPublisher;
 import com.eshop.catalog.application.integrationevents.events.ProductPriceChangedIntegrationEvent;
 import com.eshop.catalog.application.models.CatalogItemResponse;
+import com.eshop.catalog.config.KafkaTopics;
 import com.eshop.catalog.domain.catalogitem.CatalogItemRepository;
 import com.eshop.catalog.domain.catalogitem.Price;
 import com.eshop.shared.rest.error.NotFoundException;
@@ -22,9 +23,7 @@ import static java.util.Objects.isNull;
 public class ChangePriceCommandHandler implements CatalogCommandHandler<CatalogItemResponse, ChangePriceCommand> {
   private final IntegrationEventPublisher integrationEventPublisher;
   private final CatalogItemRepository catalogItemRepository;
-
-  @Value("${spring.kafka.consumer.topic.productPriceChanges}")
-  private String productPriceChangesTopic;
+  private final KafkaTopics topics;
 
   @CommandHandler
   @Transactional
@@ -46,8 +45,8 @@ public class ChangePriceCommandHandler implements CatalogCommandHandler<CatalogI
 
     catalogItemAggregate.execute(c -> c.changePrice(price));
 
-    // TODO HD publish PriceChangedEvent in a domain event handler
-    integrationEventPublisher.publish(productPriceChangesTopic, priceChangedEvent);
+    // TODO publish PriceChangedEvent in a domain event handler
+    integrationEventPublisher.publish(topics.getProductPriceChanges(), priceChangedEvent);
 
     return CatalogItemResponse.builder()
         .productId(command.productId())

@@ -1,5 +1,6 @@
 package com.eshop.catalog.config;
 
+import com.eshop.catalog.shared.CatalogProfiles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -9,7 +10,7 @@ import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
 @Component
-@Profile("dev")
+@Profile(CatalogProfiles.DEV)
 public class ApplicationReadyListener implements ApplicationListener<ApplicationReadyEvent> {
   private static final Logger logger = LoggerFactory.getLogger(ApplicationReadyListener.class);
 
