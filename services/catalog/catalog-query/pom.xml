@@ -28,7 +28,7 @@
         <dependency>
             <groupId>com.eshop</groupId>
             <artifactId>rest</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.eshop</groupId>
@@ -38,7 +38,7 @@
         <dependency>
             <groupId>com.eshop</groupId>
             <artifactId>catalog-shared</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
 
         <!-- Spring -->
