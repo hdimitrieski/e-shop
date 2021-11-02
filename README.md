@@ -6,7 +6,7 @@ Eureka Service Discovery, Spring Cloud Gateway, Spring Cloud Circuit Breaker, Re
 Spring Cloud Stream, Spring Kafka, Kafka Streams API, Keycloak, ...
 
 # Architectural Diagram
-TBD
+![Assign Admin Role](docs/architecture/container-diagram.png)
 
 # Services
 - [Config](infrastructure/config) - Centralized configuration service. You can access this service at 
@@ -123,13 +123,13 @@ won't start ELK and Zipkin. If you want to use ELK and Zipkin, you can run the s
 Before you start using the application, you need to create a user. You can access Keycloak authorization service at
 http://localhost:8090. Login with admin/admin, go to "Users", click "Add user" and fill in the necessary data.
 
-![Add User](images/add-user.png)
+![Add User](docs/images/add-user.png)
 
 After you save the user, go to "Credentials" to set a password.
 
-![Set Password](images/set-password.png)
+![Set Password](docs/images/set-password.png)
 
 If you want to assign admin role to the user, go to "Role Mappings", select "admin" under "Available Roles" and click
 "Add selected".
 
-![Assign Admin Role](images/assign-admin-role.png)
+![Assign Admin Role](docs/images/assign-admin-role.png)
