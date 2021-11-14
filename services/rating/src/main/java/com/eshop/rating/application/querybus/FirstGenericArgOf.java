@@ -1,4 +1,4 @@
-package com.eshop.ratingquery.application.querybus;
+package com.eshop.rating.application.querybus;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;

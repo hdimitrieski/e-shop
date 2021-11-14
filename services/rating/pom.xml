@@ -124,6 +124,16 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
+        <dependency>
+            <groupId>com.eshop</groupId>
+            <artifactId>event-handling</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.eshop</groupId>
+            <artifactId>event-handling</artifactId>
+            <scope>compile</scope>
+        </dependency>
 
     </dependencies>
 

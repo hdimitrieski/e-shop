@@ -1,4 +1,4 @@
-package com.eshop.ratingquery.config;
+package com.eshop.rating.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

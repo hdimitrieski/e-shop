@@ -1,4 +1,4 @@
-package com.eshop.ratingquery.config;
+package com.eshop.rating.config;
 
 import com.mongodb.client.MongoClient;
 import org.axonframework.commandhandling.CommandBus;

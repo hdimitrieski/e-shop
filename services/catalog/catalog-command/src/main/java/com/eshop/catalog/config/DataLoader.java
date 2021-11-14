@@ -35,6 +35,7 @@ public class DataLoader implements ApplicationRunner {
     logger.info("Inserting test data...");
 
     if (brandRepository.findByName("Adidas").isPresent()) {
+      logger.info("DB is already loaded. Abort inserting process...");
       return;
     }
 

@@ -1,4 +1,4 @@
-package com.eshop.ratingquery.model;
+package com.eshop.rating.model;
 
 public enum RatingOption {
   BAD,

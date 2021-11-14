@@ -1,5 +1,3 @@
-import { CatalogItem } from './catalog-item';
-
 export enum RatingOption {
   BAD = 'BAD',
   DECENT = 'DECENT',
@@ -10,5 +8,5 @@ export enum RatingOption {
 
 export interface Rating {
   rating: RatingOption;
-  catalogItem: CatalogItem;
+  catalogItemId: string;
 }

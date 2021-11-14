@@ -1,8 +1,8 @@
-package com.eshop.ratingquery.application.queries.ratingsbycatalogitem;
+package com.eshop.rating.application.queries.ratingsbycatalogitem;
 
-import com.eshop.ratingquery.application.querybus.QueryHandler;
-import com.eshop.ratingquery.model.Rating;
-import com.eshop.ratingquery.model.RatingRepository;
+import com.eshop.rating.application.querybus.QueryHandler;
+import com.eshop.rating.model.Rating;
+import com.eshop.rating.model.RatingRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

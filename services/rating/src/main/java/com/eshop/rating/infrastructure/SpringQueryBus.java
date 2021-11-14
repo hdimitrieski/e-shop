@@ -1,9 +1,9 @@
-package com.eshop.ratingquery.infrastructure;
+package com.eshop.rating.infrastructure;
 
 
-import com.eshop.ratingquery.application.querybus.Query;
-import com.eshop.ratingquery.application.querybus.QueryBus;
-import com.eshop.ratingquery.application.querybus.QueryHandler;
+import com.eshop.rating.application.querybus.Query;
+import com.eshop.rating.application.querybus.QueryBus;
+import com.eshop.rating.application.querybus.QueryHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.stereotype.Component;

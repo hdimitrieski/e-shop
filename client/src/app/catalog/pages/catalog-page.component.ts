@@ -49,7 +49,7 @@ export class CatalogPageComponent implements OnInit {
 
   private addRatingsToCatalogItems(ratings: Rating[][]) {
     ratings.filter((arr) => arr.length !== 0).forEach((ratingsForCatalogItem: Rating[]) => {
-      const catalogItemId = ratingsForCatalogItem[0].catalogItem.id;
+      const catalogItemId = ratingsForCatalogItem[0].catalogItemId;
       const catalogItemIndex = this.catalogPage.content.findIndex((catalogItem: CatalogItem) => catalogItem.id === catalogItemId);
       this.catalogPage = {
         ...this.catalogPage,

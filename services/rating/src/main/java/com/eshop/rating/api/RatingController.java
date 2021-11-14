@@ -1,9 +1,9 @@
-package com.eshop.ratingquery.api;
+package com.eshop.rating.api;
 
 
-import com.eshop.ratingquery.application.queries.ratingsbycatalogitem.RatingsByCatalogItemIdQuery;
-import com.eshop.ratingquery.application.querybus.QueryBus;
-import com.eshop.ratingquery.model.Rating;
+import com.eshop.rating.application.queries.ratingsbycatalogitem.RatingsByCatalogItemIdQuery;
+import com.eshop.rating.application.querybus.QueryBus;
+import com.eshop.rating.model.Rating;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

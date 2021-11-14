@@ -1,10 +1,13 @@
 package com.eshop.catalogquery.config;
 
+import com.eshop.catalogquery.application.integrationevents.IntegrationEventPublisher;
+import com.eshop.catalogquery.application.integrationevents.events.CatalogItemCreatedIntegrationEvent;
 import com.eshop.catalogquery.model.*;
 import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Profile;
@@ -26,11 +29,17 @@ public class DataLoader implements ApplicationRunner {
   private final CategoryRepository categoryRepository;
   private final CatalogItemRepository catalogItemRepository;
 
+  @Value("${spring.kafka.consumer.topic.catalogItemCreated}")
+  private String catalogItemCreatedTopic;
+
+  private final IntegrationEventPublisher integrationEventPublisher;
+
   @Override
   public void run(ApplicationArguments args) {
     logger.info("Inserting test data...");
 
     if (brandRepository.findAll().iterator().hasNext()) {
+      logger.info("Database is already loaded. Abort the inserting process...");
       return;
     }
 
@@ -220,5 +229,8 @@ public class DataLoader implements ApplicationRunner {
             .build()
     );
     catalogItemRepository.saveAll(catalogItems);
+
+    logger.info("Publishing catalog item created events to topic: {}", catalogItemCreatedTopic);
+    catalogItems.forEach(catalogItem -> integrationEventPublisher.publish(catalogItemCreatedTopic, new CatalogItemCreatedIntegrationEvent(catalogItem.getId())));
   }
 }
