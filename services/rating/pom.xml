@@ -127,11 +127,7 @@
         <dependency>
             <groupId>com.eshop</groupId>
             <artifactId>event-handling</artifactId>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.eshop</groupId>
-            <artifactId>event-handling</artifactId>
+            <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
 

@@ -167,6 +167,7 @@
             <groupId>com.eshop</groupId>
             <artifactId>event-handling</artifactId>
             <scope>compile</scope>
+            <version>${project.version}</version>
         </dependency>
         <!-- Utils -->
     </dependencies>
