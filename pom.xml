@@ -40,4 +40,31 @@
         <module>infrastructure</module>
         <module>services</module>
     </modules>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>com.github.ignatij</groupId>
+          <artifactId>dependency-management-metrics-maven-plugin</artifactId>
+          <version>1.0.17</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>com.github.ignatij</groupId>
+        <artifactId>dependency-management-metrics-maven-plugin</artifactId>
+        <inherited>false</inherited>
+        <executions>
+          <execution>
+            <phase>verify</phase>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 </project>
