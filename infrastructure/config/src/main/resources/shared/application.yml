@@ -18,6 +18,7 @@ app:
       basket: basket-service
       catalog: catalog-service
       image: image-service
+      rating: rating-service
   eureka:
     host: localhost
     port: 8761

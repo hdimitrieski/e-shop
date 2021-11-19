@@ -8,6 +8,7 @@ import { distinctUntilChanged, mergeMap, take, tap } from 'rxjs/operators';
 import { forkJoin } from "rxjs";
 import { RatingService } from "../../core/services/rating.service";
 import { Rating } from "../models/rating";
+import { AddRatingEvent } from '../models/add-rating-event';
 
 @Component({
   templateUrl: './catalog-page.component.html',
@@ -38,30 +39,35 @@ export class CatalogPageComponent implements OnInit {
       this.catalogService
         .fetchCatalogItems(brand, type, page).pipe(
         tap((catalogPage: CatalogPage) => this.catalogPage = catalogPage),
-        mergeMap((catalogPage: CatalogPage) => {
-          return forkJoin(catalogPage.content.map(catalogItem => this.ratingService.fetchRatingsForCatalogItem(catalogItem.id)))
-        })
-      ).subscribe((ratings: Rating[][]) => {
+        mergeMap((catalogPage: CatalogPage) => forkJoin(catalogPage.content.map(catalogItem => this.ratingService.fetchRatingsForCatalogItem(catalogItem.id))))
+      ).subscribe((ratings: Rating[]) => {
         this.addRatingsToCatalogItems(ratings);
       });
     });
   }
 
-  private addRatingsToCatalogItems(ratings: Rating[][]) {
-    ratings.filter((arr) => arr.length !== 0).forEach((ratingsForCatalogItem: Rating[]) => {
-      const catalogItemId = ratingsForCatalogItem[0].catalogItemId;
-      const catalogItemIndex = this.catalogPage.content.findIndex((catalogItem: CatalogItem) => catalogItem.id === catalogItemId);
-      this.catalogPage = {
-        ...this.catalogPage,
-        content: [
-          ...this.catalogPage.content,
-          this.catalogPage.content[catalogItemIndex] = {
-            ...this.catalogPage.content[catalogItemIndex],
-            ratings: ratingsForCatalogItem
-          }
-        ]
-      };
-    });
+  private addRatingsToCatalogItems(ratings: Rating[]) {
+    ratings.forEach((rating: Rating) => {
+      this.addRatingToCatalogItem(rating);
+    })
+  }
+
+  private addRatingToCatalogItem(rating: Rating) {
+    const catalogItemIndex = this.catalogPage.content.findIndex((catalogItem: CatalogItem) => catalogItem.id===rating.catalogItemId);
+    if (catalogItemIndex!== -1) {
+      this.catalogPage.content[catalogItemIndex] = {
+        ...this.catalogPage.content[catalogItemIndex],
+        rating
+      }
+    }
+
+    const topFiveIndex = this.topFiveCatalogItems.findIndex((catalogItem: CatalogItem) => catalogItem.id===rating.catalogItemId);
+    if (topFiveIndex!== -1) {
+      this.topFiveCatalogItems[catalogItemIndex] = {
+        ...this.topFiveCatalogItems[catalogItemIndex],
+        rating
+      }
+    }
   }
 
   onFilterSubmitted({brand, type}: ChangeFilterEvent): void {
@@ -78,4 +84,11 @@ export class CatalogPageComponent implements OnInit {
     ).subscribe(() => {
     });
   }
+
+  onAddRating(addRatingEvent: AddRatingEvent): void {
+    this.ratingService.addRatingToCatalogItem(addRatingEvent).subscribe((rating: Rating) => {
+      this.addRatingToCatalogItem(rating);
+    })
+  }
+
 }

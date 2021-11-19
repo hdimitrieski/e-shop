@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CatalogItem } from '../models';
 import { BasketItem } from '../../models';
 import { RatingOption } from '../models/rating';
+import { AddRatingEvent } from '../models/add-rating-event';
 
 @Component({
   selector: 'es-item',
@@ -11,16 +12,10 @@ import { RatingOption } from '../models/rating';
 export class ItemComponent {
   @Input() item: CatalogItem;
   @Output() addToCart = new EventEmitter<BasketItem>();
-
-  totalRating = 0;
+  @Output() addRating = new EventEmitter<AddRatingEvent>();
+  @Input() isTopFive: boolean = false;
 
   RatingOption = RatingOption;
-
-  ngOnChanges() {
-    if (this.item.ratings?.length !== 0) {
-      this.totalRating = this.calculateRating();
-    }
-  }
 
   onAddToCart(): void {
     this.addToCart.emit({
@@ -34,32 +29,8 @@ export class ItemComponent {
     });
   }
 
-  calculateRating() {
-    let sum = 0;
-    if (this.item.ratings && this.item.ratings.length !== 0) {
-      this.item.ratings.map(rating => sum += this.transformRatingOption(rating.rating));
-      return sum / this.item.ratings.length;
-    }
-    return sum;
-  }
-
-  transformRatingOption(ratingOption: RatingOption) {
-    switch (ratingOption) {
-      case RatingOption.EXCELLENT:
-        return 5;
-      case RatingOption.VERY_GOOD:
-        return 4;
-      case RatingOption.GOOD:
-        return 3;
-      case RatingOption.DECENT:
-        return 2;
-      case RatingOption.BAD:
-        return 1;
-    }
-  }
-
-  onAddRating(event: any) {
-    event.stopPropagation();
+  onAddRating({target: {value}}) {
+    this.addRating.emit({catalogItemId: this.item.id, rating: value});
   }
 
 }

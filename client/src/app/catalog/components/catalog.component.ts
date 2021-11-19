@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { BasketItem } from '../../models';
 import { CatalogItem } from '../models';
+import { AddRatingEvent } from '../models/add-rating-event';
 
 @Component({
   selector: 'es-catalog',
@@ -10,4 +11,5 @@ import { CatalogItem } from '../models';
 export class CatalogComponent {
   @Input() catalogItems: CatalogItem[];
   @Output() addItemToCart = new EventEmitter<BasketItem>();
+  @Output() addRating = new EventEmitter<AddRatingEvent>();
 }

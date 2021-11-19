@@ -23,22 +23,22 @@ public class SecurityConfig {
   @Bean
   SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
     http
-        .cors()
-        .and()
-        .csrf().disable()
-        .authorizeExchange()
-        .pathMatchers(HttpMethod.GET, "/api/v1/catalog/**").permitAll()
-        .pathMatchers(HttpMethod.GET, "/api/v1/rating/**").permitAll()
-        .pathMatchers("/api/v1/basket/*").hasAuthority(GATEWAY_SCOPE)
-        .pathMatchers("/api/v1/orders/*").hasAuthority(GATEWAY_SCOPE)
-        .pathMatchers("/api/v1/catalog/*").hasAuthority(GATEWAY_SCOPE)
-        .anyExchange().authenticated()
-        .and()
-        .oauth2ResourceServer()
-        .jwt(jwtSpec -> jwtSpec.jwtAuthenticationConverter(jwt -> {
-          var token = new JwtAuthenticationConverter().convert(jwt);
-          return Mono.just(new JwtAuthenticationToken(jwt, token.getAuthorities(), jwt.getClaim(userNameAttribute)));
-        }));
+      .cors()
+      .and()
+      .csrf().disable()
+      .authorizeExchange()
+      .pathMatchers(HttpMethod.GET, "/api/v1/catalog/**").permitAll()
+      .pathMatchers("/api/v1/rating/**").hasAuthority(GATEWAY_SCOPE)
+      .pathMatchers("/api/v1/basket/*").hasAuthority(GATEWAY_SCOPE)
+      .pathMatchers("/api/v1/orders/*").hasAuthority(GATEWAY_SCOPE)
+      .pathMatchers("/api/v1/catalog/*").hasAuthority(GATEWAY_SCOPE)
+      .anyExchange().authenticated()
+      .and()
+      .oauth2ResourceServer()
+      .jwt(jwtSpec -> jwtSpec.jwtAuthenticationConverter(jwt -> {
+        var token = new JwtAuthenticationConverter().convert(jwt);
+        return Mono.just(new JwtAuthenticationToken(jwt, token.getAuthorities(), jwt.getClaim(userNameAttribute)));
+      }));
 
     return http.build();
   }

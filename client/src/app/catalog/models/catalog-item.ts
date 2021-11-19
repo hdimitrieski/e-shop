@@ -11,5 +11,5 @@ export interface CatalogItem {
   category: CatalogType;
   brand: CatalogBrand;
   availableStock: number;
-  ratings: Rating[];
+  rating: Rating;
 }

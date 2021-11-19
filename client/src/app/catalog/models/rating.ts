@@ -7,6 +7,6 @@ export enum RatingOption {
 }
 
 export interface Rating {
-  rating: RatingOption;
+  ratingOption: RatingOption;
   catalogItemId: string;
 }

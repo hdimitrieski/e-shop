@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
+import java.util.Random;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -23,6 +24,7 @@ public class CatalogItemCreatedEventHandler {
     @KafkaListener(groupId = "catalog-items-group", topics = "${spring.kafka.consumer.topic.catalogItemCreated}")
     public void handle(CatalogItemCreatedIntegrationEvent event) {
         logger.info("Handling integration event: {} ({})", event.getId(), event.getClass().getSimpleName());
-        ratingRepository.save(new Rating(UUID.randomUUID(), event.getCatalogItemId(), RatingOption.EXCELLENT));
+        var randomRating = RatingOption.values()[new Random().nextInt(RatingOption.values().length)];
+        ratingRepository.save(new Rating(UUID.randomUUID(), event.getCatalogItemId(), randomRating));
     }
 }

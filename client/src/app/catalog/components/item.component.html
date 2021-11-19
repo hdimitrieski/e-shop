@@ -10,20 +10,20 @@
     <span>{{item.price}}</span>
   </div>
   <div class="rate">
-    <input type="radio" id="{{item.id}} - star5" name="{{item.id}} - rate" value="{{RatingOption.EXCELLENT}}"
-           [checked]="totalRating === 5" (change)="onAddRating($event)"/>
-    <label for="{{item.id}} - star5" title="text">5 stars</label>
-    <input type="radio" id="{{item.id}} - star4" name="{{item.id}} - rate" value="{{RatingOption.VERY_GOOD}}"
-           [checked]="totalRating === 4" (change)="onAddRating($event)"/>
-    <label for="{{item.id}} - star4" title="text">4 stars</label>
-    <input type="radio" id="{{item.id}} - star3" name="{{item.id}} - rate" value="{{RatingOption.GOOD}}"
-           [checked]="totalRating === 3" (change)="onAddRating($event)"/>
-    <label for="{{item.id}} - star3" title="text">3 stars</label>
-    <input type="radio" id="{{item.id}} - star2" name="{{item.id}} - rate" value="{{RatingOption.DECENT}}"
-           [checked]="totalRating === 2" (change)="onAddRating($event)"/>
-    <label for="{{item.id}} - star2" title="text">2 stars</label>
-    <input type="radio" id="{{item.id}} - star1" name="{{item.id}} - rate" value="{{RatingOption.BAD}}"
-           [checked]="totalRating === 1" (change)="onAddRating($event)"/>
-    <label for="{{item.id}} - star1" title="text">1 star</label>
+    <input type="radio" id="{{item.id}} - {{isTopFive ? 'top-five - ' : ''}} star5" name="{{item.id}} - {{isTopFive}} - rate" value="{{RatingOption.EXCELLENT}}"
+           [checked]="item.rating?.ratingOption === RatingOption.EXCELLENT" (change)="onAddRating($event)"/>
+    <label for="{{item.id}} - {{isTopFive ? 'top-five - ' : ''}} star5" title="text">5 stars</label>
+    <input type="radio" id="{{item.id}} - {{isTopFive ? 'top-five - ' : ''}} star4" name="{{item.id}} - {{isTopFive}} - rate" value="{{RatingOption.VERY_GOOD}}"
+           [checked]="item.rating?.ratingOption === RatingOption.VERY_GOOD" (change)="onAddRating($event)"/>
+    <label for="{{item.id}} - {{isTopFive ? 'top-five - ' : ''}} star4" title="text">4 stars</label>
+    <input type="radio" id="{{item.id}} - {{isTopFive ? 'top-five - ' : ''}} star3" name="{{item.id}} - {{isTopFive}} - rate" value="{{RatingOption.GOOD}}"
+           [checked]="item.rating?.ratingOption === RatingOption.GOOD" (change)="onAddRating($event)"/>
+    <label for="{{item.id}} - {{isTopFive ? 'top-five - ' : ''}} star3" title="text">3 stars</label>
+    <input type="radio" id="{{item.id}} - {{isTopFive ? 'top-five - ' : ''}} star2" name="{{item.id}} - {{isTopFive}} - rate" value="{{RatingOption.DECENT}}"
+           [checked]="item.rating?.ratingOption === RatingOption.DECENT" (change)="onAddRating($event)"/>
+    <label for="{{item.id}} - {{isTopFive ? 'top-five - ' : ''}} star2" title="text">2 stars</label>
+    <input type="radio" id="{{item.id}} - {{isTopFive ? 'top-five - ' : ''}} star1" name="{{item.id}} - {{isTopFive}} - rate" value="{{RatingOption.BAD}}"
+           [checked]="item.rating?.ratingOption === RatingOption.BAD" (change)="onAddRating($event)"/>
+    <label for="{{item.id}} - {{isTopFive ? 'top-five - ' : ''}} star1" title="text">1 star</label>
   </div>
 </div>
