@@ -19,7 +19,10 @@ public class OrderStatusChangedToSubmittedIntegrationEventHandler
 
   private final SimpMessagingTemplate simpMessagingTemplate;
 
-  @KafkaListener(groupId = "submitted-orders-group-2", topics = "${spring.kafka.consumer.topic.submittedOrders}")
+  @KafkaListener(
+      groupId = "${app.kafka.group.submittedOrders}",
+      topics = "${spring.kafka.consumer.topic.submittedOrders}"
+  )
   @Override
   public void handle(OrderStatusChangedToSubmittedIntegrationEvent event) {
     logger.info("Handling integration event: {} ({})", event.getId(), event.getClass().getSimpleName());

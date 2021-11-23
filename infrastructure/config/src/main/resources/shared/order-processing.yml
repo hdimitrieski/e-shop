@@ -6,6 +6,13 @@ app:
     database: orderdb
     user: orderdbuser
     password: dbpass
+  kafka:
+    group:
+      gracePeriodConfirmed: grace-period-confirmed-group
+      paymentStatus: payment-status-group
+      orderStockConfirmed: order-stock-confirmed-group
+      orderStockRejected: order-stock-rejected-group
+      orderCheckouts: order-checkouts-group
 
 spring:
   # Security

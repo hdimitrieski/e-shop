@@ -19,7 +19,10 @@ public class OrderStockRejectedIntegrationEventHandler {
 
   private final Pipeline pipeline;
 
-  @KafkaListener(groupId = "order-stock-rejected-group", topics = "${spring.kafka.consumer.topic.orderStockRejected}")
+  @KafkaListener(
+      groupId = "${app.kafka.group.orderStockRejected}",
+      topics = "${spring.kafka.consumer.topic.orderStockRejected}"
+  )
   public void handle(OrderStockRejectedIntegrationEvent event) {
     logger.info("Handling integration event: {} ({})", event.getId(), event.getClass().getSimpleName());
     var orderStockRejectedItems = event.getOrderStockItems().stream()

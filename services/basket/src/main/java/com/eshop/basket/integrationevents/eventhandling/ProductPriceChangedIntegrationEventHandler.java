@@ -19,7 +19,10 @@ public class ProductPriceChangedIntegrationEventHandler implements IntegrationEv
 
   private final BasketRepository basketRepository;
 
-  @KafkaListener(groupId = "product-price-changes-group", topics = "${spring.kafka.consumer.topic.productPriceChanges}")
+  @KafkaListener(
+      groupId = "${app.kafka.group.productPriceChanges}",
+      topics = "${spring.kafka.consumer.topic.productPriceChanges}"
+  )
   @Override
   public void handle(ProductPriceChangedIntegrationEvent event) {
     logger.info("Handling integration event: {} ({})", event.getId(), event.getClass().getSimpleName());

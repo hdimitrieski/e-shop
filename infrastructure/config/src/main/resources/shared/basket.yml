@@ -4,6 +4,10 @@ app:
     host: localhost
     port: 6379
     password: pass
+  kafka:
+    group:
+      orders: orders-group
+      productPriceChanges: product-price-changes-group
 
 spring:
   # Security

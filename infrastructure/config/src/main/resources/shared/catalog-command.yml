@@ -6,6 +6,10 @@ app:
     user: user
     password: pass
     database: catalog-command-db
+  kafka:
+    group:
+      paidOrders: paid-orders-group
+      ordersWaitingValidation: orders-waiting-validation-group
 
 spring:
   # Kafka

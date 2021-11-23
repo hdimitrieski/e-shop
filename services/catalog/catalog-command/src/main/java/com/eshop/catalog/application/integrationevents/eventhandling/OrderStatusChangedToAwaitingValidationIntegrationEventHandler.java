@@ -25,7 +25,7 @@ public class OrderStatusChangedToAwaitingValidationIntegrationEventHandler {
   private final KafkaTopics kafkaTopics;
 
   @KafkaListener(
-      groupId = "orders-waiting-validation-group",
+      groupId = "${app.kafka.group.ordersWaitingValidation}",
       topics = "${spring.kafka.consumer.topic.ordersWaitingForValidation}"
   )
   @Transactional

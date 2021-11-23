@@ -19,7 +19,7 @@ public class OrderStatusChangedToPaidIntegrationEventHandler
 
   private final SimpMessagingTemplate simpMessagingTemplate;
 
-  @KafkaListener(groupId = "paid-orders-group-2", topics = "${spring.kafka.consumer.topic.paidOrders}")
+  @KafkaListener(groupId = "${app.kafka.group.paidOrders}", topics = "${spring.kafka.consumer.topic.paidOrders}")
   @Override
   public void handle(OrderStatusChangedToPaidIntegrationEvent event) {
     logger.info("Handling integration event: {} ({})", event.getId(), event.getClass().getSimpleName());

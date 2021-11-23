@@ -23,7 +23,10 @@ public class UserCheckoutAcceptedIntegrationEventHandler {
    * @param event Integration event message which is sent by the  basket.api once it has successfully process the
    *              order items.
    */
-  @KafkaListener(groupId = "order-checkouts-group", topics = "${spring.kafka.consumer.topic.orderCheckouts}")
+  @KafkaListener(
+      groupId = "${app.kafka.group.orderCheckouts}",
+      topics = "${spring.kafka.consumer.topic.orderCheckouts}"
+  )
   public void handle(UserCheckoutAcceptedIntegrationEvent event) {
     logger.info("Handling integration event: {} ({})", event.getId(), event.getClass().getSimpleName());
 

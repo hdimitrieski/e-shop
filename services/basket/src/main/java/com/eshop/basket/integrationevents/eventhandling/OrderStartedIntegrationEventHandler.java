@@ -16,7 +16,7 @@ public class OrderStartedIntegrationEventHandler implements IntegrationEventHand
 
   private final BasketRepository basketRepository;
 
-  @KafkaListener(groupId = "orders-group", topics = "${spring.kafka.consumer.topic.orders}")
+  @KafkaListener(groupId = "${app.kafka.group.orders}", topics = "${spring.kafka.consumer.topic.orders}")
   @Override
   public void handle(OrderStartedIntegrationEvent event) {
     logger.info("Handling integration event: {} ({})", event.getId(), event.getClass().getSimpleName());

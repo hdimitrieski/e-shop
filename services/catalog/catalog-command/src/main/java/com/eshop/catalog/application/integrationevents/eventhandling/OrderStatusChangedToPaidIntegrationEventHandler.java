@@ -16,7 +16,7 @@ public class OrderStatusChangedToPaidIntegrationEventHandler {
 
   private final CatalogItemRepository catalogItemRepository;
 
-  @KafkaListener(groupId = "paid-orders-group", topics = "${spring.kafka.consumer.topic.paidOrders}")
+  @KafkaListener(groupId = "${app.kafka.group.paidOrders}", topics = "${spring.kafka.consumer.topic.paidOrders}")
   public void handle(OrderStatusChangedToPaidIntegrationEvent event) {
     logger.info("Handling integration event: {} ({})", event.getId(), event.getClass().getSimpleName());
     event.getOrderStockItems().forEach(orderStockItem -> catalogItemRepository

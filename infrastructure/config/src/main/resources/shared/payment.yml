@@ -1,3 +1,7 @@
+app:
+  kafka:
+    group:
+      stockConfirmed: stock-confirmed-group
 
 spring:
   # Security

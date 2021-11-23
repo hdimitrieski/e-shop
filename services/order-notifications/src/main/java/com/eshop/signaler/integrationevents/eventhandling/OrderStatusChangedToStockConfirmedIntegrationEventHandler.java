@@ -19,7 +19,10 @@ public class OrderStatusChangedToStockConfirmedIntegrationEventHandler
 
   private final SimpMessagingTemplate simpMessagingTemplate;
 
-  @KafkaListener(groupId = "stock-confirmed-group-2", topics = "${spring.kafka.consumer.topic.stockConfirmed}")
+  @KafkaListener(
+      groupId = "${app.kafka.group.stockConfirmed}",
+      topics = "${spring.kafka.consumer.topic.stockConfirmed}"
+  )
   @Override
   public void handle(OrderStatusChangedToStockConfirmedIntegrationEvent event) {
     logger.info("Handling integration event: {} ({})", event.getId(), event.getClass().getSimpleName());

@@ -18,7 +18,10 @@ public class OrderStatusChangedToCancelledIntegrationEventHandler
   private static final String DESTINATION = "/queue/order-cancelled";
   private final SimpMessagingTemplate simpMessagingTemplate;
 
-  @KafkaListener(groupId = "cancelled-orders-group-2", topics = "${spring.kafka.consumer.topic.cancelledOrders}")
+  @KafkaListener(
+      groupId = "${app.kafka.group.cancelledOrders}",
+      topics = "${spring.kafka.consumer.topic.cancelledOrders}"
+  )
   @Override
   public void handle(OrderStatusChangedToCancelledIntegrationEvent event) {
     logger.info("Handling integration event: {} ({})", event.getId(), event.getClass().getSimpleName());

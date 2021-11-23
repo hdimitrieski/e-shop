@@ -13,12 +13,15 @@ import org.springframework.kafka.annotation.KafkaListener;
 
 @EventHandler
 @RequiredArgsConstructor
-public class OrderPaymentSucceededIntegrationEventHandler {
-  private static final Logger logger = LoggerFactory.getLogger(OrderPaymentSucceededIntegrationEventHandler.class);
+public class PaymentStatusChangedIntegrationEventHandler {
+  private static final Logger logger = LoggerFactory.getLogger(PaymentStatusChangedIntegrationEventHandler.class);
 
   private final Pipeline pipeline;
 
-  @KafkaListener(groupId = "payment-status-group", topics = "${spring.kafka.consumer.topic.paymentStatus}")
+  @KafkaListener(
+      groupId = "${app.kafka.group.paymentStatus}",
+      topics = "${spring.kafka.consumer.topic.paymentStatus}"
+  )
   public void handle(OrderPaymentStatusChangedIntegrationEvent event) {
     logger.info("Handling integration event: {} ({})", event.getId(), event.getClass().getSimpleName());
 

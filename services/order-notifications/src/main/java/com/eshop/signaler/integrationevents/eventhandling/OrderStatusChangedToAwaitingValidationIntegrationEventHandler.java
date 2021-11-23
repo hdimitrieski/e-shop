@@ -19,7 +19,10 @@ public class OrderStatusChangedToAwaitingValidationIntegrationEventHandler
 
   private final SimpMessagingTemplate simpMessagingTemplate;
 
-  @KafkaListener(groupId = "orders-waiting-validation-group-2", topics = "${spring.kafka.consumer.topic.ordersWaitingForValidation}")
+  @KafkaListener(
+      groupId = "${app.kafka.group.ordersWaitingValidation}",
+      topics = "${spring.kafka.consumer.topic.ordersWaitingForValidation}"
+  )
   @Override
   public void handle(OrderStatusChangedToAwaitingValidationIntegrationEvent event) {
     logger.info("Handling integration event: {} ({})", event.getId(), event.getClass().getSimpleName());

@@ -1,3 +1,12 @@
+app:
+  kafka:
+    group:
+      ordersWaitingValidation: on-orders-waiting-validation-group
+      cancelledOrders: on-cancelled-orders-group
+      paidOrders: on-paid-orders-group
+      shippedOrders: on-shipped-orders-group
+      stockConfirmed: on-stock-confirmed-group
+      submittedOrders: on-submitted-orders-group
 
 spring:
   # Security
