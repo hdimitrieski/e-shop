@@ -24,7 +24,7 @@ export class CatalogPageComponent implements OnInit {
     private readonly basketService: BasketService,
     private readonly router: Router,
     private readonly route: ActivatedRoute,
-    private ratingService: RatingService
+    private readonly ratingService: RatingService
   ) {
   }
 
