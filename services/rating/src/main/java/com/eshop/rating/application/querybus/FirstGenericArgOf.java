@@ -14,12 +14,7 @@ public class FirstGenericArgOf {
     Type[] interfaces = aClass.getGenericInterfaces();
     Type genericSuperclass = aClass.getGenericSuperclass();
 
-    ParameterizedType type;
-    if (interfaces.length > 0) {
-      type = (ParameterizedType) interfaces[0];
-    } else {
-      type = (ParameterizedType) genericSuperclass;
-    }
+    ParameterizedType type = (ParameterizedType) (interfaces.length > 0 ? interfaces[0] : genericSuperclass);
 
     Type handlerQuery = type.getActualTypeArguments()[1];
     Class<?> handlerQueryClass;

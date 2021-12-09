@@ -21,6 +21,12 @@ public class Rating {
   @Column(name = "id", nullable = false)
   private UUID id;
 
+  @Column(name = "catalog_item_id")
+  private UUID catalogItemId;
+
+  @Column
+  private RatingScale rating;
+
   @Override
   public boolean equals(Object obj) {
     if (this == obj) {
@@ -41,9 +47,4 @@ public class Rating {
     return id == null ? 0 : id.hashCode();
   }
 
-  @Column(name = "catalog_item_id")
-  private UUID catalogItemId;
-
-  @Column
-  private RatingScale rating;
 }
