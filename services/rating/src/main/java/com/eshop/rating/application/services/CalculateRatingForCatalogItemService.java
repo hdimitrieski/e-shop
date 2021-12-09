@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 @Service
@@ -18,21 +19,9 @@ public class CalculateRatingForCatalogItemService {
 
   private final RatingRepository ratingRepository;
 
-  private static final Map<RatingScale, Integer> RATING_TO_VALUE;
-
-  static {
-    RATING_TO_VALUE = Map.of(
-      RatingScale.BAD, 1,
-      RatingScale.DECENT, 2,
-      RatingScale.GOOD, 3,
-      RatingScale.VERY_GOOD, 4,
-      RatingScale.EXCELLENT, 5
-    );
-  }
-
   public RatingForCatalogItemDto calculate(UUID catalogItemId) {
     int avg = calculateAvgRating(catalogItemId);
-    RatingScale rating = avg != 0 ? RATING_TO_VALUE.entrySet().stream().filter(entry -> entry.getValue() == avg).findFirst().get().getKey() : null;
+    RatingScale rating = avg != 0 ? Stream.of(RatingScale.values()).filter(ratingScale -> ratingScale.getScale() == avg).findFirst().get() : null;
     return RatingForCatalogItemDto.builder()
       .catalogItemId(catalogItemId)
       .ratingScale(rating)
@@ -42,7 +31,7 @@ public class CalculateRatingForCatalogItemService {
   private int calculateAvgRating(UUID catalogItemId) {
     Iterable<Rating> ratingByCatalogItem = ratingRepository.findByCatalogItemId(catalogItemId);
     var ratings = StreamSupport.stream(ratingByCatalogItem.spliterator(), false)
-      .map(rating -> RATING_TO_VALUE.get(rating.getRating()))
+      .map(rating -> rating.getRating().getScale())
       .collect(Collectors.toList());
     return ratings.size() != 0 ? ratings.stream().mapToInt(val -> val).sum() / ratings.size() : 0;
   }
