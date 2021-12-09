@@ -1,7 +1,5 @@
 package com.eshop.catalogquery.config;
 
-import com.eshop.catalogquery.application.integrationevents.IntegrationEventPublisher;
-import com.eshop.catalogquery.application.integrationevents.events.CatalogItemCreatedIntegrationEvent;
 import com.eshop.catalogquery.model.*;
 import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
@@ -31,8 +29,6 @@ public class DataLoader implements ApplicationRunner {
 
   @Value("${spring.kafka.consumer.topic.catalogItemCreated}")
   private String catalogItemCreatedTopic;
-
-  private final IntegrationEventPublisher integrationEventPublisher;
 
   @Override
   public void run(ApplicationArguments args) {
@@ -229,8 +225,5 @@ public class DataLoader implements ApplicationRunner {
             .build()
     );
     catalogItemRepository.saveAll(catalogItems);
-
-    logger.info("Publishing catalog item created events to topic: {}", catalogItemCreatedTopic);
-    catalogItems.forEach(catalogItem -> integrationEventPublisher.publish(catalogItemCreatedTopic, new CatalogItemCreatedIntegrationEvent(catalogItem.getId())));
   }
 }

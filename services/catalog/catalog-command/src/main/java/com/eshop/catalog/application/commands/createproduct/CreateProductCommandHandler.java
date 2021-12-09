@@ -3,7 +3,6 @@ package com.eshop.catalog.application.commands.createproduct;
 import com.eshop.catalog.application.commandbus.CatalogCommandHandler;
 import com.eshop.catalog.application.integrationevents.IntegrationEventPublisher;
 import com.eshop.catalog.application.integrationevents.KafkaIntegrationEventPublisher;
-import com.eshop.catalog.application.integrationevents.events.CatalogItemCreatedIntegrationEvent;
 import com.eshop.catalog.application.models.CatalogItemResponse;
 import com.eshop.catalog.domain.catalogitem.*;
 import com.eshop.shared.rest.error.BadRequestException;
@@ -37,9 +36,6 @@ public class CreateProductCommandHandler implements CatalogCommandHandler<Catalo
   public CatalogItemResponse handle(CreateProductCommand command) {
 
     final var catalogItemAggregate = catalogItemRepository.save(() -> catalogItemOf(command));
-    logger.info("Creating CatalogItemCreatedIntegrationEvent for catalog item with id: {}", catalogItemAggregate.identifier());
-    var event = new CatalogItemCreatedIntegrationEvent((UUID) catalogItemAggregate.identifier());
-    integrationEventPublisher.publish(catalogItemCreatedTopic, event);
 
     return CatalogItemResponse.builder()
         .productId((UUID) catalogItemAggregate.identifier())
