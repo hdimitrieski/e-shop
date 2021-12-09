@@ -2,8 +2,7 @@ package com.eshop.rating.application.commands;
 
 import com.eshop.rating.application.commandbus.Command;
 import com.eshop.rating.application.model.RatingForCatalogItemDto;
-import com.eshop.rating.model.Rating;
-import com.eshop.rating.model.RatingOption;
+import com.eshop.rating.model.RatingScale;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.validation.constraints.NotNull;
@@ -15,6 +14,6 @@ public record AddRatingCommand(
   UUID catalogItemId,
   @JsonProperty
   @NotNull(message = "No rating defined")
-  RatingOption rating)
+  RatingScale rating)
   implements Command<RatingForCatalogItemDto> {
 }

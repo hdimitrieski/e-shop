@@ -45,5 +45,5 @@ public class Rating {
   private UUID catalogItemId;
 
   @Column
-  private RatingOption rating;
+  private RatingScale rating;
 }

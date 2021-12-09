@@ -1,6 +1,6 @@
-import { RatingOption } from './rating';
+import { RatingScale } from './rating';
 
 export interface AddRatingEvent {
   catalogItemId: string;
-  rating: RatingOption;
+  rating: RatingScale;
 }

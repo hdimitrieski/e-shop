@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CatalogItem } from '../models';
 import { BasketItem } from '../../models';
-import { RatingOption } from '../models/rating';
+import { RatingScale } from '../models/rating';
 import { AddRatingEvent } from '../models/add-rating-event';
 
 @Component({
@@ -15,7 +15,7 @@ export class ItemComponent {
   @Output() addRating = new EventEmitter<AddRatingEvent>();
   @Input() isTopFive: boolean = false;
 
-  RatingOption = RatingOption;
+  RatingScale = RatingScale;
 
   onAddToCart(): void {
     this.addToCart.emit({

@@ -1,6 +1,6 @@
 package com.eshop.rating.application.model;
 
-import com.eshop.rating.model.RatingOption;
+import com.eshop.rating.model.RatingScale;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 
@@ -13,5 +13,5 @@ import java.util.UUID;
 @Builder
 public class RatingForCatalogItemDto {
   private UUID catalogItemId;
-  private RatingOption ratingOption;
+  private RatingScale ratingScale;
 }

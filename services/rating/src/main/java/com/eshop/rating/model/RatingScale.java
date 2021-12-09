@@ -1,6 +1,6 @@
 package com.eshop.rating.model;
 
-public enum RatingOption {
+public enum RatingScale {
   BAD,
   DECENT,
   GOOD,

@@ -2,7 +2,7 @@ package com.eshop.rating.application.services;
 
 import com.eshop.rating.application.model.RatingForCatalogItemDto;
 import com.eshop.rating.model.Rating;
-import com.eshop.rating.model.RatingOption;
+import com.eshop.rating.model.RatingScale;
 import com.eshop.rating.model.RatingRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,24 +18,24 @@ public class CalculateRatingForCatalogItemService {
 
   private final RatingRepository ratingRepository;
 
-  private static final Map<RatingOption, Integer> RATING_TO_VALUE;
+  private static final Map<RatingScale, Integer> RATING_TO_VALUE;
 
   static {
     RATING_TO_VALUE = Map.of(
-      RatingOption.BAD, 1,
-      RatingOption.DECENT, 2,
-      RatingOption.GOOD, 3,
-      RatingOption.VERY_GOOD, 4,
-      RatingOption.EXCELLENT, 5
+      RatingScale.BAD, 1,
+      RatingScale.DECENT, 2,
+      RatingScale.GOOD, 3,
+      RatingScale.VERY_GOOD, 4,
+      RatingScale.EXCELLENT, 5
     );
   }
 
   public RatingForCatalogItemDto calculate(UUID catalogItemId) {
     int avg = calculateAvgRating(catalogItemId);
-    RatingOption rating = avg != 0 ? RATING_TO_VALUE.entrySet().stream().filter(entry -> entry.getValue() == avg).findFirst().get().getKey() : null;
+    RatingScale rating = avg != 0 ? RATING_TO_VALUE.entrySet().stream().filter(entry -> entry.getValue() == avg).findFirst().get().getKey() : null;
     return RatingForCatalogItemDto.builder()
       .catalogItemId(catalogItemId)
-      .ratingOption(rating)
+      .ratingScale(rating)
       .build();
   }
 

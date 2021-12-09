@@ -1,4 +1,4 @@
-export enum RatingOption {
+export enum RatingScale {
   BAD = 'BAD',
   DECENT = 'DECENT',
   GOOD = 'GOOD',
@@ -7,6 +7,6 @@ export enum RatingOption {
 }
 
 export interface Rating {
-  ratingOption: RatingOption;
+  ratingScale: RatingScale;
   catalogItemId: string;
 }
