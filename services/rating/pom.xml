@@ -14,8 +14,6 @@
     <properties>
         <logstash-logback-encoder.version>6.6</logstash-logback-encoder.version>
         <axon.version>4.5.3</axon.version>
-        <axon-mongo.version>4.4</axon-mongo.version>
-        <axon-kafka.version>4.5</axon-kafka.version>
         <hibernate-jpamodelgen.version>5.4.30.Final</hibernate-jpamodelgen.version>
     </properties>
 
@@ -37,16 +35,6 @@
             <artifactId>axon-spring-boot-starter</artifactId>
             <version>${axon.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.axonframework.extensions.kafka</groupId>
-            <artifactId>axon-kafka-spring-boot-starter</artifactId>
-            <version>${axon-kafka.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.axonframework.extensions.mongo</groupId>
-            <artifactId>axon-mongo</artifactId>
-            <version>${axon-mongo.version}</version>
-        </dependency>
 
         <!-- Security -->
         <dependency>
@@ -54,7 +42,6 @@
             <artifactId>security</artifactId>
             <version>${project.version}</version>
         </dependency>
-
 
         <!-- Service discovery -->
         <dependency>
