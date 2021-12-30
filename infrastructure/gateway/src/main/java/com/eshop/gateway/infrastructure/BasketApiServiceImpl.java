@@ -12,6 +12,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
@@ -23,10 +24,10 @@ public class BasketApiServiceImpl implements BasketApiService {
   @Override
   public Mono<BasketData> getById(String id) {
     return basketWebClient.build()
-        .get()
-        .uri("lb://basket/basket/" + id)
-        .retrieve()
-        .bodyToMono(BasketData.class);
+      .get()
+      .uri("lb://basket/basket/customer/" + id)
+      .retrieve()
+      .bodyToMono(BasketData.class);
   }
 
   @CircuitBreaker(name = "basket")
@@ -34,20 +35,20 @@ public class BasketApiServiceImpl implements BasketApiService {
   @Override
   public Mono<BasketData> update(BasketData currentBasket) {
     return basketWebClient.build()
-        .post()
-        .uri("lb://basket/basket/")
-        .contentType(MediaType.APPLICATION_JSON)
-        .bodyValue(currentBasket)
-        .retrieve()
-        .bodyToMono(BasketData.class);
+      .post()
+      .uri("lb://basket/basket/")
+      .contentType(MediaType.APPLICATION_JSON)
+      .bodyValue(currentBasket)
+      .retrieve()
+      .bodyToMono(BasketData.class);
   }
 
   private Mono<BasketData> circuitBreakerEmptyBasketData(String id, CallNotPermittedException t) {
-    return Mono.just(new BasketData(id, new ArrayList<>()));
+    return Mono.just(new BasketData(UUID.randomUUID(), id, new ArrayList<>()));
   }
 
   private Mono<BasketData> retryEmptyBasketData(String id, Exception t) {
-    return Mono.just(new BasketData(id, new ArrayList<>()));
+    return Mono.just(new BasketData(UUID.randomUUID(), id, new ArrayList<>()));
   }
 
 }

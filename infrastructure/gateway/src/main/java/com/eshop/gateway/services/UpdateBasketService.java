@@ -19,39 +19,39 @@ public class UpdateBasketService {
 
   public Mono<BasketData> updateBasket(UpdateBasketRequest data) {
     return basketApiService.getById(data.buyerId())
-        .zipWith(catalogItemsFor(data.items()))
-        .flatMap(result -> {
-          var existingBasket = result.getT1();
-          var catalogItems = result.getT2();
-          var updatedBasket = updateBasket(existingBasket, calculatedItems(data.items()), catalogItems);
-          return basketApiService.update(updatedBasket);
-        });
+      .zipWith(catalogItemsFor(data.items()))
+      .flatMap(result -> {
+        var existingBasket = result.getT1();
+        var catalogItems = result.getT2();
+        var updatedBasket = updateBasket(existingBasket, calculatedItems(data.items()), catalogItems);
+        return basketApiService.update(updatedBasket);
+      });
   }
 
   private BasketData updateBasket(
-      BasketData basket,
-      Collection<UpdateBasketRequestItemData> requestedBasketItems,
-      List<CatalogItem> catalogItems
+    BasketData basket,
+    Collection<UpdateBasketRequestItemData> requestedBasketItems,
+    List<CatalogItem> catalogItems
   ) {
     var updatedBasketItems = requestedBasketItems.stream()
-        .map(requestedBasketItem -> findBasketItem(basket.items(), requestedBasketItem.productId())
-            .map(existingBasketItem -> updateBasketItem(existingBasketItem, requestedBasketItem))
-            .orElseGet(() -> create(requestedBasketItem, catalogItems)))
-        .collect(Collectors.toList());
-    return new BasketData(basket.buyerId(), updatedBasketItems);
+      .map(requestedBasketItem -> findBasketItem(basket.items(), requestedBasketItem.productId())
+        .map(existingBasketItem -> updateBasketItem(existingBasketItem, requestedBasketItem))
+        .orElseGet(() -> create(requestedBasketItem, catalogItems)))
+      .collect(Collectors.toList());
+    return new BasketData(basket.id(), basket.buyerId(), updatedBasketItems);
   }
 
   private Collection<UpdateBasketRequestItemData> calculatedItems(List<UpdateBasketRequestItemData> items) {
     return items.stream()
-        .collect(Collectors.toMap(
-            UpdateBasketRequestItemData::productId,
-            item -> item,
-            (prev, next) -> new UpdateBasketRequestItemData(
-                prev.id(),
-                prev.productId(),
-                prev.quantity() + next.quantity()
-            )
-        )).values();
+      .collect(Collectors.toMap(
+        UpdateBasketRequestItemData::productId,
+        item -> item,
+        (prev, next) -> new UpdateBasketRequestItemData(
+          prev.id(),
+          prev.productId(),
+          prev.quantity() + next.quantity()
+        )
+      )).values();
   }
 
   private Mono<List<CatalogItem>> catalogItemsFor(List<UpdateBasketRequestItemData> basketItems) {
@@ -61,45 +61,45 @@ public class UpdateBasketService {
 
   private BasketDataItem updateBasketItem(BasketDataItem existingBasketItem, UpdateBasketRequestItemData requestedBasketItem) {
     return new BasketDataItem(
-        existingBasketItem.id(),
-        existingBasketItem.productId(),
-        existingBasketItem.productName(),
-        existingBasketItem.unitPrice(),
-        existingBasketItem.oldUnitPrice(),
-        requestedBasketItem.quantity(),
-        existingBasketItem.pictureUrl()
+      existingBasketItem.id(),
+      existingBasketItem.productId(),
+      existingBasketItem.productName(),
+      existingBasketItem.unitPrice(),
+      existingBasketItem.oldUnitPrice(),
+      requestedBasketItem.quantity(),
+      existingBasketItem.pictureUrl()
     );
   }
 
   private BasketDataItem newBasketItem(UpdateBasketRequestItemData requestedBasketItem, CatalogItem catalogItem) {
     return new BasketDataItem(
-        requestedBasketItem.id(),
-        catalogItem.id(),
-        catalogItem.name(),
-        catalogItem.price(),
-        catalogItem.price(),
-        requestedBasketItem.quantity(),
-        catalogItem.pictureFileName()
+      requestedBasketItem.id(),
+      catalogItem.id(),
+      catalogItem.name(),
+      catalogItem.price(),
+      catalogItem.price(),
+      requestedBasketItem.quantity(),
+      catalogItem.pictureFileName()
     );
   }
 
   private BasketDataItem create(UpdateBasketRequestItemData requestedBasketItem, List<CatalogItem> catalogItems) {
     return findCatalogItem(catalogItems, requestedBasketItem.productId())
-        .map(catalogItem -> newBasketItem(requestedBasketItem, catalogItem))
-        .orElseThrow(() ->
-            new IllegalArgumentException("Basket contains non existing catalog item " + requestedBasketItem.productId())
-        );
+      .map(catalogItem -> newBasketItem(requestedBasketItem, catalogItem))
+      .orElseThrow(() ->
+        new IllegalArgumentException("Basket contains non existing catalog item " + requestedBasketItem.productId())
+      );
   }
 
   private Optional<BasketDataItem> findBasketItem(List<BasketDataItem> basketItems, UUID productId) {
     return basketItems.stream()
-        .filter(x -> x.productId().equals(productId))
-        .findFirst();
+      .filter(x -> x.productId().equals(productId))
+      .findFirst();
   }
 
   private Optional<CatalogItem> findCatalogItem(List<CatalogItem> catalogItems, UUID productId) {
     return catalogItems.stream()
-        .filter(catalogItem -> catalogItem.id().equals(productId))
-        .findFirst();
+      .filter(catalogItem -> catalogItem.id().equals(productId))
+      .findFirst();
   }
 }

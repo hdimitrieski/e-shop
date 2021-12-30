@@ -20,6 +20,7 @@
         <module>discovery</module>
         <module>gateway</module>
         <module>image-service</module>
+        <module>gql-gateway</module>
     </modules>
 
 </project>

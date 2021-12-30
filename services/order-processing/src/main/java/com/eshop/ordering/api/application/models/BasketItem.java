@@ -12,41 +12,40 @@ import java.util.UUID;
 @Getter
 @NoArgsConstructor
 public class BasketItem {
-    @JsonProperty
-    private String id;
+  @JsonProperty
+  private String id;
 
-    @JsonProperty
-    @NotNull
-    private UUID productId;
+  @JsonProperty
+  @NotNull
+  private UUID productId;
 
-    @JsonProperty
-    @NotNull
-    private String productName;
+  @JsonProperty
+  @NotNull
+  private String productName;
 
-    @JsonProperty
-    @NotNull
-    private Double unitPrice;
+  @JsonProperty
+  @NotNull
+  private Double unitPrice;
 
-    @JsonProperty
-    private Double oldUnitPrice;
+  @JsonProperty
+  private Double oldUnitPrice;
 
-    @JsonProperty
-    @NotNull
-    @Min(value = 1, message = "Invalid quantity")
-    private Integer quantity;
+  @JsonProperty
+  @NotNull
+  @Min(value = 1, message = "Invalid quantity")
+  private Integer quantity;
 
-    @JsonProperty
-    private String pictureUrl;
+  @JsonProperty
+  private String pictureUrl;
 
-    public static OrderItemDTO toOrderItemDTO(BasketItem item)
-    {
-        return new OrderItemDTO(
-            item.getProductId(),
-            item.getProductName(),
-            item.getUnitPrice(),
-            0D,
-            item.getQuantity(),
-            item.getPictureUrl()
-        );
-    }
+  public static OrderItemDTO toOrderItemDTO(BasketItem item) {
+    return new OrderItemDTO(
+      item.getProductId(),
+      item.getProductName(),
+      item.getUnitPrice(),
+      0D,
+      item.getQuantity(),
+      item.getPictureUrl()
+    );
+  }
 }

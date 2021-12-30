@@ -1,0 +1,11 @@
+dgs:
+  graphql:
+    graphiql:
+      enabled: true
+      path: /graphiql
+    extensions:
+      scalars:
+        enabled: true
+    schema-locations:
+      - classpath*:schema/**/*.graphql*
+    path: /graphql

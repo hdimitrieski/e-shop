@@ -10,7 +10,7 @@ export class OrdersService {
   }
 
   fetchAll(): Observable<OrderSummary[]> {
-    return this.http.get<OrderSummary[]>(`${environment.apiUrl}/api/v1/orders`);
+    return this.http.get<OrderSummary[]>(`${environment.apiUrl}/api/v1/orders/summaries`);
   }
 
   fetchById(id: string): Observable<OrderSummary[]> {

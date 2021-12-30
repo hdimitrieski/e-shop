@@ -22,7 +22,8 @@ public class OrderQueriesImpl implements OrderQueries {
     var query = entityManager.createNativeQuery("""
           SELECT cast(o.id as varchar) as orderNumber, o.order_date as date, o.description, o.city, o.country, o.state, o.street,
             o.zip_code as zipCode, o.order_status as status,
-            oi.product_name as productName, oi.units, oi.unit_price as unitPrice, oi.picture_url as pictureUrl
+            oi.product_name as productName, oi.units, oi.unit_price as unitPrice, oi.picture_url as pictureUrl,
+            cast(oi.id as varchar), cast(oi.product_id as varchar)
           FROM orders o
           LEFT JOIN order_item oi on o.id = oi.order_id
           WHERE o.id = ?1
@@ -31,6 +32,50 @@ public class OrderQueriesImpl implements OrderQueries {
     return isNotEmpty(query.getResultList())
         ? Optional.of(toOrder(query.getResultList()))
         : Optional.empty();
+  }
+
+  @Override
+  public List<OrderViewModel.Order> userOrders(String userId) {
+    var query = entityManager.createNativeQuery("""
+        SELECT cast(o.id as varchar) as orderNumber, o.order_date as date, o.description, o.city, o.country, o.state, o.street,
+            o.zip_code as zipCode, o.order_status as status,
+            oi.product_name as productName, oi.units, oi.unit_price as unitPrice, oi.picture_url as pictureUrl,
+            cast(oi.id as varchar), cast(oi.product_id as varchar)
+        FROM orders o
+        LEFT JOIN order_item oi ON o.id = oi.order_id
+        LEFT JOIN buyer ob on o.buyer_id = ob.id
+        WHERE ob.user_id = :userId
+        ORDER BY o.order_date
+        """).setParameter("userId", userId);
+
+    List<Object[]> results = query.getResultList();
+    var byOrderId = results.stream()
+        .collect(Collectors.groupingBy(o -> o[0]));
+
+    return byOrderId.values().stream()
+        .map(this::toOrder)
+        .toList();
+  }
+
+  @Override
+  public List<OrderViewModel.Order> allOrders() {
+    var query = entityManager.createNativeQuery("""
+        SELECT cast(o.id as varchar) as orderNumber, o.order_date as date, o.description, o.city, o.country, o.state, o.street,
+            o.zip_code as zipCode, o.order_status as status,
+            oi.product_name as productName, oi.units, oi.unit_price as unitPrice, oi.picture_url as pictureUrl,
+            cast(oi.id as varchar), cast(oi.product_id as varchar)
+        FROM orders o
+        LEFT JOIN order_item oi ON o.id = oi.order_id
+        ORDER BY o.order_date
+        """);
+
+    List<Object[]> results = query.getResultList();
+    var byOrderId = results.stream()
+      .collect(Collectors.groupingBy(o -> o[0]));
+
+    return byOrderId.values().stream()
+      .map(this::toOrder)
+      .toList();
   }
 
   @Override
@@ -71,8 +116,12 @@ public class OrderQueriesImpl implements OrderQueries {
       var units = (Integer) r[10];
       var unitPrice = (Double) r[11];
       var pictureUrl = (String) r[12];
+      var orderItemId = (String) r[13];
+      var productId = (String) r[14];
 
       return new OrderViewModel.OrderItem(
+          orderItemId,
+          productId,
           productName,
           units,
           unitPrice,
@@ -98,6 +147,7 @@ public class OrderQueriesImpl implements OrderQueries {
         .orElse(0D);
 
     return new OrderViewModel.Order(
+        UUID.fromString(orderId),
         orderId,
         date.toLocalDateTime(),
         status,
