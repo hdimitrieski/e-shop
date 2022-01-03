@@ -22,6 +22,8 @@ public class EshopContextBuilder implements DgsCustomContextBuilderWithRequest<E
     @Nullable HttpHeaders httpHeaders,
     @Nullable WebRequest webRequest
   ) {
-    return new EshopContext(userService.getUser());
+    return userService.getUser()
+      .map(EshopContext::new)
+      .orElse(null);
   }
 }

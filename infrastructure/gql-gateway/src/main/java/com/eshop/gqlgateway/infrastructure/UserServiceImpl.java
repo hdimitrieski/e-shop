@@ -7,15 +7,21 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserServiceImpl implements UserService {
   @Value("${app.security.jwt.user-name-attribute}")
   private String userNameAttribute;
 
   @Override
-  public UserDto getUser() {
-    var jwt = (Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    return userFrom(jwt);
+  public Optional<UserDto> getUser() {
+    var principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    if (principal instanceof Jwt) {
+      var jwt = (Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+      return Optional.of(userFrom(jwt));
+    }
+    return Optional.empty();
   }
 
   private UserDto userFrom(Jwt jwt) {

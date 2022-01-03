@@ -12,9 +12,11 @@ import com.netflix.graphql.dgs.DgsData;
 import com.netflix.graphql.dgs.DgsDataFetchingEnvironment;
 import com.netflix.graphql.dgs.DgsQuery;
 import com.netflix.graphql.dgs.context.DgsContext;
+import com.netflix.graphql.dgs.exceptions.DgsEntityNotFoundException;
 import graphql.execution.DataFetcherResult;
 import graphql.schema.DataFetchingEnvironment;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.annotation.Secured;
 
 import static com.eshop.gqlgateway.api.util.IdUtils.fromString;
 
@@ -32,12 +34,13 @@ public class BasketDatafetcher {
   /**
    * Resolves "basket" field on Query.
    */
+  @Secured("ROLE_user")
   @DgsQuery
   public DataFetcherResult<Basket> basket(String basketId) {
     var nodeId = fromString(basketId);
     return basketApiService.findById(nodeId.id())
       .map(basketService::basketResultFrom)
-      .orElse(null);
+      .orElseThrow(DgsEntityNotFoundException::new);
   }
 
   /**

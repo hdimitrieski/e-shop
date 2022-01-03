@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 /**
  * The class Global controller exception handler is a generic and central point for all exceptions.
@@ -24,6 +25,13 @@ class GlobalControllerExceptionHandler extends ControllerExceptionHandler {
   public @ResponseBody
   HttpErrorInfo handleCatalogDomainExceptions(OrderingDomainException ex, WebRequest request) {
     return createHttpErrorInfo(BAD_REQUEST, ex, request);
+  }
+
+  @ResponseStatus(UNAUTHORIZED)
+  @ExceptionHandler(UnauthorizedException.class)
+  public @ResponseBody
+  HttpErrorInfo handleUnauthorizedExceptions(UnauthorizedException ex, WebRequest request) {
+    return createHttpErrorInfo(UNAUTHORIZED, ex, request);
   }
 
 }

@@ -36,6 +36,7 @@ public class SecurityConfig {
       .authorizeRequests()
       .antMatchers("/orders/ship").hasRole(EshopRole.Admin)
       .antMatchers("/orders/cancel").hasRole(EshopRole.Admin)
+      .antMatchers(HttpMethod.GET, "/orders").hasRole(EshopRole.Admin)
       .antMatchers(HttpMethod.GET, "/orders/*").hasAuthority(scope(ORDERS_SCOPE))
       .antMatchers(HttpMethod.POST, "/orders/*").hasAuthority(scope(ORDERS_SCOPE))
       .antMatchers(HttpMethod.PUT, "/orders/*").hasAuthority(scope(ORDERS_SCOPE))

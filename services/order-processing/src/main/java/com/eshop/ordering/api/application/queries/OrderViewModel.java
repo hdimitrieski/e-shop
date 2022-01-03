@@ -30,7 +30,8 @@ public final class OrderViewModel {
     String zipCode,
     String country,
     List<OrderItem> orderItems,
-    Double total
+    Double total,
+    String ownerId
   ) {
   }
 

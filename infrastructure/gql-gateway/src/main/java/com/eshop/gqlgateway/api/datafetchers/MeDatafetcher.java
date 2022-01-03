@@ -13,9 +13,11 @@ import com.netflix.graphql.dgs.DgsData;
 import com.netflix.graphql.dgs.DgsQuery;
 import com.netflix.graphql.dgs.InputArgument;
 import com.netflix.graphql.dgs.context.DgsContext;
+import com.netflix.graphql.dgs.exceptions.DgsEntityNotFoundException;
 import graphql.execution.DataFetcherResult;
 import graphql.schema.DataFetchingEnvironment;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.annotation.Secured;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,6 +37,7 @@ public class MeDatafetcher {
   /**
    * Resolves "me" field on Query.
    */
+  @Secured("ROLE_user")
   @DgsQuery
   public Me me(DataFetchingEnvironment dfe) {
     EshopContext context = DgsContext.getCustomContext(dfe);
@@ -51,7 +54,7 @@ public class MeDatafetcher {
     EshopContext context = DgsContext.getCustomContext(dfe);
     return basketApiService.findByUserId(context.user().userName())
       .map(basketService::basketResultFrom)
-      .orElse(null);
+      .orElseThrow(DgsEntityNotFoundException::new);
   }
 
   /**

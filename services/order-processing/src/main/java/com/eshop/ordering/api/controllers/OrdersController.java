@@ -6,6 +6,8 @@ import com.eshop.ordering.api.application.queries.OrderQueries;
 import com.eshop.ordering.api.application.queries.OrderViewModel;
 import com.eshop.ordering.api.application.services.IdentityService;
 import com.eshop.ordering.api.infrastructure.commandbus.CommandBus;
+import com.eshop.ordering.api.infrastructure.exceptions.UnauthorizedException;
+import com.eshop.shared.rest.error.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,13 +48,18 @@ public class OrdersController {
     commandBus.send(shipOrderCommand);
   }
 
-  // TODO should be accessible only for admin OR user who owns the order
   @RequestMapping("{orderId}")
   public ResponseEntity<OrderViewModel.Order> getOrder(@PathVariable String orderId) {
-    return ResponseEntity.of(orderQueries.getOrder(orderId));
+    final var order = orderQueries.getOrder(orderId)
+      .orElseThrow(() -> new NotFoundException("Order %s not found".formatted(orderId)));
+
+    if (!order.ownerId().equals(identityService.getUserIdentity()) && !identityService.isAdmin()) {
+      throw new UnauthorizedException();
+    }
+
+    return ResponseEntity.ok(order);
   }
 
-  // TODO should be accessible only for Admin
   @RequestMapping()
   public ResponseEntity<List<OrderViewModel.Order>> getAllOrders() {
     return ResponseEntity.ok(orderQueries.allOrders());

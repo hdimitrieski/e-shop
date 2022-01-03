@@ -423,7 +423,7 @@ Input type for checkout mutation.
 input BasketCheckoutInput {
   address: ShippingAddressInput!
   cardNumber: String! @Size(min: 5, max: 19)
-  cardHolderName: String!
+  cardHolderName: String! @NotBlank
   cardExpiration: Date!
   cardSecurityNumber: String! @Size(min: 3, max: 3)
   cardType: String!

@@ -5,6 +5,7 @@ import com.eshop.gqlgateway.services.BrandApiService;
 import com.eshop.gqlgateway.types.Brand;
 import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsQuery;
+import com.netflix.graphql.dgs.exceptions.DgsEntityNotFoundException;
 import graphql.execution.DataFetcherResult;
 import lombok.RequiredArgsConstructor;
 
@@ -33,7 +34,7 @@ public class BrandsDatafetcher {
       .map(brand -> DataFetcherResult.<Brand>newResult()
         .data(brand)
         .build()
-      ).orElse(null);
+      ).orElseThrow(DgsEntityNotFoundException::new);
   }
 
   /**

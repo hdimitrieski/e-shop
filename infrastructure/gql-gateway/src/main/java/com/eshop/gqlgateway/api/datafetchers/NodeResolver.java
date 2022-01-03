@@ -2,6 +2,7 @@ package com.eshop.gqlgateway.api.datafetchers;
 
 import com.eshop.gqlgateway.api.models.NodeId;
 import com.eshop.gqlgateway.types.*;
+import com.netflix.graphql.dgs.exceptions.DgsEntityNotFoundException;
 import graphql.execution.DataFetcherResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -47,7 +48,7 @@ public class NodeResolver {
   public DataFetcherResult<? extends Node> resolve(NodeId nodeId) {
     return NodeTypeResolver.resolverFor(nodeId.type())
       .map(resolver -> resolver.apply(this, nodeId))
-      .orElseThrow(() -> new IllegalArgumentException("Invalid node id"));
+      .orElseThrow(() -> new DgsEntityNotFoundException("Invalid node id"));
   }
 
 }
