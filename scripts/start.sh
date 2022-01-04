@@ -103,6 +103,10 @@ echo "Running order-grace-period-task service..."
 nohup java -Dspring.profiles.active="$profiles" -jar services/order-grace-period-task/target/order-grace-period-task.jar > target/order-grace-period-task.log 2>&1 &
 sleep 3
 
+echo "Running rating service..."
+nohup java -Dspring.profiles.active="$profiles" -jar services/rating/target/rating.jar > target/rating.log 2>&1 &
+sleep 3
+
 echo "All services are running."
 echo "PID      Command"
 ps aux | grep -v grep | grep 'infrastructure/.*/target/.*\.jar' | awk '{print $2"    "$11" "$12" "$13" "$14}'
