@@ -64,7 +64,6 @@ spring:
         gracePeriodConfirmed: grace-period-confirmed
         paymentStatus: payment-status
         stockConfirmed: stock-confirmed
-        catalogItemCreated: catalog-item-created
 
   cloud:
     # As Spring Cloud Ribbon is in maintenance mode.
