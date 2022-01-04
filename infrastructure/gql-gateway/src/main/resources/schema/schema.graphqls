@@ -417,16 +417,20 @@ input ShippingAddressInput {
   zipCode: String!
 }
 
+input CardDetailsInput {
+  number: String! @Size(min: 5, max: 19)
+  cardHolderName: String! @NotBlank
+  expiration: Date!
+  securityNumber: String! @Size(min: 3, max: 3)
+  type: String!
+}
+
 """
 Input type for checkout mutation.
 """
 input BasketCheckoutInput {
   address: ShippingAddressInput!
-  cardNumber: String! @Size(min: 5, max: 19)
-  cardHolderName: String! @NotBlank
-  cardExpiration: Date!
-  cardSecurityNumber: String! @Size(min: 3, max: 3)
-  cardType: String!
+  cardDetails: CardDetailsInput!
 }
 
 """

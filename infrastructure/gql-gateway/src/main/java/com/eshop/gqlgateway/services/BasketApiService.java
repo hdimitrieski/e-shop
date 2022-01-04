@@ -1,5 +1,6 @@
 package com.eshop.gqlgateway.services;
 
+import com.eshop.gqlgateway.models.BasketCheckoutDto;
 import com.eshop.gqlgateway.models.BasketDto;
 import com.eshop.gqlgateway.models.BasketItemDto;
 
@@ -12,4 +13,8 @@ public interface BasketApiService {
   Optional<BasketDto> findById(UUID id);
 
   Optional<BasketItemDto> findBasketItemById(UUID id);
+
+  Optional<BasketDto> update(BasketDto basket);
+
+  void checkout(BasketCheckoutDto basketCheckout);
 }

@@ -1,5 +1,6 @@
 package com.eshop.gqlgateway.infrastructure;
 
+import com.eshop.gqlgateway.models.BasketCheckoutDto;
 import com.eshop.gqlgateway.models.BasketDto;
 import com.eshop.gqlgateway.models.BasketItemDto;
 import com.eshop.gqlgateway.services.BasketApiService;
@@ -31,5 +32,16 @@ public class BasketApiServiceImpl implements BasketApiService {
   public Optional<BasketItemDto> findBasketItemById(UUID id) {
     // TODO impl
     return Optional.empty();
+  }
+
+  @Override
+  public Optional<BasketDto> update(BasketDto basket) {
+    final var response = basketRestTemplate.postForEntity("lb://basket/basket/", basket, BasketDto.class);
+    return Optional.ofNullable(response.getBody());
+  }
+
+  @Override
+  public void checkout(BasketCheckoutDto basketCheckout) {
+    basketRestTemplate.postForEntity("lb://basket/basket/checkout", basketCheckout, Void.class);
   }
 }
