@@ -1,11 +1,11 @@
 package com.eshop.rating.api;
 
 
-import com.eshop.rating.application.commandbus.RatingCommandBus;
 import com.eshop.rating.application.commands.AddRatingCommand;
 import com.eshop.rating.application.model.RatingForCatalogItemDto;
 import com.eshop.rating.application.queries.ratingforcatalogitem.RatingForCatalogItemQuery;
-import com.eshop.rating.application.querybus.QueryBus;
+import com.eshop.rating.application.shared.CommandBus;
+import com.eshop.rating.application.shared.QueryBus;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +22,7 @@ public class RatingController {
   private static final Logger logger = LoggerFactory.getLogger(RatingController.class);
 
   private final QueryBus queryBus;
-  private final RatingCommandBus commandBus;
+  private final CommandBus commandBus;
 
   @RequestMapping("/{catalogItemId}")
   public ResponseEntity<RatingForCatalogItemDto> ratingsByCatalogItemId(@PathVariable UUID catalogItemId) {

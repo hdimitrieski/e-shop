@@ -16,7 +16,6 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfig {
   public static final String SCOPE_PREFIX = "SCOPE";
-  public static final String ROLE_PREFIX = "ROLE";
 
   private static final String RATING_SCOPE = "rating";
 
@@ -28,7 +27,7 @@ public class SecurityConfig {
 
   @Value("${app.security.audience.rating}")
   private String ratingAudience;
-
+  // TODO HD what happens if the user is not logged in? He wouldn't be able to see the reviews.
   @Bean
   SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http

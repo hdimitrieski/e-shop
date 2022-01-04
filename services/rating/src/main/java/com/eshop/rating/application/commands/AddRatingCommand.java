@@ -1,6 +1,6 @@
 package com.eshop.rating.application.commands;
 
-import com.eshop.rating.application.commandbus.Command;
+import com.eshop.rating.application.shared.Command;
 import com.eshop.rating.application.model.RatingForCatalogItemDto;
 import com.eshop.rating.model.RatingScale;
 import com.fasterxml.jackson.annotation.JsonProperty;

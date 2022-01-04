@@ -1,6 +1,6 @@
 package com.eshop.rating.application.queries.ratingsbycatalogitem;
 
-import com.eshop.rating.application.querybus.QueryHandler;
+import com.eshop.rating.application.shared.QueryHandler;
 import com.eshop.rating.model.Rating;
 import com.eshop.rating.model.RatingRepository;
 import lombok.RequiredArgsConstructor;

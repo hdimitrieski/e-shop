@@ -1,9 +1,9 @@
-package com.eshop.rating.application.querybus;
+package com.eshop.rating.application.shared;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
-public class FirstGenericArgOf {
+final class FirstGenericArgOf {
   private final Class<?> aClass;
 
   FirstGenericArgOf(Class<?> aClass) {

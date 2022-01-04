@@ -1,4 +1,4 @@
-package com.eshop.rating.application.querybus;
+package com.eshop.rating.application.shared;
 
 public interface QueryHandler<R, Q extends Query<R>> {
   R handle(Q query);

@@ -13,7 +13,6 @@
 
     <properties>
         <logstash-logback-encoder.version>6.6</logstash-logback-encoder.version>
-        <axon.version>4.5.3</axon.version>
         <hibernate-jpamodelgen.version>5.4.30.Final</hibernate-jpamodelgen.version>
     </properties>
 
@@ -27,13 +26,6 @@
             <groupId>com.eshop</groupId>
             <artifactId>rest</artifactId>
             <version>${project.version}</version>
-        </dependency>
-
-        <!-- Axon -->
-        <dependency>
-            <groupId>org.axonframework</groupId>
-            <artifactId>axon-spring-boot-starter</artifactId>
-            <version>${axon.version}</version>
         </dependency>
 
         <!-- Security -->
