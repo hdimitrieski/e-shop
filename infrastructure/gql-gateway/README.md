@@ -7,6 +7,15 @@ accordingly, or it calls multiple microservices, aggregates the results and retu
 Currently, the GraphQL API gateway doesn't use the Circuit Breaker pattern, but the implementation would be very similar to 
 how it's implemented in [Gateway Service](../gateway).
 
+# Test the GraphQL API Gateway Service with GraphiQL
+Start the service and open a browser to http://localhost:3001/graphiql. You will see the following screen:
+
+![GraphiQL](../../docs/images/graphiql.png)
+
+If you want to query or mutate some protected resources, you'll have to add Authorization header:
+
+![Add Authorization Header](../../docs/images/gql-auth-header.png)
+
 # Running the GraphQL API Gateway Service
 The best way to run the service is with IDE like IntelliJ IDEA or Eclipse. Alternatively, after you build the service,
 you can run it with the following command:
