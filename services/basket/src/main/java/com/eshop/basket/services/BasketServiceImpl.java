@@ -7,6 +7,7 @@ import com.eshop.basket.model.BasketRepository;
 import com.eshop.basket.model.BasketStatus;
 import com.eshop.basket.model.CustomerBasket;
 import com.eshop.shared.eventhandling.EventBus;
+import com.eshop.shared.rest.error.BadRequestException;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 import java.util.UUID;
+
+import static org.springframework.util.CollectionUtils.isEmpty;
 
 @AllArgsConstructor
 @Service
@@ -49,6 +52,10 @@ public class BasketServiceImpl implements BasketService {
   public void checkout(BasketCheckout basketCheckout) {
     var userName = identityService.getUserName();
     var basket = getCustomerBasket(userName);
+
+    if (isEmpty(basket.getItems())) {
+      throw new BadRequestException("The basket is empty");
+    }
 
     logger.info("Checking out the basket for user: {} - request id: {}", userName, basketCheckout.getRequestId());
 

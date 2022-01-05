@@ -5,6 +5,8 @@ import com.eshop.gqlgateway.models.BasketDto;
 import com.eshop.gqlgateway.models.BasketItemDto;
 import com.eshop.gqlgateway.services.BasketApiService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -42,6 +44,10 @@ public class BasketApiServiceImpl implements BasketApiService {
 
   @Override
   public void checkout(BasketCheckoutDto basketCheckout) {
-    basketRestTemplate.postForEntity("lb://basket/basket/checkout", basketCheckout, Void.class);
+    HttpHeaders headers = new HttpHeaders();
+    headers.set("x-requestid", UUID.randomUUID().toString());
+    HttpEntity<BasketCheckoutDto> request = new HttpEntity(basketCheckout, headers);
+
+    basketRestTemplate.postForEntity("lb://basket/basket/checkout", request, Void.class);
   }
 }

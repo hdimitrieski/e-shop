@@ -19,9 +19,7 @@
     <logstash-logback-encoder.version>6.6</logstash-logback-encoder.version>
     <resillience4j.version>1.7.0</resillience4j.version>
     <dgs.codegen.version>5.1.9</dgs.codegen.version>
-    <dgs.version>4.9.3</dgs.version>
-    <graphql-java-extended-scalars.version>17.0</graphql-java-extended-scalars.version>
-    <graphql-java-extended-validation.version>16.0.0</graphql-java-extended-validation.version>
+    <dgs.version>4.9.15</dgs.version>
   </properties>
 
   <dependencies>
@@ -49,22 +47,21 @@
       <artifactId>graphql-dgs-spring-boot-starter</artifactId>
       <version>${dgs.version}</version>
     </dependency>
+    <dependency>
+      <groupId>com.netflix.graphql.dgs</groupId>
+      <artifactId>graphql-dgs-extended-scalars</artifactId>
+      <version>${dgs.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.netflix.graphql.dgs</groupId>
+      <artifactId>graphql-dgs-extended-validation</artifactId>
+      <version>${dgs.version}</version>
+    </dependency>
 
     <dependency>
       <groupId>com.netflix.graphql.dgs.codegen</groupId>
       <artifactId>graphql-dgs-codegen-client-core</artifactId>
       <version>${dgs.codegen.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>com.graphql-java</groupId>
-      <artifactId>graphql-java-extended-scalars</artifactId>
-      <version>${graphql-java-extended-scalars.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.graphql-java</groupId>
-      <artifactId>graphql-java-extended-validation</artifactId>
-      <version>${graphql-java-extended-validation.version}</version>
     </dependency>
     <!-- Security -->
     <dependency>

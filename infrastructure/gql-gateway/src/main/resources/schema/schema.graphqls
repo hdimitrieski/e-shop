@@ -437,7 +437,7 @@ input BasketCheckoutInput {
 Return type for checkout mutation.
 """
 type BasketCheckoutPayload {
-  orderNumber: String!
+  orderNumber: String
 }
 
 """

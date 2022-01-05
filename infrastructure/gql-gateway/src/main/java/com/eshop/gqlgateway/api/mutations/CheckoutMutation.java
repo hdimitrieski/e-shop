@@ -31,6 +31,7 @@ public class CheckoutMutation {
       .cardHolderName(input.getCardDetails().getCardHolderName())
       .cardNumber(input.getCardDetails().getNumber())
       .cardType(input.getCardDetails().getType())
+      .cardSecurityNumber(input.getCardDetails().getSecurityNumber())
       .buyer(context.user().userName())
       .build();
 

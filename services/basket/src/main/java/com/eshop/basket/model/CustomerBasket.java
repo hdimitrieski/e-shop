@@ -20,8 +20,6 @@ public class CustomerBasket implements Serializable {
 
   private BasketStatus status = BasketStatus.New;
 
-  @NotEmpty(message = "The basket must contain at least one item")
-  @Valid
   private final List<BasketItem> items = new ArrayList<>();
 
   public CustomerBasket(String customerId) {

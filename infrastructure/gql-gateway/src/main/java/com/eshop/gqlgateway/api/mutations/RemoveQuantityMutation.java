@@ -12,6 +12,7 @@ import com.netflix.graphql.dgs.InputArgument;
 import com.netflix.graphql.dgs.exceptions.DgsEntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import static com.eshop.gqlgateway.api.util.IdUtils.fromString;
@@ -29,7 +30,7 @@ public class RemoveQuantityMutation {
     final var lineItemId = fromString(input.getLineItemId()).id();
 
     return basketApiService.findById(basketId)
-      .map(basket -> removeQuantity(basket, lineItemId))
+      .flatMap(basket -> removeQuantity(basket, lineItemId))
       .map(toBasketConverter::convert)
       .map(updatedBasket -> BasketRemoveQuantityPayload.newBuilder()
         .basket(updatedBasket)
@@ -37,7 +38,7 @@ public class RemoveQuantityMutation {
       .orElseThrow(DgsEntityNotFoundException::new);
   }
 
-  private BasketDto removeQuantity(BasketDto basket, UUID lineItemId) {
+  private Optional<BasketDto> removeQuantity(BasketDto basket, UUID lineItemId) {
     final var basketItem = basket.items().stream()
       .filter(item -> item.productId().equals(lineItemId))
       .findFirst()
@@ -48,7 +49,7 @@ public class RemoveQuantityMutation {
       basket.items().add(updateBasketItem(basketItem));
     }
 
-    return basket;
+    return basketApiService.update(basket);
   }
 
   private BasketItemDto updateBasketItem(BasketItemDto basketItem) {
