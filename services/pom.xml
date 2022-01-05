@@ -23,6 +23,7 @@
         <module>order-processing</module>
         <module>payment</module>
         <module>analytics</module>
+        <module>rating</module>
     </modules>
 
 </project>

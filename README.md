@@ -22,6 +22,7 @@ Spring Cloud Stream, Spring Kafka, Kafka Streams API, Keycloak, ...
 - [Order Notifications](services/order-notifications) - Notifies the user about the order status in real-time.
 - [Payment](services/payment) - Simulates a simple payment gateway.
 - [Analytics](services/analytics) - Real-time stream processing with Kafka Streams API.
+- [Rating](services/rating) - Simple CQS microservice that manages product ratings.
 
 # How To Run
 You need to have Maven, Java 16, Node.js and Docker. By default, Docker Desktop is set to use 2 GB runtime memory, 
@@ -55,7 +56,7 @@ Then:
 
 2. Run all domain services [Order Processing](services/order-processing), [Catalog](services/catalog),
 [Basket](services/basket), [Payment](services/payment), [Order Grace Period Task](services/order-grace-period-task),
-[Order Notifications](services/order-notifications), [Analytics](services/analytics) using the following command:
+[Order Notifications](services/order-notifications), [Analytics](services/analytics), [Rating](services/rating) using the following command:
 
 
     ~ cd docker

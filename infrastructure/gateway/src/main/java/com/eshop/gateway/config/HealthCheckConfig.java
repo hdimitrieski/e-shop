@@ -28,8 +28,8 @@ public class HealthCheckConfig {
     ReactiveHealthIndicator orderProcessingHealthIndicator = () -> servicesHealth(serviceUrl(eshopServices.getOrderProcessing()));
     Map<String, ReactiveHealthContributor> healthIndicators = Map.of(
         "Catalog Service", catalogHealthIndicator,
-        "Order Processing Service", basketHealthIndicator,
-        "Basket Service", orderProcessingHealthIndicator
+        "Order Processing Service", orderProcessingHealthIndicator,
+        "Basket Service", basketHealthIndicator
     );
 
     return CompositeReactiveHealthContributor.fromMap(healthIndicators);

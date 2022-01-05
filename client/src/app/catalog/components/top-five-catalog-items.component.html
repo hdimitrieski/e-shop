@@ -4,6 +4,8 @@
       *ngFor="let item of catalogItems"
       class="p-1"
       [item]="item"
+      [isTopFive]="true"
+      (addRating)="addRating.emit($event)"
       (addToCart)="addItemToCart.emit($event)">
     </es-item>
   </div>

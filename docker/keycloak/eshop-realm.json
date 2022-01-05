@@ -867,6 +867,7 @@
       "defaultClientScopes": [
         "analytics",
         "basket",
+        "rating",
         "eshop-realm-roles",
         "webshoppingagg",
         "profile",
@@ -1025,6 +1026,30 @@
             "id.token.claim": "false",
             "access.token.claim": "true",
             "included.custom.audience": "basket-service",
+            "userinfo.token.claim": "false"
+          }
+        }
+      ]
+    },
+    {
+      "id": "3588b6e0-6d0b-426e-91a5-31ac8a1ab707",
+      "name": "rating",
+      "protocol": "openid-connect",
+      "attributes": {
+        "include.in.token.scope": "true",
+        "display.on.consent.screen": "true"
+      },
+      "protocolMappers": [
+        {
+          "id": "96a45b81-2524-4563-aaf9-b5e6ba46a47b",
+          "name": "Audience for rating service",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-audience-mapper",
+          "consentRequired": false,
+          "config": {
+            "id.token.claim": "false",
+            "access.token.claim": "true",
+            "included.custom.audience": "rating-service",
             "userinfo.token.claim": "false"
           }
         }
@@ -1637,6 +1662,7 @@
   "defaultDefaultClientScopes": [
     "web-origins",
     "basket",
+    "rating",
     "email",
     "role_list",
     "roles",

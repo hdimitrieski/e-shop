@@ -13,4 +13,5 @@ public class EshopServices {
   private String orderProcessing;
   private String basket;
   private String analytics;
+  private String rating;
 }

@@ -1,5 +1,6 @@
 import { CatalogType } from './catalog-type';
 import { CatalogBrand } from './catalog-brand';
+import {Rating} from "./rating";
 
 export interface CatalogItem {
   id: string;
@@ -10,4 +11,5 @@ export interface CatalogItem {
   category: CatalogType;
   brand: CatalogBrand;
   availableStock: number;
+  rating: Rating;
 }

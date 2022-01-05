@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Insert test data.
@@ -30,24 +31,26 @@ public class DataLoader implements ApplicationRunner {
     logger.info("Inserting test data...");
 
     if (brandRepository.findAll().iterator().hasNext()) {
+      logger.info("Database is already loaded. Abort the inserting process...");
       return;
     }
 
     var brands = Lists.newArrayList(brandRepository.saveAll(List.of(
-        Brand.builder().name("Adidas").build(),
-        Brand.builder().name("Endura").build(),
-        Brand.builder().name("Etnies").build(),
-        Brand.builder().name("Fox").build(),
-        Brand.builder().name("Giro").build()
+        Brand.builder().id(UUID.randomUUID()).name("Adidas").build(),
+        Brand.builder().id(UUID.randomUUID()).name("Endura").build(),
+        Brand.builder().id(UUID.randomUUID()).name("Etnies").build(),
+        Brand.builder().id(UUID.randomUUID()).name("Fox").build(),
+        Brand.builder().id(UUID.randomUUID()).name("Giro").build()
     )));
 
     var types = Lists.newArrayList(categoryRepository.saveAll(List.of(
-        Category.builder().name("Shoes").build(),
-        Category.builder().name("Shirt").build()
+        Category.builder().id(UUID.randomUUID()).name("Shoes").build(),
+        Category.builder().id(UUID.randomUUID()).name("Shirt").build()
     )));
 
-    catalogItemRepository.saveAll(List.of(
+    List<CatalogItem> catalogItems = List.of(
         CatalogItem.builder()
+            .id(UUID.randomUUID())
             .availableStock(10)
             .description("Some adidas terrex shoes...")
             .name("Adidas terrex")
@@ -57,6 +60,7 @@ public class DataLoader implements ApplicationRunner {
             .pictureFileName("adidas-shoes-1.png")
             .build(),
         CatalogItem.builder()
+            .id(UUID.randomUUID())
             .availableStock(13)
             .description("Adidas terrex-2 shoes...")
             .name("Adidas terrex-2")
@@ -66,6 +70,7 @@ public class DataLoader implements ApplicationRunner {
             .pictureFileName("adidas-shoes-2.png")
             .build(),
         CatalogItem.builder()
+            .id(UUID.randomUUID())
             .availableStock(2)
             .description("Adidas shoes...")
             .name("Adidas sh")
@@ -75,6 +80,7 @@ public class DataLoader implements ApplicationRunner {
             .pictureFileName("adidas-shoes-3.png")
             .build(),
         CatalogItem.builder()
+            .id(UUID.randomUUID())
             .availableStock(60)
             .description("Adidas shoes new...")
             .name("Adidas sport")
@@ -84,6 +90,7 @@ public class DataLoader implements ApplicationRunner {
             .pictureFileName("adidas-shoes-4.png")
             .build(),
         CatalogItem.builder()
+            .id(UUID.randomUUID())
             .availableStock(35)
             .description("Giro shoes...")
             .name("Giro bike shoes")
@@ -93,6 +100,7 @@ public class DataLoader implements ApplicationRunner {
             .pictureFileName("giro-shoes-1.png")
             .build(),
         CatalogItem.builder()
+            .id(UUID.randomUUID())
             .availableStock(1)
             .description("Giro street shoes...")
             .name("Giro street")
@@ -102,6 +110,7 @@ public class DataLoader implements ApplicationRunner {
             .pictureFileName("giro-shoes-2.png")
             .build(),
         CatalogItem.builder()
+            .id(UUID.randomUUID())
             .availableStock(10)
             .description("Giro vibram shoes...")
             .name("Giro vibram")
@@ -111,6 +120,7 @@ public class DataLoader implements ApplicationRunner {
             .pictureFileName("giro-shoes-3.png")
             .build(),
         CatalogItem.builder()
+            .id(UUID.randomUUID())
             .availableStock(10)
             .description("Etnies bike shoes...")
             .name("Etnies bike")
@@ -120,6 +130,7 @@ public class DataLoader implements ApplicationRunner {
             .pictureFileName("etnies-shoes-1.png")
             .build(),
         CatalogItem.builder()
+            .id(UUID.randomUUID())
             .availableStock(12)
             .description("Etnies street shoes...")
             .name("Etnies street")
@@ -129,6 +140,7 @@ public class DataLoader implements ApplicationRunner {
             .pictureFileName("etnies-shoes-2.png")
             .build(),
         CatalogItem.builder()
+            .id(UUID.randomUUID())
             .availableStock(40)
             .description("Endura shirt...")
             .name("Endura shirt")
@@ -138,6 +150,7 @@ public class DataLoader implements ApplicationRunner {
             .pictureFileName("endura-shirt-1.png")
             .build(),
         CatalogItem.builder()
+            .id(UUID.randomUUID())
             .availableStock(15)
             .description("Etnies shirt...")
             .name("Etnies street shirt")
@@ -147,6 +160,7 @@ public class DataLoader implements ApplicationRunner {
             .pictureFileName("etnies-shirt-1.png")
             .build(),
         CatalogItem.builder()
+            .id(UUID.randomUUID())
             .availableStock(54)
             .description("Etnies bike shirt...")
             .name("Etnies bike")
@@ -156,6 +170,7 @@ public class DataLoader implements ApplicationRunner {
             .pictureFileName("etnies-shirt-2.png")
             .build(),
         CatalogItem.builder()
+            .id(UUID.randomUUID())
             .availableStock(3)
             .description("Etnies street shirt description...")
             .name("Nike shoes")
@@ -165,6 +180,7 @@ public class DataLoader implements ApplicationRunner {
             .pictureFileName("etnies-shirt-3.png")
             .build(),
         CatalogItem.builder()
+            .id(UUID.randomUUID())
             .availableStock(16)
             .description("Fox classic shirt description...")
             .name("Fox classic")
@@ -174,6 +190,7 @@ public class DataLoader implements ApplicationRunner {
             .pictureFileName("fox-shirt-1.png")
             .build(),
         CatalogItem.builder()
+            .id(UUID.randomUUID())
             .availableStock(100)
             .description("Fox racing shirt description...")
             .name("Fox racing shirt")
@@ -183,6 +200,7 @@ public class DataLoader implements ApplicationRunner {
             .pictureFileName("fox-shirt-2.png")
             .build(),
         CatalogItem.builder()
+            .id(UUID.randomUUID())
             .availableStock(60)
             .description("Fox street shirt description...")
             .name("Fox street shirt")
@@ -192,6 +210,7 @@ public class DataLoader implements ApplicationRunner {
             .pictureFileName("fox-shirt-3.png")
             .build(),
         CatalogItem.builder()
+            .id(UUID.randomUUID())
             .availableStock(5)
             .description("Something...")
             .name("Puma Shoes")
@@ -200,6 +219,7 @@ public class DataLoader implements ApplicationRunner {
             .category(types.get(1))
             .pictureFileName("fox-shirt-4.png")
             .build()
-    ));
+    );
+    catalogItemRepository.saveAll(catalogItems);
   }
 }
