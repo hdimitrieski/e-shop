@@ -11,6 +11,7 @@ import com.netflix.graphql.dgs.DgsMutation;
 import com.netflix.graphql.dgs.InputArgument;
 import com.netflix.graphql.dgs.exceptions.DgsEntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.annotation.Secured;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -24,6 +25,7 @@ public class RemoveQuantityMutation {
   private final ToBasketConverter toBasketConverter;
 
   @SuppressWarnings("unused")
+  @Secured("ROLE_user")
   @DgsMutation
   public BasketRemoveQuantityPayload removeQuantity(@InputArgument BasketRemoveQuantityInput input) {
     final var basketId = fromString(input.getBasketId()).id();

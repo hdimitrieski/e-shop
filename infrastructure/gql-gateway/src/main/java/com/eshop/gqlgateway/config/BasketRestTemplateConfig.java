@@ -8,12 +8,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 
 @Configuration
-@LoadBalancerClient(value = "order", configuration = RoundRobinLoadBalancerConfig.class)
-public class OrderWebClientConfig {
+@LoadBalancerClient(value = "basket", configuration = RoundRobinLoadBalancerConfig.class)
+public class BasketRestTemplateConfig {
 
   @LoadBalanced
   @Bean
-  public RestTemplate orderRestTemplate() {
+  public RestTemplate basketRestTemplate() {
     return new RestTemplateBuilder()
       .additionalInterceptors(new BearerExchangeInterceptor())
       .build();

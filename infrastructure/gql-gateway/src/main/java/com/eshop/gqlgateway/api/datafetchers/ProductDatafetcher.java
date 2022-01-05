@@ -1,18 +1,23 @@
 package com.eshop.gqlgateway.api.datafetchers;
 
+import com.eshop.gqlgateway.DgsConstants;
 import com.eshop.gqlgateway.api.converters.ToProductConverter;
 import com.eshop.gqlgateway.services.CatalogApiService;
-import com.eshop.gqlgateway.types.Product;
-import com.eshop.gqlgateway.types.ProductFilter;
-import com.eshop.gqlgateway.types.ProductSort;
-import com.eshop.gqlgateway.types.ProductsQueryResult;
+import com.eshop.gqlgateway.types.*;
 import com.netflix.graphql.dgs.DgsComponent;
+import com.netflix.graphql.dgs.DgsData;
 import com.netflix.graphql.dgs.DgsQuery;
 import com.netflix.graphql.dgs.InputArgument;
 import com.netflix.graphql.dgs.exceptions.DgsEntityNotFoundException;
 import graphql.execution.DataFetcherResult;
+import graphql.schema.DataFetchingEnvironment;
 import lombok.RequiredArgsConstructor;
+import org.dataloader.DataLoader;
 
+import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
+
+import static com.eshop.gqlgateway.api.dataloaders.DataLoaders.RATINGS;
 import static com.eshop.gqlgateway.api.util.IdUtils.fromString;
 
 /**
@@ -59,4 +64,12 @@ public class ProductDatafetcher {
       .orElseThrow(DgsEntityNotFoundException::new);
   }
 
+  @DgsData(parentType = DgsConstants.PRODUCT.TYPE_NAME)
+  public CompletableFuture<Rating> rating(DataFetchingEnvironment dfe) {
+    final Product product = dfe.getSource();
+    final var productId = fromString(product.getId()).id();
+    DataLoader<UUID, Rating> ratingsLoader = dfe.getDataLoader(RATINGS);
+
+    return ratingsLoader.load(productId);
+  }
 }

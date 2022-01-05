@@ -9,6 +9,8 @@ import org.springframework.security.oauth2.core.AbstractOAuth2Token;
 
 import java.io.IOException;
 
+import static java.util.Objects.nonNull;
+
 public class BearerExchangeInterceptor implements ClientHttpRequestInterceptor {
   @Override
   public ClientHttpResponse intercept(
@@ -16,8 +18,11 @@ public class BearerExchangeInterceptor implements ClientHttpRequestInterceptor {
     byte[] body,
     ClientHttpRequestExecution execution
   ) throws IOException {
-    AbstractOAuth2Token token = (AbstractOAuth2Token) SecurityContextHolder.getContext().getAuthentication().getCredentials();
-    request.getHeaders().setBearerAuth(token.getTokenValue());
+    var authentication = SecurityContextHolder.getContext().getAuthentication();
+    if (nonNull(authentication)) {
+      AbstractOAuth2Token token = (AbstractOAuth2Token) authentication.getCredentials();
+      request.getHeaders().setBearerAuth(token.getTokenValue());
+    }
     return execution.execute(request, body);
   }
 }

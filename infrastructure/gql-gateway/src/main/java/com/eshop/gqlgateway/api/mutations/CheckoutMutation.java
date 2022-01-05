@@ -11,6 +11,7 @@ import com.netflix.graphql.dgs.InputArgument;
 import com.netflix.graphql.dgs.context.DgsContext;
 import graphql.schema.DataFetchingEnvironment;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.annotation.Secured;
 
 @RequiredArgsConstructor
 @DgsComponent
@@ -18,6 +19,7 @@ public class CheckoutMutation {
   private final BasketApiService basketApiService;
 
   @SuppressWarnings("unused")
+  @Secured("ROLE_user")
   @DgsMutation
   public BasketCheckoutPayload checkout(DataFetchingEnvironment dfe, @InputArgument BasketCheckoutInput input) {
     EshopContext context = DgsContext.getCustomContext(dfe);

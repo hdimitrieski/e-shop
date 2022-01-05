@@ -86,6 +86,13 @@ type Brand implements Node {
 }
 
 """
+Product's rating.
+"""
+type Rating {
+  value: String
+}
+
+"""
 The product resource represents a product that is available in the shop.
 The user can add a product in his basket.
 """
@@ -122,6 +129,10 @@ type Product implements Node {
   Product brand
   """
   brand: Brand!
+  """
+  Product rating
+  """
+  rating: Rating
 }
 
 """
@@ -441,6 +452,21 @@ type BasketCheckoutPayload {
 }
 
 """
+Input type for addRating mutation.
+"""
+input AddRatingInput {
+  productId: ID!
+  value: String!
+}
+
+"""
+Return type for addRating mutation.
+"""
+type AddRatingPayload {
+  rating: Rating!
+}
+
+"""
 The mutation root of the GraphQL interface.
 """
 type Mutation {
@@ -448,4 +474,5 @@ type Mutation {
   addQuantity(input: BasketAddQuantityInput!): BasketAddQuantityPayload
   removeQuantity(input: BasketRemoveQuantityInput!): BasketRemoveQuantityPayload
   checkout(input: BasketCheckoutInput!): BasketCheckoutPayload
+  addRating(input: AddRatingInput!): AddRatingPayload
 }
