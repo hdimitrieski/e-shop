@@ -33,7 +33,7 @@ public class SecurityConfig {
     http
       .mvcMatcher("/rating/**")
       .authorizeRequests()
-      .mvcMatchers(HttpMethod.GET, "/rating/*").hasAuthority(scope(RATING_SCOPE))
+      .mvcMatchers(HttpMethod.GET, "/rating/*").permitAll()
       .mvcMatchers(HttpMethod.POST, "/rating/*").hasAuthority(scope(RATING_SCOPE))
       .and()
       .oauth2ResourceServer()

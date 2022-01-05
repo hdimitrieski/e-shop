@@ -1,0 +1,478 @@
+"""
+An object with a Globally Unique ID.
+"""
+interface Node {
+  """
+  ID of the object.
+  """
+  id: ID!
+}
+
+"""
+The set of sort keys for the order.
+"""
+enum OrderSort {
+  """
+  Sort by date.
+  """
+  DATE
+  """
+  Sort by price.
+  """
+  PRICE
+}
+
+"""
+E-Shop user.
+"""
+type User {
+  """
+  The user's email
+  """
+  email: String!
+  """
+  The user's user name
+  """
+  userName: String!
+}
+
+"""
+E-Shop signed-in user.
+"""
+type Me {
+  """
+  The logged in user
+  """
+  user: User!
+  """
+  The user's basket.
+  """
+  basket: Basket
+  """
+  The user's orders.
+  """
+  orders(
+    reverse: Boolean = false
+    sort: OrderSort = DATE
+  ): [Order]
+}
+
+"""
+Product's category.
+"""
+type Category implements Node {
+  """
+  ID of the category
+  """
+  id: ID!
+  """
+  The category's name
+  """
+  name: String!
+}
+
+"""
+Product's brand.
+"""
+type Brand implements Node {
+  """
+  ID of the brand
+  """
+  id: ID!
+  """
+  The brand's name
+  """
+  name: String!
+}
+
+"""
+Product's rating.
+"""
+type Rating {
+  value: String
+}
+
+"""
+The product resource represents a product that is available in the shop.
+The user can add a product in his basket.
+"""
+type Product implements Node {
+  """
+  ID of the product.
+  """
+  id: ID!
+  """
+  Price of the product
+  """
+  price: Float!
+  """
+  Image name.
+  """
+  image: String!
+  """
+  Name of the product.
+  """
+  name: String!
+  """
+  Description of the product.
+  """
+  description: String
+  """
+  Quantity of available items.
+  """
+  availableQuantity: Int!
+  """
+  Product category
+  """
+  category: Category!
+  """
+  Product brand
+  """
+  brand: Brand!
+  """
+  Product rating
+  """
+  rating: Rating
+}
+
+"""
+Represents a single line item.
+"""
+type LineItem implements Node {
+  """
+  ID of the line item.
+  """
+  id: ID!
+  """
+  Name of the product.
+  """
+  name: String!
+  """
+  Product object associated with this line item.
+  """
+  product: Product
+  """
+  Unit price.
+  """
+  unitPrice: Float!
+  """
+  Total price. This value is based on the unit price of the product * quantity.
+  """
+  price: Float!
+  """
+  Number of product units ordered.
+  """
+  quantity: Int!
+  """
+  Image name.
+  """
+  image: String!
+}
+
+"""
+The set of sort keys for the line items.
+"""
+enum LineItemSort {
+  """
+  Sort by name.
+  """
+  NAME
+  """
+  Sort by price.
+  """
+  PRICE
+}
+
+"""
+A shopping basket holds products and can be ordered.
+Each basket belongs to a registered user.
+"""
+type Basket implements Node {
+  """
+  ID of the basket.
+  """
+  id: ID!
+  """
+  The owner of the basket.
+  """
+  user: User!
+  """
+  List of line items in the basket.
+  """
+  lineItems(
+    sort: LineItemSort = PRICE
+  ): [LineItem]
+  """
+  The sum of the line items quantities.
+  """
+  lineItemsQuantity: Int!
+  """
+  Total price. Sum of all line items prices.
+  """
+  totalPrice: Float!
+}
+
+"""
+Represents the current status of the order.
+"""
+enum OrderStatus {
+  SUBMITTED
+  PAID
+  CANCELLED
+  SHIPPED
+  AWAITING_VALIDATION
+  STOCK_CONFIRMED
+}
+
+"""
+An order is a customer's request to purchase products from the shop.
+"""
+type Order implements Node {
+  """
+  ID of the order.
+  """
+  id: ID!
+  """
+  Unique identifier for the order.
+  """
+  orderNumber: String!
+  """
+  Date and time when the order was created.
+  """
+  date: DateTime!
+  """
+  The total price of the order.
+  """
+  totalPrice: Float!
+  """
+  The status of the order.
+  """
+  status: OrderStatus!
+  """
+  Whether inventory has been reserved for the order.
+  """
+  confirmed: Boolean!
+  """
+  Whether the order has been paid in full.
+  """
+  paid: Boolean!
+  """
+  The user that placed the order.
+  """
+  user: User!
+  """
+  List of line items in the order.
+  """
+  lineItems(
+    sort: LineItemSort = PRICE
+  ): [LineItem!]!
+  """
+  The sum of the line items quantities.
+  """
+  lineItemsQuantity: Int!
+}
+
+"""
+The set of sort keys for the product.
+"""
+enum ProductSort {
+  """
+  Sort by name.
+  """
+  NAME
+  """
+  Sort by price.
+  """
+  PRICE
+}
+
+"""
+Filter properties for the product.
+"""
+input ProductFilter {
+  """
+  Brand ID.
+  """
+  brandId: String
+  """
+  Catalog ID.
+  """
+  catalogId: String
+}
+
+type ProductsQueryResult {
+  total: Int!
+  pageSize: Int!
+  page: Int!
+  result: [Product]
+}
+
+"""
+The query root of the GraphQL interface.
+"""
+type Query {
+  """
+  Returns the current user.
+  """
+  me: Me!
+  """
+  Returns a specific node (any object that implements the Node interface) by ID
+  """
+  node(id: ID!): Node
+  """
+  Returns a basket by id.
+  """
+  basket(id: ID!): Basket
+  """
+  Returns an order by ID.
+  """
+  order(id: ID!): Order
+  """
+  Returns a list of orders placed.
+  """
+  orders(
+    reverse: Boolean = false
+    sort: OrderSort = DATE
+  ): [Order]
+  """
+  Returns a product by ID.
+  """
+  product(id: ID!): Product
+  """
+  Returns a list of products.
+  """
+  products(
+    query: String
+    sort: ProductSort = PRICE
+    filter: ProductFilter
+    reverse: Boolean = false
+    page: Int = 0
+    pageSize: Int = 10
+  ): ProductsQueryResult
+  """
+  Returns a brand by ID.
+  """
+  lineItem(id: ID!): LineItem
+  """
+  Returns a brand by ID.
+  """
+  brand(id: ID!): Brand
+  """
+  Returns a list of all brands.
+  """
+  brands: [Brand]
+  """
+  Returns a category by ID.
+  """
+  category(id: ID!): Category
+  """
+  Returns a list of all categories.
+  """
+  categories: [Category]
+}
+
+# Mutations
+"""
+Input type for addToBasket mutation.
+"""
+input AddToBasketInput {
+  basketId: ID!
+  lineItemId: ID!
+}
+
+"""
+Return type for addToBasket mutation.
+"""
+type AddToBasketPayload {
+  basket: Basket
+}
+
+"""
+Input type for addQuantity mutation.
+"""
+input BasketAddQuantityInput {
+  basketId: ID!
+  lineItemId: ID!
+}
+
+"""
+Return type for addQuantity mutation.
+"""
+type BasketAddQuantityPayload {
+  basket: Basket
+}
+
+"""
+Input type for removeQuantity mutation.
+"""
+input BasketRemoveQuantityInput {
+  basketId: ID!
+  lineItemId: ID!
+}
+
+"""
+Return type for removeQuantity mutation.
+"""
+type BasketRemoveQuantityPayload {
+  basket: Basket
+}
+
+"""
+Input type for shipping address.
+"""
+input ShippingAddressInput {
+  city: String!
+  street: String!
+  state: String!
+  country: String!
+  zipCode: String!
+}
+
+input CardDetailsInput {
+  number: String! @Size(min: 5, max: 19)
+  cardHolderName: String! @NotBlank
+  expiration: Date!
+  securityNumber: String! @Size(min: 3, max: 3)
+  type: String!
+}
+
+"""
+Input type for checkout mutation.
+"""
+input BasketCheckoutInput {
+  address: ShippingAddressInput!
+  cardDetails: CardDetailsInput!
+}
+
+"""
+Return type for checkout mutation.
+"""
+type BasketCheckoutPayload {
+  orderNumber: String
+}
+
+"""
+Input type for addRating mutation.
+"""
+input AddRatingInput {
+  productId: ID!
+  value: String!
+}
+
+"""
+Return type for addRating mutation.
+"""
+type AddRatingPayload {
+  rating: Rating!
+}
+
+"""
+The mutation root of the GraphQL interface.
+"""
+type Mutation {
+  addToBasket(input: AddToBasketInput!): AddToBasketPayload
+  addQuantity(input: BasketAddQuantityInput!): BasketAddQuantityPayload
+  removeQuantity(input: BasketRemoveQuantityInput!): BasketRemoveQuantityPayload
+  checkout(input: BasketCheckoutInput!): BasketCheckoutPayload
+  addRating(input: AddRatingInput!): AddRatingPayload
+}

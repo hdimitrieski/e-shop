@@ -18,31 +18,32 @@ public class UpdateBasketQuantitiesService {
 
   public Mono<BasketData> update(UpdateBasketItemRequest data) {
     return basketApiService.getById(data.basketId())
-        .flatMap(basket -> basketApiService.update(updateBasketItemQuantities(basket, data.updates())));
+      .flatMap(basket -> basketApiService.update(updateBasketItemQuantities(basket, data.updates())));
   }
 
   private BasketData updateBasketItemQuantities(BasketData basket, List<UpdateBasketItemData> updates) {
     var updatedBasketItems = basket.items().stream().map(item -> new BasketDataItem(
-        item.id(),
-        item.productId(),
-        item.productName(),
-        item.unitPrice(),
-        item.oldUnitPrice(),
-        updatedQuantity(item, updates),
-        item.pictureUrl()
+      item.id(),
+      item.productId(),
+      item.productName(),
+      item.unitPrice(),
+      item.oldUnitPrice(),
+      updatedQuantity(item, updates),
+      item.pictureUrl()
     )).collect(Collectors.toList());
 
     return new BasketData(
-        basket.buyerId(),
-        updatedBasketItems
+      basket.id(),
+      basket.buyerId(),
+      updatedBasketItems
     );
   }
 
   private Integer updatedQuantity(BasketDataItem basketItem, List<UpdateBasketItemData> updates) {
     return updates.stream()
-        .filter(u -> u.basketItemId().equals(basketItem.id()))
-        .map(UpdateBasketItemData::newQuantity)
-        .findFirst()
-        .orElse(basketItem.quantity());
+      .filter(u -> u.basketItemId().equals(basketItem.id()))
+      .map(UpdateBasketItemData::newQuantity)
+      .findFirst()
+      .orElse(basketItem.quantity());
   }
 }

@@ -20,10 +20,15 @@ public class BasketController {
 
   private final BasketService basketService;
 
-  @RequestMapping("{customerId}")
-  public ResponseEntity<CustomerBasket> getBasketById(@PathVariable String customerId) {
+  @RequestMapping("/customer/{customerId}")
+  public ResponseEntity<CustomerBasket> getBasketByCustomerId(@PathVariable String customerId) {
     logger.info("Find basket from user: {}", customerId);
-    return ResponseEntity.ok(basketService.getBasketById(customerId));
+    return ResponseEntity.ok(basketService.findByCustomerId(customerId));
+  }
+  @RequestMapping("{basketId}")
+  public ResponseEntity<CustomerBasket> getBasketById(@PathVariable UUID basketId) {
+    logger.info("Find basket by id: {}", basketId);
+    return ResponseEntity.of(basketService.findById(basketId));
   }
 
   @RequestMapping(method = RequestMethod.POST)
@@ -33,15 +38,18 @@ public class BasketController {
   }
 
   @RequestMapping(path = "checkout", method = RequestMethod.POST)
-  public void checkout(@RequestBody @Valid BasketCheckout basketCheckout, @RequestHeader("x-requestid") String requestId) {
+  public void checkout(
+    @RequestBody @Valid BasketCheckout basketCheckout,
+    @RequestHeader("x-requestid") String requestId
+  ) {
     logger.info("Checkout basket for user: {}", basketCheckout.getBuyer());
     setRequestId(basketCheckout, requestId);
     basketService.checkout(basketCheckout);
   }
 
-  @RequestMapping(value = "{customerId}", method = RequestMethod.DELETE)
-  public void deleteBasket(@PathVariable String customerId) {
-    basketService.deleteBasketForCustomer(customerId);
+  @RequestMapping(value = "{basketId}", method = RequestMethod.DELETE)
+  public void deleteBasket(@PathVariable UUID basketId) {
+    basketService.delete(basketId);
   }
 
   public void setRequestId(BasketCheckout basketCheckout, String requestId) {

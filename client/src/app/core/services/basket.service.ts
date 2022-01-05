@@ -29,7 +29,7 @@ export class BasketService {
   }
 
   getBasket(customerId: string): Observable<CustomerBasket> {
-    return this.http.get<CustomerBasket>(`${environment.apiUrl}/api/v1/basket/${customerId}`).pipe(
+    return this.http.get<CustomerBasket>(`${environment.apiUrl}/api/v1/basket/customer/${customerId}`).pipe(
       tap(basket => this.customerBasket = basket),
       catchError(() => of(this.emptyBasket()))
     );
@@ -50,14 +50,6 @@ export class BasketService {
 
     return this.http.put<CustomerBasket>(`${environment.apiUrl}/api/v1/basket/items`, basketItemUpdates).pipe(
       tap(basket => this.customerBasket = basket)
-    );
-  }
-
-  deleteBasket(): Observable<CustomerBasket> {
-    return this.http.delete<CustomerBasket>(
-      `${environment.apiUrl}/api/v1/basket/${this.customerBasket.buyerId}`
-    ).pipe(
-      tap(() => this.customerBasket = this.emptyBasket(this.customerBasket.buyerId))
     );
   }
 

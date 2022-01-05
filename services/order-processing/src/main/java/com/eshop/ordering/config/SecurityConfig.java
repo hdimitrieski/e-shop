@@ -32,19 +32,20 @@ public class SecurityConfig {
   @Bean
   SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http
-        .mvcMatcher("/orders/**")
-        .authorizeRequests()
-        .mvcMatchers("/orders/ship").hasRole(EshopRole.Admin)
-        .mvcMatchers("/orders/cancel").hasRole(EshopRole.Admin)
-        .mvcMatchers(HttpMethod.GET, "/orders/*").hasAuthority(scope(ORDERS_SCOPE))
-        .mvcMatchers(HttpMethod.POST, "/orders/*").hasAuthority(scope(ORDERS_SCOPE))
-        .mvcMatchers(HttpMethod.PUT, "/orders/*").hasAuthority(scope(ORDERS_SCOPE))
-        .mvcMatchers(HttpMethod.DELETE, "/orders/*").hasAuthority(scope(ORDERS_SCOPE))
-        .and()
-        .oauth2ResourceServer()
-        .jwt()
-        .decoder(jwtDecoder())
-        .jwtAuthenticationConverter(jwtAuthenticationConverter());
+      .mvcMatcher("/orders/**")
+      .authorizeRequests()
+      .antMatchers("/orders/ship").hasRole(EshopRole.Admin)
+      .antMatchers("/orders/cancel").hasRole(EshopRole.Admin)
+      .antMatchers(HttpMethod.GET, "/orders").hasRole(EshopRole.Admin)
+      .antMatchers(HttpMethod.GET, "/orders/*").hasAuthority(scope(ORDERS_SCOPE))
+      .antMatchers(HttpMethod.POST, "/orders/*").hasAuthority(scope(ORDERS_SCOPE))
+      .antMatchers(HttpMethod.PUT, "/orders/*").hasAuthority(scope(ORDERS_SCOPE))
+      .antMatchers(HttpMethod.DELETE, "/orders/*").hasAuthority(scope(ORDERS_SCOPE))
+      .and()
+      .oauth2ResourceServer()
+      .jwt()
+      .decoder(jwtDecoder())
+      .jwtAuthenticationConverter(jwtAuthenticationConverter());
 
     return http.build();
   }

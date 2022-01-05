@@ -32,7 +32,6 @@ export class OrderDraftPageComponent implements OnInit {
       take(1)
     ).subscribe(() => {
       this.sendOrderSubmittedNotification();
-      this.deleteBasket();
       this.goToCatalog();
     });
   }
@@ -41,12 +40,6 @@ export class OrderDraftPageComponent implements OnInit {
     this.notificationsService.show({
       text: 'Your order has been submitted.'
     });
-  }
-
-  private deleteBasket(): void {
-    this.basketService.deleteBasket().pipe(
-      take(1)
-    ).subscribe();
   }
 
   private goToCatalog(): void {

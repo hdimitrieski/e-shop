@@ -27,7 +27,7 @@ public class ProductPriceChangedIntegrationEventHandler implements IntegrationEv
   public void handle(ProductPriceChangedIntegrationEvent event) {
     logger.info("Handling integration event: {} ({})", event.getId(), event.getClass().getSimpleName());
 
-    basketRepository.getUsers().forEach(id -> basketRepository.getBasket(id)
+    basketRepository.getUsers().forEach(userId -> basketRepository.findByCustomerId(userId)
         .ifPresent(basket -> updatePriceInBasketItems(
             event.getProductId(),
             event.getNewPrice(),

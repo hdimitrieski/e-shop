@@ -1,0 +1,50 @@
+app:
+  security:
+    oauth2.client:
+      analytics:
+        id: analytics-service
+        secret: b20b38ac-7a98-429a-9949-b358b23f7b66
+  services:
+    catalog-query: catalog-query
+    catalog-command: catalog-command
+    basket: basket
+    order-processing: order-processing
+    analytics: analytics
+    rating: rating
+
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          analytics-service:
+            provider: keycloak
+            client-id: ${app.security.oauth2.client.analytics.id}
+            client-secret: ${app.security.oauth2.client.analytics.secret}
+            authorization-grant-type: client_credentials
+        provider:
+          keycloak:
+            issuer-uri: ${app.auth-server.issuer-uri}
+
+      resourceserver:
+        jwt:
+          issuer-uri: ${app.auth-server.issuer-uri}
+
+  cloud:
+    loadbalancer:
+      ribbon:
+        enabled: false
+      retry:
+        enabled: false
+
+---
+spring:
+  config:
+    activate:
+      on-profile: docker
+
+app:
+  security:
+    oauth2.client:
+      analytics:
+        secret: '{cipher}AQAOzqz1COcjTOyVyTiFdUWfw7w57AUA6gn6wtXUteHIEQULp82IwQLn4bSsY2oCShv1UoXJQRzW406yfBGKn8zDFmAcIxfxlMy6bOTSYTCkCAytdSPDUW+k7fEt/3tzwGmtUCcFiBFc2GcMoqNTdFn+zTUQImP8c0iyJw3EJGRgSLXU0dBYeh0AlYZXCqFczYuqd4gK06XsJ95FI710pGwl/mVyqRxDrQFwyudrUrnHllJ9asEChkpnk3xHfl9moTTB9W/kroYTOhcUG4jYNu67iqp+paps+t86xdaLM3JKiDtE1ItVL2v3ny3ex9vtATZ4vtCFL8uqeGZn9LcD5rMWcfFZBdhn3yHcyDthnh2LYeOIiwEmtOQq9xxq22y9tFN7ILSdE3qQnKEdZbVftZ9P5Jz0l2VV/b8E8fNGfjoC5g=='

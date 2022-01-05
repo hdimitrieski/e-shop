@@ -2,6 +2,7 @@ package com.eshop.basket.integrationevents.eventhandling;
 
 import com.eshop.basket.integrationevents.events.OrderStartedIntegrationEvent;
 import com.eshop.basket.model.BasketRepository;
+import com.eshop.basket.model.BasketStatus;
 import com.eshop.shared.eventhandling.IntegrationEventHandler;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -20,6 +21,10 @@ public class OrderStartedIntegrationEventHandler implements IntegrationEventHand
   @Override
   public void handle(OrderStartedIntegrationEvent event) {
     logger.info("Handling integration event: {} ({})", event.getId(), event.getClass().getSimpleName());
-    basketRepository.deleteBasket(event.getUserId());
+    basketRepository.findByCustomerId(event.getUserId())
+      .ifPresent(basket -> {
+        basket.changeStatusTo(BasketStatus.CheckedOut);
+        basketRepository.updateBasket(basket);
+      });
   }
 }
