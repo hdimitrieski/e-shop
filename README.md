@@ -3,7 +3,7 @@
 This project is inspired by eShopOnContainers and it's built to demonstrate features of [Spring Cloud](https://spring.io/projects/spring-cloud) for 
 implementing microservices architecture. In this project you can find examples of: Spring Cloud Config,
 Eureka Service Discovery, Spring Cloud Gateway, Spring Cloud Circuit Breaker, Resilience4j, Spring Cloud Sleuth, 
-Spring Cloud Stream, Spring Kafka, Kafka Streams API, Keycloak, ...
+Spring Cloud Stream, Spring Kafka, Kafka Streams API, Keycloak, Event Sourcing with Axon, GraphQL API with Netflix DGS...
 
 # Architectural Diagram
 ![Assign Admin Role](docs/architecture/container-diagram.png)
