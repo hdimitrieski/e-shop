@@ -4,7 +4,8 @@
       *ngFor="let item of catalogItems"
       class="p-1"
       [item]="item"
-      (addToCart)="addItemToCart.emit($event)">
+      (addToCart)="addItemToCart.emit($event)"
+      (addRating)="addRating.emit($event)">
     </es-item>
   </div>
 </div>

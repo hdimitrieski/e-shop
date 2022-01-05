@@ -103,6 +103,18 @@ services:
       EUREKA_USER: ${EUREKA_USER}
       POSTGRES_USER: ${POSTGRES_USER}
 
+  rating:
+    build: ../services/rating
+    networks:
+      - eshopnet
+    restart: on-failure
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      CONFIG_SERVICE_USER: ${CONFIG_SERVICE_USER}
+      CONFIG_SERVICE_PASSWORD: ${CONFIG_SERVICE_PASSWORD}
+      EUREKA_USER: ${EUREKA_USER}
+      POSTGRES_USER: ${POSTGRES_USER}
+
 networks:
   eshopnet:
     driver: bridge

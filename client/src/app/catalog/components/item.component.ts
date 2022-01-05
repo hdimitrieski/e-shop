@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CatalogItem } from '../models';
 import { BasketItem } from '../../models';
+import { RatingScale } from '../models/rating';
+import { AddRatingEvent } from '../models/add-rating-event';
 
 @Component({
   selector: 'es-item',
@@ -10,6 +12,10 @@ import { BasketItem } from '../../models';
 export class ItemComponent {
   @Input() item: CatalogItem;
   @Output() addToCart = new EventEmitter<BasketItem>();
+  @Output() addRating = new EventEmitter<AddRatingEvent>();
+  @Input() isTopFive: boolean = false;
+
+  RatingScale = RatingScale;
 
   onAddToCart(): void {
     this.addToCart.emit({
@@ -22,4 +28,9 @@ export class ItemComponent {
       pictureUrl: this.item.pictureFileName
     });
   }
+
+  onAddRating({target: {value}}) {
+    this.addRating.emit({catalogItemId: this.item.id, rating: value});
+  }
+
 }

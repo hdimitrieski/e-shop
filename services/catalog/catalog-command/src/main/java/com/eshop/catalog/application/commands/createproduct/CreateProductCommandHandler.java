@@ -7,6 +7,7 @@ import com.eshop.shared.rest.error.BadRequestException;
 import lombok.RequiredArgsConstructor;
 import org.axonframework.commandhandling.CommandHandler;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -17,8 +18,11 @@ public class CreateProductCommandHandler implements CatalogCommandHandler<Catalo
   private final CategoryRepository categoryRepository;
   private final BrandRepository brandRepository;
 
+  @Transactional
   @CommandHandler
+  @Override
   public CatalogItemResponse handle(CreateProductCommand command) {
+
     final var catalogItemAggregate = catalogItemRepository.save(() -> catalogItemOf(command));
 
     return CatalogItemResponse.builder()

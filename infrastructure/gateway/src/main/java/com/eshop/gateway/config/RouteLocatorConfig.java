@@ -15,47 +15,72 @@ public class RouteLocatorConfig {
 
   private final EshopServices eshopServices;
 
+  private static final String COOKIE_HEADER_NAME = "Cookie";
+
+  private static final String CATALOG_PATH = "/api/v1/catalog/**";
+  private static final String API_PATH = "api/v1";
+  private static final String BASKET_PATH = "/api/v1/basket/*";
+  private static final String[] ORDER_PATH = new String[]{"/api/v1/orders", "/api/v1/orders/*"};
+  private static final String[] RATING_PATH = new String[]{"/api/v1/rating", "/api/v1/rating/*"};
+
+  private static final String CATALOG_QUERY_ROUTE_ID = "catalog-query";
+  private static final String CATALOG_COMMAND_ROUTE_ID = "catalog-command";
+  private static final String BASKET_ROUTE_ID = "basket";
+  private static final String ORDERS_ROUTE_ID = "orders";
+  private static final String RATING_ROUTE_ID = "rating";
+
   @Bean
   public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
-
     return builder.routes()
-      .route("catalog-query", r -> r
+      .route(CATALOG_QUERY_ROUTE_ID, r -> r
         .method(HttpMethod.GET)
         .and()
-        .path("/api/v1/catalog/**")
+        .path(CATALOG_PATH)
         .filters(f -> f
-          .removeRequestHeader("Cookie") // Prevents cookie being sent downstream
+          .removeRequestHeader(COOKIE_HEADER_NAME) // Prevents cookie being sent downstream
           .circuitBreaker(config -> config.setName(CATALOG_CIRCUIT_BREAKER))
-          .rewritePath("api/v1", ""))
+          .rewritePath(API_PATH, ""))
         .uri(loadBalancerUriFor(eshopServices.getCatalogQuery()))
       )
-      .route("catalog-command", r -> r
+      .route(CATALOG_COMMAND_ROUTE_ID, r -> r
         .method(HttpMethod.POST, HttpMethod.PUT, HttpMethod.DELETE)
         .and()
-        .path("/api/v1/catalog/**")
+        .path(CATALOG_PATH)
         .filters(f -> f
-          .removeRequestHeader("Cookie") // Prevents cookie being sent downstream
-          .rewritePath("api/v1", ""))
+          .removeRequestHeader(COOKIE_HEADER_NAME) // Prevents cookie being sent downstream
+          .rewritePath(API_PATH, ""))
         .uri(loadBalancerUriFor(eshopServices.getCatalogCommand()))
       )
-      .route("basket", r -> r
+      .route(BASKET_ROUTE_ID, r -> r
         .order(0)
-        .path("/api/v1/basket/**")
+        .path(BASKET_PATH)
         .filters(f -> f
-          .removeRequestHeader("Cookie")
+          .removeRequestHeader(COOKIE_HEADER_NAME)
           .circuitBreaker(config -> config.setName(BASKET_CIRCUIT_BREAKER))
-          .rewritePath("api/v1", "")
+          .rewritePath(API_PATH, "")
         )
         .uri(loadBalancerUriFor(eshopServices.getBasket()))
       )
-      .route("orders", r -> r
-        .path("/api/v1/orders", "/api/v1/orders/*")
+      .route(ORDERS_ROUTE_ID, r -> r
+        .path(ORDER_PATH)
         .filters(f -> f
-          .removeRequestHeader("Cookie")
+          .removeRequestHeader(COOKIE_HEADER_NAME)
           .circuitBreaker(config -> config.setName(ORDER_CIRCUIT_BREAKER))
-          .rewritePath("api/v1", "")
+          .rewritePath(API_PATH, "")
         )
         .uri(loadBalancerUriFor(eshopServices.getOrderProcessing()))
+      )
+      .route(RATING_ROUTE_ID, r -> r
+        .order(0)
+        .method(HttpMethod.GET, HttpMethod.POST)
+        .and()
+        .path(RATING_PATH)
+        .filters(f -> f
+          .removeRequestHeader(COOKIE_HEADER_NAME)
+          .circuitBreaker(config -> config.setName(RATING_CIRCUIT_BREAKER))
+          .rewritePath(API_PATH, "")
+        )
+        .uri(loadBalancerUriFor(eshopServices.getRating()))
       )
       .build();
   }

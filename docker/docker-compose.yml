@@ -43,6 +43,9 @@ services:
       CATALOG_DB_USER: catalogdbuser
       CATALOG_DB_PASSWORD: dbpass
       CATALOG_DB_NAME: catalogdb
+      RATING_DB_USER: ratingdbuser
+      RATING_DB_NAME: ratingdb
+      RATING_DB_PASSWORD: dbpass
       ORDER_DB_USER: orderdbuser
       ORDER_DB_PASSWORD: dbpass
       ORDER_DB_NAME: orderdb

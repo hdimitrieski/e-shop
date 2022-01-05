@@ -10,6 +10,7 @@ app:
     basket: basket
     order-processing: order-processing
     analytics: analytics
+    rating: rating
 
 spring:
   security:
@@ -67,6 +68,8 @@ resilience4j:
         baseConfig: default
       catalog-query:
         baseConfig: default
+      rating:
+        baseConfig: default
       order:
         baseConfig: default
         recordExceptions:
@@ -89,6 +92,8 @@ resilience4j:
 #          - ...
     instances:
       basket:
+        baseConfig: default
+      rating:
         baseConfig: default
       catalog-query:
         baseConfig: default
@@ -113,6 +118,9 @@ resilience4j:
         cancelRunningFuture: false
         timeoutDuration: 2s
     instances:
+      rating:
+        baseConfig: default
+        cancelRunningFuture: true
       catalog-query:
         baseConfig: default
         cancelRunningFuture: true

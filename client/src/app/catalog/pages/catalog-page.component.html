@@ -7,12 +7,14 @@
 <es-top-five-catalog-items
   [catalogItems]="topFiveCatalogItems"
   (addItemToCart)="onAddItemToCart($event)"
+  (addRating)="onAddRating($event)"
 ></es-top-five-catalog-items>
 <h4 class="p-3">Product Catalog</h4>
 <es-catalog
   *ngIf="catalogPage"
   [catalogItems]="catalogPage.content"
   (addItemToCart)="onAddItemToCart($event)"
+  (addRating)="onAddRating($event)"
 ></es-catalog>
 <es-pagination
   class="d-flex justify-content-center p-2"

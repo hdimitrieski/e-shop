@@ -1,6 +1,7 @@
 package com.eshop.catalogquery.model;
 
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import java.util.UUID;
@@ -9,14 +10,10 @@ import java.util.UUID;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Setter
-@Builder(toBuilder = true)
+@SuperBuilder
 @Entity
 @Table(name = "catalog_item")
-public class CatalogItem {
-
-  @Id
-  @Column(name = "id", nullable = false)
-  private UUID id;
+public class CatalogItem extends DbEntity {
 
   @Column(name = "name", length = 50, nullable = false)
   private String name;

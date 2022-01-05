@@ -35,7 +35,7 @@ function initializeOAuth(
   };
 }
 
-const apiGatewayUrls = ['/api/v1/basket', '/api/v1/orders', '/api/v1/catalog']
+const apiGatewayUrls = ['/api/v1/basket', '/api/v1/orders', '/api/v1/catalog', '/api/v1/rating']
   .map(path => `${environment.apiUrl}${path}`);
 
 @NgModule({

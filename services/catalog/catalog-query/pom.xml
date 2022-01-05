@@ -28,7 +28,7 @@
         <dependency>
             <groupId>com.eshop</groupId>
             <artifactId>rest</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.eshop</groupId>
@@ -38,7 +38,7 @@
         <dependency>
             <groupId>com.eshop</groupId>
             <artifactId>catalog-shared</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
 
         <!-- Spring -->
@@ -162,6 +162,12 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-collections4</artifactId>
             <version>${apache-commons-collections.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.eshop</groupId>
+            <artifactId>event-handling</artifactId>
+            <scope>compile</scope>
+            <version>${project.version}</version>
         </dependency>
         <!-- Utils -->
     </dependencies>

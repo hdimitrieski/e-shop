@@ -19,6 +19,7 @@ public class CircuitBreakerFactoryConfig {
   static final String CATALOG_CIRCUIT_BREAKER = "catalog-query";
   static final String BASKET_CIRCUIT_BREAKER = "basket";
   static final String ORDER_CIRCUIT_BREAKER = "order";
+  static final String RATING_CIRCUIT_BREAKER = "rating";
 
   @Bean
   public Customizer<ReactiveResilience4JCircuitBreakerFactory> catalogCustomizer(
@@ -49,6 +50,17 @@ public class CircuitBreakerFactoryConfig {
             .circuitBreakerConfig(circuitBreakerConfig(ORDER_CIRCUIT_BREAKER, circuitBreakerRegistry))
             .timeLimiterConfig(timeLimiterConfig(ORDER_CIRCUIT_BREAKER, timeLimiterRegistry)).build(),
         ORDER_CIRCUIT_BREAKER);
+  }
+
+  @Bean
+  public Customizer<ReactiveResilience4JCircuitBreakerFactory> ratingCustomizer(
+      CircuitBreakerRegistry circuitBreakerRegistry,
+      TimeLimiterRegistry timeLimiterRegistry
+  ) {
+    return factory -> factory.configure(builder -> builder
+            .circuitBreakerConfig(circuitBreakerConfig(RATING_CIRCUIT_BREAKER, circuitBreakerRegistry))
+            .timeLimiterConfig(timeLimiterConfig(RATING_CIRCUIT_BREAKER, timeLimiterRegistry)).build(),
+        RATING_CIRCUIT_BREAKER);
   }
 
   private CircuitBreakerConfig circuitBreakerConfig(String name, CircuitBreakerRegistry circuitBreakerRegistry) {
