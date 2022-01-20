@@ -1,9 +1,22 @@
+[![GitHub license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/hdimitrieski/e-shop/blob/main/LICENSE)
+
 # e-shop
 
 This project is inspired by eShopOnContainers and it's built to demonstrate features of [Spring Cloud](https://spring.io/projects/spring-cloud) for 
-implementing microservices architecture. In this project you can find examples of: Spring Cloud Config,
-Eureka Service Discovery, Spring Cloud Gateway, Spring Cloud Circuit Breaker, Resilience4j, Spring Cloud Sleuth, 
-Spring Cloud Stream, Spring Kafka, Kafka Streams API, Keycloak, Event Sourcing with Axon, GraphQL API with Netflix DGS...
+implementing microservices architecture. In this project you can find examples of: 
+- Spring Cloud Config
+- Eureka Service Discovery
+- Spring Cloud Gateway
+- Spring Cloud Circuit Breaker
+- Resilience4j
+- Spring Cloud Sleuth
+- Spring Cloud Stream
+- Spring Kafka
+- Kafka Streams API
+- Keycloak
+- Event Sourcing with Axon
+- GraphQL API with Netflix DGS
+- Angular
 
 # Architectural Diagram
 ![Assign Admin Role](docs/architecture/container-diagram.png)
@@ -135,3 +148,9 @@ If you want to assign admin role to the user, go to "Role Mappings", select "adm
 "Add selected".
 
 ![Assign Admin Role](docs/images/assign-admin-role.png)
+
+
+# Contributing
+
+The [issue tracker](https://github.com/hdimitrieski/e-shop/issues) is the preferred channel for bug reports and features 
+requests. If you want to contribute please do not hesitate to submit a pull request.
