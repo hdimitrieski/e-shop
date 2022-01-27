@@ -1,21 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import 'bootstrap/dist/css/bootstrap.css';
-import './index.css';
+import './index.scss';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
-
-const client = new ApolloClient({
-  uri: process.env.REACT_APP_GRAPHQL_SERVER_URL,
-  cache: new InMemoryCache()
-});
+import { BrowserRouter } from 'react-router-dom';
+import { oidcConfig } from './oidcConfig';
+import { AuthProvider } from 'oidc-react';
 
 ReactDOM.render(
   <React.StrictMode>
-    <ApolloProvider client={client}>
-      <App />
-    </ApolloProvider>
+    <BrowserRouter>
+      <AuthProvider {...oidcConfig} >
+        <App/>
+      </AuthProvider>
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
 );

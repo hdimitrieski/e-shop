@@ -1,0 +1,13 @@
+mutation AddQuantity($input: BasketAddQuantityInput!) {
+  addQuantity(input: $input) {
+    basket {
+      id
+      lineItems {
+        id
+        quantity
+      }
+      lineItemsQuantity
+      totalPrice
+    }
+  }
+}

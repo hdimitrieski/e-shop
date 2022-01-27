@@ -63,13 +63,6 @@ public class LineItemDatafetcher {
       }).orElseThrow(DgsEntityNotFoundException::new);
   }
 
-  @DgsData(parentType = DgsConstants.LINEITEM.TYPE_NAME)
-  public Double price(DataFetchingEnvironment dfe) {
-    LineItem lineItem = dfe.getSource();
-    lineItem.setPrice(lineItem.getQuantity() * lineItem.getUnitPrice());
-    return lineItem.getPrice();
-  }
-
   /**
    * Resolves "product" field on LineItem.
    * <p>

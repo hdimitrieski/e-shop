@@ -1,0 +1,13 @@
+mutation RemoveQuantity($input: BasketRemoveQuantityInput!) {
+  removeQuantity(input: $input) {
+    basket {
+      id
+      lineItems {
+        id
+        quantity
+      }
+      lineItemsQuantity
+      totalPrice
+    }
+  }
+}

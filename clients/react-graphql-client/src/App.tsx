@@ -1,26 +1,34 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { CatalogPage, ProductPage } from './catalog';
+import { Route, Routes } from 'react-router-dom';
+import { BasketPage } from './basket';
+import { RequireAuth } from './routes/RequireAuth';
+import { OrdersPage } from './orders';
+import { CheckoutPage } from './checkout';
+import { AppShell } from './shell';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+export const App = () => (
+  <AppShell>
+    <Routes>
+      <Route path="/" element={<CatalogPage/>}/>
+      <Route path="/product/:productId" element={<ProductPage/>}/>
+      <Route path="/basket" element={
+        <RequireAuth>
+          <BasketPage/>
+        </RequireAuth>
+      }/>
+      <Route path="/orders" element={
+        <RequireAuth>
+          <OrdersPage/>
+        </RequireAuth>
+      }/>
+      <Route path="/checkout" element={
+        <RequireAuth>
+          <CheckoutPage/>
+        </RequireAuth>
+      }/>
+    </Routes>
+  </AppShell>
+);
 
 export default App;

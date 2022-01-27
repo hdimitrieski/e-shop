@@ -1,0 +1,10 @@
+
+query UserBasket {
+  me {
+    basket {
+      id
+      lineItemsQuantity
+      totalPrice
+    }
+  }
+}

@@ -32,6 +32,7 @@ public class AddQuantityMutation {
 
     return basketApiService.findById(basketId)
       .map(basket -> addQuantity(basket, lineItemId))
+      .flatMap(basketApiService::update)
       .map(toBasketConverter::convert)
       .map(updatedBasket -> BasketAddQuantityPayload.newBuilder()
         .basket(updatedBasket)
@@ -41,12 +42,14 @@ public class AddQuantityMutation {
 
   private BasketDto addQuantity(BasketDto basket, UUID lineItemId) {
     final var basketItem = basket.items().stream()
-      .filter(item -> item.productId().equals(lineItemId))
+      .filter(item -> item.id().equals(lineItemId))
       .findFirst()
       .orElseThrow(DgsEntityNotFoundException::new);
 
-    basket.items().remove(basketItem);
-    basket.items().add(updateBasketItem(basketItem));
+    basket.items().set(
+      basket.items().indexOf(basketItem),
+      updateBasketItem(basketItem)
+    );
 
     return basket;
   }

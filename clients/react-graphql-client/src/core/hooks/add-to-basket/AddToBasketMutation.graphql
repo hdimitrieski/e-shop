@@ -1,0 +1,10 @@
+
+mutation AddToBasket($input: AddToBasketInput!) {
+  addToBasket(input: $input) {
+    basket {
+      id
+      totalPrice
+      lineItemsQuantity
+    }
+  }
+}

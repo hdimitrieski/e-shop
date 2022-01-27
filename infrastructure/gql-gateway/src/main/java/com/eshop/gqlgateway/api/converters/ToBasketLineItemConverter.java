@@ -16,6 +16,7 @@ public class ToBasketLineItemConverter {
       .image(basketItem.pictureUrl())
       .unitPrice(basketItem.unitPrice())
       .quantity(basketItem.quantity())
+      .price(basketItem.quantity() * basketItem.unitPrice())
       .build();
   }
 }
