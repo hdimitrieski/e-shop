@@ -1,4 +1,4 @@
-import { Order } from './models/Order';
+import { Order } from './Order';
 
 export interface OrdersQueryResponse {
   me: {
