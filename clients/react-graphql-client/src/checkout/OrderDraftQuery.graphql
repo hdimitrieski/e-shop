@@ -1,0 +1,16 @@
+
+query OrderDraft {
+  me {
+    orders {
+      lineItems {
+        quantity
+        unitPrice
+        price
+        name
+        image
+      }
+      lineItemsQuantity
+      totalPrice
+    }
+  }
+}

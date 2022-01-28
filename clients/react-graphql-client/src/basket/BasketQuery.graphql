@@ -1,0 +1,18 @@
+
+query Basket {
+  me {
+    basket {
+      id
+      lineItems {
+        id
+        image
+        name
+        price
+        quantity
+        unitPrice
+      }
+      totalPrice
+      lineItemsQuantity
+    }
+  }
+}

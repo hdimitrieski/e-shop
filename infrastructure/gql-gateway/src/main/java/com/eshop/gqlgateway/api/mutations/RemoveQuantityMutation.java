@@ -33,6 +33,7 @@ public class RemoveQuantityMutation {
 
     return basketApiService.findById(basketId)
       .flatMap(basket -> removeQuantity(basket, lineItemId))
+      .flatMap(basketApiService::update)
       .map(toBasketConverter::convert)
       .map(updatedBasket -> BasketRemoveQuantityPayload.newBuilder()
         .basket(updatedBasket)
@@ -42,13 +43,17 @@ public class RemoveQuantityMutation {
 
   private Optional<BasketDto> removeQuantity(BasketDto basket, UUID lineItemId) {
     final var basketItem = basket.items().stream()
-      .filter(item -> item.productId().equals(lineItemId))
+      .filter(item -> item.id().equals(lineItemId))
       .findFirst()
       .orElseThrow(DgsEntityNotFoundException::new);
 
-    basket.items().remove(basketItem);
     if (basketItem.quantity() > 1) {
-      basket.items().add(updateBasketItem(basketItem));
+      basket.items().set(
+        basket.items().indexOf(basketItem),
+        updateBasketItem(basketItem)
+      );
+    } else {
+      basket.items().remove(basketItem);
     }
 
     return basketApiService.update(basket);

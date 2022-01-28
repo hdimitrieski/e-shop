@@ -1,0 +1,15 @@
+
+query ProductList($page: Int, $pageSize: Int) {
+  products(page: $page, pageSize: $pageSize) {
+    total
+    pageSize
+    page
+    result {
+      id
+      description
+      name
+      price
+      image
+    }
+  }
+}
