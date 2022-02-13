@@ -9,3 +9,9 @@ dgs:
     schema-locations:
       - classpath*:schema/**/*.graphql*
     path: /graphql
+    apq:
+      enabled: true
+
+logging:
+  level:
+    root: info

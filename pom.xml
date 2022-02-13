@@ -13,14 +13,14 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.5.5</version>
+    <version>2.6.3</version>
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <spring-cloud.version>2020.0.4</spring-cloud.version>
-    <dgs.version>4.9.15</dgs.version>
+    <spring-cloud.version>2021.0.0</spring-cloud.version>
+    <dgs.version>4.9.17</dgs.version>
     <logstash-logback-encoder.version>6.6</logstash-logback-encoder.version>
     <java.version>17</java.version>
   </properties>
@@ -48,13 +48,6 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>
-<!--      <dependency>-->
-<!--        <groupId>org.apache.commons</groupId>-->
-<!--        <artifactId>commons-collections4</artifactId>-->
-<!--        <version>${apache-commons-collections.version}</version>-->
-<!--        <type>pom</type>-->
-<!--        <scope>import</scope>-->
-<!--      </dependency>-->
     </dependencies>
   </dependencyManagement>
 

@@ -1,4 +1,4 @@
-FROM openjdk:16.0.1-slim
+FROM openjdk:17.0.2-slim
 
 # Set image information, but could be set to different location from command line
 ARG IMAGE_VERSION="0.0.1-SNAPSHOT"

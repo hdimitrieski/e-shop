@@ -1,4 +1,6 @@
-export const oidcConfig = {
+import { AuthProviderProps } from 'oidc-react/build/src/AuthContextInterface';
+
+export const oidcConfig: AuthProviderProps = {
   onSignIn: () => {
     window.location.replace('/');
   },
@@ -7,7 +9,7 @@ export const oidcConfig = {
   redirectUri: window.location.origin + '/',
   scope: 'openid profile email basket orders webshoppingagg order.notifications',
   responseType: 'code',
-  autoSignIn: false,
+  autoSignIn: true,
   loadUserInfo: true,
   automaticSilentRenew: true
 };

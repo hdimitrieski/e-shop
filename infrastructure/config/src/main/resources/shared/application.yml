@@ -7,8 +7,6 @@ server:
 
 # Custom config
 app:
-  client:
-    client-address: http://localhost:4200
   security:
     jwt:
       user-name-attribute: preferred_username

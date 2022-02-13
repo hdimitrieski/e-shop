@@ -37,6 +37,8 @@ implementing microservices architecture. In this project you can find examples o
 - [Payment](services/payment) - Simulates a simple payment gateway.
 - [Analytics](services/analytics) - Real-time stream processing with Kafka Streams API.
 - [Rating](services/rating) - Simple CQS microservice that manages product ratings.
+- [Angular API Gateway Client](clients/ng-rest-client) - Angular client. You can access it at http://localhost:4200.
+- [React GraphQL Client](clients/react-graphql-client) - React client. You can access it at http://localhost:4201.
 
 # How To Run
 You need to have Maven, Java 16, Node.js and Docker. By default, Docker Desktop is set to use 2 GB runtime memory, 
@@ -117,15 +119,24 @@ Run Zipkin:
 
 To enable distributed tracing, run all services with 'distributed-tracing' profile. 
 
-## Run SPA Client
-The client application is implemented with angular.
+## Run Angular Client
+This client application is implemented with Angular and uses [API Gateway](infrastructure/gateway).
 
-    ~ cd client
+    ~ cd clients/ng-rest-client
     ~ npm install
     ~ npm start
 
 You can access the client application at http://localhost:4200. You can stop some services such as basket, order 
 processing, or analytics, and you will notice that you can still use the application without some of its features.
+
+## Run React Client
+This client application is implemented with React and uses [GraphQL API Gateway](infrastructure/gql-gateway).
+
+    ~ cd clients/react-graphql-client
+    ~ yarn install
+    ~ yarn start
+
+You can access the client application at http://localhost:4201.
 
 # Run everything
 Alternatively, you can run the system as described bellow.
