@@ -30,11 +30,7 @@ spring:
   data:
     # Mongo
     mongodb:
-      host: ${app.mongodb.host}
-      port: ${app.mongodb.port}
-      username: ${app.mongodb.user}
-      password: ${app.mongodb.password}
-      database: ${app.mongodb.database}
+      uri: mongodb://${app.mongodb.user}:${app.mongodb.password}@${app.mongodb.host}:${app.mongodb.port}/${app.mongodb.database}?authSource=admin
 
 axon:
   serializer:

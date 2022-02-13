@@ -1,4 +1,7 @@
 spring:
+  main:
+    allow-circular-references: true
+
   # JPA
   jpa:
     show-sql: false

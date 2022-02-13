@@ -1,15 +1,13 @@
 import { useAuth } from 'oidc-react';
 import { ApolloClient, ApolloLink, ApolloProvider, createHttpLink, InMemoryCache } from '@apollo/client';
+import { sha256 } from 'crypto-hash';
 import { setContext } from '@apollo/client/link/context';
 import * as R from 'ramda';
 import { Layout } from './Layout';
+import { createPersistedQueryLink } from '@apollo/client/link/persisted-queries';
 
 export const AppShell = ({children}: { children: JSX.Element }) => {
   const auth = useAuth();
-
-  const httpLink = createHttpLink({
-    uri: process.env.REACT_APP_GRAPHQL_SERVER_URL,
-  });
 
   const authLink: ApolloLink = setContext((_, {headers}) => {
     // get the authentication token from local storage if it exists
@@ -25,9 +23,19 @@ export const AppShell = ({children}: { children: JSX.Element }) => {
     }
   });
 
+  const persistedQueryLink = createPersistedQueryLink({
+    sha256
+  });
+
+  const httpLink = createHttpLink({
+    uri: process.env.REACT_APP_GRAPHQL_SERVER_URL,
+  });
+
   // Make the pagination compliant with offset limit and use offsetLimitPagination()
   const client = new ApolloClient({
-    link: authLink.concat(httpLink),
+    link: authLink
+      .concat(persistedQueryLink)
+      .concat(httpLink),
     connectToDevTools: process.env.NODE_ENV === 'development',
     cache: new InMemoryCache({
       typePolicies: {

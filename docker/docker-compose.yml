@@ -14,7 +14,7 @@ services:
     networks:
       - eshopnet
     ports:
-      - 9092:9092
+      - "9092:9092"
     restart: on-failure
     environment:
       KAFKA_BROKER_ID: 1
@@ -34,7 +34,7 @@ services:
     networks:
       - eshopnet
     ports:
-      - 5432:5432
+      - "5432:5432"
     restart: always
     environment:
       POSTGRES_PASSWORD: dbpass
@@ -63,20 +63,20 @@ services:
     networks:
       - eshopnet
     ports:
-      - 6379:6379
+      - "6379:6379"
     restart: on-failure
     environment:
       REDIS_PASSWORD: pass
 
   mongo:
-    image: mongo:latest
+    image: mongo:5.0.5
     networks:
       - eshopnet
     environment:
       - MONGO_INITDB_ROOT_USERNAME=user
       - MONGO_INITDB_ROOT_PASSWORD=pass
     ports:
-      - 27017:27017
+      - "27017:27017"
     restart: always
 
   authorization-service:
@@ -84,7 +84,7 @@ services:
     networks:
       - eshopnet
     ports:
-      - 8090:8080
+      - "8090:8080"
     restart: on-failure
     environment:
       KEYCLOAK_USER: admin
@@ -109,7 +109,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./portainer-data:/data
     ports:
-      - 9000:9000
+      - "9000:9000"
 
 networks:
   eshopnet:
