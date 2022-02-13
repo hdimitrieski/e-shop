@@ -17,6 +17,7 @@ implementing microservices architecture. In this project you can find examples o
 - Event Sourcing with Axon
 - GraphQL API with Netflix DGS
 - Angular
+- React and Apollo Client
 
 # Architectural Diagram
 ![Assign Admin Role](docs/architecture/container-diagram.png)
