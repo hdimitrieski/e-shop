@@ -18,7 +18,7 @@ import java.util.List;
 @Configuration
 public class CorsGlobalConfiguration {
 
-  @Value("${app.client.client-address}")
+  @Value("${app.client.client-address.ng}")
   private String allowedClientAddress;
 
   @Bean

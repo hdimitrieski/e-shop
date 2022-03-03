@@ -28,7 +28,7 @@ export const Image = (props: Props) => {
   }, [props.size]);
 
   useEffect(() => {
-    setSrc(`${process.env.REACT_APP_IMAGE_SERVER_URL}/insecure/fit/${size.width}/${size.height}/no/0/plain/s3://catalog-images/${props.name}`);
+    setSrc(`${process.env.REACT_APP_IMAGE_SERVER_URL}/insecure/rs:fit:${size.width}:${size.height}:no:0/plain/s3://catalog-images/${props.name}`);
   }, [size, props.name]);
 
   const setPlaceholder = () => {

@@ -25,7 +25,7 @@ export class ImageComponent implements OnInit {
 
   public ngOnInit(): void {
     this.setImageSize();
-    this.url = `${environment.imageProxyUrl}/insecure/fit/${this.width}/${this.height}/no/0/plain/s3://catalog-images/${this.name}`;
+    this.url = `${environment.imageProxyUrl}/insecure/rs:fit:${this.width}:${this.height}:no:0/plain/s3://catalog-images/${this.name}`;
   }
 
   private setImageSize(): void {

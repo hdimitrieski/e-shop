@@ -1,6 +1,4 @@
 app:
-  client:
-    client-address: http://localhost:4201
   security:
     oauth2.client:
       analytics:

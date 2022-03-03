@@ -12,8 +12,8 @@
     <name>rating</name>
 
     <properties>
-        <logstash-logback-encoder.version>6.6</logstash-logback-encoder.version>
-        <hibernate-jpamodelgen.version>5.4.30.Final</hibernate-jpamodelgen.version>
+        <logstash-logback-encoder.version>7.0.1</logstash-logback-encoder.version>
+        <hibernate-jpamodelgen.version>5.6.5.Final</hibernate-jpamodelgen.version>
     </properties>
 
     <dependencies>

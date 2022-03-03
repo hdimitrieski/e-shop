@@ -2,14 +2,14 @@ version: '3.9'
 
 services:
   minio:
-    image: minio/minio
+    image: minio/minio:RELEASE.2022-02-26T02-54-46Z
     restart: always
     environment:
       MINIO_ACCESS_KEY: mystorage
       MINIO_SECRET_KEY: mystorage
       MINIO_REGION: eu-east
     ports:
-      - 8086:9000
+      - "8086:9000"
     volumes:
       - ./minio:/data
     command: server /data
@@ -28,7 +28,7 @@ services:
       "
 
   imgproxy:
-    image: darthsim/imgproxy:latest
+    image: darthsim/imgproxy:v3.3.0
     restart: always
     # Mount a volume as local image source
 #    volumes:
@@ -45,4 +45,4 @@ services:
     links:
       - minio
     ports:
-      - 8887:8080
+      - "8887:8080"
