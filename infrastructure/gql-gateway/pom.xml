@@ -16,10 +16,10 @@
   <properties>
     <apache-commons-lang.version>3.12.0</apache-commons-lang.version>
     <apache-commons-collections.version>4.4</apache-commons-collections.version>
-    <logstash-logback-encoder.version>7.0.1</logstash-logback-encoder.version>
+    <logstash-logback-encoder.version>7.1.1</logstash-logback-encoder.version>
     <dgs.codegen.version>5.1.17</dgs.codegen.version>
-    <graphqlcodegen-maven-plugin.version>1.16</graphqlcodegen-maven-plugin.version>
-    <caffeine.version>3.0.5</caffeine.version>
+    <graphqlcodegen-maven-plugin.version>1.18</graphqlcodegen-maven-plugin.version>
+    <caffeine.version>3.1.0</caffeine.version>
   </properties>
 
   <dependencies>
