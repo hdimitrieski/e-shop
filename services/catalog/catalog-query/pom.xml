@@ -18,10 +18,10 @@
         <apache-commons-collections.version>4.4</apache-commons-collections.version>
         <logstash-logback-encoder.version>7.1.1</logstash-logback-encoder.version>
         <hibernate-jpamodelgen.version>5.6.8.Final</hibernate-jpamodelgen.version>
-        <axon.version>4.5.9</axon.version>
+        <axon.version>4.5.12</axon.version>
         <axon-mongo.version>4.5</axon-mongo.version>
-        <axon-kafka.version>4.5.3</axon-kafka.version>
-        <kafka-clients.version>3.1.0</kafka-clients.version>
+        <axon-kafka.version>4.5.4</axon-kafka.version>
+        <kafka-clients.version>3.2.0</kafka-clients.version>
     </properties>
 
     <dependencies>

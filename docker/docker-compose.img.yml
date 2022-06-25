@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
   minio:
-    image: minio/minio:RELEASE.2022-02-26T02-54-46Z
+    image: minio/minio:RELEASE.2022-06-20T23-13-45Z
     restart: always
     environment:
       MINIO_ACCESS_KEY: mystorage
@@ -28,7 +28,7 @@ services:
       "
 
   imgproxy:
-    image: darthsim/imgproxy:v3.3.0
+    image: darthsim/imgproxy:v3.6
     restart: always
     # Mount a volume as local image source
 #    volumes:

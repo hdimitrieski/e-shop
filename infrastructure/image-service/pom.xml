@@ -17,8 +17,8 @@
         <apache-commons-lang.version>3.12.0</apache-commons-lang.version>
         <apache-commons-collections.version>4.4</apache-commons-collections.version>
         <logstash-logback-encoder.version>7.1.1</logstash-logback-encoder.version>
-        <minio.version>8.3.7</minio.version>
-        <okhttp.version>4.9.3</okhttp.version>
+        <minio.version>8.4.2</minio.version>
+        <okhttp.version>4.10.0</okhttp.version>
     </properties>
 
     <dependencies>
