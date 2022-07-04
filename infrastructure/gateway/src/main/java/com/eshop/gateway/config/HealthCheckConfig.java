@@ -23,9 +23,9 @@ public class HealthCheckConfig {
    */
   @Bean
   ReactiveHealthContributor reactiveHealthContributor() {
-    ReactiveHealthIndicator catalogHealthIndicator = () -> servicesHealth(serviceUrl(eshopServices.getCatalogQuery()));
-    ReactiveHealthIndicator basketHealthIndicator = () -> servicesHealth(serviceUrl(eshopServices.getBasket()));
-    ReactiveHealthIndicator orderProcessingHealthIndicator = () -> servicesHealth(serviceUrl(eshopServices.getOrderProcessing()));
+    ReactiveHealthIndicator catalogHealthIndicator = () -> servicesHealth(eshopServices.getCatalogQuery());
+    ReactiveHealthIndicator basketHealthIndicator = () -> servicesHealth(eshopServices.getBasket());
+    ReactiveHealthIndicator orderProcessingHealthIndicator = () -> servicesHealth(eshopServices.getOrderProcessing());
     Map<String, ReactiveHealthContributor> healthIndicators = Map.of(
         "Catalog Service", catalogHealthIndicator,
         "Order Processing Service", orderProcessingHealthIndicator,
@@ -35,9 +35,9 @@ public class HealthCheckConfig {
     return CompositeReactiveHealthContributor.fromMap(healthIndicators);
   }
 
-  private Mono<Health> servicesHealth(String url) {
+  private Mono<Health> servicesHealth(String serviceName) {
     return webClient.build()
-        .get().uri(url + "/actuator/health")
+        .get().uri("lb://%s/actuator/health".formatted(serviceName))
         .retrieve().bodyToMono(String.class)
         .map(s -> new Health.Builder()
             .up()
@@ -46,10 +46,6 @@ public class HealthCheckConfig {
             .down(ex)
             .build()))
         .log();
-  }
-
-  private String serviceUrl(String serviceName) {
-    return "http://%s".formatted(serviceName);
   }
 
 }
