@@ -31,7 +31,7 @@ spring:
         enabled: true
 
   kafka:
-    bootstrap-servers: kafka:29092
+    bootstrap-servers: ${app.kafka.broker.host}:${app.kafka.broker.port}
 
   security:
     user:
