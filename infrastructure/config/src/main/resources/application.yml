@@ -29,8 +29,9 @@ spring:
         enabled: true
       trace:
         enabled: true
-    kafka:
-      bootstrap-servers: ${app.kafka.broker.host}:${app.kafka.broker.port}
+
+  kafka:
+    bootstrap-servers: kafka:29092
 
   security:
     user:
