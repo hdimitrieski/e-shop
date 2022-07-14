@@ -148,7 +148,7 @@ won't start ELK and Zipkin. If you want to use ELK and Zipkin, you can run the s
 
 ## Create user
 Before you start using the application, you need to create a user. You can access Keycloak authorization service at
-http://localhost:8090. Login with admin/admin, go to "Users", click "Add user" and fill in the necessary data.
+http://localhost:8090/auth. Login with admin/admin, go to "Users", click "Add user" and fill in the necessary data.
 
 ![Add User](docs/images/add-user.png)
 
