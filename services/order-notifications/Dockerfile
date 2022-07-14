@@ -7,7 +7,7 @@ ARG MAINTAINER="Hristijan Dimitrieski <hristijan.dimitrieski@gmail.com>"
 
 LABEL version=${IMAGE_VERSION} name=${IMAGE_NAME} maintainer=${MAINTAINER}
 
-ADD ./target/order-notifications.jar order-notifications.jar
+ADD ./build/libs/order-notifications.jar order-notifications.jar
 
 # Expose the service to port 8080
 EXPOSE 8080

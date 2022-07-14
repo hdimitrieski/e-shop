@@ -7,7 +7,7 @@ ARG MAINTAINER="Hristijan Dimitrieski <hristijan.dimitrieski@gmail.com>"
 
 LABEL version=${IMAGE_VERSION} name=${IMAGE_NAME} maintainer=${MAINTAINER}
 
-ADD ./target/gateway.jar gateway.jar
+ADD ./build/libs/gateway.jar gateway.jar
 
 # Expose the service to port 8080
 EXPOSE 8080

@@ -1,0 +1,41 @@
+[versions]
+spring-boot-gradle-plugin-version = "2.7.1"
+junit5-version = "5.8.2"
+logstash-logback-encoder-version = "7.1.1"
+lombok-version = "1.18.24"
+postgresql-version = "42.3.6"
+flywaydb-version = "8.5.13"
+hibernate-jpamodelgen-version = "5.6.8.Final"
+commons-lang3-version = "3.12.0"
+commons-collections4-version = "4.4"
+pipelinr-version = "0.5"
+axon-version = "4.5.12"
+axon-kafka-version = "4.5.4"
+axon-mongo-version = "4.5"
+kafka-clients-version = "3.2.0"
+spring-data-mongodb-version = "3.4.1"
+
+[libraries]
+spring-data-mongodb = { module = "org.springframework.data:spring-data-mongodb", version.ref = "spring-data-mongodb-version" }
+kafka-clients = { module = "org.apache.kafka:kafka-clients", version.ref = "kafka-clients-version" }
+axon-mongo = { module = "org.axonframework.extensions.mongo:axon-mongo", version.ref = "axon-mongo-version" }
+axon-kafka-spring-boot-starter = { module = "org.axonframework.extensions.kafka:axon-kafka-spring-boot-starter", version.ref = "axon-kafka-version" }
+axon-spring-boot-starter = { module = "org.axonframework:axon-spring-boot-starter", version.ref = "axon-version" }
+pipelinr = { module = "an.awesome:pipelinr", version.ref = "pipelinr-version" }
+commons-collections4 = { module = "org.apache.commons:commons-collections4", version.ref = "commons-collections4-version" }
+commons-lang3 = { module = "org.apache.commons:commons-lang3", version.ref = "commons-lang3-version" }
+hibernate-jpamodelgen = { module = "org.hibernate:hibernate-jpamodelgen", version.ref = "hibernate-jpamodelgen-version" }
+flywaydb = { module = "org.flywaydb:flyway-core", version.ref = "flywaydb-version" }
+postgresql = { module = "org.postgresql:postgresql", version.ref = "postgresql-version" }
+logstash-logback-encoder = { module = "net.logstash.logback:logstash-logback-encoder", version.ref = "logstash-logback-encoder-version" }
+lombok = { module = "org.projectlombok:lombok", version.ref = "lombok-version" }
+junit5-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit5-version" }
+junit5-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit5-version" }
+# For buildSrc libraries
+spring-boot-gradle-plugin = { module = "org.springframework.boot:spring-boot-gradle-plugin", version.ref = "spring-boot-gradle-plugin-version" }
+
+[bundles]
+junit5 = ["junit5-api", "junit5-engine"]
+
+[plugins]
+jmh = { id = "me.champeau.jmh", version = "0.6.5" }

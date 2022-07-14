@@ -101,7 +101,7 @@ services:
     volumes:
       - ./keycloak/eshop-realm.json:/opt/keycloak/data/import/eshop-realm.json
     healthcheck:
-      test: ["CMD", "curl", "--fail", "http://localhost:8080/health"]
+      test: ["CMD", "curl", "--fail", "http://localhost:8080/auth/health"]
     command: ["start-dev", "--import-realm"]
 
   portainer:

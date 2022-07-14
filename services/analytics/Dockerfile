@@ -7,7 +7,7 @@ ARG MAINTAINER="Hristijan Dimitrieski <hristijan.dimitrieski@gmail.com>"
 
 LABEL version=${IMAGE_VERSION} name=${IMAGE_NAME} maintainer=${MAINTAINER}
 
-ADD ./target/analytics.jar analytics.jar
+ADD ./build/libs/analytics.jar analytics.jar
 
 # Expose the service to port 8080
 EXPOSE 8080
