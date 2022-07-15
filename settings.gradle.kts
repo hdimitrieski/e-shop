@@ -1,3 +1,9 @@
+pluginManagement {
+  repositories {
+    gradlePluginPortal()
+  }
+}
+
 rootProject.name = "e-shop"
 
 // See: https://docs.gradle.org/current/userguide/platforms.html
@@ -50,7 +56,6 @@ include(":basket")
 include(":order-processing")
 include(":analytics")
 include(":catalog")
-
 project(":catalog-command").projectDir = file("services/catalog/catalog-command")
 project(":catalog-shared").projectDir = file("services/catalog/catalog-shared")
 project(":catalog-query").projectDir = file("services/catalog/catalog-query")

@@ -1,6 +1,4 @@
 [versions]
-spring-boot-gradle-plugin-version = "2.7.1"
-junit5-version = "5.8.2"
 logstash-logback-encoder-version = "7.1.1"
 lombok-version = "1.18.24"
 postgresql-version = "42.3.6"
@@ -14,6 +12,11 @@ axon-kafka-version = "4.5.4"
 axon-mongo-version = "4.5"
 kafka-clients-version = "3.2.0"
 spring-data-mongodb-version = "3.4.1"
+junit5-version = "5.8.2"
+# For buildSrc libraries
+spring-boot-gradle-plugin-version = "2.7.1"
+# For plugins
+com-netflix-dgs-codegen-version = "5.2.4"
 
 [libraries]
 spring-data-mongodb = { module = "org.springframework.data:spring-data-mongodb", version.ref = "spring-data-mongodb-version" }
@@ -38,4 +41,4 @@ spring-boot-gradle-plugin = { module = "org.springframework.boot:spring-boot-gra
 junit5 = ["junit5-api", "junit5-engine"]
 
 [plugins]
-jmh = { id = "me.champeau.jmh", version = "0.6.5" }
+dgs-codegen = { id = "com.netflix.dgs.codegen", version.ref = "com-netflix-dgs-codegen-version" }

@@ -1,6 +1,11 @@
+import com.netflix.graphql.dgs.codegen.gradle.GenerateJavaTask
+
 plugins {
   id("spring-conventions")
-  id("com.netflix.dgs.codegen") version "5.2.4"
+  // Compile error is OK, it is an ide bug
+  // see: https://github.com/gradle/gradle/issues/18107
+  // tracked here: https://youtrack.jetbrains.com/issue/KTIJ-19369
+  alias(libs.plugins.dgs.codegen)
 }
 
 description = "gql-gateway"
@@ -28,13 +33,11 @@ dependencies {
   implementation("org.springframework.cloud:spring-cloud-sleuth-zipkin")
   implementation("org.springframework.cloud:spring-cloud-starter-circuitbreaker-resilience4j:2.1.3")
   implementation("net.logstash.logback:logstash-logback-encoder")
-  compileOnly("org.projectlombok:lombok")
-  annotationProcessor("org.projectlombok:lombok")
   implementation("org.apache.commons:commons-lang3")
   implementation("org.apache.commons:commons-collections4")
 }
 
-tasks.named<com.netflix.graphql.dgs.codegen.gradle.GenerateJavaTask>("generateJava") {
+tasks.named<GenerateJavaTask>("generateJava") {
   schemaPaths = mutableListOf("${project.projectDir}/src/main/resources/schema")
   packageName = "com.eshop.gqlgateway"
   generateClient = false
