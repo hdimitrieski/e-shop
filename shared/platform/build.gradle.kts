@@ -20,6 +20,14 @@ dependencies {
   api(enforcedPlatform("org.springframework.cloud:spring-cloud-dependencies:2021.0.3"))
 
   constraints {
+    api(libs.okhttp)
+    api(libs.minio)
+    api(libs.reactor.core)
+    api(libs.dgs.spring.boot.starter)
+    api(libs.dgs.extended.validation)
+    api(libs.dgs.extended.scalars)
+    api(libs.dgs.codegen.client.core)
+    api(libs.ben.manes.caffeine)
     api(libs.spring.data.mongodb)
     api(libs.kafka.clients)
     api(libs.axon.mongo)
