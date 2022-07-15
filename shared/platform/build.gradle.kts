@@ -14,11 +14,6 @@ javaPlatform {
 
 // Dependency Management
 println("Enabling Dependency Management in project ${project.name}...")
-//val springCloudDependencies =
-//  + libs.spring.boot.dependencies
-//  + ":"
-//  + libs.versions.spring.boot.dependencies.version.get()
-//println("-----------------------" + springCloudDependencies)
 dependencies {
   // Import a BOM. The versions used in this file will override any other version found in the graph
   api(enforcedPlatform(libs.spring.boot.dependencies))
