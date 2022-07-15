@@ -2,6 +2,8 @@ plugins {
   id("spring-conventions")
 }
 
+description = "order-processing"
+
 dependencies {
   implementation(project(":rest"))
   implementation(project(":outbox"))
@@ -26,5 +28,3 @@ dependencies {
   implementation("org.apache.commons:commons-collections4")
   runtimeOnly("org.postgresql:postgresql")
 }
-
-description = "order-processing"

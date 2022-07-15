@@ -2,6 +2,8 @@ plugins {
   id("spring-conventions")
 }
 
+description = "gateway"
+
 dependencies {
   implementation("org.springframework.cloud:spring-cloud-starter-bootstrap")
   implementation("org.springframework.boot:spring-boot-starter-aop")
@@ -25,5 +27,3 @@ dependencies {
   implementation("org.apache.commons:commons-lang3")
   implementation("org.apache.commons:commons-collections4")
 }
-
-description = "gateway"

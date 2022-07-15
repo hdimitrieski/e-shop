@@ -2,6 +2,8 @@ plugins {
   id("spring-conventions")
 }
 
+description = "rating"
+
 dependencies {
   implementation(project(":rest"))
   implementation(project(":security"))
@@ -19,5 +21,3 @@ dependencies {
   implementation("org.hibernate:hibernate-jpamodelgen")
   runtimeOnly("org.postgresql:postgresql")
 }
-
-description = "rating"

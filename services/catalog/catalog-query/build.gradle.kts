@@ -2,6 +2,8 @@ plugins {
   id("spring-conventions")
 }
 
+description = "catalog-query"
+
 dependencies {
   implementation(project(":rest"))
   implementation(project(":validation"))
@@ -30,5 +32,3 @@ dependencies {
   implementation("org.apache.commons:commons-collections4")
   runtimeOnly("org.postgresql:postgresql")
 }
-
-description = "catalog-query"

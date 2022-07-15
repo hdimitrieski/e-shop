@@ -2,6 +2,8 @@ plugins {
   id("spring-conventions")
 }
 
+description = "payment"
+
 dependencies {
   implementation(project(":rest"))
   implementation(project(":event-handling"))
@@ -17,5 +19,3 @@ dependencies {
   implementation("net.logstash.logback:logstash-logback-encoder")
   implementation("org.springframework.kafka:spring-kafka")
 }
-
-description = "payment"

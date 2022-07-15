@@ -2,6 +2,8 @@ plugins {
   id("spring-conventions")
 }
 
+description = "discovery"
+
 dependencies {
   implementation("org.springframework.cloud:spring-cloud-starter-bootstrap")
   implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-server")
@@ -13,5 +15,3 @@ dependencies {
   implementation("net.logstash.logback:logstash-logback-encoder")
   implementation("org.springframework.cloud:spring-cloud-starter-bus-kafka")
 }
-
-description = "discovery"

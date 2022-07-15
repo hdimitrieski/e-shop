@@ -2,6 +2,8 @@ plugins {
   id("spring-conventions")
 }
 
+description = "analytics"
+
 dependencies {
   implementation(project(":event-handling"))
   implementation(project(":security"))
@@ -17,5 +19,3 @@ dependencies {
   implementation("net.logstash.logback:logstash-logback-encoder")
   implementation("org.springframework.cloud:spring-cloud-stream-binder-kafka-streams")
 }
-
-description = "analytics"

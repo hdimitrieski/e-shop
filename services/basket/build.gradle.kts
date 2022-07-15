@@ -2,6 +2,8 @@ plugins {
   id("spring-conventions")
 }
 
+description = "basket"
+
 dependencies {
   implementation(project(":rest"))
   implementation(project(":event-handling"))
@@ -20,5 +22,3 @@ dependencies {
   implementation("org.springframework.kafka:spring-kafka")
   implementation("org.springframework.boot:spring-boot-starter-data-redis")
 }
-
-description = "basket"

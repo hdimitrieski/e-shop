@@ -2,6 +2,8 @@ plugins {
   id("spring-conventions")
 }
 
+description = "catalog-command"
+
 dependencies {
   implementation(project(":rest"))
   implementation(project(":validation"))
@@ -27,5 +29,3 @@ dependencies {
   implementation("org.apache.commons:commons-lang3")
   implementation("org.apache.commons:commons-collections4")
 }
-
-description = "catalog-command"

@@ -2,6 +2,8 @@ plugins {
   id("spring-conventions")
 }
 
+description = "order-grace-period-task"
+
 dependencies {
   implementation(project(":event-handling"))
 
@@ -16,5 +18,3 @@ dependencies {
   implementation("org.springframework.boot:spring-boot-starter-data-jpa")
   runtimeOnly("org.postgresql:postgresql")
 }
-
-description = "order-grace-period-task"

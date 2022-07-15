@@ -2,6 +2,8 @@ plugins {
   id("spring-conventions")
 }
 
+description = "order-notifications"
+
 dependencies {
   implementation(project(":event-handling"))
 
@@ -20,5 +22,3 @@ dependencies {
   implementation("net.logstash.logback:logstash-logback-encoder")
   implementation("org.springframework.kafka:spring-kafka")
 }
-
-description = "order-notifications"
