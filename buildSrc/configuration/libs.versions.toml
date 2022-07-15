@@ -1,4 +1,6 @@
 [versions]
+spring-cloud-version = "2021.0.3"
+spring-boot-version = "2.7.1"
 reactor-version = "3.4.19"
 dgs-version = "5.0.4"
 dgs-codegen-client-version = "5.1.17"
@@ -19,12 +21,12 @@ spring-data-mongodb-version = "3.4.1"
 minio-version = "8.4.2"
 okhttp-version = "4.10.0"
 junit5-version = "5.8.2"
-# For buildSrc libraries
-spring-boot-gradle-plugin-version = "2.7.1"
 # For plugins
 com-netflix-dgs-codegen-version = "5.2.4"
 
 [libraries]
+spring-cloud-dependencies = { module = "org.springframework.cloud:spring-cloud-dependencies", version.ref = "spring-cloud-version" }
+spring-boot-dependencies = { module = "org.springframework.boot:spring-boot-dependencies", version.ref = "spring-boot-version" }
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp-version" }
 minio = { module = "io.minio:minio", version.ref = "minio-version" }
 reactor-core = { module = "io.projectreactor:reactor-core", version.ref = "reactor-version" }
@@ -49,7 +51,7 @@ lombok = { module = "org.projectlombok:lombok", version.ref = "lombok-version" }
 junit5-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit5-version" }
 junit5-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit5-version" }
 # For buildSrc libraries
-spring-boot-gradle-plugin = { module = "org.springframework.boot:spring-boot-gradle-plugin", version.ref = "spring-boot-gradle-plugin-version" }
+spring-boot-gradle-plugin = { module = "org.springframework.boot:spring-boot-gradle-plugin", version.ref = "spring-boot-version" }
 
 [bundles]
 junit5 = ["junit5-api", "junit5-engine"]
