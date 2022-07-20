@@ -37,7 +37,7 @@ services:
     networks:
       - eshopnet
     ports:
-      - 3000:8080
+      - 8080:8080
     restart: on-failure
     environment:
       SPRING_PROFILES_ACTIVE: docker
