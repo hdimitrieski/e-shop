@@ -7,7 +7,7 @@ ARG MAINTAINER="Hristijan Dimitrieski <hristijan.dimitrieski@gmail.com>"
 
 LABEL version=${IMAGE_VERSION} name=${IMAGE_NAME} maintainer=${MAINTAINER}
 
-ADD ./target/image-service.jar image-service.jar
+ADD ./build/libs/image-service.jar image-service.jar
 
 # Expose the service to port 8080
 EXPOSE 8080

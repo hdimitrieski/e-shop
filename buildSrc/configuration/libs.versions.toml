@@ -1,0 +1,60 @@
+[versions]
+spring-cloud-version = "2021.0.3"
+spring-boot-version = "2.7.1"
+reactor-version = "3.4.19"
+dgs-version = "5.0.4"
+dgs-codegen-client-version = "5.1.17"
+ben-manes-caffeine-version = "3.1.1"
+logstash-logback-encoder-version = "7.1.1"
+lombok-version = "1.18.24"
+postgresql-version = "42.3.6"
+flywaydb-version = "8.5.13"
+hibernate-jpamodelgen-version = "5.6.8.Final"
+commons-lang3-version = "3.12.0"
+commons-collections4-version = "4.4"
+pipelinr-version = "0.5"
+axon-version = "4.5.12"
+axon-kafka-version = "4.5.4"
+axon-mongo-version = "4.5"
+kafka-clients-version = "3.2.0"
+spring-data-mongodb-version = "3.4.1"
+minio-version = "8.4.2"
+okhttp-version = "4.10.0"
+junit5-version = "5.8.2"
+# For plugins
+com-netflix-dgs-codegen-version = "5.2.4"
+
+[libraries]
+spring-cloud-dependencies = { module = "org.springframework.cloud:spring-cloud-dependencies", version.ref = "spring-cloud-version" }
+spring-boot-dependencies = { module = "org.springframework.boot:spring-boot-dependencies", version.ref = "spring-boot-version" }
+okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp-version" }
+minio = { module = "io.minio:minio", version.ref = "minio-version" }
+reactor-core = { module = "io.projectreactor:reactor-core", version.ref = "reactor-version" }
+dgs-spring-boot-starter = { module = "com.netflix.graphql.dgs:graphql-dgs-spring-boot-starter", version.ref = "dgs-version" }
+dgs-extended-validation = { module = "com.netflix.graphql.dgs:graphql-dgs-extended-validation", version.ref = "dgs-version" }
+dgs-extended-scalars = { module = "com.netflix.graphql.dgs:graphql-dgs-extended-scalars", version.ref = "dgs-version" }
+dgs-codegen-client-core = { module = "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-client-core", version.ref = "dgs-codegen-client-version" }
+ben-manes-caffeine = { module = "com.github.ben-manes.caffeine:caffeine", version.ref = "ben-manes-caffeine-version" }
+spring-data-mongodb = { module = "org.springframework.data:spring-data-mongodb", version.ref = "spring-data-mongodb-version" }
+kafka-clients = { module = "org.apache.kafka:kafka-clients", version.ref = "kafka-clients-version" }
+axon-mongo = { module = "org.axonframework.extensions.mongo:axon-mongo", version.ref = "axon-mongo-version" }
+axon-kafka-spring-boot-starter = { module = "org.axonframework.extensions.kafka:axon-kafka-spring-boot-starter", version.ref = "axon-kafka-version" }
+axon-spring-boot-starter = { module = "org.axonframework:axon-spring-boot-starter", version.ref = "axon-version" }
+pipelinr = { module = "an.awesome:pipelinr", version.ref = "pipelinr-version" }
+commons-collections4 = { module = "org.apache.commons:commons-collections4", version.ref = "commons-collections4-version" }
+commons-lang3 = { module = "org.apache.commons:commons-lang3", version.ref = "commons-lang3-version" }
+hibernate-jpamodelgen = { module = "org.hibernate:hibernate-jpamodelgen", version.ref = "hibernate-jpamodelgen-version" }
+flywaydb = { module = "org.flywaydb:flyway-core", version.ref = "flywaydb-version" }
+postgresql = { module = "org.postgresql:postgresql", version.ref = "postgresql-version" }
+logstash-logback-encoder = { module = "net.logstash.logback:logstash-logback-encoder", version.ref = "logstash-logback-encoder-version" }
+lombok = { module = "org.projectlombok:lombok", version.ref = "lombok-version" }
+junit5-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit5-version" }
+junit5-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit5-version" }
+# For buildSrc libraries
+spring-boot-gradle-plugin = { module = "org.springframework.boot:spring-boot-gradle-plugin", version.ref = "spring-boot-version" }
+
+[bundles]
+junit5 = ["junit5-api", "junit5-engine"]
+
+[plugins]
+dgs-codegen = { id = "com.netflix.dgs.codegen", version.ref = "com-netflix-dgs-codegen-version" }

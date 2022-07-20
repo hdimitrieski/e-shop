@@ -11,5 +11,10 @@ buildNumber.properties
 .mvn/wrapper/maven-wrapper.jar
 
 .idea/
-
 *.iml
+
+.gradle/
+**/build
+
+docker/minio
+docker/portainer-data

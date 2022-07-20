@@ -6,22 +6,6 @@ set -o nounset
 set -o pipefail
 
 profiles=""
-elk=""
-distributed_tracing=""
-docker_files="-f docker/docker-compose.yml -f docker/docker-compose.img.yml"
-
-# Read the arguments
-for ARGUMENT in "$@"
-do
-    KEY=$(echo "$ARGUMENT" | cut -f1 -d=)
-    VALUE=$(echo "$ARGUMENT" | cut -f2 -d=)
-
-    case "$KEY" in
-      --elk)      elk="elk" ;;
-      --distributed-tracing)      distributed_tracing="distributed-tracing" ;;
-      *)
-    esac
-done
 
 concat_profiles() {
   if [ "$2" ]; then
@@ -37,20 +21,7 @@ mkdir -p "target"
 # Build all services
 ./gradlew clean build
 
-if [ $elk ]; then
-  profiles="$elk"
-  docker_files="$docker_files -f docker/docker-compose.elk.yml"
-fi
-
-if [ $distributed_tracing ]; then
-  profiles=$(concat_profiles "$profiles" $distributed_tracing)
-  docker_files="$docker_files -f docker/docker-compose.zipkin.yml"
-fi
-
-echo "$docker_files"
-echo "Running infrastructure components"
-docker-compose $docker_files up -d
-
+#docker-compose $docker_files up -d
 echo "Profiles: $profiles"
 
 config_profiles=$(concat_profiles "native,dev" "$profiles")
@@ -76,11 +47,11 @@ nohup java -Dspring.profiles.active="$(concat_profiles "dev" "$profiles")" -jar 
 sleep 5
 
 echo "Running catalog command service..."
-nohup java -Dspring.profiles.active="$profiles" -jar services/catalog/catalog-command/build/libs/catalog-command.jar > target/catalog-command.log 2>&1 &
+nohup java -Dspring.profiles.active="$(concat_profiles "dev" "$profiles")" -jar services/catalog/catalog-command/build/libs/catalog-command.jar > target/catalog-command.log 2>&1 &
 sleep 1
 
 echo "Running catalog query service..."
-nohup java -Dspring.profiles.active="$(concat_profiles "dev" "$profiles")" -jar services/catalog/catalog-query/build/libs/catalog-query.jar > target/catalog-query.log 2>&1 &
+nohup java -Dspring.profiles.active="$profiles" -jar services/catalog/catalog-query/build/libs/catalog-query.jar > target/catalog-query.log 2>&1 &
 sleep 1
 
 echo "Running basket service..."

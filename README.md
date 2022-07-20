@@ -42,7 +42,7 @@ implementing microservices architecture. In this project you can find examples o
 - [React GraphQL Client](clients/react-graphql-client) - React client. You can access it at http://localhost:4201.
 
 # How To Run
-You need to have Maven, Java 16, Node.js and Docker. By default, Docker Desktop is set to use 2 GB runtime memory, 
+You need to have Gradle 7+, Java 17+, Node.js and Docker. By default, Docker Desktop is set to use 2 GB runtime memory, 
 allocated from the total available memory. We recommend setting the runtime memory to 6GB.
 
 The best way to run the services is with IDEs like IntelliJ IDEA or Eclipse. Check their documentation for more details.
