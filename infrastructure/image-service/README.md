@@ -10,7 +10,7 @@ All catalog item images are stored in Mino's **catalog-images** bucket. The imag
 The best way to run the service is with IDE like IntelliJ IDEA or Eclipse. Alternatively, after you build the service,
 you can run it with the following command:
 
-    ~ java -jar infrastructure/image-service/target/image-service.jar
+    ~ java -jar infrastructure/image-service/build/libs/image-service.jar
 
 Optional profiles:
 1. **dev** - to upload test images on start-up.

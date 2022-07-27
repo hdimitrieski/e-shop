@@ -23,7 +23,7 @@ It also handles two integration events:
 The best way to run the service is with IDE like IntelliJ IDEA or Eclipse. Alternatively, after you build the service,
 you can run it with the following command:
 
-    ~ java -Dspring.profiles.active=dev -jar services/catalog/catalog-command/target/catalog-command.jar
+    ~ java -Dspring.profiles.active=dev -jar services/catalog/catalog-command/build/libs/catalog-command.jar
 
 Optional profiles:
 1. **dev** - to insert test data.

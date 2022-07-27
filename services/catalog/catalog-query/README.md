@@ -12,7 +12,7 @@ The catalog items are publicly available.
 The best way to run the service is with IDE like IntelliJ IDEA or Eclipse. Alternatively, after you build the service,
 you can run it with the following command:
 
-    ~ java -jar services/catalog/catalog-query/target/catalog-query.jar
+    ~ java -jar services/catalog/catalog-query/build/libs/catalog-query.jar
 
 Optional profiles:
 1. **elk** - to enable ELK logging.

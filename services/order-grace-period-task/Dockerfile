@@ -1,4 +1,4 @@
-FROM openjdk:17.0.2-slim
+FROM eshop-base:latest
 
 # Set image information, but could be set to different location from command line
 ARG IMAGE_VERSION="0.0.1-SNAPSHOT"
@@ -15,4 +15,4 @@ EXPOSE 8080
 HEALTHCHECK CMD curl -f http://localhost:8080/actuator/health || exit 1
 
 # Run the application
-ENTRYPOINT ["java", "-jar", "/order-grace-period-task.jar"]
+CMD ./install-certs.sh & java -jar /order-grace-period-task.jar

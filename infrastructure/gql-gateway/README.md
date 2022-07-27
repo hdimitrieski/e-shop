@@ -20,7 +20,7 @@ If you want to query or mutate some protected resources, you'll have to add Auth
 The best way to run the service is with IDE like IntelliJ IDEA or Eclipse. Alternatively, after you build the service,
 you can run it with the following command:
 
-    ~ java -jar infrastructure/gql-gateway/target/gql-gateway.jar
+    ~ java -jar infrastructure/gql-gateway/build/libs/gql-gateway.jar
 
 Optional profiles:
 1. **elk** - to enable ELK logging.

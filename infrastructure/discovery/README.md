@@ -14,7 +14,7 @@ Eureka registrations (so they do not have to go to the registry for every reques
 The best way to run the service is with IDE like IntelliJ IDEA or Eclipse. Alternatively, after you build the service,
 you can run it with the following command:
 
-    ~ java -jar infrastructure/discovery/target/discovery.jar
+    ~ java -jar infrastructure/discovery/build/libs/discovery.jar
 
 Optional profiles:
 1. **elk** - to enable ELK logging.

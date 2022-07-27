@@ -8,7 +8,7 @@ It basically listens to Kafka topics related to the order status and pushes mess
 The best way to run the service is with IDE like IntelliJ IDEA or Eclipse. Alternatively, after you build the service,
 you can run it with the following command:
 
-    ~ java -jar services/order-notifications/target/order-notifications.jar
+    ~ java -jar services/order-notifications/build/libs/order-notifications.jar
 
 Optional profiles:
 1. **elk** - to enable ELK logging.

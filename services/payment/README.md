@@ -7,7 +7,7 @@ either **OrderPaymentSucceededIntegrationEvent** (70% chance) or **OrderPaymentF
 The best way to run the service is with IDE like IntelliJ IDEA or Eclipse. Alternatively, after you build the service,
 you can run it with the following command:
 
-    ~ java -jar services/payment/target/payment.jar
+    ~ java -jar services/payment/build/libs/payment.jar
 
 Optional profiles:
 1. **elk** - to enable ELK logging.

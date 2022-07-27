@@ -1,7 +1,7 @@
 import { AuthConfig } from 'angular-oauth2-oidc';
 
 export const authCodeFlowConfig: AuthConfig = {
-  issuer: 'http://localhost:8090/auth/realms/e-shop',
+  issuer: 'https://authorization-service:8443/auth/realms/e-shop',
 
   // URL of the SPA to redirect the user to after login
   redirectUri: window.location.origin + '/',
@@ -32,4 +32,16 @@ export const authCodeFlowConfig: AuthConfig = {
   showDebugInformation: false,
   sessionChecksEnabled: true,
   requireHttps: false,
+
+  /**
+   * Defines whether every url provided by the discovery
+   * document has to start with the issuer's url.
+   */
+  strictDiscoveryDocumentValidation: false,
+
+  /**
+   * Defined whether to skip the validation of the issuer in the discovery document.
+   * Normally, the discovey document's url starts with the url of the issuer.
+   */
+  skipIssuerCheck: true
 };

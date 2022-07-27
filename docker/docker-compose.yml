@@ -84,24 +84,30 @@ services:
     networks:
       - eshopnet
     ports:
-      - "8090:8080"
+      - "8443:8443"
     restart: on-failure
     environment:
       KC_DB: postgres
       KC_DB_USERNAME: keycloak
       KC_DB_PASSWORD: dbpass
       KC_DB_URL: jdbc:postgresql://postgres:5432/keycloakdb
-      KC_FEATURES: admin2,token-exchange
-      KC_HTTP_RELATIVE_PATH: /auth
+      KC_HOSTNAME: authorization-service
+      KC_HOSTNAME_STRICT: "false"
       KC_HOSTNAME_PATH: /auth
+      KC_HTTP_ENABLED: "false"
+      KC_HTTP_RELATIVE_PATH: /auth
+      KC_HTTPS_KEY_STORE_PASSWORD: ${CONFIG_KEYSTORE_PASSWORD}
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_FEATURES: admin2,token-exchange
+      KC_HEALTH_ENABLED: "true"
     depends_on:
       - postgres
     volumes:
+      - ./keycloak/auth-server.keystore:/opt/keycloak/conf/server.keystore
       - ./keycloak/eshop-realm.json:/opt/keycloak/data/import/eshop-realm.json
     healthcheck:
-      test: ["CMD", "curl", "--fail", "http://localhost:8080/auth/health"]
+      test: ["CMD", "curl", "--fail", "--insecure", "https://authorization-service:8443/auth/health"]
     command: ["start-dev", "--import-realm"]
 
   portainer:

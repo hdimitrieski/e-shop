@@ -1,10 +1,5 @@
 #!/usr/bin/env bash
 
-set -o errexit
-set -o errtrace
-set -o nounset
-set -o pipefail
-
 profiles=""
 elk=""
 distributed_tracing=""
@@ -55,9 +50,24 @@ echo "Profiles: $profiles"
 
 config_profiles=$(concat_profiles "native,dev" "$profiles")
 echo "Running config service with profiles: $config_profiles..."
+rm -f target/config.log > /dev/null 2>&1
 nohup java -Dspring.profiles.active="$config_profiles" -jar infrastructure/config/build/libs/config.jar > target/config.log 2>&1 &
-echo "Waiting for config service to start..."
-sleep 20
+file=target/config.log
+# if file not exists or is empty
+while [ ! -s "$file" ]
+do
+  echo "Waiting for log file..."
+  sleep 1s
+done
+echo "Find log file: $file"
+
+startString=""
+while [ -z "$startString" ]
+do
+  echo "Waiting for config service to start..."
+  startString=$(grep "Started ConfigApplication in" $file)
+  sleep 1s
+done
 
 echo "Running discovery service..."
 nohup java -Dspring.profiles.active="$profiles" -jar infrastructure/discovery/build/libs/discovery.jar > target/discovery.log 2>&1 &
