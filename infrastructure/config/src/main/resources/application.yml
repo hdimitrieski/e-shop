@@ -65,3 +65,7 @@ app:
     password: ${CONFIG_SERVICE_PASSWORD}
   logstash:
     host: logstash
+  kafka:
+    broker:
+      host: kafka
+      port: 29092
