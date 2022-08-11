@@ -18,7 +18,7 @@ while [ -z "$eshop_authserver" ]
 do
   echo "import certificate...."
   echo "$jcert_pwd" | keytool -importcert -noprompt -trustcacerts -cacerts -storepass changeit -keypass changeit \
-  -ext SAN=DNS:"localhost",DNS:"authorization-service",IP:127.0.0.1 \
+  -ext SAN=DNS:"authorization-service",IP:127.0.0.1 \
   -ext CN="authorization-service" \
   -file "$SCRIPT_PATH/$cert_file_path" -alias "$jcert_authserver"
 

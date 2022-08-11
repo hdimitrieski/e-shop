@@ -4,7 +4,7 @@ app:
     host: localhost
     port: 5432
     database: orderdb
-    username: dbuser
+    username: orderdbuser
     password: dbpass
 
 spring:

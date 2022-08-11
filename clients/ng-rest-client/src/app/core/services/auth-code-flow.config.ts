@@ -1,7 +1,10 @@
 import { AuthConfig } from 'angular-oauth2-oidc';
 
 export const authCodeFlowConfig: AuthConfig = {
-  issuer: 'https://authorization-service:8443/auth/realms/e-shop',
+  // When start background with docker
+  // issuer: 'https://authorization-service:8443/auth/realms/e-shop',
+  // When start background on localhost
+  issuer: 'http://localhost:8080/auth/realms/e-shop',
 
   // URL of the SPA to redirect the user to after login
   redirectUri: window.location.origin + '/',

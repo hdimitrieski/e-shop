@@ -31,11 +31,12 @@ app:
       host: localhost
       port: 9092
   auth-server:
-    host: authorization-service
-    port: 8443
+    protocol: http
+    host: localhost
+    port: 8080
     realm: e-shop
-    jwk-set-uri: https://${app.auth-server.host}:${app.auth-server.port}/auth/realms/${app.auth-server.realm}/protocol/openid-connect/certs
-    issuer-uri: https://${app.auth-server.host}:${app.auth-server.port}/auth/realms/${app.auth-server.realm}
+    jwk-set-uri: ${app.auth-server.protocol}://${app.auth-server.host}:${app.auth-server.port}/auth/realms/${app.auth-server.realm}/protocol/openid-connect/certs
+    issuer-uri: ${app.auth-server.protocol}://${app.auth-server.host}:${app.auth-server.port}/auth/realms/${app.auth-server.realm}
   logstash:
     host: localhost
     port: 5044
@@ -141,6 +142,7 @@ app:
       host: kafka
       port: 29092
   auth-server:
+    protocol: https
     host: authorization-service
     port: 8443
   logstash:

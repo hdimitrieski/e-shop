@@ -175,7 +175,7 @@ Do not forget to config the hosts file:
 
 ## Create user
 Before you start using the application, you need to create a user. You can access Keycloak authorization service at
-`https://authorization-service:8443/auth` Login with admin/admin, go to "Users", click "Add user" and fill in the necessary data.
+`http://localhost:8080/auth` Login with admin/admin, go to "Users", click "Add user" and fill in the necessary data.
 
 ![Add User](docs/images/add-user.png)
 

@@ -84,6 +84,7 @@ services:
     networks:
       - eshopnet
     ports:
+      - "8080:8080"
       - "8443:8443"
     restart: on-failure
     environment:
@@ -92,7 +93,7 @@ services:
       KC_DB_PASSWORD: dbpass
       KC_DB_URL: jdbc:postgresql://postgres:5432/keycloakdb
       KC_HOSTNAME_PATH: /auth
-      KC_HTTP_ENABLED: "false"
+      KC_HTTP_ENABLED: "true"
       KC_HTTP_RELATIVE_PATH: /auth
       KC_HTTPS_KEY_STORE_PASSWORD: ${CONFIG_KEYSTORE_PASSWORD}
       KEYCLOAK_ADMIN: admin
