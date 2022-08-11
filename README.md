@@ -165,14 +165,6 @@ You can run all docker containers and Spring applications by running the `./scri
 won't start ELK and Zipkin. If you want to use ELK and Zipkin, you can run the script as:
 `./scripts/start.sh --elk --distributed-tracing`. To stop everything you can run `./scripts/stop.sh`.
 
-Do not forget to config the hosts file:
-```
-127.0.0.1       config
-127.0.0.1       discovery
-127.0.0.1       gateway
-127.0.0.1       authorization-service
-```
-
 ## Create user
 Before you start using the application, you need to create a user. You can access Keycloak authorization service at
 `http://localhost:8080/auth` Login with admin/admin, go to "Users", click "Add user" and fill in the necessary data.
