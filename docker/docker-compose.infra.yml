@@ -1,6 +1,13 @@
 version: '3.9'
 
 services:
+  eshop-base:
+    image: eshop-base:latest
+    build:
+      context: ./base
+      dockerfile: Dockerfile
+    restart: "no"
+
   config:
     build: ../infrastructure/config
     networks:
@@ -37,7 +44,7 @@ services:
     networks:
       - eshopnet
     ports:
-      - 8080:8080
+      - 3000:8080
     restart: on-failure
     environment:
       SPRING_PROFILES_ACTIVE: docker
@@ -47,6 +54,7 @@ services:
     depends_on:
       - config
       - discovery
+      - eshop-base
 
 networks:
   eshopnet:

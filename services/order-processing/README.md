@@ -78,7 +78,7 @@ To update the database and publish integration event atomically, it uses the [Ou
 The best way to run the service is with IDE like IntelliJ IDEA or Eclipse. Alternatively, after you build the service,
 you can run it with the following command:
 
-    ~ java -Dspring.profiles.active=dev -jar services/order-processing/target/order-processing.jar
+    ~ java -Dspring.profiles.active=dev -jar services/order-processing/build/libs/order-processing.jar
 
 Optional profiles:
 1. **dev** - to insert test data.

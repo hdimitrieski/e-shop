@@ -20,7 +20,7 @@ Read more about Kafka Streams:
 The best way to run the service is with IDE like IntelliJ IDEA or Eclipse. Alternatively, after you build the service,
 you can run it with the following command:
 
-    ~ java -jar services/analytics/target/analytics.jar
+    ~ java -jar services/analytics/build/libs/analytics.jar
 
 Optional profiles:
 1. **elk** - to enable ELK logging.

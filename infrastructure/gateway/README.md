@@ -17,11 +17,55 @@ Read more about BFF and API Gateway patterns:
 - https://microservices.io/patterns/apigateway.html
 - https://docs.microsoft.com/en-us/dotnet/architecture/microservices/architect-microservice-container-applications/direct-client-to-microservice-communication-versus-the-api-gateway-pattern
 
+## Prepare certs
+
+### Export certificate from keycloak server
+Exports certificate from keycloak server, use `authorization-service`:
+```
+echo | openssl s_client -servername authorization-service -connect authorization-service:8443 |\
+  sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > certificate.crt
+```
+
+### Import certificate
+See: https://github.com/Odyquest/Odyquest/issues/26
+https://www.baeldung.com/java-ssl-handshake-failures
+
+```
+keytool -importcert -cacerts -storepass changeit \
+-ext SAN=DNS:"localhost",DNS:"authorization-service",IP:127.0.0.1 \
+-ext CN="authorization-service" \
+-file certificate.crt -alias "eshop"
+```
+
+Here use `-cacerts` instead of `-keystore $JAVA_HOME/lib/security/cacerts` to get rid of:
+```
+Warning: use -cacerts option to access cacerts keystore
+```
+
+### Some useful command for list cert
+list all cert:
+```
+keytool -list -cacerts -v
+```
+review `eshop` cert:
+```
+keytool -list -cacerts -v -alias eshop
+```
+review `jks`:
+```
+keytool -v -list -keystore auth-server.keystore
+```
+
+### Delete cert
+```
+keytool -delete -cacerts -alias eshop
+```
+
 # Running the API Gateway Service
 The best way to run the service is with IDE like IntelliJ IDEA or Eclipse. Alternatively, after you build the service,
 you can run it with the following command:
 
-    ~ java -jar infrastructure/gateway/target/gateway.jar
+    ~ java -jar infrastructure/gateway/build/libs/gateway.jar
 
 Optional profiles:
 1. **elk** - to enable ELK logging.

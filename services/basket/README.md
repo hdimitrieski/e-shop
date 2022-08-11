@@ -20,7 +20,7 @@ The Basket service uses Redis for persistence.
 The best way to run the service is with IDE like IntelliJ IDEA or Eclipse. Alternatively, after you build the service,
 you can run it with the following command:
 
-    ~ java -jar services/basket/target/basket.jar
+    ~ java -jar services/basket/build/libs/basket.jar
 
 Optional profiles:
 1. **elk** - to enable ELK logging.

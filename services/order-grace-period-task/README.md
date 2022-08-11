@@ -10,7 +10,7 @@ that has been submitted and for each one of those orders it publishes **GracePer
 The best way to run the service is with IDE like IntelliJ IDEA or Eclipse. Alternatively, after you build the service,
 you can run it with the following command:
 
-    ~ java -jar services/order-grace-period-task/target/order-grace-period-task.jar
+    ~ java -jar services/order-grace-period-task/build/libs/order-grace-period-task.jar
 
 Optional profiles:
 1. **elk** - to enable ELK logging.

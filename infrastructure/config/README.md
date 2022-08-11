@@ -40,7 +40,7 @@ the body.
 The best way to run the service is with IDE like IntelliJ IDEA or Eclipse. Alternatively, after you build the service,
 you can run it with the following command:
 
-    ~ java -Dspring.profiles.active=native,dev -jar infrastructure/config/target/config.jar
+    ~ java -Dspring.profiles.active=native,dev -jar infrastructure/config/build/libs/config.jar
 
 Required profiles:
 1. **native** - to load the config files from the local classpath.

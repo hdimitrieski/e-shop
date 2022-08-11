@@ -1,4 +1,4 @@
-FROM openjdk:17.0.2-slim
+FROM eshop-base:latest
 
 # Set image information, but could be set to different location from command line
 ARG IMAGE_VERSION="0.0.1-SNAPSHOT"
@@ -13,4 +13,4 @@ ADD ./build/libs/gateway.jar gateway.jar
 EXPOSE 8080
 
 # Run the application
-ENTRYPOINT ["java", "-jar", "/gateway.jar"]
+CMD ./install-certs.sh & java -jar /gateway.jar

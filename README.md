@@ -53,14 +53,33 @@ Run all infrastructural containers(Postgres, Redis, Kafka, Keycloak authorizatio
     ~ cd docker
     ~ docker-compose up
 
+The keystore file on path `docker/keycloak/auth-server.keystore` is generated using the following command: 
+```
+keytool -genkeypair -alias configkey -keyalg RSA \
+  -dname "CN=authorization-service,C=MK,S=OH" \
+  -keystore auth-server.keystore -storepass secure-keystore-password
+```
+
+Certificate file on path `docker/base/sh/certificate.crt` must be recreate when keystore changed.
+
 ## Run micro-services
 After you start the infrastructural components, you can run all micro-services using your 
 favourite IDE. Check their corresponding documentation.
 
+Keycloak https is enabled, so certificate must be imported before start `micro-services`.
+### Import cert
+Use `keytool` to import certificate.
+
+On linux like OS, you can excute shell here directly:
+
+    ~ ./docker/base/sh/install-certs.sh
+
+On other OS, you can do it with keytool easy.
+
 ## Run micro-services with Docker
 If you want to run the services with docker, first build the services with the following command:
 
-    ~ mvn clean install
+    ~ ./gradlew clean build
 
 Then:
 1. Run all infrastructure services [Config](infrastructure/config), [Discovery](infrastructure/discovery), 
@@ -148,7 +167,7 @@ won't start ELK and Zipkin. If you want to use ELK and Zipkin, you can run the s
 
 ## Create user
 Before you start using the application, you need to create a user. You can access Keycloak authorization service at
-http://localhost:8090/auth. Login with admin/admin, go to "Users", click "Add user" and fill in the necessary data.
+`http://localhost:8080/auth` Login with admin/admin, go to "Users", click "Add user" and fill in the necessary data.
 
 ![Add User](docs/images/add-user.png)
 
