@@ -1,19 +1,20 @@
 package com.eshop.discovery.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
 @Order(1)
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig {
 
   @Autowired
   public void configureGlobal(AuthenticationManagerBuilder auth, PasswordEncoder passwordEncoder) throws Exception {
@@ -27,9 +28,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
       .roles("ADMIN");
   }
 
-  @Override
-  protected void configure(HttpSecurity http) throws Exception {
-    http
+  @Bean
+  SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    return http
       .csrf().disable()
       .requestMatchers()
       .antMatchers(HttpMethod.GET, "/")
@@ -53,6 +54,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
       .antMatchers("/actuator/**").authenticated()
       .anyRequest().denyAll()
       .and()
-      .httpBasic();
+      .httpBasic()
+      .and()
+      .build();
   }
+
 }

@@ -15,9 +15,9 @@ import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaOperations;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
+import org.springframework.kafka.listener.CommonLoggingErrorHandler;
 import org.springframework.kafka.listener.DeadLetterPublishingRecoverer;
-import org.springframework.kafka.listener.LoggingErrorHandler;
-import org.springframework.kafka.listener.SeekToCurrentErrorHandler;
+import org.springframework.kafka.listener.DefaultErrorHandler;
 import org.springframework.kafka.support.converter.RecordMessageConverter;
 import org.springframework.kafka.support.converter.StringJsonMessageConverter;
 import org.springframework.kafka.support.serializer.JsonSerializer;
@@ -43,17 +43,14 @@ public class KafkaConfig implements KafkaListenerConfigurer {
 
   // Producer
   @Bean
-  public SeekToCurrentErrorHandler errorHandler(
-      DeadLetterPublishingRecoverer deadLetterPublishingRecoverer
+  public DefaultErrorHandler errorHandler(
+    DeadLetterPublishingRecoverer deadLetterPublishingRecoverer
   ) {
-    LoggingErrorHandler loggingErrorHandler = new LoggingErrorHandler();
+    final var loggingErrorHandler = new CommonLoggingErrorHandler();
 //    loggingErrorHandler.
-    return new SeekToCurrentErrorHandler(
-        (consumerRecord, e) -> {
-
-          deadLetterPublishingRecoverer.accept(consumerRecord, e);
-        },
-        new FixedBackOff(1000L, 2)
+    return new DefaultErrorHandler(
+      deadLetterPublishingRecoverer::accept,
+      new FixedBackOff(1000L, 2)
     );
   }
 

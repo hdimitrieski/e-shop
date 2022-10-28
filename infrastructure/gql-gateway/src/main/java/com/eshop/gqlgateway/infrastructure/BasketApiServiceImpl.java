@@ -46,7 +46,7 @@ public class BasketApiServiceImpl implements BasketApiService {
   public void checkout(BasketCheckoutDto basketCheckout) {
     HttpHeaders headers = new HttpHeaders();
     headers.set("x-requestid", UUID.randomUUID().toString());
-    HttpEntity<BasketCheckoutDto> request = new HttpEntity(basketCheckout, headers);
+    HttpEntity<BasketCheckoutDto> request = new HttpEntity<>(basketCheckout, headers);
 
     basketRestTemplate.postForEntity("lb://basket/basket/checkout", request, Void.class);
   }

@@ -3,7 +3,7 @@ package com.eshop.catalog.infrastructure.repository;
 import com.eshop.catalog.domain.catalogitem.CatalogItem;
 import com.eshop.catalog.domain.catalogitem.CatalogItemRepository;
 import org.axonframework.modelling.command.Aggregate;
-import org.axonframework.spring.config.AxonConfiguration;
+import org.axonframework.spring.config.SpringAxonConfiguration;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -16,8 +16,8 @@ public class CatalogItemAxonRepository implements CatalogItemRepository {
 
   private final org.axonframework.modelling.command.Repository<CatalogItem> repository;
 
-  CatalogItemAxonRepository(AxonConfiguration axonConfiguration) {
-    repository = axonConfiguration.repository(CatalogItem.class);
+  CatalogItemAxonRepository(SpringAxonConfiguration axonConfiguration) {
+    repository = axonConfiguration.getObject().repository(CatalogItem.class);
   }
 
   @Override

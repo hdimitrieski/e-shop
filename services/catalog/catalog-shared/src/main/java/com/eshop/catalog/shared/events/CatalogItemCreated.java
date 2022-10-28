@@ -3,18 +3,20 @@ package com.eshop.catalog.shared.events;
 import com.eshop.catalog.shared.model.BrandDto;
 import com.eshop.catalog.shared.model.CategoryDto;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
 @Getter
+@NoArgsConstructor
 public class CatalogItemCreated extends Event {
-  private final String name;
-  private final String description;
-  private final Double price;
-  private final String pictureFileName;
-  private final Integer availableStock;
-  private final CategoryDto category;
-  private final BrandDto brand;
+  private String name;
+  private String description;
+  private Double price;
+  private String pictureFileName;
+  private Integer availableStock;
+  private CategoryDto category;
+  private BrandDto brand;
 
   public CatalogItemCreated(
       UUID id,

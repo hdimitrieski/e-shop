@@ -15,7 +15,7 @@ import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.listener.AfterRollbackProcessor;
 import org.springframework.kafka.listener.DeadLetterPublishingRecoverer;
 import org.springframework.kafka.listener.DefaultAfterRollbackProcessor;
-import org.springframework.kafka.listener.SeekToCurrentErrorHandler;
+import org.springframework.kafka.listener.DefaultErrorHandler;
 import org.springframework.kafka.support.converter.RecordMessageConverter;
 import org.springframework.kafka.support.converter.StringJsonMessageConverter;
 import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer;
@@ -38,10 +38,10 @@ public class KafkaConfig {
 
   // Producer
   @Bean
-  public SeekToCurrentErrorHandler errorHandler(
+  public DefaultErrorHandler errorHandler(
       DeadLetterPublishingRecoverer deadLetterPublishingRecoverer
   ) {
-    return new SeekToCurrentErrorHandler(
+    return new DefaultErrorHandler(
         deadLetterPublishingRecoverer,
         new FixedBackOff(1000L, 2)
     );

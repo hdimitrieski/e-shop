@@ -13,7 +13,7 @@ import org.springframework.kafka.core.KafkaOperations;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.listener.DeadLetterPublishingRecoverer;
-import org.springframework.kafka.listener.SeekToCurrentErrorHandler;
+import org.springframework.kafka.listener.DefaultErrorHandler;
 import org.springframework.kafka.support.converter.RecordMessageConverter;
 import org.springframework.kafka.support.converter.StringJsonMessageConverter;
 import org.springframework.kafka.support.serializer.JsonSerializer;
@@ -31,12 +31,12 @@ public class KafkaConfig {
 
   // Producer
   @Bean
-  public SeekToCurrentErrorHandler errorHandler(
-      DeadLetterPublishingRecoverer deadLetterPublishingRecoverer
+  public DefaultErrorHandler errorHandler(
+    DeadLetterPublishingRecoverer deadLetterPublishingRecoverer
   ) {
-    return new SeekToCurrentErrorHandler(
-        deadLetterPublishingRecoverer,
-        new FixedBackOff(1000L, 2)
+    return new DefaultErrorHandler(
+      deadLetterPublishingRecoverer,
+      new FixedBackOff(1000L, 2)
     );
   }
 
